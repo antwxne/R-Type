@@ -1,0 +1,13 @@
+[requires]
+asio/1.19.2
+sfml/2.5.1
+
+[generators]
+cmake
+cmake_find_package
+
+[options]
+*:shared=True
+
+[imports]
+lib, *.so* -> lib
