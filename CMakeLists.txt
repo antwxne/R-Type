@@ -21,7 +21,7 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 include_directories(src)
 
 #Sources
-set(CLIENT_SRC src/bootstrapAntoine/ParseArray.cpp src/bootstrapAntoine/ParseArray.hpp)
+set(CLIENT_SRC src/Main.cpp)
 set(SERVER_SRC )
 set(SHARED_SRC )
 

@@ -1,0 +1,45 @@
+name: Check compilation and tests
+
+on:
+  push:
+    branches: [ dev_antoine ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  Compil_on_Linx:
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker:devel
+    name: compil
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          pip3 install conan --upgrade
+          mkdir -p artifacts
+          make fclean
+          make > artifacts/linux_build_log.txt
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Build log
+          path: artifacts/linux_build_log.txt
+#  Tests:
+#    runs-on: ubuntu-latest
+#    container: epitechcontent/epitest-docker:devel
+#    name: tests
+#    steps:
+#      - uses: actions/checkout@v2
+#      - run: |
+#          mkdir -p artifacts
+#          make fclean
+#          make tests_run
+#          ./unit_tests &> artifacts/tests_results.txt
+#          gcovr -e tests/ &> artifacts/coverage_lines.txt
+#          gcovr -e tests/ -b &> artifacts/coverage_branches.txt
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          name: Tests results
+#          path: |
+#            artifacts/tests_results.txt
+#            artifacts/coverage_lines.txt
+#            artifacts/coverage_branches.txt
