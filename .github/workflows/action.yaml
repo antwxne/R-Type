@@ -18,6 +18,25 @@ jobs:
           pip3 install conan --upgrade
           mkdir -p artifacts
           make fclean
+          make > artifacts/complete_linux_build_log.txt
+          tail artifacts/complete_linux_build_log.txt > artifacts/end_linux_build.txt
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Build log
+          path: |
+            artifacts/complete_linux_build_log.txt
+            artifacts/end_linux_build.txt
+
+  Compil_on_Windows:
+    runs-on: ubuntu-latest
+    container: epitechcontent/epitest-docker:devel
+    name: compil
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          pip3 install conan --upgrade
+          mkdir -p artifacts
+          make fclean
           make > artifacts/linux_build_log.txt
       - uses: actions/upload-artifact@v2
         with:
