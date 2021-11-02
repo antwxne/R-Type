@@ -5,6 +5,9 @@ on:
     branches:
       - master
       - dev_antoine
+    commit-ignore:
+    - [skip ci]
+    - [ci skip]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -15,6 +18,7 @@ jobs:
     container: epitechcontent/epitest-docker:devel
     name: Linux_compilation
     steps:
+      - name: actions/checkout@v2
       - uses: actions/checkout@v2
       - name: update conan
       - run:  pip3 install conan --upgrade
@@ -37,6 +41,7 @@ jobs:
     runs-on: windows-latest
     name: Windows_compil
     steps:
+      - name: actions/checkout@v2
       - uses: actions/checkout@v2
       - name: Install and update conan
       - run: |
