@@ -2,7 +2,7 @@ name: Check compilation and tests
 
 on:
   push:
-    branches: [ dev_antoine ]
+    branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
