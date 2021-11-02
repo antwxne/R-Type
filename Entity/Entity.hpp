@@ -17,20 +17,26 @@ class Entity {
         ~Entity();
         void operator>>(size_t &object) const;
         bool operator<(size_t size);
-
-
+        bool operator==(const Entity &entity) const;
     protected:
     private:
         std::size_t _size;
 };
 
-std::ostream& operator<<(std::ostream& os, const Entity& entity)
+std::ostream& operator<<(std::ostream& os, const Entity& entity);
+
+class EntityCompare
 {
-    size_t id;
-    entity >> id;
-    os << id;
-    return os;
-}
+    public:
+        size_t operator() (const Entity&e1) const
+        {
+            size_t id1;
+
+            e1 >> id1;
+
+            return id1;
+        }
+};
 
 
 

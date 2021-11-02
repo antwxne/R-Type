@@ -19,24 +19,13 @@ class EntityManager {
         ~EntityManager();
         Entity create();
         void destroy(Entity entity);
-        void EntityManager::SetSignature(Entity entity, Signature signature);
-        Signature GetSignature(Entity entity);
+        void setSignature(Entity entity, Signature signature);
+        Signature getSignature(Entity entity);
         
     private:
         std::queue<Entity> _avaiableEntities;
         std::unordered_map<Entity, Signature, EntityCompare> _entitiesSignature;
 };
 
-class EntityCompare
-{
-    bool operator()(const Entity&e1, const Entity&e2)
-    {
-        size_t id1, id2;
-
-        e1 >> id1;
-        e2 >> id2;
-        return id1 < id2;
-    }
-};
 
 #endif /* !ENTITYMANAGER_HPP_ */

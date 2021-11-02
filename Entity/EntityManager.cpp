@@ -41,24 +41,23 @@ void EntityManager::destroy(Entity entity)
     _avaiableEntities.push(entity);
 }
 
-void EntityManager::SetSignature(Entity entity, Signature signature)
+void EntityManager::setSignature(Entity entity, Signature signature)
 {
 	if (entity < MAX_ENTITIES)
     {
         std::cout << "Cannot destroy entity " << entity << std::endl;
         return;
     }
-    
 	_entitiesSignature[entity] = signature;
 }
 
-Signature EntityManager::GetSignature(Entity entity)
+Signature EntityManager::getSignature(Entity entity)
 {
-
 	if (_entitiesSignature.find(entity) == _entitiesSignature.end())
     {
         Signature signature = Signature(0);
         return signature;
     }
+    return Signature();
     return _entitiesSignature[entity];
 }

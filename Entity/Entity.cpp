@@ -6,8 +6,6 @@
 */
 
 #include "Entity.hpp"
-#include <any>
-#include <iostream>
 
 Entity::Entity(size_t size) : _size(size)
 {
@@ -25,4 +23,21 @@ void Entity::operator>>(size_t &object) const
 bool Entity::operator<(size_t size)
 {
     return size > _size;
+}
+
+bool Entity::operator==(const Entity &entity) const
+{
+    size_t value;
+
+    entity >> value;
+
+    return value == _size;
+}
+
+std::ostream& operator<<(std::ostream& os, const Entity& entity)
+{
+    size_t id;
+    entity >> id;
+    os << id;
+    return os;
 }
