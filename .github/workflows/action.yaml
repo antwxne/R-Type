@@ -37,7 +37,7 @@ jobs:
           pip3 install conan --upgrade
           mkdir -p artifacts
           (mkdir -p build && cd build && conan install .. --build=missing && cmake .. && cmake --build .) > artifacts/complete_Windows_build_log.txt
-          tail artifacts\complete_Windows_build_log.txt -n 10 > artifacts/end_Windows_build.txt
+          tail artifacts/complete_Windows_build_log.txt -n 10 > artifacts/end_Windows_build.txt
       - uses: actions/upload-artifact@v2
         with:
           name: Build log
