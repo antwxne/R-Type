@@ -18,16 +18,15 @@ jobs:
     container: epitechcontent/epitest-docker:devel
     name: Linux_compilation
     steps:
-      - name: actions/checkout@v2
       - uses: actions/checkout@v2
       - name: update conan
-      - run:  pip3 install conan --upgrade
+        run:  pip3 install conan --upgrade
       - name: create artifacts folder
-      - run:  mkdir -p artifacts
+        run:  mkdir -p artifacts
       - name: Clear repository
-      - run: make fclean
+        run: make fclean
       - name: Compile project
-      - run: |
+        run: |
           make > artifacts/complete_linux_build_log.txt
           tail artifacts/complete_linux_build_log.txt -n10 > artifacts/end_linux_build.txt
       - uses: actions/upload-artifact@v2
@@ -41,16 +40,15 @@ jobs:
     runs-on: windows-latest
     name: Windows_compil
     steps:
-      - name: actions/checkout@v2
       - uses: actions/checkout@v2
       - name: Install and update conan
-      - run: |
+        run: |
           pip3 install conan
           pip3 install conan --upgrade
       - name: Create artifacts folder
-      - run:    mkdir -p artifacts
+        run:    mkdir -p artifacts
       - name: Compile project
-      - run: |
+        run: |
           (mkdir -p build && cd build && conan install .. --build=missing && cmake .. && cmake --build .) > artifacts\complete_Windows_build_log.txt
           cd ..
           tail artifacts\complete_Windows_build_log.txt -n 10 > artifacts\end_Windows_build.txt
