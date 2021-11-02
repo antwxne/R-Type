@@ -21,15 +21,15 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 include_directories(src)
 
 #Sources
-set(CLIENT_SRC )
+set(CLIENT_SRC src/bootstrapAntoine/ParseArray.cpp src/bootstrapAntoine/ParseArray.hpp)
 set(SERVER_SRC )
 set(SHARED_SRC )
 
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")
 
-add_executable(${SERVER_NAME} ${SERVER_SRC} ${SHARED_SRC})
-add_executable(${CLIENT_NAME} ${CLIENT_SRC} ${SHARED_SRC})
+#add_executable(${SERVER_NAME} ${SERVER_SRC} ${SHARED_SRC})
+#conan_target_link_libraries(${SERVER_NAME} ${CONAN_LIBS})
 
-conan_target_link_libraries(${SERVER_NAME} ${CONAN_LIBS})
+add_executable(${CLIENT_NAME} ${CLIENT_SRC} ${SHARED_SRC})
 conan_target_link_libraries(${CLIENT_NAME} ${CONAN_LIBS})
