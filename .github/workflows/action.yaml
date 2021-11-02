@@ -42,7 +42,7 @@ jobs:
         with:
           name: Build log
           path: |
-            artifacts/complete_Windows_build_log:
+            artifacts/complete_Windows_build_log.txt
             artifacts/end_Windows_build.txt
 #  Tests:
 #    runs-on: ubuntu-latest
