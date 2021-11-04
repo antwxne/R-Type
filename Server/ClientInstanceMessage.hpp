@@ -8,9 +8,9 @@
 #ifndef CLIENTINSTANCEMESSAGE_HPP_
 #define CLIENTINSTANCEMESSAGE_HPP_
 
-#include "../Network/Message.hpp"
+#include "Message.hpp"
 #include <memory>
-//#include "ClientInstance.hpp"
+#include "ClientInstance.hpp"
 
 class ClientInstance;
 

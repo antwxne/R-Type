@@ -9,12 +9,14 @@
 #define CLIENTINSTANCE_HPP_
 
 #include <asio.hpp>
-#include "../Network/Message.hpp"
-#include "../Network/network.hpp"
-#include "../Network/INetwork.hpp"
+#include "Message.hpp"
+#include "network.hpp"
+#include "INetwork.hpp"
 #include <list>
 #include "ClientInstanceMessage.hpp"
 
+template<typename T>
+class ClientInstanceMessage;
 
 class ClientInstance : public std::enable_shared_from_this<ClientInstance>, public INetwork{
     public:

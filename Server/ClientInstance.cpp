@@ -36,7 +36,6 @@ void ClientInstance::readMessageHeader()
                 _messageList.push_back(ClientInstanceMessage<MessageType>(_tmpMessage, this->shared_from_this()));
                 readMessageHeader();
             }
-            
         }
         else
         {

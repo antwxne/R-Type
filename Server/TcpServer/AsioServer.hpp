@@ -8,25 +8,29 @@
 #ifndef ASIOSERVER_HPP_
 #define ASIOSERVER_HPP_
 
-#include "../Network/INetwork.hpp"
+#include "INetwork.hpp"
+#include "IAsioTcpServer.hpp"
 #include <asio.hpp>
 #include <thread>
 #include <list>
 #include <memory>
 #include <iostream>
-#include "ClientInstance.hpp"
-#include "ClientInstanceMessage.hpp"
-#include "ClientInstanceMessageHandler.hpp"
+#include "../ClientInstance.hpp"
+#include "../ClientInstanceMessage.hpp"
+#include "../ClientInstanceMessageHandler.hpp"
 
-class AsioServer {
+class AsioServer : public IAsioTcpServer {
     public:
         AsioServer(int port);
         ~AsioServer();
-        void start();
-        void stop();
-        void update();
+        void start() override;
+        void stop() override;
+        void update() override;
+        void run() override;
     private:
-        void acceptClientsConnection();
+        void acceptClientsConnection() override;
+        void onClientConnected(asio::ip::tcp::socket &socket) override;
+        void onClientDisconnected(std::shared_ptr<ClientInstance> &client) override;
     private:
         int _port;
         asio::io_context _asioContext;

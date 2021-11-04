@@ -18,10 +18,21 @@ AsioServer::~AsioServer()
 {
 }
 
+void AsioServer::run()
+{
+    while (1)   
+    {
+        update();
+        sleep(0.01);
+    }
+}
+
 void AsioServer::start()
 {
+    std::cout << "Listening on port " << _port <<  "..." << std::endl;
     acceptClientsConnection();
     _threadContext = std::thread([this]() { _asioContext.run(); });
+    run();
 }
 
 void AsioServer::stop()
@@ -37,6 +48,7 @@ void AsioServer::update()
     {
         if (i->isConnected() == false)
         {
+            onClientDisconnected(i);
             _clientsConnected.erase(std::remove(_clientsConnected.begin(), _clientsConnected.end(), i), _clientsConnected.end());
             break;
         }
@@ -56,11 +68,7 @@ void AsioServer::acceptClientsConnection()
 	{
         if (!ec)
 		{
-            std::shared_ptr<ClientInstance> newconnection = std::make_shared<ClientInstance>(_asioContext, std::move(socket), _messageList);
-
-            newconnection->readMessageHeader();
-
-            _clientsConnected.push_back(std::move(newconnection));
+            onClientConnected(socket);
         }
         else
 		{
@@ -68,4 +76,18 @@ void AsioServer::acceptClientsConnection()
 		}
         acceptClientsConnection();
     });
+}
+
+void AsioServer::onClientConnected(asio::ip::tcp::socket &socket)
+{
+    std::cout << "New client connected: " << socket.remote_endpoint() << std::endl;
+
+    std::shared_ptr<ClientInstance> newconnection = std::make_shared<ClientInstance>(_asioContext, std::move(socket), _messageList);
+    newconnection->readMessageHeader();
+    _clientsConnected.push_back(std::move(newconnection));
+}
+
+void AsioServer::onClientDisconnected(std::shared_ptr<ClientInstance> &client)
+{
+    std::cout << "Client " << client->getSocketEndpoint() << " disconnected" << std::endl;
 }
