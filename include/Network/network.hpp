@@ -8,10 +8,12 @@
 #ifndef NETWORK_HPP_
 #define NETWORK_HPP_
 
+#define GAME_NAME_MAX_LENGHT 12
+
 enum class MessageType : short
 {
-    Test,
-    
+    CreateGame,
+    JoinGame,
 };
 
 #endif /* !NETWORK_HPP_ */
