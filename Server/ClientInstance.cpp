@@ -26,6 +26,8 @@ void ClientInstance::readMessageHeader()
     {
         if (!ec)
         {
+            std::cout << "read size " << length << std::endl;
+            std::cout << " body size ==" << _tmpMessage.getBodySize() << "\n";
             if (_tmpMessage.getBodySize() > 0)
             {
                 _tmpMessage.resizeBody(_tmpMessage.getBodySize());
@@ -48,6 +50,7 @@ void ClientInstance::readMessageHeader()
 
 void ClientInstance::readMessageBody()
 {
+    std::cout << "Read body\n";
     asio::async_read(_socket, asio::buffer(_tmpMessage.getBodyDataPtr(), _tmpMessage.getBodySize()),
 		[this](std::error_code ec, std::size_t length)
     {

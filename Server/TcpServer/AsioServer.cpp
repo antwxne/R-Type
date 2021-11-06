@@ -9,7 +9,8 @@
 #include <iostream>
 
 AsioServer::AsioServer(int port) : _port(port),
-_asioAcceptor(_asioContext, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port)), _messageHandler(_clientsConnected)
+_asioAcceptor(_asioContext, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port)),
+_messageHandler(_clientsConnected, *this)
 {
 
 }
@@ -44,6 +45,7 @@ void AsioServer::stop()
 
 void AsioServer::update()
 {
+    gamesHandler.update();
     for (auto &i : _clientsConnected)
     {
         if (i->isConnected() == false)
@@ -89,5 +91,5 @@ void AsioServer::onClientConnected(asio::ip::tcp::socket &socket)
 
 void AsioServer::onClientDisconnected(std::shared_ptr<ClientInstance> &client)
 {
-    std::cout << "Client " << client->getSocketEndpoint() << " disconnected" << std::endl;
+    std::cout << "A Client disconnected" << std::endl;
 }

@@ -12,24 +12,29 @@
 #include <list>
 #include <memory>
 #include "ClientInstanceMessage.hpp"
+#include "network.hpp"
 #include <initializer_list>
 #include <asio.hpp>
-
 
 class ClientInstanceMessageHandler;
 
 typedef void (ClientInstanceMessageHandler::*MFP)(ClientInstanceMessage<MessageType> &);
 
+class AsioServer;
+
 class ClientInstanceMessageHandler {
     public:
-        ClientInstanceMessageHandler(std::list<std::shared_ptr<ClientInstance>> &clientsConnected);
+        ClientInstanceMessageHandler(std::list<std::shared_ptr<ClientInstance>> &clientsConnected,
+        AsioServer &server);
         ~ClientInstanceMessageHandler();
         void handleMessage(ClientInstanceMessage<MessageType> &message);
     private:
+        void handleCreateGame(ClientInstanceMessage<MessageType> &message);
+        void handleJoinGame(ClientInstanceMessage<MessageType> &message);
     private:
         std::list<std::shared_ptr<ClientInstance>> &_clientsConnected;
         std::map<MessageType, MFP> _map;
-
+        AsioServer &_server;
 };
 
 #endif /* !CLIENTINSTANCEMESSAGEHANDLER_HPP_ */

@@ -12,6 +12,11 @@
 #include <vector>
 #include "IAsioGameInstance.hpp"
 
+enum GameInstanceState
+{
+    WaitingScreen,
+    Game
+};
 
 class GameInstance :public IAsioGameInstance {
     public:
@@ -21,8 +26,10 @@ class GameInstance :public IAsioGameInstance {
         void setHost(std::shared_ptr<ClientInstance> client) override;
         bool addClient(std::shared_ptr<ClientInstance> client) override;
         void startGame() override;
+        std::string getName();
     protected:
     private:
+        GameInstanceState _state;
         std::string _name;
         int _maxPlayers;
         int _nbPlayers;

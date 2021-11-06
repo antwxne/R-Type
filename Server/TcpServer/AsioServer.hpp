@@ -18,6 +18,9 @@
 #include "../ClientInstance.hpp"
 #include "../ClientInstanceMessage.hpp"
 #include "../ClientInstanceMessageHandler.hpp"
+#include "../GameInstance/GameInstancesHandler.hpp"
+
+//class ClientInstanceMessageHandler;
 
 class AsioServer : public IAsioTcpServer {
     public:
@@ -31,13 +34,15 @@ class AsioServer : public IAsioTcpServer {
         void acceptClientsConnection() override;
         void onClientConnected(asio::ip::tcp::socket &socket) override;
         void onClientDisconnected(std::shared_ptr<ClientInstance> &client) override;
+    public:
+        GameInstancesHandler gamesHandler;
     private:
         int _port;
         asio::io_context _asioContext;
 		std::thread _threadContext;
         asio::ip::tcp::acceptor _asioAcceptor;
         std::list<std::shared_ptr<ClientInstance>> _clientsConnected;
-        std::list<ClientInstanceMessage<MessageType>> _messageList; // TODO change to safe queue
+        std::list<ClientInstanceMessage<MessageType>> _messageList;
         ClientInstanceMessageHandler _messageHandler;
 };
 
