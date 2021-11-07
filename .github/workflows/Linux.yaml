@@ -18,6 +18,10 @@ jobs:
     name: Linux_compilation
     steps:
       - uses: actions/checkout@v2
+      - name: Install and update conan
+        run: |
+          pip3 install conan
+          pip3 install conan --upgrade
       - name: Create artifacts folder
         run:  mkdir -p artifacts
         working-directory: ./
