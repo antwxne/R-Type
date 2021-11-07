@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - dev_antoine
     commit-ignore:
       - [skip ci]
       - [skip linux]
@@ -15,7 +14,6 @@ on:
 jobs:
   Compile_on_Linx:
     runs-on: ubuntu-latest
-    container: './Docker/Ubuntu/Dockerfile'
     name: Linux_compilation
     steps:
       - uses: actions/checkout@v2
