@@ -14,6 +14,7 @@
 class INetwork {
     public:
         virtual ~INetwork() = default;
+        virtual void sendMessage(Message<MessageType> &message) = 0;
         virtual void readMessageHeader() = 0;
         virtual void readMessageBody() = 0;
         virtual void writeMessageHeader(Message<MessageType> &message) = 0;

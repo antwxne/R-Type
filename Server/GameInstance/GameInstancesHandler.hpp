@@ -11,18 +11,20 @@
 #include <thread>
 #include <list>
 #include <string>
-#include "../ClientInstance.hpp"
+#include "../TcpServer/TcpClientInstance.hpp"
 #include "GameInstance.hpp"
 
 class GameInstancesHandler {
     public:
-        GameInstancesHandler();
+        GameInstancesHandler(int maxGames);
         ~GameInstancesHandler();
-        void addGame(const std::string &gameName, std::shared_ptr<ClientInstance> &host);
-        bool joinGame(const std::string &gameName, std::shared_ptr<ClientInstance> &client);
+        bool addGame(const std::string &gameName, std::shared_ptr<TcpClientInstance> &host);
+        bool joinGame(const std::string &gameName, std::shared_ptr<TcpClientInstance> &client);
         void update();
     protected:
     private:
+        int _maxGames;
+        int _nbGames;
         std::list<std::thread> _gamesThread;
         std::list<std::shared_ptr<GameInstance>> _gamesInstances;
 };

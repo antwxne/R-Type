@@ -10,13 +10,13 @@
 
 #include "IGameInstance.hpp"
 #include <memory>
-#include "../ClientInstance.hpp"
+#include "../TcpServer/TcpClientInstance.hpp"
 
 class IAsioGameInstance : public IGameInstance {
     public:
         virtual ~IAsioGameInstance() = default;
-        virtual void setHost(std::shared_ptr<ClientInstance> host) = 0;
-        virtual bool addClient(std::shared_ptr<ClientInstance> client) = 0;
+        virtual void setHost(std::shared_ptr<TcpClientInstance> host) = 0;
+        virtual bool addClient(std::shared_ptr<TcpClientInstance> client) = 0;
     protected:
     private:
 };

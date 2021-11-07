@@ -23,8 +23,8 @@ class GameInstance :public IAsioGameInstance {
         GameInstance(const std::string &instanceName, int maxPlayers);
         ~GameInstance();
         void run() override;
-        void setHost(std::shared_ptr<ClientInstance> client) override;
-        bool addClient(std::shared_ptr<ClientInstance> client) override;
+        void setHost(std::shared_ptr<TcpClientInstance> client) override;
+        bool addClient(std::shared_ptr<TcpClientInstance> client) override;
         void startGame() override;
         std::string getName();
     protected:
@@ -33,8 +33,8 @@ class GameInstance :public IAsioGameInstance {
         std::string _name;
         int _maxPlayers;
         int _nbPlayers;
-        std::shared_ptr<ClientInstance> _host;
-        std::vector<std::shared_ptr<ClientInstance>> _clients;
+        std::shared_ptr<TcpClientInstance> _host;
+        std::vector<std::shared_ptr<TcpClientInstance>> _clients;
 };
 
 #endif /* !GAMEINSTANCE_HPP_ */

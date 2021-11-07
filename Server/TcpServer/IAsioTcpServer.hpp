@@ -10,13 +10,13 @@
 
 #include "ITcpServer.hpp"
 #include <asio.hpp>
-#include "../ClientInstance.hpp"
+#include "TcpClientInstance.hpp"
 #include <memory>
 
 class IAsioTcpServer : public ITcpServer {
     public:
         virtual void onClientConnected(asio::ip::tcp::socket &socket) = 0;
-        virtual void onClientDisconnected(std::shared_ptr<ClientInstance> &client) = 0;
+        virtual void onClientDisconnected(std::shared_ptr<TcpClientInstance> &client) = 0;
 };
 
 #endif /* !IASIOTCPSERVER_HPP_ */

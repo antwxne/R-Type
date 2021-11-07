@@ -15,12 +15,12 @@
 #include <list>
 #include <memory>
 #include <iostream>
-#include "../ClientInstance.hpp"
-#include "../ClientInstanceMessage.hpp"
-#include "../ClientInstanceMessageHandler.hpp"
+#include "TcpClientInstance.hpp"
+#include "TcpClientInstanceMessage.hpp"
+#include "TcpClientInstanceMessageHandler.hpp"
 #include "../GameInstance/GameInstancesHandler.hpp"
 
-//class ClientInstanceMessageHandler;
+//class TcpClientInstanceMessageHandler;
 
 class AsioServer : public IAsioTcpServer {
     public:
@@ -33,7 +33,7 @@ class AsioServer : public IAsioTcpServer {
     private:
         void acceptClientsConnection() override;
         void onClientConnected(asio::ip::tcp::socket &socket) override;
-        void onClientDisconnected(std::shared_ptr<ClientInstance> &client) override;
+        void onClientDisconnected(std::shared_ptr<TcpClientInstance> &client) override;
     public:
         GameInstancesHandler gamesHandler;
     private:
@@ -41,9 +41,9 @@ class AsioServer : public IAsioTcpServer {
         asio::io_context _asioContext;
 		std::thread _threadContext;
         asio::ip::tcp::acceptor _asioAcceptor;
-        std::list<std::shared_ptr<ClientInstance>> _clientsConnected;
-        std::list<ClientInstanceMessage<MessageType>> _messageList;
-        ClientInstanceMessageHandler _messageHandler;
+        std::list<std::shared_ptr<TcpClientInstance>> _clientsConnected;
+        std::list<TcpClientInstanceMessage<MessageType>> _messageList;
+        TcpClientInstanceMessageHandler _messageHandler;
 };
 
 #endif /* !ASIOSERVER_HPP_ */

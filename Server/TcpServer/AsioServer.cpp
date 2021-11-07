@@ -10,7 +10,7 @@
 
 AsioServer::AsioServer(int port) : _port(port),
 _asioAcceptor(_asioContext, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port)),
-_messageHandler(_clientsConnected, *this)
+_messageHandler(_clientsConnected, *this), gamesHandler(5)
 {
 
 }
@@ -58,7 +58,7 @@ void AsioServer::update()
 
     if (_messageList.size() > 0)
     {
-        ClientInstanceMessage<MessageType> message = _messageList.front();
+        TcpClientInstanceMessage<MessageType> message = _messageList.front();
         _messageList.pop_front();
         _messageHandler.handleMessage(message);
     }
@@ -84,12 +84,12 @@ void AsioServer::onClientConnected(asio::ip::tcp::socket &socket)
 {
     std::cout << "New client connected: " << socket.remote_endpoint() << std::endl;
 
-    std::shared_ptr<ClientInstance> newconnection = std::make_shared<ClientInstance>(_asioContext, std::move(socket), _messageList);
+    std::shared_ptr<TcpClientInstance> newconnection = std::make_shared<TcpClientInstance>(_asioContext, std::move(socket), _messageList);
     newconnection->readMessageHeader();
     _clientsConnected.push_back(std::move(newconnection));
 }
 
-void AsioServer::onClientDisconnected(std::shared_ptr<ClientInstance> &client)
+void AsioServer::onClientDisconnected(std::shared_ptr<TcpClientInstance> &client)
 {
     std::cout << "A Client disconnected" << std::endl;
 }

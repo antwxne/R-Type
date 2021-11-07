@@ -27,13 +27,13 @@ void GameInstance::run()
     }
 }
 
-void GameInstance::setHost(std::shared_ptr<ClientInstance> host)
+void GameInstance::setHost(std::shared_ptr<TcpClientInstance> host)
 {
     _host = host;
     _nbPlayers += 1;
 }
 
-bool GameInstance::addClient(std::shared_ptr<ClientInstance> client)
+bool GameInstance::addClient(std::shared_ptr<TcpClientInstance> client)
 {
     if (_nbPlayers + 1 > _maxPlayers)
         return false;
