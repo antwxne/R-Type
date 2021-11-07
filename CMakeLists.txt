@@ -43,8 +43,21 @@ set(SHARED_SRC src/Entity/Entity.cpp
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")
 
-#add_executable(${SERVER_NAME} ${SERVER_MAIN} ${SERVER_SRC} ${SHARED_SRC})
-#conan_target_link_libraries(${SERVER_NAME} ${CONAN_LIBS})
+if(NOT UNIT_TESTS STREQUAL TRUE)
+    #add_executable(${SERVER_NAME} ${SERVER_MAIN} ${SERVER_SRC} ${SHARED_SRC})
+    #conan_target_link_libraries(${SERVER_NAME} ${CONAN_LIBS})
 
-add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${CLIENT_SRC} ${SHARED_SRC})
-conan_target_link_libraries(${CLIENT_NAME} ${CONAN_LIBS})
+    add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${CLIENT_SRC} ${SHARED_SRC})
+    conan_target_link_libraries(${CLIENT_NAME} ${CONAN_LIBS})
+else()
+    set(TESTS_NAME unit_tests)
+    set(TESTS_SRC ${CLIENT_SRC} ${SERVER_SRC} ${SHARED_SRC})
+    set(TESTS_SRC ${TESTS_SRC}
+            tests/SparseArrayTests.cpp)
+
+    set(CMAKE_CXX_FLAGS --coverage)
+
+    find_library(CRITERION criterion)
+    add_executable(${TESTS_NAME} ${TESTS_SRC})
+    target_link_libraries(${TESTS_NAME} ${CRITERION})
+endif()

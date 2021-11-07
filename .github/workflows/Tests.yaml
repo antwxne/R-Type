@@ -1,0 +1,46 @@
+name: Tests
+
+on:
+  push:
+    commit-ignore:
+      - [skip ci]
+      - [skip tests]
+  workflow_dispatch:
+
+jobs:
+  Tests:
+    runs-on: ubuntu-latest
+    name: Unit_tests
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install prerequires
+        run: ./requires
+        working-directory: ./.github/workflows/
+      - name: Install and update conan
+        run: |
+          pip3 install conan
+          pip3 install conan --upgrade
+      - name: Install criterion
+        run: sudo apt-get install criterion-dev
+      - name: Install gcovr
+        run: pip3 install gcovr
+      - name: Create artifacts folder
+        run: mkdir -p artifacts
+        working-directory: ./
+      - name: Build unit tests
+        run: make tests_build
+      - name: Run unit tests
+        run: ./build/bin/unit_tests --ascii &> artifacts/tests_results.txt
+        working-directory: ./
+      - name: Run coverage
+        run: |
+          gcovr -e tests/ &> artifacts/coverage_lines.txt
+          gcovr -e tests/ -b &> artifacts/coverage_branches.txt
+        working-directory: ./
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Tests results
+          path: |
+            artifacts/tests_results.txt
+            artifacts/coverage_lines.txt
+            artifacts/coverage_branches.txt

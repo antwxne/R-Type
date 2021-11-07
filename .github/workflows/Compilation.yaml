@@ -3,7 +3,7 @@ name: Compilation
 on:
   push:
     commit-ignore:
-      - [ skip ci ]
+      - [skip ci]
   workflow_dispatch:
 
 jobs:
@@ -58,24 +58,3 @@ jobs:
           path: |
             artifacts\complete_Windows_build_log.txt
             artifacts\end_Windows_build.txt
-
-#  Tests:
-#    runs-on: ubuntu-latest
-#    container: epitechcontent/epitest-docker:devel
-#    name: tests
-#    steps:
-#      - uses: actions/checkout@v2
-#      - run: |
-#          mkdir -p artifacts
-#          make fclean
-#          make tests_run
-#          ./unit_tests &> artifacts/tests_results.txt
-#          gcovr -e tests/ &> artifacts/coverage_lines.txt
-#          gcovr -e tests/ -b &> artifacts/coverage_branches.txt
-#      - uses: actions/upload-artifact@v2
-#        with:
-#          name: Tests results
-#          path: |
-#            artifacts/tests_results.txt
-#            artifacts/coverage_lines.txt
-#            artifacts/coverage_branches.txt

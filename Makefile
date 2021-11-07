@@ -32,11 +32,18 @@ doc-clean:
 # Clean build and binaries
 .PHONY: fclean
 fclean: clean doc-clean
-	$(RM) $(SERVER_NAME)
-	$(RM) $(CLIENT_NAME)
 
 .PHONY: re
 re: fclean all
+
+.PHONY: tests_build
+tests_build:
+	mkdir -p $(BUILD_DIR) && cd $(BUILD_DIR) && conan install .. --build=missing \
+    	&& cmake -DCMAKE_BUILD_TYPE=Release -DUNIT_TESTS=TRUE .. -G "Unix Makefiles" && cmake --build .
+
+.PHONY: tests_run
+tests_run: tests_build
+	$(BUILD_DIR)/bin/unit_tests
 
 .PHONY: doc
 doc:
