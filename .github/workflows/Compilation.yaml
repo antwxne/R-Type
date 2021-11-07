@@ -4,6 +4,7 @@ on:
   push:
     commit-ignore:
       - [skip ci]
+      - [skip compilation]
   workflow_dispatch:
 
 jobs:
