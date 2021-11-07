@@ -1,4 +1,4 @@
-name: Check compilation and tests
+name: Linux Compilation
 
 on:
   push:
@@ -6,8 +6,8 @@ on:
       - master
       - dev_antoine
     commit-ignore:
-    - [skip ci]
-    - [ci skip]
+      - [skip ci]
+      - [skip linux]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -15,22 +15,18 @@ on:
 jobs:
   Compile_on_Linx:
     runs-on: ubuntu-latest
-    container: epitechcontent/epitest-docker:devel
+    container: './Docker/Ubuntu/Dockerfile'
     name: Linux_compilation
     steps:
       - uses: actions/checkout@v2
-      - name: Install and update conan
-        run: |
-          pip3 install conan
-          pip3 install conan --upgrade
       - name: Create artifacts folder
         run:  mkdir -p artifacts
-      - name: Clear repository
-        run: make fclean
+        working-directory: ./
       - name: Compile project
         run: |
           make > artifacts/complete_linux_build_log.txt
           tail artifacts/complete_linux_build_log.txt -n10 > artifacts/end_linux_build.txt
+        working-directory: ./
       - uses: actions/upload-artifact@v2
         with:
           name: Build log
@@ -38,28 +34,6 @@ jobs:
             artifacts/complete_linux_build_log.txt
             artifacts/end_linux_build.txt
 
-  Compil_on_Windows:
-    runs-on: windows-latest
-    name: Windows_compil
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install and update conan
-        run: |
-          pip3 install conan
-          pip3 install conan --upgrade
-      - name: Create artifacts folder
-        run:    mkdir -p artifacts
-      - name: Compile project
-        run: |
-          (mkdir -p build && cd build && conan install .. --build=missing && cmake .. && cmake --build .) > artifacts\complete_Windows_build_log.txt
-          cd ..
-          tail artifacts\complete_Windows_build_log.txt -n 10 > artifacts\end_Windows_build.txt
-      - uses: actions/upload-artifact@v2
-        with:
-          name: Build log
-          path: |
-            artifacts\complete_Windows_build_log.txt
-            artifacts\end_Windows_build.txt
 
 #  Tests:
 #    runs-on: ubuntu-latest
