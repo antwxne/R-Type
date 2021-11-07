@@ -20,7 +20,7 @@ void Entity::operator>>(size_t &object) const
     object = _size;
 }
 
-bool Entity::operator<(size_t size)
+bool Entity::operator<(size_t size) const
 {
     return size > _size;
 }

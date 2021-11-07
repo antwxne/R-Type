@@ -1,6 +1,9 @@
 #Cmake version
 cmake_minimum_required(VERSION 3.16)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 #Project name
 project(RType)
 
@@ -19,17 +22,29 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
 #include
 include_directories(src)
+include_directories(include)
 
 #Sources
-set(CLIENT_SRC src/Main.cpp)
+
+set(CLIENT_MAIN src/Client/Main.cpp)
+set(SERVER_MAIN )
+set(CLIENT_SRC )
 set(SERVER_SRC )
-set(SHARED_SRC )
+set(SHARED_SRC src/Entity/Entity.cpp
+        src/Entity/Entity.hpp
+        src/Entity/EntityManager.cpp
+        src/Entity/EntityManager.hpp
+        src/Component/ISparseArray.hpp
+        src/Component/SparseArray.hpp
+        src/Entity/EntityException.cpp
+        src/Entity/EntityException.hpp
+        src/Component/ComponentException.hpp)
 
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")
 
-#add_executable(${SERVER_NAME} ${SERVER_SRC} ${SHARED_SRC})
+#add_executable(${SERVER_NAME} ${SERVER_MAIN} ${SERVER_SRC} ${SHARED_SRC})
 #conan_target_link_libraries(${SERVER_NAME} ${CONAN_LIBS})
 
-add_executable(${CLIENT_NAME} ${CLIENT_SRC} ${SHARED_SRC})
+add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${CLIENT_SRC} ${SHARED_SRC})
 conan_target_link_libraries(${CLIENT_NAME} ${CONAN_LIBS})

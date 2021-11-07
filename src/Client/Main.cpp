@@ -5,9 +5,10 @@
 ** main
 */
 
-//#include "Component/SparseArray.hpp"
+#include "Component/SparseArray.hpp"
 
-int main(void)
+int main()
 {
+
     return 0;
 }

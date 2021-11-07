@@ -16,7 +16,7 @@ class Entity {
         Entity(size_t size);
         ~Entity();
         void operator>>(size_t &object) const;
-        bool operator<(size_t size);
+        bool operator<(size_t size) const;
         bool operator==(const Entity &entity) const;
     protected:
     private:

@@ -8,12 +8,12 @@
 #ifndef ISPARSEARRAY_HPP_
 #define ISPARSEARRAY_HPP_
 
-#include "../Entity/Entity.hpp"
+#include "Entity/Entity.hpp"
 
 class ISparseArray {
     public:
         virtual ~ISparseArray() = default;
-        virtual void entityDestroyed(Entity entity) = 0;
+        virtual void entityDestroyed(const Entity &entity) = 0;
     protected:
     private:
 };
