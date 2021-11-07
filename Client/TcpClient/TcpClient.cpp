@@ -5,31 +5,42 @@
 ** Client
 */
 
-#include "Client.hpp"
+#include "TcpClient.hpp"
 
 
-Client::Client()
+TcpClient::TcpClient() : _messageHandler(*this)
 {
 }
 
-Client::~Client()
+TcpClient::~TcpClient()
 {
 }
 
-void Client::start()
+void TcpClient::start()
 {
     run();
 }
 
-void Client::run()
+void TcpClient::run()
 {
     while (true)
     {
+        update();
         sleep(0.1);
     }
 }
 
-void Client::sendMessage(Message<MessageType> &message)
+void TcpClient::update()
+{
+    if (_messageList.size() > 0)
+    {
+        Message<MessageType> message = _messageList.front();
+        _messageList.pop_front();
+        _messageHandler.handleMessage(message);
+    }
+}
+
+void TcpClient::sendMessage(Message<MessageType> &message)
 {
     if (_connection->isConnected() == false)
     {
@@ -39,14 +50,15 @@ void Client::sendMessage(Message<MessageType> &message)
     _connection->sendMessage(message);
 }
 
-bool Client::tryConnect(const std::string &ip, int port)
+bool TcpClient::tryConnect(const std::string &ip, int port)
 {
     try
     {
         asio::ip::tcp::resolver resolver(_asioContext);
         asio::ip::tcp::resolver::results_type endpoints = resolver.resolve(ip, std::to_string(port));
 
-        _connection = std::make_unique<ClientConnection>(asio::ip::tcp::socket(_asioContext), _asioContext);
+        _connection = std::make_unique<TcpClientConnection>(asio::ip::tcp::socket(_asioContext),
+        _asioContext, _messageList);
 
         _connection->connectToServer(endpoints);
 
@@ -60,16 +72,23 @@ bool Client::tryConnect(const std::string &ip, int port)
 	return true;
 }
 
-bool Client::isConnected()
+bool TcpClient::isConnected()
 {
+    if (!_connection)
+        return false;
     return _connection->isConnected();
 }
 
-void Client::createGame(const std::string &name)
+void TcpClient::createGame(const std::string &name)
 {
     Message<MessageType> msg;
     char nameC[GAME_NAME_MAX_LENGHT];
 
+    if (isConnected() == false)
+    {
+        std::cout << "You are not connected" << std::endl;
+        return;
+    }
     if (name.length() > GAME_NAME_MAX_LENGHT)
     {
         std::cout << "Game Name is " << GAME_NAME_MAX_LENGHT << " length max!" << std::endl;
@@ -83,11 +102,16 @@ void Client::createGame(const std::string &name)
     sendMessage(msg);
 }
 
-void Client::joinGame(const std::string &name)
+void TcpClient::joinGame(const std::string &name)
 {
     Message<MessageType> msg;
     char nameC[GAME_NAME_MAX_LENGHT];
     
+    if (isConnected() == false)
+    {
+        std::cout << "You are not connected" << std::endl;
+        return;
+    }
     if (name.length() > GAME_NAME_MAX_LENGHT)
     {
         std::cout << "Game Name is " << GAME_NAME_MAX_LENGHT << " length max!" << std::endl;

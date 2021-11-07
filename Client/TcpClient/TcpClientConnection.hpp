@@ -2,24 +2,26 @@
 ** EPITECH PROJECT, 2021
 ** B-CPP-501-PAR-5-1-rtype-thomas1.tricaud
 ** File description:
-** ClientConnection
+** TcpClientConnection
 */
 
-#ifndef CLIENTCONNECTION_HPP_
-#define CLIENTCONNECTION_HPP_
+#ifndef TcpClientConnection_HPP_
+#define TcpClientConnection_HPP_
 
 #include <asio.hpp>
+#include <list>
 #include "Message.hpp"
 #include "network.hpp"
 #include "INetwork.hpp"
 
-class ClientConnection : public INetwork {
+class TcpClientConnection : public INetwork {
     public:
-        ClientConnection(asio::ip::tcp::socket socket, asio::io_context &context);
-        ~ClientConnection();
+        TcpClientConnection(asio::ip::tcp::socket socket, asio::io_context &context,
+        std::list<Message<MessageType>> &messageList);
+        ~TcpClientConnection();
         bool isConnected();
         void connectToServer(const asio::ip::tcp::resolver::results_type& endpoints);
-        void sendMessage(Message<MessageType> &message);
+        void sendMessage(Message<MessageType> &message) override;
     protected:
         void writeMessageHeader(Message<MessageType> &message) override;
         void writeMessageBody(Message<MessageType> &message) override;
@@ -28,7 +30,9 @@ class ClientConnection : public INetwork {
     private:
         asio::ip::tcp::socket _socket;
         asio::io_context &_asioContext;
+        Message<MessageType> _tmpMessage;
         Message<MessageType> _messageToWrite;
+        std::list<Message<MessageType>> &_messageList;
 };
 
-#endif /* !CLIENTCONNECTION_HPP_ */
+#endif /* !TcpClientConnection_HPP_ */

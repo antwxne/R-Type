@@ -5,11 +5,11 @@
 ** main
 */
 
-#include "Client.hpp"
+#include "TcpClient/TcpClient.hpp"
 
 int main(int ac, char **av)
 {
-    Client client;
+    TcpClient client;
 
     client.tryConnect("127.0.0.1", 8080);
     
@@ -23,5 +23,5 @@ int main(int ac, char **av)
         client.createGame("testomg");
     else
         client.joinGame("testomg");
-    client.run();
+    client.start();
 }
