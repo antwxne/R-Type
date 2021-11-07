@@ -21,10 +21,8 @@ jobs:
           pip3 install conan
           pip3 install conan --upgrade
       - name: Install criterion
-        run: |
-          sudo add-apt-repository ppa:snaipewastaken/ppa/dists/devel/
-          sudo apt-get update
-          sudo apt-get install criterion-dev
+        run: ./install_criterion
+        working-directory: ./.github/workflows/
       - name: Install gcovr
         run: pip3 install gcovr
       - name: Create artifacts folder
