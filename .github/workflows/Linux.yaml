@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - dev_antoine
     commit-ignore:
       - [skip ci]
       - [skip linux]
