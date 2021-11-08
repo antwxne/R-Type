@@ -8,19 +8,24 @@
 #ifndef SPARSEARRAY_HPP_
 #define SPARSEARRAY_HPP_
 
-#include <array>
+#include <vector>
 #include <functional>
 #include <optional>
 
 #include "rtype.h"
 #include "ISparseArray.hpp"
-#include "ComponentException.hpp"
+#include "Component/ComponentException.hpp"
 #include "Entity/EntityException.hpp"
 
 template<typename T>
 class SparseArray : public ISparseArray {
 public:
-    SparseArray() = default;
+    using iterator = typename std::vector<T>::iterator;
+    SparseArray(std::size_t size)
+    {
+        _dataVector.resize(size);
+        _dataVector.assign(size, std::nullopt);
+    }
     ~SparseArray() = default;
 
     void insertData(const Entity &entity, const T &component)
@@ -28,11 +33,11 @@ public:
         std::size_t index;
 
         entity >> index;
-        if (_componentArray[index].has_value()) {
+        if (_dataVector[index].has_value()) {
             throw ComponentException(entity, component,
                 "can't insert component.");
         }
-        _componentArray[index] = component;
+        _dataVector[index] = component;
     }
 
     void deleteData(const Entity &entity)
@@ -40,11 +45,11 @@ public:
         std::size_t index;
 
         entity >> index;
-        if (!_componentArray[index].has_value()) {
-            throw ComponentException(entity, _componentArray[index],
+        if (!_dataVector[index].has_value()) {
+            throw ComponentException(entity, _dataVector[index],
                 "can't delete component, component doesn't exist.");
         }
-        _componentArray[index] = std::nullopt;
+        _dataVector[index] = std::nullopt;
     }
 
     const T &getData(const Entity &entity) const
@@ -52,11 +57,11 @@ public:
         std::size_t index;
 
         entity >> index;
-        if (!_componentArray[index].has_value()) {
-            throw ComponentException(entity, _componentArray[index],
+        if (!_dataVector[index].has_value()) {
+            throw ComponentException(entity, _dataVector[index],
                 "can't get component, component doesn't exist.");
         }
-        return _componentArray[index];
+        return _dataVector[index];
     }
 
     T &getData(const Entity &entity)
@@ -64,11 +69,11 @@ public:
         std::size_t index;
 
         entity >> index;
-        if (!_componentArray[index].has_value()) {
-            throw ComponentException(entity, _componentArray[index],
+        if (!_dataVector[index].has_value()) {
+            throw ComponentException(entity, _dataVector[index],
                 "can't get component, component doesn't exist.");
         }
-        return _componentArray[index];
+        return _dataVector[index];
     }
 
     void entityDestroyed(const Entity &entity) override
@@ -78,7 +83,7 @@ public:
 
 protected:
 private:
-    std::array<std::optional<T>, MAX_ENTITIES> _componentArray;
+    std::vector<std::optional<T>> _dataVector;
 };
 
 #endif /* !SPARSEARRAY_HPP_ */

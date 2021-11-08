@@ -26,7 +26,7 @@ include_directories(include)
 
 #Sources
 
-set(CLIENT_MAIN src/Client/Main.cpp)
+set(CLIENT_MAIN src/Client/Main.cpp )
 set(SERVER_MAIN )
 set(CLIENT_SRC )
 set(SERVER_SRC )
@@ -34,11 +34,13 @@ set(SHARED_SRC src/Entity/Entity.cpp
         src/Entity/Entity.hpp
         src/Entity/EntityManager.cpp
         src/Entity/EntityManager.hpp
-        src/Component/ISparseArray.hpp
-        src/Component/SparseArray.hpp
+        src/SparseArray/ISparseArray.hpp
+        src/SparseArray/SparseArray.hpp
         src/Entity/EntityException.cpp
         src/Entity/EntityException.hpp
-        src/Component/ComponentException.hpp)
+        src/Component/ComponentException.hpp
+        src/System/SystemManager.cpp src/System/SystemManager.hpp
+        src/Component/ComponentManager.cpp src/Component/ComponentManager.hpp src/Coordinator/Coordianator.cpp src/Coordinator/Coordianator.hpp src/Component/IComponent.hpp)
 
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")
