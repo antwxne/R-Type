@@ -40,7 +40,7 @@ set(SHARED_SRC src/Entity/Entity.cpp
         src/Entity/EntityException.hpp
         src/Component/ComponentException.hpp
         src/System/SystemManager.cpp src/System/SystemManager.hpp
-        src/Component/ComponentManager.cpp src/Component/ComponentManager.hpp src/Coordinator/Coordianator.cpp src/Coordinator/Coordianator.hpp src/Component/IComponent.hpp)
+        src/Component/ComponentManager.hpp src/Coordinator/Coordianator.cpp src/Coordinator/Coordianator.hpp src/Component/IComponent.hpp src/System/ASystem.hpp src/System/ASystem.cpp)
 
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")
