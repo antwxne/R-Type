@@ -25,6 +25,7 @@ class TcpClient
         bool tryConnect(const std::string &ip, int port);
         void createGame(const std::string &name);
         void joinGame(const std::string &name);
+        void leaveGame(const std::string &name);
         bool isConnected();
     private:
         void run();

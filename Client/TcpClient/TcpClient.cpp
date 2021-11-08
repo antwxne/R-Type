@@ -124,3 +124,26 @@ void TcpClient::joinGame(const std::string &name)
 
     sendMessage(msg);
 }
+
+void TcpClient::leaveGame(const std::string &name)
+{
+    Message<MessageType> msg;
+    char nameC[GAME_NAME_MAX_LENGHT];
+    
+    if (isConnected() == false)
+    {
+        std::cout << "You are not connected" << std::endl;
+        return;
+    }
+    if (name.length() > GAME_NAME_MAX_LENGHT)
+    {
+        std::cout << "Game Name is " << GAME_NAME_MAX_LENGHT << " length max!" << std::endl;
+        return;
+    }
+
+    std::strcpy(nameC, name.c_str());
+    msg << MessageType::LeaveGame;
+    msg << nameC;
+
+    sendMessage(msg);
+}

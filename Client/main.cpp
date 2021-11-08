@@ -20,8 +20,16 @@ int main(int ac, char **av)
     }
 
     if (strlen(av[1]) == 1)
+    {
         client.createGame("testomg");
+        sleep(1);
+        client.leaveGame("testomg");
+    }
     else
+    {
         client.joinGame("testomg");
+        sleep(1);
+        client.leaveGame("testomg");
+    }
     client.start();
 }

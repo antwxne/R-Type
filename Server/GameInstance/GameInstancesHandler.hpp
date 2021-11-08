@@ -20,6 +20,7 @@ class GameInstancesHandler {
         ~GameInstancesHandler();
         bool addGame(const std::string &gameName, std::shared_ptr<TcpClientInstance> &host);
         bool joinGame(const std::string &gameName, std::shared_ptr<TcpClientInstance> &client);
+        bool leaveGame(const std::string &gameName, std::shared_ptr<TcpClientInstance> &client);
         void update();
     protected:
     private:

@@ -27,12 +27,6 @@ void GameInstance::run()
     }
 }
 
-void GameInstance::setHost(std::shared_ptr<TcpClientInstance> host)
-{
-    _host = host;
-    _nbPlayers += 1;
-}
-
 bool GameInstance::addClient(std::shared_ptr<TcpClientInstance> client)
 {
     if (_nbPlayers + 1 > _maxPlayers)
@@ -40,6 +34,22 @@ bool GameInstance::addClient(std::shared_ptr<TcpClientInstance> client)
     _clients.push_back(client);
     _nbPlayers += 1;
     return true;
+}
+
+bool GameInstance::removeClient(std::shared_ptr<TcpClientInstance> client)
+{
+    auto it = _clients.begin();
+
+    for (; it != _clients.end(); it++)
+    {
+        if ((*it)->getSocketEndpoint() == client->getSocketEndpoint())
+        {
+            _clients.erase(it);
+            _nbPlayers -= 1;
+            return true;
+        }
+    }
+    return false;
 }
 
 void GameInstance::startGame()

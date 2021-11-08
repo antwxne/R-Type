@@ -25,6 +25,7 @@ class TcpClientMessageHandler {
     private:
         void handleCreateGame(Message<MessageType> &message);
         void handleJoinGame(Message<MessageType> &message);
+        void handleLeaveGame(Message<MessageType> &message);
     private:
         std::map<MessageType, MFP> _map;
         TcpClient &_client;

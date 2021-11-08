@@ -14,6 +14,7 @@ enum class MessageType : short
 {
     CreateGame,
     JoinGame,
+    LeaveGame,
 };
 
 #endif /* !NETWORK_HPP_ */

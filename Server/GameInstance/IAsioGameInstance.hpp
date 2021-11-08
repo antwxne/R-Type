@@ -15,8 +15,8 @@
 class IAsioGameInstance : public IGameInstance {
     public:
         virtual ~IAsioGameInstance() = default;
-        virtual void setHost(std::shared_ptr<TcpClientInstance> host) = 0;
         virtual bool addClient(std::shared_ptr<TcpClientInstance> client) = 0;
+        virtual bool removeClient(std::shared_ptr<TcpClientInstance> client) = 0;
     protected:
     private:
 };

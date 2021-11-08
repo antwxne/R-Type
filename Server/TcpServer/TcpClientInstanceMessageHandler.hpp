@@ -33,6 +33,7 @@ class TcpClientInstanceMessageHandler
         void writeResponse(TcpClientInstanceMessage<MessageType> &inMessage, int responseCode);
         void handleCreateGame(TcpClientInstanceMessage<MessageType> &message);
         void handleJoinGame(TcpClientInstanceMessage<MessageType> &message);
+        void handleLeaveGame(TcpClientInstanceMessage<MessageType> &message);
     private:
         std::list<std::shared_ptr<TcpClientInstance>> &_clientsConnected;
         std::map<MessageType, MFP> _map;

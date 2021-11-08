@@ -18,6 +18,7 @@ AsioServer &server)
 {
     _map[MessageType::CreateGame] = &TcpClientInstanceMessageHandler::handleCreateGame;
     _map[MessageType::JoinGame] = &TcpClientInstanceMessageHandler::handleJoinGame;
+    _map[MessageType::LeaveGame] = &TcpClientInstanceMessageHandler::handleLeaveGame;
 }
 
 TcpClientInstanceMessageHandler::~TcpClientInstanceMessageHandler()
@@ -52,7 +53,6 @@ void TcpClientInstanceMessageHandler::handleCreateGame(TcpClientInstanceMessage<
 {
     char nameC[GAME_NAME_MAX_LENGHT];
 
-    std::cout << "Create game\n";
     try
     {
         message.message >> nameC;
@@ -72,7 +72,6 @@ void TcpClientInstanceMessageHandler::handleCreateGame(TcpClientInstanceMessage<
 void TcpClientInstanceMessageHandler::handleJoinGame(TcpClientInstanceMessage<MessageType> &message)
 {
     char nameC[GAME_NAME_MAX_LENGHT];
-    std::cout << "Join game\n";
 
     try
     {
@@ -85,7 +84,27 @@ void TcpClientInstanceMessageHandler::handleJoinGame(TcpClientInstanceMessage<Me
     }
     catch(std::exception &e)
     {
-        std::cout << "Error handleCreateGAme : " << e.what() << std::endl;
+        std::cout << "Error handleJoinGAme : " << e.what() << std::endl;
+        writeResponse(message, 500);
+    }
+}
+
+void TcpClientInstanceMessageHandler::handleLeaveGame(TcpClientInstanceMessage<MessageType> &message)
+{
+    char nameC[GAME_NAME_MAX_LENGHT];
+
+    try
+    {
+        message.message >> nameC;
+        
+        if (_server.gamesHandler.leaveGame(nameC, message.client))
+            writeResponse(message, 200);
+        else
+            writeResponse(message, 400);
+    }
+    catch(std::exception &e)
+    {
+        std::cout << "Error handleLeaveGAme : " << e.what() << std::endl;
         writeResponse(message, 500);
     }
 }

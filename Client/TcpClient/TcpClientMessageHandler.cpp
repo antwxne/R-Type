@@ -14,6 +14,7 @@ TcpClientMessageHandler::TcpClientMessageHandler(TcpClient &client) : _client(cl
 {
     _map[MessageType::CreateGame] = &TcpClientMessageHandler::handleCreateGame;
     _map[MessageType::JoinGame] = &TcpClientMessageHandler::handleJoinGame;
+    _map[MessageType::LeaveGame] = &TcpClientMessageHandler::handleLeaveGame;
 }
 
 TcpClientMessageHandler::~TcpClientMessageHandler()
@@ -41,4 +42,9 @@ void TcpClientMessageHandler::handleCreateGame(Message<MessageType> &message)
 void TcpClientMessageHandler::handleJoinGame(Message<MessageType> &message)
 {
     std::cout << "Ok join\n";
+}
+
+void TcpClientMessageHandler::handleLeaveGame(Message<MessageType> &message)
+{
+    std::cout << "Ok Leave\n";
 }
