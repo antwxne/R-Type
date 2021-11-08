@@ -52,7 +52,6 @@ void TcpClientInstance::readMessageHeader()
 
 void TcpClientInstance::readMessageBody()
 {
-    std::cout << "Read body\n";
     asio::async_read(_socket, asio::buffer(_tmpMessage.getBodyDataPtr(), _tmpMessage.getBodySize()),
 		[this](std::error_code ec, std::size_t length)
     {
@@ -98,6 +97,11 @@ void TcpClientInstance::writeMessageBody(Message<MessageType> &message)
             _socket.close();
             _isConnected = false;
         }
+        else
+        {
+            std::cout << "Write body "<< length << "\n";
+        }
+        
     });
 }
 

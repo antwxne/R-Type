@@ -17,6 +17,40 @@ GameInstancesHandler::~GameInstancesHandler()
 
 void GameInstancesHandler::update()
 {
+    if (_gamesInstances.size() > 0)
+        removeEmptyGames();
+}
+
+std::list<std::shared_ptr<GameInstance>> &GameInstancesHandler::getListGames()
+{
+    return _gamesInstances;
+}
+
+void GameInstancesHandler::removeEmptyGames()
+{
+    auto it = _gamesInstances.begin();
+    auto itThread = _gamesThread.begin();
+
+    for (; it != _gamesInstances.end(); it++, itThread++)
+    {
+        if ((*it)->getNPlayers() == 0)
+        {
+            (*it)->stop();
+            _gamesInstances.erase(it);
+            (*itThread).detach();
+            _gamesThread.erase(itThread);
+            std::cout << "Removed\n";
+            return;
+        }
+    }
+}
+
+void GameInstancesHandler::removeDisconnectedClient(const std::string &clientName)
+{
+    for (auto &i : _gamesInstances)
+    {
+        i->removeDisconnectedClient(clientName);
+    }
 }
 
 bool GameInstancesHandler::addGame(const std::string &gameName, std::shared_ptr<TcpClientInstance> &host)
@@ -63,4 +97,16 @@ bool GameInstancesHandler::leaveGame(const std::string &gameName, std::shared_pt
         }
     }
     return false;
+}
+
+std::list<std::string> GameInstancesHandler::getPlayersInGame(const std::string &gameName)
+{
+    for (auto &i : _gamesInstances)
+    {
+        if (i->getName() == gameName)
+        {
+            return i->getPlayers();
+        }
+    }
+    return std::list<std::string>();
 }

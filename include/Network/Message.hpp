@@ -45,7 +45,7 @@ class Message {
             return _header.bodySize;
         }
 
-        void setResponseCode(int code)
+        void setResponseCode(short code)
         {
             _header.responseCode = code;
         }

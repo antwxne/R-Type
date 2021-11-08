@@ -91,5 +91,6 @@ void AsioServer::onClientConnected(asio::ip::tcp::socket &socket)
 
 void AsioServer::onClientDisconnected(std::shared_ptr<TcpClientInstance> &client)
 {
+    gamesHandler.removeDisconnectedClient(client->informations.getName());
     std::cout << "A Client disconnected" << std::endl;
 }

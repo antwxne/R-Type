@@ -14,6 +14,7 @@
 #include "INetwork.hpp"
 #include <list>
 #include "TcpClientInstanceMessage.hpp"
+#include "../ClientInformations.hpp"
 
 template<typename T>
 class TcpClientInstanceMessage;
@@ -30,6 +31,8 @@ class TcpClientInstance : public std::enable_shared_from_this<TcpClientInstance>
         void writeMessageHeader(Message<MessageType> &message) override;
         void readMessageBody() override;
         void writeMessageBody(Message<MessageType> &message) override;
+    public:
+        ClientInformations informations;
     private:
         asio::io_context& _asioContext;
         asio::ip::tcp::socket _socket;

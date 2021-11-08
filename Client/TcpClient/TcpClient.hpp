@@ -26,6 +26,10 @@ class TcpClient
         void createGame(const std::string &name);
         void joinGame(const std::string &name);
         void leaveGame(const std::string &name);
+        void getGames();
+        void getPlayersInGame(const std::string &name);
+
+        void setPlayerName(const std::string &name);
         bool isConnected();
     private:
         void run();
@@ -34,7 +38,7 @@ class TcpClient
     private:
         asio::io_context _asioContext;
 		std::thread _threadContext;
-        std::unique_ptr<TcpClientConnection> _connection;
+        std::shared_ptr<TcpClientConnection> _connection;
         std::list<Message<MessageType>> _messageList;
         TcpClientMessageHandler _messageHandler;
 };

@@ -12,6 +12,7 @@ class IGameInstance {
     public:
         virtual ~IGameInstance() = default;
         virtual void run() = 0;
+        virtual void stop() = 0;
         virtual void startGame() = 0;
 
     protected:

@@ -147,3 +147,46 @@ void TcpClient::leaveGame(const std::string &name)
 
     sendMessage(msg);
 }
+
+void TcpClient::getGames()
+{
+    Message<MessageType> msg;
+    
+    if (isConnected() == false)
+    {
+        std::cout << "You are not connected" << std::endl;
+        return;
+    }
+    msg << MessageType::GetGamesList;
+    sendMessage(msg);
+}
+
+void TcpClient::getPlayersInGame(const std::string &name)
+{
+    Message<MessageType> msg;
+    
+    if (isConnected() == false)
+    {
+        std::cout << "You are not connected" << std::endl;
+        return;
+    }
+    msg << MessageType::GetPlayersInGame;
+    sendMessage(msg);
+}
+
+void TcpClient::setPlayerName(const std::string &name)
+{
+    Message<MessageType> msg;
+    char nameC[PLAYER_NAME_MAX_LENGHT];
+    
+    if (isConnected() == false)
+    {
+        std::cout << "You are not connected" << std::endl;
+        return;
+    }
+    std::strcpy(nameC, name.c_str());
+    msg << MessageType::SetPlayerName;
+    msg << nameC;
+
+    sendMessage(msg);
+}

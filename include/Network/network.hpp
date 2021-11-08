@@ -9,12 +9,16 @@
 #define NETWORK_HPP_
 
 #define GAME_NAME_MAX_LENGHT 12
+#define PLAYER_NAME_MAX_LENGHT 10
 
 enum class MessageType : short
 {
+    SetPlayerName,
     CreateGame,
     JoinGame,
     LeaveGame,
+    GetGamesList,
+    GetPlayersInGame,
 };
 
 #endif /* !NETWORK_HPP_ */

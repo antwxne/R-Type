@@ -31,9 +31,17 @@ class TcpClientInstanceMessageHandler
         void handleMessage(TcpClientInstanceMessage<MessageType> &message);
     private:
         void writeResponse(TcpClientInstanceMessage<MessageType> &inMessage, int responseCode);
+
+        //Handle Player Responses
+        void handleSetPlayerName(TcpClientInstanceMessage<MessageType> &message);
+
+        // Handle game Responses
         void handleCreateGame(TcpClientInstanceMessage<MessageType> &message);
         void handleJoinGame(TcpClientInstanceMessage<MessageType> &message);
         void handleLeaveGame(TcpClientInstanceMessage<MessageType> &message);
+        void handleGetGames(TcpClientInstanceMessage<MessageType> &message);
+        void handleGetPlayersInGame(TcpClientInstanceMessage<MessageType> &message);
+        //
     private:
         std::list<std::shared_ptr<TcpClientInstance>> &_clientsConnected;
         std::map<MessageType, MFP> _map;

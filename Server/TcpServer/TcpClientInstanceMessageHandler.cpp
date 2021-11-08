@@ -16,9 +16,12 @@ TcpClientInstanceMessageHandler::TcpClientInstanceMessageHandler(std::list<std::
 AsioServer &server)
 : _clientsConnected(clientsConnected), _server(server)
 {
+    _map[MessageType::SetPlayerName] = &TcpClientInstanceMessageHandler::handleSetPlayerName;
     _map[MessageType::CreateGame] = &TcpClientInstanceMessageHandler::handleCreateGame;
     _map[MessageType::JoinGame] = &TcpClientInstanceMessageHandler::handleJoinGame;
     _map[MessageType::LeaveGame] = &TcpClientInstanceMessageHandler::handleLeaveGame;
+    _map[MessageType::GetGamesList] = &TcpClientInstanceMessageHandler::handleGetGames;
+    _map[MessageType::GetPlayersInGame] = &TcpClientInstanceMessageHandler::handleGetPlayersInGame;
 }
 
 TcpClientInstanceMessageHandler::~TcpClientInstanceMessageHandler()
@@ -48,6 +51,30 @@ void TcpClientInstanceMessageHandler::writeResponse(TcpClientInstanceMessage<Mes
 
     inMessage.client->sendMessage(response);
 }
+
+//Handle Players Response
+
+void TcpClientInstanceMessageHandler::handleSetPlayerName(TcpClientInstanceMessage<MessageType> &message)
+{
+    char nameC[PLAYER_NAME_MAX_LENGHT];
+
+    try
+    {
+        message.message >> nameC;
+        
+        message.client->informations.setName(nameC);
+        writeResponse(message, 200);
+    }
+    catch(std::exception &e)
+    {
+        std::cout << "Error handleCreateGAme : " << e.what() << std::endl;
+        writeResponse(message, 500);
+    }
+}
+
+//-----------------------------------------
+
+//Handle Games Responses ----------------------------
 
 void TcpClientInstanceMessageHandler::handleCreateGame(TcpClientInstanceMessage<MessageType> &message)
 {
@@ -108,3 +135,62 @@ void TcpClientInstanceMessageHandler::handleLeaveGame(TcpClientInstanceMessage<M
         writeResponse(message, 500);
     }
 }
+
+
+void TcpClientInstanceMessageHandler::handleGetGames(TcpClientInstanceMessage<MessageType> &message)
+{
+    try
+    {
+        Message<MessageType> response;
+        response << MessageType::GetGamesList;
+        response.setResponseCode(200);
+        auto l = _server.gamesHandler.getListGames();
+        for (auto &i : l)
+        {
+            char nameC[GAME_NAME_MAX_LENGHT];
+            response << i->getNPlayers();
+            std::strcpy(nameC, i->getName().c_str());
+            response << nameC;
+        }
+        message.client->sendMessage(response);
+    }
+    catch(std::exception &e)
+    {
+        std::cout << "Error handleGetGames : " << e.what() << std::endl;
+        writeResponse(message, 500);
+    }
+}
+
+void TcpClientInstanceMessageHandler::handleGetPlayersInGame(TcpClientInstanceMessage<MessageType> &message)
+{
+    char gameName[GAME_NAME_MAX_LENGHT];
+    std::cout << "In game\n";
+
+    message.message >> gameName;
+
+    try
+    {
+        Message<MessageType> response;
+        response << MessageType::GetPlayersInGame;
+        response.setResponseCode(200);
+        
+        auto l = _server.gamesHandler.getPlayersInGame(gameName);
+
+        for (auto &i : l)
+        {
+            char nameC[PLAYER_NAME_MAX_LENGHT];
+            std::strcpy(nameC, i.c_str());
+            response << nameC;
+        }
+        response << gameName;
+
+        message.client->sendMessage(response);
+    }
+    catch(std::exception &e)
+    {
+        std::cout << "Error handleGetGames : " << e.what() << std::endl;
+        writeResponse(message, 500);
+    }
+}
+
+//------------------------------------------------
