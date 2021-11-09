@@ -5,7 +5,7 @@
 ** main
 */
 
-#include "TcpServer/AsioServer.hpp"
+#include "TcpServer/TcpAsioServer.hpp"
 
 void printHelp(char *bin)
 {
@@ -40,7 +40,7 @@ int getPort(char **av)
 int launchServer(int port)
 {
     try {
-        AsioServer server(port);
+        TcpAsioServer server(port);
         server.start();
     } catch (const std::system_error& e) {
         std::cout << e.what() << std::endl;

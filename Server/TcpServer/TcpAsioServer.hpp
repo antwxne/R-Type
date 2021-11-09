@@ -2,11 +2,11 @@
 ** EPITECH PROJECT, 2021
 ** B-CPP-500-PAR-5-1-babel-alan.sigal
 ** File description:
-** AsioServer
+** TcpAsioServer
 */
 
-#ifndef ASIOSERVER_HPP_
-#define ASIOSERVER_HPP_
+#ifndef TcpAsioServer_HPP_
+#define TcpAsioServer_HPP_
 
 #include "INetwork.hpp"
 #include "IAsioTcpServer.hpp"
@@ -22,10 +22,10 @@
 
 //class TcpClientInstanceMessageHandler;
 
-class AsioServer : public IAsioTcpServer {
+class TcpAsioServer : public IAsioTcpServer {
     public:
-        AsioServer(int port);
-        ~AsioServer();
+        TcpAsioServer(int port);
+        ~TcpAsioServer();
         void start() override;
         void stop() override;
         void update() override;
@@ -46,4 +46,4 @@ class AsioServer : public IAsioTcpServer {
         TcpClientInstanceMessageHandler _messageHandler;
 };
 
-#endif /* !ASIOSERVER_HPP_ */
+#endif /* !TcpAsioServer_HPP_ */

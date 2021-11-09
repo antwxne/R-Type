@@ -21,7 +21,7 @@ class TcpClientInstanceMessage;
 
 class TcpClientInstance : public std::enable_shared_from_this<TcpClientInstance>, public INetwork{
     public:
-        TcpClientInstance(asio::io_context& _asioContext, asio::ip::tcp::socket socket, std::list<TcpClientInstanceMessage<MessageType>> &_messageList);
+        TcpClientInstance(asio::io_context& asioContext, asio::ip::tcp::socket socket, std::list<TcpClientInstanceMessage<MessageType>> &_messageList);
         ~TcpClientInstance();
         void sendMessage(Message<MessageType> &message) override;
         void readMessageHeader() override;
