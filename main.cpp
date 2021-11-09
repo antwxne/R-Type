@@ -12,6 +12,7 @@ int main()
     Graphical graphical;
     sf::Texture texture;
     sf::Sprite sprite;
+
     texture.loadFromFile("assets/sprites/r-typesheet1.gif");
     sprite.setTexture(texture);
     while (graphical.getWindow().isOpen())
