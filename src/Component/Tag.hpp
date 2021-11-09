@@ -8,14 +8,16 @@
 #ifndef TAG_HPP_
 #define TAG_HPP_
 
-#define PLAYER 0
-#define ENEMY 1
-#define FRIEND 2
-#define POWERUP 3
-
-struct Tag
+struct Player
 {
-    int tag;
+};
+
+struct Enemy
+{
+};
+
+struct PowerUp
+{
 };
 
 
