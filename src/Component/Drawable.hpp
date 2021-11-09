@@ -9,6 +9,6 @@
 #define DRAWABLE_HPP_
 
 struct Drawable {
-    char *texture;
+    int idTexture;
 }
 #endif /* !DRAWABLE_HPP_ */

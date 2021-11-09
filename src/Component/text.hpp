@@ -10,8 +10,8 @@
 
 struct Text
 {
-    char *text;
-    char *font;
+    char *text; // a voir comment on s'occupe du texte (peut etre a faire avec des ID)
+    int idFont;
     unsigned int size;
 }
 

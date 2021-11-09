@@ -10,7 +10,7 @@
 
 struct Sound
 {
-    char *sound;
+    int idSound;
 }
 
 #endif /* !SOUND_HPP_ */
