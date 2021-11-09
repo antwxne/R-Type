@@ -38,7 +38,15 @@ set(SHARED_SRC src/Entity/Entity.cpp
         src/Component/SparseArray.hpp
         src/Entity/EntityException.cpp
         src/Entity/EntityException.hpp
-        src/Component/ComponentException.hpp)
+        src/Component/ComponentException.hpp
+        src/System/Audio.cpp
+        src/System/Audio.hpp
+        src/System/IGraphical.hpp
+        src/System/Graphical.hpp
+        src/System/Graphical.cpp
+        src/System/ISprite.hpp
+        src/System/Sprite.hpp
+        src/System/Sprite.cpp)
 
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")
