@@ -5,7 +5,7 @@
 ** main
 */
 
-#include "Component/SparseArray.hpp"
+#include "SparseArray/SparseArray.hpp"
 
 int main()
 {
