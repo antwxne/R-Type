@@ -10,18 +10,38 @@
 
 
 #include <asio.hpp>
+#include <list>
 
-class UdpClient {
+#include "INetwork.hpp"
+#include "network.hpp"
+#include "UdpClientMessageHandler.hpp"
+
+
+class UdpClient : public INetwork {
     public:
-        UdpClient(int port);
+        UdpClient(const std::string &ip, int port);
         ~UdpClient();
-        void start();
+        virtual void start();
+        void run();
+
+        void sendMessage(Message<MessageType> &message) override;
+        void readMessageHeader() override;
+        void readMessageBody() override;
+        void writeMessageHeader(Message<MessageType> &message) override;
+        void writeMessageBody(Message<MessageType> &message) override;
 
     protected:
-    private:
-    asio::io_context _ioContext;
-    asio::ip::udp::socket _socket;
-    asio::ip::udp::endpoint _serverEndpoint;
+        virtual void handleHeaderRecieve(const asio::error_code& error, std::size_t size);
+        virtual void handleBodyRecieve(const asio::error_code& error, std::size_t size);
+    protected:
+        asio::io_context _asioContext;
+        asio::ip::udp::socket _socket;
+        asio::ip::udp::endpoint _serverEndpoint;
+        std::thread _threadContext;
+
+        Message<MessageType> _tmpMessage;
+        std::list<Message<MessageType>> _messageList;
+        UdpClientMessageHandler _messageHandler;
 };
 
 #endif /* !UDPCLIENT_HPP_ */

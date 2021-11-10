@@ -110,3 +110,10 @@ void TcpClientMessageHandler::handleGetPlayersInGame(Message<MessageType> &messa
         std::cerr << e.what() << '\n';
     }
 }
+
+void TcpClientMessageHandler::handleGetUdpPort(Message<MessageType> &message)
+{
+    int port;
+
+    message >> port;
+}
