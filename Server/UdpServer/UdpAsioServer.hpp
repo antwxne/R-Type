@@ -10,16 +10,43 @@
 
 #include <thread>
 #include <asio.hpp>
+#include <list>
 
-class UdpAsioServer {
+#include "Message.hpp"
+#include "network.hpp"
+#include "INetwork.hpp"
+
+class UdpAsioServer : public INetwork {
     public:
-        UdpAsioServer();
+        UdpAsioServer(int port = 0);
         ~UdpAsioServer();
+        void start();
+        virtual void run();
+        int getPort();
+
+
+        void readMessageHeader() override;
+        void readMessageBody() override;
+
+        void sendMessage(Message<MessageType> &message) override;
+        void writeMessageHeader(Message<MessageType> &message) override;
+        void writeMessageBody(Message<MessageType> &message) override;
+
+        void writeMessageHeaderToEndpoint(Message<MessageType> &message, asio::ip::udp::endpoint &clientEndpoint);
+        void writeMessageBodyToEndpoint(Message<MessageType> &message, asio::ip::udp::endpoint &clientEndpoint);
+
     protected:
-    private:
+        virtual void handleHeaderRecieve(const asio::error_code& error, std::size_t size);
+        virtual void handleBodyRecieve(const asio::error_code& error, std::size_t size);
+    protected:
         asio::io_context _asioContext;
 		std::thread _threadContext;
-    
+        asio::ip::udp::socket _socket;
+        Message<MessageType> _tmpMessage;
+        asio::ip::udp::endpoint _lastEndpoint;
+        
+        std::list<Message<MessageType>> _messageList;
+
 };
 
 #endif /* !UDPASIOSERVER_HPP_ */

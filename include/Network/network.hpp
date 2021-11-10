@@ -13,12 +13,15 @@
 
 enum class MessageType : short
 {
-    SetPlayerName,
-    CreateGame,
-    JoinGame,
-    LeaveGame,
-    GetGamesList,
-    GetPlayersInGame,
+    SetPlayerName = 0,
+    CreateGame = 1,
+    JoinGame = 2,
+    LeaveGame = 3,
+    GetGamesList = 4,
+    GetPlayersInGame = 5,
+
+    GameRegister = 6,
+    GameCommand = 7,
 };
 
 #endif /* !NETWORK_HPP_ */
