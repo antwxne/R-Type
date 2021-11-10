@@ -35,7 +35,7 @@ class Client {
 
     private:
         TcpClient _tcpClient;
-        void udpPort;
+        int _udpPort;
         std::unique_ptr<UdpGameClient> _udpClient;
 };
 
