@@ -7,8 +7,6 @@
 
 #include "UdpAsioServer.hpp"
 #include <functional>
-#include <boost/bind.hpp>
-#include <boost/asio.hpp>
 
 UdpAsioServer::UdpAsioServer(int port) :
 _socket(_asioContext, asio::ip::udp::endpoint(asio::ip::udp::v4(), port))
@@ -47,8 +45,8 @@ void UdpAsioServer::sendMessage(Message<MessageType> &message)
 void UdpAsioServer::readMessageHeader()
 {
     _socket.async_receive_from(asio::buffer(_tmpMessage.getHeaderPtr(), _tmpMessage.getHeaderSize()),
-    _lastEndpoint, boost::bind(&UdpAsioServer::handleHeaderRecieve, this, boost::asio::placeholders::error,
-    boost::asio::placeholders::bytes_transferred));
+    _lastEndpoint, std::bind(&UdpAsioServer::handleHeaderRecieve, this, std::placeholders::_1,
+    std::placeholders::_2));
 }
 
 void UdpAsioServer::handleHeaderRecieve(const asio::error_code& error, std::size_t size)
@@ -73,8 +71,8 @@ void UdpAsioServer::handleHeaderRecieve(const asio::error_code& error, std::size
 void UdpAsioServer::readMessageBody()
 {
     _socket.async_receive_from(asio::buffer(_tmpMessage.getBodyDataPtr(), _tmpMessage.getBodySize()),
-    _lastEndpoint, boost::bind(&UdpAsioServer::handleHeaderRecieve, this, boost::asio::placeholders::error,
-    boost::asio::placeholders::bytes_transferred));
+    _lastEndpoint, std::bind(&UdpAsioServer::handleBodyRecieve, this, std::placeholders::_1,
+    std::placeholders::_2));
 }
 
 void UdpAsioServer::handleBodyRecieve(const asio::error_code& error, std::size_t size)

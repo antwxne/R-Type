@@ -21,6 +21,7 @@ class UdpGameMessageHandler {
         UdpGameMessageHandler();
         ~UdpGameMessageHandler();
         void handleMessage(GameUdpMessage<MessageType> &message);
+    private:
         void handleCommand(GameUdpMessage<MessageType> &message);
 
     protected:

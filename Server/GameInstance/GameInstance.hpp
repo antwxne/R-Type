@@ -10,7 +10,10 @@
 
 #include <string>
 #include <vector>
+#include <memory>
+
 #include "IAsioGameInstance.hpp"
+#include "../UdpServer/GameUdpServer.hpp"
 
 enum GameInstanceState
 {
@@ -33,6 +36,7 @@ class GameInstance : public IAsioGameInstance {
         std::string getName() const;
         std::list<std::string> getPlayers();
         char getNPlayers() const;
+
     protected:
     private:
         bool _run;
@@ -41,6 +45,8 @@ class GameInstance : public IAsioGameInstance {
         char _maxPlayers;
         char _nbPlayers;
         std::vector<std::shared_ptr<TcpClientInstance>> _clients;
+
+        std::unique_ptr<GameUdpServer> _udpGameServer;
 };
 
 #endif /* !GAMEINSTANCE_HPP_ */

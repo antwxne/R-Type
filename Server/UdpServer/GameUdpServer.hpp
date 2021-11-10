@@ -31,7 +31,7 @@ class GameUdpServer : public UdpAsioServer
         std::map<asio::ip::udp::endpoint, int> _bindMap;
         int _nbPlayers;
         int _bindedPlayers;
-        
+
         std::list<GameUdpMessage<MessageType>> _gameMessageList;
         UdpGameMessageHandler _gameMessageHandler;
 

@@ -42,9 +42,10 @@ class UdpAsioServer : public INetwork {
         asio::io_context _asioContext;
 		std::thread _threadContext;
         asio::ip::udp::socket _socket;
+
         Message<MessageType> _tmpMessage;
         asio::ip::udp::endpoint _lastEndpoint;
-        
+
         std::list<Message<MessageType>> _messageList;
 
 };

@@ -21,7 +21,7 @@ void GameUdpServer::run()
 {
     while (1)
     {
-        if (_messageList.size() > 0)
+        if (_gameMessageList.size() > 0)
         {
             GameUdpMessage<MessageType> message = _gameMessageList.front();
             _gameMessageList.pop_front();
