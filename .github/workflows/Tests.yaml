@@ -1,10 +1,10 @@
 name: Tests
 
 on:
-  push:
-    commit-ignore:
-      - [skip ci]
-      - [skip tests]
+  # push:
+  #   commit-ignore:
+  #     - [skip ci]
+  #     - [skip tests]
   workflow_dispatch:
 
 jobs:

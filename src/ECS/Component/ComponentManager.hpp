@@ -10,13 +10,15 @@
 
 #include <unordered_map>
 #include <memory>
+#include <any>
 
 #include "SparseArray/SparseArray.hpp"
-#include "Component/IComponent.hpp"
 
 class ComponentManager {
 public:
-    using ComponentsMap_t = std::unordered_map<std::type_info, std::shared_ptr<SparseArray<IComponent>>>;
+    using ComponentsMap_t = std::unordered_map<std::type_info, std::shared_ptr<SparseArray<std::any>>>;
+
+    ComponentManager();
     template<typename T>
     void registerComponent()
     {
@@ -41,20 +43,30 @@ public:
         return _componentsMap.at(typeid(T))->getData(entity);
     }
     template<typename T>
-    std::shared_ptr<SparseArray<IComponent>> &getComponentsList()
+    std::shared_ptr<SparseArray<T>> &getComponentsList()
     {
         return _componentsMap.at(typeid(T));
     }
     template<typename T>
-    const std::shared_ptr<SparseArray<IComponent>> &getComponentsList() const
+    const std::shared_ptr<SparseArray<T>> &getComponentsList() const
     {
         return _componentsMap.at(typeid(T));
     }
-    std::shared_ptr<ComponentsMap_t> &getComponentMap()
+    ComponentsMap_t &getComponentMap()
     {
-        return std::make_shared<ComponentsMap_t>(_componentsMap);
+        return _componentsMap;
+    }
+    template<typename Component>
+    void subToComponent(const Entity &entity, const Component &component)
+    {
+        _componentsMap.at(typeid(Component))->insertData(entity, component);
     }
 
+    template<typename Component>
+    void unsubFromComponent(const Entity &entity)
+    {
+        _componentsMap.at(typeid(Component))->deleteData(entity);
+    }
     void entityDestroyed(const Entity &entity)
     {
         for (auto &elem : _componentsMap) {

@@ -16,7 +16,7 @@
 class GameUdpServer : public UdpAsioServer
 {
     public:
-        GameUdpServer(int nbPlayers);
+        GameUdpServer(int port, int nbPlayers);
         ~GameUdpServer();
         void run() override;
         void sendMessageToPlayer(GameUdpMessage<MessageType> &message, int nPlayer);
