@@ -69,5 +69,6 @@ else()
 
     find_library(CRITERION criterion)
     add_executable(${TESTS_NAME} ${TESTS_SRC})
+    conan_target_link_libraries(${TESTS_NAME} ${CONAN_LIBS})
     target_link_libraries(${TESTS_NAME} ${CRITERION})
 endif()
