@@ -4,5 +4,6 @@ build
 cmake-build-debug
 .idea
 .vscode
+bootstrap/
 /Documentation/html/
 /Documentation/latex/
