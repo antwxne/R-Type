@@ -8,7 +8,10 @@
 #ifndef DRAWABLE_HPP_
 #define DRAWABLE_HPP_
 
-struct Drawable {
-    int idTexture;
+#include "../Graphical/graphical.hpp"
+
+struct Texture
+{
+    TextureType idTexture;
 };
 #endif /* !DRAWABLE_HPP_ */
