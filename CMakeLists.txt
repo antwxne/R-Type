@@ -9,7 +9,7 @@ project(RType)
 
 #Flags
 set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Wall -Wextra")
-set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall -Wextra -g -ggdb -g3")
+set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall -Wextra -g -ggdb -g3 -lsfml-graphics -lsfml-window -lsfml-system")
 
 #Bin name
 set(SERVER_NAME r-type_server)
@@ -39,8 +39,18 @@ set(SHARED_SRC src/Entity/Entity.cpp
         src/Entity/EntityException.cpp
         src/Entity/EntityException.hpp
         src/Component/ComponentException.hpp
-        src/System/SystemManager.cpp src/System/SystemManager.hpp
-        src/Component/ComponentManager.hpp src/Coordinator/Coordianator.cpp src/Coordinator/Coordianator.hpp src/Component/IComponent.hpp src/System/ASystem.hpp src/System/ASystem.cpp)
+        src/System/SystemManager.cpp
+        src/System/SystemManager.hpp
+        src/Component/ComponentManager.hpp 
+        src/Coordinator/Coordianator.cpp
+        src/Coordinator/Coordianator.hpp
+        src/Component/IComponent.hpp
+        src/System/ASystem.hpp
+        src/System/ASystem.cpp
+        src/System/Audio.cpp
+        src/System/Audio.hpp
+        src/System/Drawable.hpp
+        src/System/Drawable.cpp)
 
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")
