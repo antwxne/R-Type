@@ -31,7 +31,9 @@ jobs:
         run: mkdir -p artifacts
         working-directory: ./
       - name: Build unit tests
-        run: make tests_build
+        run: |
+          make fclean
+          make tests_run
       - name: Run unit tests
         run: ./build/bin/unit_tests --ascii &> artifacts/tests_results.txt
         working-directory: ./
