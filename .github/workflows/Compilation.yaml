@@ -16,10 +16,11 @@ jobs:
       - name: Install prerequires
         run: ./requires
         working-directory: ./.github/workflows/
-      - name: Install and update conan
+      - name: Install, update and configure conan
         run: |
           pip3 install conan
           pip3 install conan --upgrade
+          conan profile update settings.compiler.libcxx=libstdc++11 default
       - name: Create artifacts folder
         run: mkdir -p artifacts
         working-directory: ./
