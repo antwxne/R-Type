@@ -20,13 +20,13 @@ class TcpClientInstanceMessageHandler;
 
 typedef void (TcpClientInstanceMessageHandler::*MFP)(TcpClientInstanceMessage<MessageType> &);
 
-class AsioServer;
+class TcpAsioServer;
 
 class TcpClientInstanceMessageHandler
 {
     public:
         TcpClientInstanceMessageHandler(std::list<std::shared_ptr<TcpClientInstance>> &clientsConnected,
-        AsioServer &server);
+        TcpAsioServer &server);
         ~TcpClientInstanceMessageHandler();
         void handleMessage(TcpClientInstanceMessage<MessageType> &message);
     private:
@@ -45,7 +45,7 @@ class TcpClientInstanceMessageHandler
     private:
         std::list<std::shared_ptr<TcpClientInstance>> &_clientsConnected;
         std::map<MessageType, MFP> _map;
-        AsioServer &_server;
+        TcpAsioServer &_server;
 };
 
 #endif /* !TcpClientInstanceMessageHandler_HPP_ */

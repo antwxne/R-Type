@@ -5,30 +5,13 @@
 ** main
 */
 
-#include "TcpClient/TcpClient.hpp"
+#include "Client.hpp"
 
 int main(int ac, char **av)
 {
-    TcpClient client;
+    Client client;
 
     client.tryConnect("127.0.0.1", 8080);
 
-    client.setPlayerName("monsieur");
-    sleep(1);
-    if (strlen(av[1]) == 1)
-    {
-        client.createGame("testomg");
-        sleep(1);
-        client.leaveGame("testomg");
-        sleep(1);
-        client.createGame("abc");
-        sleep(1);
-    }
-    else
-    {
-        client.joinGame("testomg");
-        sleep(1);
-        client.getPlayersInGame("testomg");
-    }
     client.start();
 }

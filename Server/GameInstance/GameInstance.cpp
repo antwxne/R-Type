@@ -23,6 +23,8 @@ void GameInstance::run()
 {
     while (_run)
     {
+        if (_udpGameServer)
+            _udpGameServer->run();
         std::cout << _name << " Running with " << (int)_nbPlayers << " players\n";
         sleep(1);
     }
@@ -83,6 +85,19 @@ void GameInstance::removeDisconnectedClient(const std::string &clientName)
 void GameInstance::startGame()
 {
     _state = Game;
+
+    _udpGameServer = std::make_unique<GameUdpServer>(0);
+
+    Message<MessageType> startMessage;
+
+    startMessage << MessageType::UdpGetPort;
+
+    startMessage << _udpGameServer->getPort();
+
+    for (auto &i : _clients)
+    {
+        i->sendMessage(startMessage);
+    }
 }
 
 std::string GameInstance::getName() const
