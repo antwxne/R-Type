@@ -21,6 +21,7 @@ public:
     virtual void update() = 0;
 protected:
     std::shared_ptr<ComponentManager::ComponentsMap_t> _components;
+    std::vector<std::type_info> _usedComponents;
 };
 
 #endif //RTYPE_ASYSTEM_HPP
