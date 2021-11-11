@@ -7,7 +7,7 @@
 
 #include "Drawable.hpp"
 
-Drawable::Drawable(std::shared_ptr<ComponentsMap_t> &)
+Drawable::Drawable(std::shared_ptr<ComponentManager> &)
 {
 }
 
@@ -26,7 +26,7 @@ void Drawable::loadTexture(const Entity &entity)
 
 }
 
-void Drawable::draw(const Entity &entity)
+void Drawable::draw(const Entity &entity, Graphical &)
 {
     // draw dans la windows
 }

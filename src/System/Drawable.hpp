@@ -24,6 +24,7 @@ class Drawable {
     private:
         sf::Texture _texture;
         sf::Sprite _sprite;
+        //shared_ptr<ComposantManagement
 
 };
 
