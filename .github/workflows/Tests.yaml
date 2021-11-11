@@ -16,10 +16,12 @@ jobs:
       - name: Install prerequires
         run: ./requires
         working-directory: ./.github/workflows/
-      - name: Install and update conan
+      - name: Install, update and configure conan
         run: |
           pip3 install conan
           pip3 install conan --upgrade
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
       - name: Install criterion
         run: ./install_criterion.sh
         working-directory: ./.github/workflows/
@@ -29,7 +31,9 @@ jobs:
         run: mkdir -p artifacts
         working-directory: ./
       - name: Build unit tests
-        run: make tests_build
+        run: |
+          make fclean
+          make tests_run
       - name: Run unit tests
         run: ./build/bin/unit_tests --ascii &> artifacts/tests_results.txt
         working-directory: ./
