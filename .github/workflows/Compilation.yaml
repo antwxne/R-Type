@@ -20,6 +20,7 @@ jobs:
         run: |
           pip3 install conan
           pip3 install conan --upgrade
+          conan profile new --detect default
           conan profile update settings.compiler.libcxx=libstdc++11 default
       - name: Create artifacts folder
         run: mkdir -p artifacts
