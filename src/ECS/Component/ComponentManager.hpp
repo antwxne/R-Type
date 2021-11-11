@@ -14,9 +14,17 @@
 
 #include "SparseArray/SparseArray.hpp"
 
+
+class HasherTypeInfo {
+public:
+    size_t operator() (const std::type_info & type) const {
+        return type.hash_code();
+    }
+};
+
 class ComponentManager {
 public:
-    using ComponentsMap_t = std::unordered_map<std::type_info, std::shared_ptr<SparseArray<std::any>>>;
+    using ComponentsMap_t = std::unordered_map<std::type_info, std::shared_ptr<SparseArray<std::any>>, HasherTypeInfo>;
 
     ComponentManager();
     template<typename T>

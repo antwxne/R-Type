@@ -14,9 +14,9 @@ ASystem::ASystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components)
 
 bool ASystem::checkAvaiableEntity(const size_t entity)
 {
-    for (auto &i : _usedComponents)
+    for (const auto &i : _usedComponents)
     {
-        if (_components->at(i)->getData(entity).has_value() == false)
+        if (!_components->at(i)->getData(entity).has_value())
             return false;
     }
     return true;

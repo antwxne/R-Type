@@ -70,8 +70,9 @@ else()
 
     set(CMAKE_CXX_FLAGS --coverage)
 
-    find_library(CRITERION criterion)
     add_executable(${TESTS_NAME} ${TESTS_SRC})
-    conan_target_link_libraries(${TESTS_NAME} ${CONAN_LIBS})
+    find_library(CRITERION criterion)
     target_link_libraries(${TESTS_NAME} ${CRITERION})
+    conan_target_link_libraries(${TESTS_NAME} ${CONAN_LIBS})
+
 endif()

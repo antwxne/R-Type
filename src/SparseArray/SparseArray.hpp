@@ -63,7 +63,7 @@ public:
         return _dataVector[index];
     }
 
-    std::optional<T> &getData(const Entity &entity)
+    std::optional<T> &getData(const Entity &entity) noexcept
     {
         std::size_t index;
 
@@ -71,7 +71,7 @@ public:
         return _dataVector[index];
     }
 
-    std::optional<T> &getData(const size_t &index)
+    std::optional<T> &getData(const size_t &index) noexcept
     {
         return _dataVector[index];
     }
