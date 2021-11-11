@@ -22,6 +22,11 @@ bool TcpClientConnection::isConnected()
     return _socket.is_open();
 }
 
+std::string TcpClientConnection::getIp() const
+{
+    return _socket.local_endpoint().address().to_string();
+}
+
 void TcpClientConnection::connectToServer(const asio::ip::tcp::resolver::results_type& endpoints)
 {
     _socket = asio::ip::tcp::socket(_asioContext);

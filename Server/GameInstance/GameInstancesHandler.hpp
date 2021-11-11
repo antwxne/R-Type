@@ -18,12 +18,15 @@ class GameInstancesHandler {
     public:
         GameInstancesHandler(int maxGames);
         ~GameInstancesHandler();
+
         bool addGame(const std::string &gameName, std::shared_ptr<TcpClientInstance> &host);
         bool joinGame(const std::string &gameName, std::shared_ptr<TcpClientInstance> &client);
         bool leaveGame(const std::string &gameName, std::shared_ptr<TcpClientInstance> &client);
+
         void removeDisconnectedClient(const std::string &clientName);
         std::list<std::shared_ptr<GameInstance>> &getListGames();
         std::list<std::string> getPlayersInGame(const std::string &gameName);
+        
         void update();
     protected:
         void removeEmptyGames();

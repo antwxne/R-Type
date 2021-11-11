@@ -2,24 +2,24 @@
 ** EPITECH PROJECT, 2021
 ** B-CPP-500-PAR-5-1-babel-alan.sigal
 ** File description:
-** AsioServer
+** TcpAsioServer
 */
 
-#include "AsioServer.hpp"
+#include "TcpAsioServer.hpp"
 #include <iostream>
 
-AsioServer::AsioServer(int port) : _port(port),
+TcpAsioServer::TcpAsioServer(int port) : _port(port),
 _asioAcceptor(_asioContext, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port)),
 _messageHandler(_clientsConnected, *this), gamesHandler(5)
 {
 
 }
 
-AsioServer::~AsioServer()
+TcpAsioServer::~TcpAsioServer()
 {
 }
 
-void AsioServer::run()
+void TcpAsioServer::run()
 {
     while (1)   
     {
@@ -28,7 +28,7 @@ void AsioServer::run()
     }
 }
 
-void AsioServer::start()
+void TcpAsioServer::start()
 {
     std::cout << "Listening on port " << _port <<  "..." << std::endl;
     acceptClientsConnection();
@@ -36,14 +36,14 @@ void AsioServer::start()
     run();
 }
 
-void AsioServer::stop()
+void TcpAsioServer::stop()
 {
     _asioContext.stop();
 	if (_threadContext.joinable())
         _threadContext.join();
 }
 
-void AsioServer::update()
+void TcpAsioServer::update()
 {
     gamesHandler.update();
     for (auto &i : _clientsConnected)
@@ -64,7 +64,7 @@ void AsioServer::update()
     }
 }
 
-void AsioServer::acceptClientsConnection()
+void TcpAsioServer::acceptClientsConnection()
 {
     _asioAcceptor.async_accept( [this](std::error_code ec, asio::ip::tcp::socket socket)
 	{
@@ -80,7 +80,7 @@ void AsioServer::acceptClientsConnection()
     });
 }
 
-void AsioServer::onClientConnected(asio::ip::tcp::socket &socket)
+void TcpAsioServer::onClientConnected(asio::ip::tcp::socket &socket)
 {
     std::cout << "New client connected: " << socket.remote_endpoint() << std::endl;
 
@@ -89,7 +89,7 @@ void AsioServer::onClientConnected(asio::ip::tcp::socket &socket)
     _clientsConnected.push_back(std::move(newconnection));
 }
 
-void AsioServer::onClientDisconnected(std::shared_ptr<TcpClientInstance> &client)
+void TcpAsioServer::onClientDisconnected(std::shared_ptr<TcpClientInstance> &client)
 {
     gamesHandler.removeDisconnectedClient(client->informations.getName());
     std::cout << "A Client disconnected" << std::endl;

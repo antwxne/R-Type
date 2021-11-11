@@ -22,20 +22,21 @@ class TcpClient
         TcpClient();
         ~TcpClient();
         void start();
-        bool tryConnect(const std::string &ip, int port);
-        void createGame(const std::string &name);
-        void joinGame(const std::string &name);
-        void leaveGame(const std::string &name);
-        void getGames();
-        void getPlayersInGame(const std::string &name);
+        void run();
 
-        void setPlayerName(const std::string &name);
+        void sendMessage(Message<MessageType> &message);
+        bool tryConnect(const std::string &ip, int port);
+
+        std::string getIp() const;
+        
+        
         bool isConnected();
     private:
-        void run();
         void update();
-        void sendMessage(Message<MessageType> &message);
     private:
+        int _port;
+        std::string _ip;
+
         asio::io_context _asioContext;
 		std::thread _threadContext;
         std::shared_ptr<TcpClientConnection> _connection;

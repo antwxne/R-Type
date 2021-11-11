@@ -19,9 +19,13 @@ class TcpClientConnection : public INetwork {
         TcpClientConnection(asio::ip::tcp::socket socket, asio::io_context &context,
         std::list<Message<MessageType>> &messageList);
         ~TcpClientConnection();
+
         bool isConnected();
+        std::string getIp() const;
         void connectToServer(const asio::ip::tcp::resolver::results_type& endpoints);
         void sendMessage(Message<MessageType> &message) override;
+
+
     protected:
         void writeMessageHeader(Message<MessageType> &message) override;
         void writeMessageBody(Message<MessageType> &message) override;

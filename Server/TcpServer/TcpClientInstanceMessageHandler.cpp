@@ -8,12 +8,12 @@
 #include "TcpClientInstanceMessageHandler.hpp"
 #include "TcpClientInstance.hpp"
 #include <iostream>
-#include "AsioServer.hpp"
+#include "TcpAsioServer.hpp"
 
 typedef void (TcpClientInstanceMessageHandler::*MFP)(TcpClientInstanceMessage<MessageType> &);
 
 TcpClientInstanceMessageHandler::TcpClientInstanceMessageHandler(std::list<std::shared_ptr<TcpClientInstance>> &clientsConnected,
-AsioServer &server)
+TcpAsioServer &server)
 : _clientsConnected(clientsConnected), _server(server)
 {
     _map[MessageType::SetPlayerName] = &TcpClientInstanceMessageHandler::handleSetPlayerName;
