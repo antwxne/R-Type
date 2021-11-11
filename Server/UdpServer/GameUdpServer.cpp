@@ -7,7 +7,7 @@
 
 #include "GameUdpServer.hpp"
 
-GameUdpServer::GameUdpServer(int nbPlayers) : UdpAsioServer(8070)
+GameUdpServer::GameUdpServer(int port, int nbPlayers) : UdpAsioServer(port)
 {
     _nbPlayers = nbPlayers;
     _bindedPlayers = 0;
