@@ -63,23 +63,22 @@ public:
         return _dataVector[index];
     }
 
-    T &getData(const Entity &entity)
+    std::optional<T> &getData(const Entity &entity)
     {
         std::size_t index;
 
         entity >> index;
-        if (!_dataVector[index].has_value()) {
-            throw ComponentException(entity, _dataVector[index],
-                "can't get component, component doesn't exist.");
-        }
         return _dataVector[index];
     }
 
+    std::optional<T> &getData(const size_t &index)
+    {
+        return _dataVector[index];
+    }
     void entityDestroyed(const Entity &entity)
     {
         deleteData(entity);
     }
-
 protected:
 private:
     std::vector<std::optional<T>> _dataVector;
