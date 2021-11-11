@@ -50,7 +50,11 @@ set(SHARED_SRC src/Entity/Entity.cpp
         src/System/Audio.cpp
         src/System/Audio.hpp
         src/System/Drawable.hpp
-        src/System/Drawable.cpp)
+        src/System/Drawable.cpp
+        src/Graphical/Graphical.cpp
+        src/Graphical/Graphical.hpp
+        src/Graphical/IGraphical.hpp
+        )
 
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")

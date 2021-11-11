@@ -8,14 +8,17 @@
 #ifndef GRAPHICAL_HPP_
 #define GRAPHICAL_HPP_
 #include "SFML/Graphics.hpp"
+#include <map>
+#include "IGraphical.hpp"
 
-
-class Graphical {
+class Graphical: public IGraphical {
     public:
         Graphical(int widthWindow = 1920, int heightWindow = 1080, const std::string &nameWindow = "window");
         ~Graphical();
         sf::RenderWindow &getWindow();
         sf::Event &getEvent();
+        void clear() override;
+        void display() override;
     protected:
     private:
         sf::RenderWindow _window;

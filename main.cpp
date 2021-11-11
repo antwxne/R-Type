@@ -22,8 +22,11 @@ int main()
             if (graphical.getEvent().type == sf::Event::Closed)
                 graphical.getWindow().close();
         }
-        graphical.getWindow().clear();
+        graphical.clear();
         graphical.getWindow().draw(sprite);
-        graphical.getWindow().display();
+        graphical.display();
     }
 }
+
+/*
+Check les colisions entre toute les entité qui update les componants 

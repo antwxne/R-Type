@@ -25,3 +25,12 @@ sf::RenderWindow &Graphical::getWindow()
     return _window;
 }
 
+void Graphical::clear()
+{
+    _window.clear();
+}
+
+void Graphical::display()
+{
+    _window.display();
+}
