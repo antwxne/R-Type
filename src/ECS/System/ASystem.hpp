@@ -19,7 +19,7 @@ public:
     ASystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components);
 
     virtual void update() = 0;
-private:
+protected:
     std::shared_ptr<ComponentManager::ComponentsMap_t> _components;
 };
 
