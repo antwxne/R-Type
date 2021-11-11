@@ -14,5 +14,6 @@ struct rect
     int rectTop;
     int rectWidth;
     int rectHeight;
-}
+};
+
 #endif /* !RECTANGLE_HPP_ */

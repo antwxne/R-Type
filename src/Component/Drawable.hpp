@@ -10,5 +10,5 @@
 
 struct Drawable {
     int idTexture;
-}
+};
 #endif /* !DRAWABLE_HPP_ */

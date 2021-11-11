@@ -13,6 +13,6 @@ struct Text
     char *text; // a voir comment on s'occupe du texte (peut etre a faire avec des ID)
     int idFont;
     unsigned int size;
-}
+};
 
 #endif /* !TEXT_HPP_ */
