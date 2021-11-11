@@ -8,7 +8,7 @@
 #ifndef POSITION_HPP_
 #define POSITION_HPP_
 
-struct Postion
+struct Position
 {
     float x;
     float y;
