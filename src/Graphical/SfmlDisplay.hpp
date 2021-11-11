@@ -10,6 +10,7 @@
 #include "SFML/Graphics.hpp"
 #include <map>
 #include "IGraphical.hpp"
+#include "graphical.hpp"
 
 class SfmlDisplay : public IGraphical {
     public:
@@ -23,6 +24,7 @@ class SfmlDisplay : public IGraphical {
     private:
         sf::RenderWindow _window;
         sf::Event _event;
+        std::map<TextureType, sf::Texture> _textureMap;
 };
 
 #endif /* !SFMLDISPLAY_HPP_ */
