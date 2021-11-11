@@ -11,14 +11,14 @@
 #include <SFML/Graphics/Texture.hpp>
 
 #include "ECS/Entity/Entity.hpp"
-#include "Graphical/Graphical.hpp"
+#include "Graphical/SfmlDisplay.hpp"
 
 class Drawable {
 public:
     Drawable();
     ~Drawable();
     void loadTexture(const Entity &entity);
-    void draw(const Entity &entity, Graphical &graphical);
+    void draw(const Entity &entity, SfmlDisplay &graphical);
 
 protected:
 private:

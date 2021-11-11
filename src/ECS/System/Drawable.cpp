@@ -26,7 +26,7 @@ void Drawable::loadTexture(const Entity &entity)
 
 }
 
-void Drawable::draw(const Entity &entity, Graphical &graphical)
+void Drawable::draw(const Entity &entity, SfmlDisplay &graphical)
 {
     // graphical.getWindow().draw(entity sprite);
     // draw dans la windows

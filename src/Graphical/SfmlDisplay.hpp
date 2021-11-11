@@ -2,19 +2,19 @@
 ** EPITECH PROJECT, 2021
 ** B-CPP-501-PAR-5-1-rtype-thomas1.tricaud
 ** File description:
-** Graphical
+** SfmlDisplay
 */
 
-#ifndef GRAPHICAL_HPP_
-#define GRAPHICAL_HPP_
+#ifndef SFMLDISPLAY_HPP_
+#define SFMLDISPLAY_HPP_
 #include "SFML/Graphics.hpp"
 #include <map>
 #include "IGraphical.hpp"
 
-class Graphical: public IGraphical {
+class SfmlDisplay : public IGraphical {
     public:
-        Graphical(int widthWindow = 1920, int heightWindow = 1080, const std::string &nameWindow = "window");
-        ~Graphical();
+        SfmlDisplay(int widthWindow = 1920, int heightWindow = 1080, const std::string &nameWindow = "window");
+        ~SfmlDisplay();
         sf::RenderWindow &getWindow();
         sf::Event &getEvent();
         void clear() override;
@@ -23,7 +23,6 @@ class Graphical: public IGraphical {
     private:
         sf::RenderWindow _window;
         sf::Event _event;
-
 };
 
-#endif /* !GRAPHICAL_HPP_ */
+#endif /* !SFMLDISPLAY_HPP_ */

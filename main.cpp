@@ -5,11 +5,11 @@
 ** main
 */
 
-#include "src/Graphical/Graphical.hpp"
+#include "src/Graphical/SfmlDisplay.hpp"
 
 int main()
 {
-    Graphical graphical;
+    SfmlDisplay graphical;
     sf::Texture texture;
     sf::Sprite sprite;
 
