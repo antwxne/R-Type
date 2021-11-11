@@ -30,27 +30,25 @@ set(CLIENT_MAIN src/Client/Main.cpp )
 set(SERVER_MAIN )
 set(CLIENT_SRC )
 set(SERVER_SRC )
-set(SHARED_SRC src/Entity/Entity.cpp
-        src/Entity/Entity.hpp
-        src/Entity/EntityManager.cpp
-        src/Entity/EntityManager.hpp
-        src/SparseArray/ISparseArray.hpp
+set(SHARED_SRC src/ECS/Entity/Entity.cpp
+        src/ECS/Entity/Entity.hpp
+        src/ECS/Entity/EntityManager.cpp
+        src/ECS/Entity/EntityManager.hpp
         src/SparseArray/SparseArray.hpp
-        src/Entity/EntityException.cpp
-        src/Entity/EntityException.hpp
-        src/Component/ComponentException.hpp
-        src/System/SystemManager.cpp
-        src/System/SystemManager.hpp
-        src/Component/ComponentManager.hpp 
-        src/Coordinator/Coordianator.cpp
-        src/Coordinator/Coordianator.hpp
-        src/Component/IComponent.hpp
-        src/System/ASystem.hpp
-        src/System/ASystem.cpp
-        src/System/Audio.cpp
-        src/System/Audio.hpp
-        src/System/Drawable.hpp
-        src/System/Drawable.cpp)
+        src/ECS/Entity/EntityException.cpp
+        src/ECS/Entity/EntityException.hpp
+        src/ECS/Component/ComponentException.hpp
+        src/ECS/System/SystemManager.cpp
+        src/ECS/System/SystemManager.hpp
+        src/ECS/Component/ComponentManager.hpp
+        src/ECS/ECS.cpp
+        src/ECS/ECS.hpp
+        src/ECS/System/ASystem.hpp
+        src/ECS/System/ASystem.cpp
+        src/ECS/System/Audio.cpp
+        src/ECS/System/Audio.hpp
+        src/ECS/System/Drawable.hpp
+        src/ECS/System/Drawable.cpp)
 
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")

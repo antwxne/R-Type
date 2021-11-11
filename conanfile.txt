@@ -11,3 +11,4 @@ cmake_find_package
 
 [imports]
 lib, *.so* -> lib
+include, *.h -> include
