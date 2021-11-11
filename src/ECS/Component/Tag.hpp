@@ -20,5 +20,9 @@ struct PowerUp
 {
 };
 
+struct Bullet
+{
+};
+
 
 #endif /* !TAG_HPP_ */
