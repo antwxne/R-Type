@@ -13,12 +13,11 @@
 #include <optional>
 
 #include "rtype.h"
-#include "ISparseArray.hpp"
-#include "Component/ComponentException.hpp"
-#include "Entity/EntityException.hpp"
+#include "ECS/Component/ComponentException.hpp"
+#include "ECS/Entity/EntityException.hpp"
 
 template<typename T>
-class SparseArray : public ISparseArray {
+class SparseArray {
 public:
     using iterator = typename std::vector<T>::iterator;
     SparseArray(std::size_t size)
@@ -76,7 +75,7 @@ public:
         return _dataVector[index];
     }
 
-    void entityDestroyed(const Entity &entity) override
+    void entityDestroyed(const Entity &entity)
     {
         deleteData(entity);
     }

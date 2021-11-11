@@ -7,8 +7,8 @@
 
 #include <iostream>
 
-#include "Entity/EntityException.hpp"
-#include "Entity/EntityManager.hpp"
+#include "EntityException.hpp"
+#include "EntityManager.hpp"
 
 
 EntityManager::EntityManager()

@@ -10,7 +10,7 @@
 
 #include <exception>
 
-#include "Entity/Entity.hpp"
+#include "ECS/Entity/Entity.hpp"
 
 template<typename T>
 class ComponentException : public std::exception {
