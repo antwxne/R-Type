@@ -34,3 +34,17 @@ void SfmlDisplay::display()
 {
     _window.display();
 }
+
+std::shared_ptr<sf::Texture> SfmlDisplay::getTexture(TextureType type)
+{
+    if (_textureMap.find(type) == _textureMap.end())
+        return nullptr;
+    return _textureMap[type];
+}
+
+std::shared_ptr<sf::Color> SfmlDisplay::getColor(ColorType type)
+{
+    if (_colorMap.find(type) == _colorMap.end())
+        return nullptr;
+    return _colorMap[type];
+}

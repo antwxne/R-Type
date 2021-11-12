@@ -8,7 +8,7 @@
 #ifndef DRAWABLE_HPP_
 #define DRAWABLE_HPP_
 
-#include "../Graphical/graphical.hpp"
+#include "../../Graphical/graphical.hpp"
 
 struct Texture
 {

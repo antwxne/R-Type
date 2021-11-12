@@ -8,12 +8,19 @@
 #ifndef COLOR_HPP_
 #define COLOR_HPP_
 
-struct Color
+#include "../../Graphical/graphical.hpp"
+
+struct ColorRgba
 {
     unsigned int r;
     unsigned int g;
     unsigned int b;
     unsigned int a;
+};
+
+struct Color
+{
+    ColorType type;
 };
 
 
