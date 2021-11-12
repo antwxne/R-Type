@@ -10,9 +10,8 @@
 
 struct Scale
 {
-    int width;
-    int height;
-    float s;
+    float scaleX;
+    float scaleY;
 };
 
 #endif /* !SCALE_HPP_ */

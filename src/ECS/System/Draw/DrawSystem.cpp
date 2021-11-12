@@ -8,11 +8,17 @@
 #include "DrawSystem.hpp"
 #include "../../Component/Transform/Position.hpp"
 #include "../../Component/Texture.hpp"
+#include "../../Component/Transform/Scale.hpp"
+#include "../../Component/Transform/Rotate.hpp"
+#include "../../Component/Color.hpp"
 
 DrawSystem::DrawSystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components) : ASystem(components)
 {
     _usedComponents.push_back(typeid(Position));
     _usedComponents.push_back(typeid(Texture));
+    _usedComponents.push_back(typeid(Scale));
+    _usedComponents.push_back(typeid(Rotate));
+    _usedComponents.push_back(typeid(Color));
 }
 
 DrawSystem::~DrawSystem()

@@ -16,4 +16,13 @@ enum TextureType
     PowerUp = 3,
 };
 
+enum ColorType
+{
+    None = -1,
+    Blue = 0,
+    Red = 1,
+    Yellow = 2,
+    Green = 3,
+};
+
 #endif /* !GRAPHICAL_HPP_ */
