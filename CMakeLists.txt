@@ -49,6 +49,8 @@ set(SHARED_SRC src/ECS/Entity/Entity.cpp
         src/ECS/System/Audio.hpp
         src/ECS/System/Drawable.hpp
         src/ECS/System/Drawable.cpp
+        src/ECS/System/MoveSystem.hpp
+        src/ECS/System/MoveSystem.cpp
         src/Graphical/SfmlDisplay.cpp
         src/Graphical/SfmlDisplay.hpp
         src/Graphical/IGraphical.hpp)
