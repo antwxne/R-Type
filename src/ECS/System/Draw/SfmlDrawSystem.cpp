@@ -6,9 +6,8 @@
 */
 
 #include "SfmlDrawSystem.hpp"
-#include "../Component/SfmlSprite.hpp"
-#include "../Component/Transform/Position.hpp"
-#include "../Component/Texture.hpp"
+#include "../../Component/Transform/Position.hpp"
+#include "../../Component/Texture.hpp"
 
 SfmlDrawSystem::SfmlDrawSystem(SfmlDisplay &display, std::shared_ptr<ComponentManager::ComponentsMap_t> &components)
 :  _display(display), DrawSystem(components)

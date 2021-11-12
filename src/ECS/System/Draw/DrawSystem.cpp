@@ -6,8 +6,8 @@
 */
 
 #include "DrawSystem.hpp"
-#include "../Component/Transform/Position.hpp"
-#include "../Component/Texture.hpp"
+#include "../../Component/Transform/Position.hpp"
+#include "../../Component/Texture.hpp"
 
 DrawSystem::DrawSystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components) : ASystem(components)
 {

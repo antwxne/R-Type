@@ -8,7 +8,8 @@
 #ifndef SfmlDrawSystem_HPP_
 #define SfmlDrawSystem_HPP_
 
-#include "../Graphical/SfmlDisplay.hpp"
+#include "../../../Graphical/SfmlDisplay.hpp"
+#include "../../Component/SfmlSprite.hpp"
 #include "DrawSystem.hpp"
 
 class SfmlDrawSystem : public DrawSystem{

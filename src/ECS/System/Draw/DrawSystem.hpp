@@ -8,7 +8,7 @@
 #ifndef DRAWSYSTEM_HPP_
 #define DRAWSYSTEM_HPP_
 
-#include "ASystem.hpp"
+#include "../ASystem.hpp"
 #include <vector>
 
 class DrawSystem : public ASystem
