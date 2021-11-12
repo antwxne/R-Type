@@ -51,6 +51,10 @@ set(SHARED_SRC src/ECS/Entity/Entity.cpp
         src/ECS/System/Drawable.cpp
         src/ECS/System/MoveSystem.hpp
         src/ECS/System/MoveSystem.cpp
+        src/ECS/System/Draw/DrawSystem.cpp
+        src/ECS/System/Draw/DrawSystem.hpp
+        src/ECS/System/Draw/SfmlDrawSystem.cpp
+        src/ECS/System/Draw/SfmlDrawSystem.hpp
         src/Graphical/SfmlDisplay.cpp
         src/Graphical/SfmlDisplay.hpp
         src/Graphical/IGraphical.hpp)
