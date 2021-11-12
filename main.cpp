@@ -6,15 +6,18 @@
 */
 
 #include "src/Graphical/SfmlDisplay.hpp"
+#include "src/Graphical/Parallax.hpp"
 
 int main()
 {
     SfmlDisplay graphical;
-    sf::Texture texture;
-    sf::Sprite sprite;
+    Parallax parallax(graphical.getWindow());
+    sf::Clock clock;
+    // sf::Texture texture;
+    // sf::Sprite sprite;
 
-    texture.loadFromFile("assets/sprites/r-typesheet1.gif");
-    sprite.setTexture(texture);
+    // texture.loadFromFile("assets/parallax/nebula_aqua.png");
+    // sprite.setTexture(texture);
     while (graphical.getWindow().isOpen())
     {
         while (graphical.getWindow().pollEvent(graphical.getEvent()))
@@ -23,10 +26,13 @@ int main()
                 graphical.getWindow().close();
         }
         graphical.clear();
-        graphical.getWindow().draw(sprite);
+        parallax.update(clock);
+        parallax.draw();
         graphical.display();
+        //graphical.getWindow().draw(sprite);
     }
 }
 
 /*
-Check les colisions entre toute les entité qui update les componants 
+Check les colisions entre toute les entité qui update les componants
+*/
