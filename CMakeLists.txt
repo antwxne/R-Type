@@ -57,6 +57,8 @@ set(SHARED_SRC src/ECS/Entity/Entity.cpp
         src/ECS/System/Draw/SfmlDrawSystem.hpp
         src/Graphical/SfmlDisplay.cpp
         src/Graphical/SfmlDisplay.hpp
+        src/Graphical/SfmlEventFactory.hpp
+        src/Graphical/SfmlEventFactory.cpp
         src/Graphical/IGraphical.hpp
         src/Graphical/SfmlParallax.cpp
         src/Graphical/SfmlParallax.hpp)
