@@ -6,18 +6,14 @@
 */
 
 #include "src/Graphical/SfmlDisplay.hpp"
-#include "src/Graphical/Parallax.hpp"
+#include "src/Graphical/SfmlParallax.hpp"
 
 int main()
 {
     SfmlDisplay graphical;
-    Parallax parallax(graphical.getWindow());
+    SfmlParallax parallax;
     sf::Clock clock;
-    // sf::Texture texture;
-    // sf::Sprite sprite;
 
-    // texture.loadFromFile("assets/parallax/nebula_aqua.png");
-    // sprite.setTexture(texture);
     while (graphical.getWindow().isOpen())
     {
         while (graphical.getWindow().pollEvent(graphical.getEvent()))
@@ -27,7 +23,7 @@ int main()
         }
         graphical.clear();
         parallax.update(clock);
-        parallax.draw();
+        parallax.draw(graphical.getWindow());
         graphical.display();
         //graphical.getWindow().draw(sprite);
     }

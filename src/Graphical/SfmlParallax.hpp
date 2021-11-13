@@ -5,30 +5,28 @@
 ** Parallax
 */
 
-#ifndef PARALLAX_HPP_
-#define PARALLAX_HPP_
+#ifndef SFMLPARALLAX_HPP_
+#define SFMLPARALLAX_HPP_
 
 #include "./SfmlDisplay.hpp"
 #include <iostream>
 
-class Parallax {
+class SfmlParallax {
     public:
-        Parallax(sf::RenderWindow &window);
-        ~Parallax();
+        SfmlParallax();
+        ~SfmlParallax();
 
-        void draw();
+        void draw(sf::RenderWindow &window);
         void update(sf::Clock &clock);
-
+        void moveRect(sf::IntRect &rect, const int offset, const int maxValue);
     protected:
     private:
-        sf::RenderWindow &_window;
         sf::Sprite _background;
         sf::Sprite _stars;
+        sf::Sprite _planet;
+        sf::Texture _texturePlanet;
         sf::Texture _textureBackground;
         sf::Texture _textureStars;
         //sf::Clock _clock;
-
-
 };
-
-#endif /* !PARALLAX_HPP_ */
+#endif /* !SFMLPARALLAX_HPP_ */
