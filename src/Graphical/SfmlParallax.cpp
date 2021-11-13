@@ -15,6 +15,7 @@ SfmlParallax::SfmlParallax()
     _background.setTexture(_textureBackground);
     _stars.setTexture(_textureStars);
     _planet.setTexture(_texturePlanet);
+    _planet.setPosition(1920, 0);
 }
 
 SfmlParallax::~SfmlParallax()
@@ -39,9 +40,12 @@ void SfmlParallax::update(sf::Clock &clock)
         _stars.setTextureRect(rect);
     }
     if (elapsed > 0.01) {
-        rect = _planet.getTextureRect();
-        moveRect(rect, 2, 1980);
-        _planet.setTextureRect(rect);
+        sf::Vector2f pos = _planet.getPosition();
+        pos.x -= 3;
+        if (pos.x <= -3800)
+            pos.x = 1920;
+        std::cout << pos.x << std::endl;
+        _planet.setPosition(pos);
     }
     if (elapsed > 0.03) {
         rect = _background.getTextureRect();
