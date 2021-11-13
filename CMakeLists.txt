@@ -47,8 +47,6 @@ set(SHARED_SRC src/ECS/Entity/Entity.cpp
         src/ECS/System/ASystem.cpp
         src/ECS/System/Audio.cpp
         src/ECS/System/Audio.hpp
-        src/ECS/System/Drawable.hpp
-        src/ECS/System/Drawable.cpp
         src/ECS/System/MoveSystem.hpp
         src/ECS/System/MoveSystem.cpp
         src/ECS/System/Draw/DrawSystem.cpp

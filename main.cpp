@@ -7,11 +7,33 @@
 
 #include "src/Graphical/SfmlDisplay.hpp"
 #include "src/Graphical/SfmlParallax.hpp"
+#include "src/ECS/ECS.hpp"
+#include "src/ECS/component.hpp"
+#include "src/ECS/system.hpp"
 
 int main()
 {
     SfmlDisplay graphical;
     SfmlParallax parallax;
+    ECS ecs;
+
+    //ecs.registerComponent<Position>();
+    /*ecs.registerComponent<Texture>();
+    ecs.registerComponent<Scale>();
+    ecs.registerComponent<Rotate>();
+    ecs.registerComponent<Color>();
+    ecs.registerComponent<SfmlSprite>();
+*/
+    /*auto draw = ecs.registerSystem<SfmlDrawSystem>();
+
+    Entity player = ecs.createEntity();
+
+    ecs.subToComponent(player, Position{50, 50});
+    ecs.subToComponent(player, Texture{TextureType::Player});
+    ecs.subToComponent(player, Scale{1});
+    ecs.subToComponent(player, Color{ColorType::None});
+    ecs.subToComponent(player, SfmlSprite{sf::Sprite()});*/
+
 
     while (graphical.getWindow().isOpen())
     {

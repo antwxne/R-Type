@@ -16,9 +16,16 @@
 #include "ECS/Component/ComponentManager.hpp"
 #include "SparseArray/SparseArray.hpp"
 
+class HasherTypeSystemInfo {
+public:
+    size_t operator() (const std::type_info & type) const {
+        return type.hash_code();
+    }
+};
+
 class SystemManager {
 public:
-    using SystemsMap_t = std::unordered_map<std::type_info, std::shared_ptr<std::any>>;
+    using SystemsMap_t = std::unordered_map<std::type_info, std::shared_ptr<std::any>, HasherTypeSystemInfo>;
 
 public:
 

@@ -62,7 +62,11 @@ public:
     {
         return _componentManager->getComponentMap();
     }
-
+    template<typename System>
+    std::shared_ptr<System> registerSystem()
+    {
+        return _systemManager->registerSystem<System>(_componentManager);
+    }
     template<typename System>
     std::shared_ptr<System> getSystem()
     {
