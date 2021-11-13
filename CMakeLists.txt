@@ -26,7 +26,7 @@ include_directories(include)
 
 #Sources
 
-set(CLIENT_MAIN src/Client/Main.cpp )
+set(CLIENT_MAIN main.cpp )
 set(SERVER_MAIN )
 set(CLIENT_SRC )
 set(SERVER_SRC )
@@ -57,7 +57,9 @@ set(SHARED_SRC src/ECS/Entity/Entity.cpp
         src/ECS/System/Draw/SfmlDrawSystem.hpp
         src/Graphical/SfmlDisplay.cpp
         src/Graphical/SfmlDisplay.hpp
-        src/Graphical/IGraphical.hpp)
+        src/Graphical/IGraphical.hpp
+        src/Graphical/SfmlParallax.cpp
+        src/Graphical/SfmlParallax.hpp)
 
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")

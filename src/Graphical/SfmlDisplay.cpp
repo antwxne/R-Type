@@ -9,6 +9,7 @@
 
 SfmlDisplay::SfmlDisplay(int widthWindow, int heightWindow, const std::string &nameWindow) : _window(sf::VideoMode(widthWindow, heightWindow), nameWindow)
 {
+    _window.setFramerateLimit(60);
 }
 
 SfmlDisplay::~SfmlDisplay()
