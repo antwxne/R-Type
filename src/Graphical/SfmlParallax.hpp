@@ -17,7 +17,7 @@ class SfmlParallax {
         ~SfmlParallax();
 
         void draw(sf::RenderWindow &window);
-        void update(sf::Clock &clock);
+        void update();
         void moveRect(sf::IntRect &rect, const int offset, const int maxValue);
     protected:
     private:
@@ -27,6 +27,6 @@ class SfmlParallax {
         sf::Texture _texturePlanet;
         sf::Texture _textureBackground;
         sf::Texture _textureStars;
-        //sf::Clock _clock;
+        sf::Clock _clock;
 };
 #endif /* !SFMLPARALLAX_HPP_ */

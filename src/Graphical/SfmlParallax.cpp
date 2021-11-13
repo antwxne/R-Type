@@ -29,9 +29,9 @@ void SfmlParallax::draw(sf::RenderWindow &window)
     window.draw(_planet);
 }
 
-void SfmlParallax::update(sf::Clock &clock)
+void SfmlParallax::update()
 {
-    float elapsed = clock.getElapsedTime().asSeconds();
+    float elapsed = _clock.getElapsedTime().asSeconds();
     sf::IntRect rect;
 
     if (elapsed > 0.025) {
@@ -50,7 +50,7 @@ void SfmlParallax::update(sf::Clock &clock)
         rect = _background.getTextureRect();
         moveRect(rect, 1, 2176);
         _background.setTextureRect(rect);
-        clock.restart();
+        _clock.restart();
     }
 }
 

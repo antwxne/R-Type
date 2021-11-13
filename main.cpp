@@ -12,7 +12,6 @@ int main()
 {
     SfmlDisplay graphical;
     SfmlParallax parallax;
-    sf::Clock clock;
 
     while (graphical.getWindow().isOpen())
     {
@@ -22,7 +21,7 @@ int main()
                 graphical.getWindow().close();
         }
         graphical.clear();
-        parallax.update(clock);
+        parallax.update();
         parallax.draw(graphical.getWindow());
         graphical.display();
         //graphical.getWindow().draw(sprite);
