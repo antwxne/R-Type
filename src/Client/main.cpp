@@ -5,12 +5,7 @@
 ** main
 */
 
-#include "src/Graphical/SfmlDisplay.hpp"
-#include "src/Graphical/SfmlParallax.hpp"
-#include "src/ECS/ECS.hpp"
-#include "src/ECS/component.hpp"
-#include "src/ECS/system.hpp"
-#include "src/R-Type/Rtype.hpp"
+#include "../R-Type/Rtype.hpp"
 
 int main()
 {

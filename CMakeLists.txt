@@ -23,14 +23,53 @@ set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 #include
 include_directories(src)
 include_directories(include)
+include_directories(include/Network)
 
 #Sources
 
-set(CLIENT_MAIN main.cpp )
-set(SERVER_MAIN )
-set(CLIENT_SRC )
-set(SERVER_SRC )
-set(SHARED_SRC src/ECS/Entity/Entity.cpp
+set(CLIENT_MAIN src/Client/main.cpp )
+set(SERVER_MAIN src/Server/main.cpp)
+set(CLIENT_SRC 
+            src/Client/Client.cpp
+            src/Client/Client.hpp
+            src/Client/TcpClient/TcpClient.cpp
+            src/Client/TcpClient/TcpClient.hpp
+            src/Client/TcpClient/TcpClientConnection.cpp
+            src/Client/TcpClient/TcpClientConnection.hpp
+            src/Client/TcpClient/TcpClientMessageHandler.cpp
+            src/Client/TcpClient/TcpClientMessageHandler.hpp
+            src/Client/UdpClient/UdpClient.cpp
+            src/Client/UdpClient/UdpClient.hpp
+            src/Client/UdpClient/UdpClientMessageHandler.cpp
+            src/Client/UdpClient/UdpClientMessageHandler.hpp
+            src/Client/UdpClient/UdpGameClient.cpp
+            src/Client/UdpClient/UdpGameClient.hpp
+
+
+)
+
+set(SERVER_SRC 
+            src/Server/ClientInformations.cpp
+            src/Server/ClientInformations.hpp
+            src/Server/GameInstance/GameInstance.cpp
+            src/Server/GameInstance/GameInstance.hpp
+            src/Server/GameInstance/GameInstancesHandler.cpp
+            src/Server/GameInstance/GameInstancesHandler.hpp
+            src/Server/TcpServer/TcpAsioServer.cpp
+            src/Server/TcpServer/TcpAsioServer.hpp
+            src/Server/TcpServer/TcpClientInstance.cpp
+            src/Server/TcpServer/TcpClientInstance.hpp
+            src/Server/TcpServer/TcpClientInstanceMessageHandler.cpp
+            src/Server/TcpServer/TcpClientInstanceMessageHandler.hpp
+            src/Server/UdpServer/GameUdpServer.cpp
+            src/Server/UdpServer/GameUdpServer.hpp
+            src/Server/UdpServer/UdpAsioServer.cpp
+            src/Server/UdpServer/UdpAsioServer.hpp
+            src/Server/UdpServer/UdpGameMessageHandler.cpp
+            src/Server/UdpServer/UdpGameMessageHandler.hpp
+)
+set(SHARED_SRC 
+        src/ECS/Entity/Entity.cpp
         src/ECS/Entity/Entity.hpp
         src/ECS/Entity/EntityManager.cpp
         src/ECS/Entity/EntityManager.hpp
@@ -70,8 +109,8 @@ set(SHARED_SRC src/ECS/Entity/Entity.cpp
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")
 
 if(NOT UNIT_TESTS STREQUAL TRUE)
-    #add_executable(${SERVER_NAME} ${SERVER_MAIN} ${SERVER_SRC} ${SHARED_SRC})
-    #conan_target_link_libraries(${SERVER_NAME} ${CONAN_LIBS})
+    add_executable(${SERVER_NAME} ${SERVER_MAIN} ${SERVER_SRC} ${SHARED_SRC})
+    conan_target_link_libraries(${SERVER_NAME} ${CONAN_LIBS})
 
     add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${CLIENT_SRC} ${SHARED_SRC})
     conan_target_link_libraries(${CLIENT_NAME} ${CONAN_LIBS})
