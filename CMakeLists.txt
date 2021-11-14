@@ -62,6 +62,8 @@ set(SHARED_SRC src/ECS/Entity/Entity.cpp
         src/Graphical/SfmlParallax.hpp
         src/ECS/System/EventSystem/EventSystem.hpp
         src/ECS/System/EventSystem/EventSystem.cpp
+        src/R-Type/Rtype.hpp
+        src/R-Type/Rtype.cpp
         )
 
 #Compilation

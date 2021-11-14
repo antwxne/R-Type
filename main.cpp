@@ -10,44 +10,14 @@
 #include "src/ECS/ECS.hpp"
 #include "src/ECS/component.hpp"
 #include "src/ECS/system.hpp"
+#include "src/R-Type/Rtype.hpp"
 
 int main()
 {
-    SfmlDisplay graphical;
-    SfmlParallax parallax;
-    ECS ecs;
+    Rtype rtype;
 
-    //ecs.registerComponent<Position>();
-    /*ecs.registerComponent<Texture>();
-    ecs.registerComponent<Scale>();
-    ecs.registerComponent<Rotate>();
-    ecs.registerComponent<Color>();
-    ecs.registerComponent<SfmlSprite>();
-*/
-    /*auto draw = ecs.registerSystem<SfmlDrawSystem>();
-
-    Entity player = ecs.createEntity();
-
-    ecs.subToComponent(player, Position{50, 50});
-    ecs.subToComponent(player, Texture{TextureType::Player});
-    ecs.subToComponent(player, Scale{1});
-    ecs.subToComponent(player, Color{ColorType::None});
-    ecs.subToComponent(player, SfmlSprite{sf::Sprite()});*/
-
-
-    while (graphical.getWindow().isOpen())
-    {
-        while (graphical.getWindow().pollEvent(graphical.getEvent()))
-        {
-            if (graphical.getEvent().type == sf::Event::Closed)
-                graphical.getWindow().close();
-        }
-        graphical.clear();
-        parallax.update();
-        parallax.draw(graphical.getWindow());
-        graphical.display();
-        //graphical.getWindow().draw(sprite);
-    }
+    rtype.start();
+    return (0);
 }
 
 /*
