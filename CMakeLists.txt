@@ -59,7 +59,10 @@ set(SHARED_SRC src/ECS/Entity/Entity.cpp
         src/Graphical/SfmlEventFactory.cpp
         src/Graphical/IGraphical.hpp
         src/Graphical/SfmlParallax.cpp
-        src/Graphical/SfmlParallax.hpp)
+        src/Graphical/SfmlParallax.hpp
+        src/ECS/System/EventSystem/EventSystem.hpp
+        src/ECS/System/EventSystem/EventSystem.cpp
+        )
 
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")
