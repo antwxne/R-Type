@@ -29,7 +29,9 @@ include_directories(include/Network)
 
 set(CLIENT_MAIN src/Client/main.cpp )
 set(SERVER_MAIN src/Server/main.cpp)
-set(CLIENT_SRC 
+set(CLIENT_SRC
+            src/Client/RtypeClient.cpp
+            src/Client/RtypeClient.hpp
             src/Client/Client.cpp
             src/Client/Client.hpp
             src/Client/TcpClient/TcpClient.cpp
@@ -44,8 +46,6 @@ set(CLIENT_SRC
             src/Client/UdpClient/UdpClientMessageHandler.hpp
             src/Client/UdpClient/UdpGameClient.cpp
             src/Client/UdpClient/UdpGameClient.hpp
-
-
 )
 
 set(SERVER_SRC 
@@ -94,6 +94,10 @@ set(SHARED_SRC
         src/ECS/System/Draw/SfmlDrawSystem.hpp
         src/Graphical/SfmlDisplay.cpp
         src/Graphical/SfmlDisplay.hpp
+        src/Graphical/SfmlButton.cpp
+        src/Graphical/SfmlButton.hpp
+        src/Graphical/SfmlMenu.cpp
+        src/Graphical/SfmlMenu.hpp
         src/Graphical/SfmlEventFactory.hpp
         src/Graphical/SfmlEventFactory.cpp
         src/Graphical/IGraphical.hpp
@@ -101,8 +105,6 @@ set(SHARED_SRC
         src/Graphical/SfmlParallax.hpp
         src/ECS/System/EventSystem/EventSystem.hpp
         src/ECS/System/EventSystem/EventSystem.cpp
-        src/R-Type/Rtype.hpp
-        src/R-Type/Rtype.cpp
         )
 
 #Compilation

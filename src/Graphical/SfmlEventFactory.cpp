@@ -7,6 +7,17 @@
 
 #include "SfmlEventFactory.hpp"
 
+
+std::map<sf::Keyboard::Key, ControlGame> SfmlEventFactory::eventType =  {
+    {sf::Keyboard::Key::Up, ControlGame::UP},
+    {sf::Keyboard::Key::Down, ControlGame::DOWN},
+    {sf::Keyboard::Key::Left, ControlGame::LEFT},
+    {sf::Keyboard::Key::Right, ControlGame::RIGHT},
+    {sf::Keyboard::Key::Escape, ControlGame::ESCAPE},
+    {sf::Keyboard::Key::Space, ControlGame::SPACE},
+    {sf::Keyboard::Key::BackSpace, ControlGame::DELETE}
+    };
+
 SfmlEventFactory::SfmlEventFactory()
 {
 }
@@ -15,40 +26,23 @@ SfmlEventFactory::~SfmlEventFactory()
 {
 }
 
-ControlGame getEventType(const sf::Event &event)
+ControlGame SfmlEventFactory::getEventType(const sf::Event &event) const
 {
-    std::map<sf::Keyboard::Key, ControlGame> eventType( {
-    {sf::Keyboard::Key::Up, ControlGame::UP},
-    {sf::Keyboard::Key::Down, ControlGame::DOWN},
-    {sf::Keyboard::Key::Left, ControlGame::LEFT},
-    {sf::Keyboard::Key::Right, ControlGame::RIGHT},
-    {sf::Keyboard::Key::Escape, ControlGame::ESCAPE},
-    {sf::Keyboard::Key::Space, ControlGame::SPACE},
-    {sf::Keyboard::Key::Delete, ControlGame::DELETE}
-    });
-
-    if (eventType.find(static_cast<sf::Keyboard::Key>(event.type)) != eventType.end())
+    if (event.type == sf::Event::KeyPressed)
     {
-    return eventType[static_cast<sf::Keyboard::Key>(event.type)];
-    }
-    else if (event.type == sf::Event::TextEntered)
-    {
-        if (event.text.unicode < 128)
-            return ControlGame::CHARPRESSED;
-    }
-    else
-    {
-        if (event.type == sf::Event::EventType::Closed)
-            return ControlGame::QUIT;
+        if (eventType.find(event.key.code) != eventType.end())
+            return eventType[event.key.code];
+        else
+            return ControlGame::NONE;
     }
     return ControlGame::NONE;
 }
 
-std::string getTextEntered(const sf::Event &event)
+std::string SfmlEventFactory::getTextEntered(const sf::Event &event) const
 {
     if (event.type == sf::Event::TextEntered)
     {
-        if (event.text.unicode < 128)
+        if (event.text.unicode < 128 && event.text.unicode != 8)
         {
             return std::string(1, static_cast<char>(event.text.unicode));
         }

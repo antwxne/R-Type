@@ -5,13 +5,13 @@
 ** main
 */
 
-#include "../R-Type/Rtype.hpp"
+#include "RtypeClient.hpp"
 
 int main()
 {
-    Rtype rtype;
+    RtypeClient client;
 
-    rtype.start();
+    client.start();
     return (0);
 }
 
