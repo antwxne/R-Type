@@ -9,6 +9,8 @@
 
 Rtype::Rtype() : _state(GameState::ConnectMenu)
 {
+    _textureLogo.loadFromFile("assets/sprites/r_type_logo.png");
+    _spriteLogo.setTexture(_textureLogo);
 }
 
 Rtype::~Rtype()
@@ -36,27 +38,6 @@ void Rtype::start()
     this->run();
 }
 
-void Rtype::manageState()
-{
-    switch (_state)
-    {
-    case GameState::ConnectMenu:
-        /* code */
-        break;
-    case GameState::MainMenu:
-        /* code */
-        break;
-    case GameState::GameLobby:
-        /* code */
-        break;
-    case GameState::Game:
-        /* code */
-        break;
-    default:
-        return;
-    }
-}
-
 void Rtype::run()
 {
     while (_graphical.getWindow().isOpen())
@@ -72,4 +53,30 @@ void Rtype::run()
         this->manageState();
         _graphical.display();
     }
+}
+
+void Rtype::manageState()
+{
+    switch (_state)
+    {
+    case GameState::ConnectMenu:
+        this->manageConnectMenu();
+        break;
+    case GameState::MainMenu:
+        /* code */
+        break;
+    case GameState::GameLobby:
+        /* code */
+        break;
+    case GameState::Game:
+        /* code */
+        break;
+    default:
+        return;
+    }
+}
+
+void Rtype::manageConnectMenu()
+{
+    _graphical.getWindow().draw(_spriteLogo);
 }

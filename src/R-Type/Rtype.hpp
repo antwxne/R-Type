@@ -36,8 +36,12 @@ class Rtype {
         ECS _ecs;
         GameState _state;
 
+        sf::Sprite _spriteLogo;
+        sf::Texture _textureLogo;
+
         void run();
         void manageState();
+        void manageConnectMenu();
 };
 
 #endif /* !RTYPE_HPP_ */
