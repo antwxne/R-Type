@@ -7,6 +7,8 @@
 
 #include "UdpClientMessageHandler.hpp"
 
+typedef void (UdpClientMessageHandler::*UdpMFP)(Message<MessageType> &);
+
 UdpClientMessageHandler::UdpClientMessageHandler()
 {
 }
@@ -17,7 +19,7 @@ UdpClientMessageHandler::~UdpClientMessageHandler()
 
 void UdpClientMessageHandler::handleMessage(Message<MessageType> &message)
 {
-    MFP fp;
+    UdpMFP fp;
     MessageType messageType = message.getMessageType();
 
     if (_map.find(messageType) == _map.end())

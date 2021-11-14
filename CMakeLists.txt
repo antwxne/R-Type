@@ -27,11 +27,29 @@ include_directories(include/Network)
 
 #Sources
 
-set(CLIENT_MAIN main.cpp )
+set(CLIENT_MAIN src/Client/main.cpp )
 set(SERVER_MAIN src/Server/main.cpp)
-set(CLIENT_SRC )
+set(CLIENT_SRC 
+            src/Client/Client.cpp
+            src/Client/Client.hpp
+            src/Client/TcpClient/TcpClient.cpp
+            src/Client/TcpClient/TcpClient.hpp
+            src/Client/TcpClient/TcpClientConnection.cpp
+            src/Client/TcpClient/TcpClientConnection.hpp
+            src/Client/TcpClient/TcpClientMessageHandler.cpp
+            src/Client/TcpClient/TcpClientMessageHandler.hpp
+            src/Client/UdpClient/UdpClient.cpp
+            src/Client/UdpClient/UdpClient.hpp
+            src/Client/UdpClient/UdpClientMessageHandler.cpp
+            src/Client/UdpClient/UdpClientMessageHandler.hpp
+            src/Client/UdpClient/UdpGameClient.cpp
+            src/Client/UdpClient/UdpGameClient.hpp
 
-set(SERVER_SRC src/Server/ClientInformations.cpp
+
+)
+
+set(SERVER_SRC 
+            src/Server/ClientInformations.cpp
             src/Server/ClientInformations.hpp
             src/Server/GameInstance/GameInstance.cpp
             src/Server/GameInstance/GameInstance.hpp
@@ -50,7 +68,8 @@ set(SERVER_SRC src/Server/ClientInformations.cpp
             src/Server/UdpServer/UdpGameMessageHandler.cpp
             src/Server/UdpServer/UdpGameMessageHandler.hpp
 )
-set(SHARED_SRC src/ECS/Entity/Entity.cpp
+set(SHARED_SRC 
+        src/ECS/Entity/Entity.cpp
         src/ECS/Entity/Entity.hpp
         src/ECS/Entity/EntityManager.cpp
         src/ECS/Entity/EntityManager.hpp

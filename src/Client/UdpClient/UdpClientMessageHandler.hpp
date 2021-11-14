@@ -14,7 +14,7 @@
 
 class UdpClientMessageHandler;
 
-typedef void (UdpClientMessageHandler::*MFP)(Message<MessageType> &);
+typedef void (UdpClientMessageHandler::*UdpMFP)(Message<MessageType> &);
 
 class UdpClientMessageHandler {
     public:
@@ -25,7 +25,7 @@ class UdpClientMessageHandler {
 
     protected:
     private:
-        std::map<MessageType, MFP> _map;
+        std::map<MessageType, UdpMFP> _map;
 };
 
 #endif /* !UDPCLIENTMESSAGEHANDLER_HPP_ */

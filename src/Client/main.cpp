@@ -5,11 +5,11 @@
 ** main
 */
 
-#include "src/Graphical/SfmlDisplay.hpp"
-#include "src/Graphical/SfmlParallax.hpp"
-#include "src/ECS/ECS.hpp"
-#include "src/ECS/component.hpp"
-#include "src/ECS/system.hpp"
+#include "../Graphical/SfmlDisplay.hpp"
+#include "../Graphical/SfmlParallax.hpp"
+#include "../ECS/ECS.hpp"
+#include "../ECS/component.hpp"
+#include "../ECS/system.hpp"
 
 int main()
 {
