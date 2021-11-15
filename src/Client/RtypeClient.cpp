@@ -9,6 +9,7 @@
 
 RtypeClient::RtypeClient() : _state(GameState::ConnectMenu)
 {
+    _graphical = std::make_shared<SfmlDisplay>();
     _textureLogo.loadFromFile("assets/sprites/r_type_logo.png");
     _spriteLogo.setTexture(_textureLogo);
     initMenu();
@@ -27,18 +28,14 @@ void RtypeClient::initMenu()
 
 void RtypeClient::start()
 {
-    std::cout << "Initialization ECS" << std::endl;
-    std::cout << "[ECS] Register components" << std::endl;
     _ecs.registerComponent<Position>();
     _ecs.registerComponent<Texture>();
     _ecs.registerComponent<Scale>();
     _ecs.registerComponent<Rotate>();
     _ecs.registerComponent<Color>();
     _ecs.registerComponent<SfmlSprite>();
-    std::cout << "[ECS] Register components OK" << std::endl;
-    std::cout << "[ECS] Register System" << std::endl;
-    auto draw = _ecs.registerSystem<SfmlDrawSystem>();
-    std::cout << "[ECS] Register System OK" << std::endl;
+    auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
+    draw.setDisplay(_graphical);
     Entity player = _ecs.createEntity();
 
     _ecs.subToComponent(player, Position{50, 50});
@@ -51,22 +48,22 @@ void RtypeClient::start()
 
 void RtypeClient::run()
 {
-    while (_graphical.getWindow().isOpen())
+    while (_graphical->getWindow()->isOpen())
     {
-        while (_graphical.getWindow().pollEvent(_graphical.getEvent()))
+        while (_graphical->getWindow()->pollEvent(_graphical->getEvent()))
         {
-            sf::Event event = _graphical.getEvent();
+            sf::Event event = _graphical->getEvent();
 
             if (event.type == sf::Event::Closed)
-                _graphical.getWindow().close();
+                _graphical->getWindow()->close();
             else if (event.type == sf::Event::KeyPressed || event.type == sf::Event::TextEntered)
                 handleEvents(event);
         }
-        _graphical.clear();
+        _graphical->clear();
         _parallax.update();
-        _parallax.draw(_graphical.getWindow());
+        _parallax.draw(*_graphical->getWindow());
         manageState();
-        _graphical.display();
+        _graphical->display();
     }
 }
 
@@ -144,6 +141,6 @@ void RtypeClient::manageState()
 
 void RtypeClient::manageConnectMenu()
 {
-    _graphical.getWindow().draw(_spriteLogo);
-    _connectMenu.draw(_graphical.getWindow());
+    _graphical->getWindow()->draw(_spriteLogo);
+    _connectMenu.draw(*_graphical->getWindow());
 }

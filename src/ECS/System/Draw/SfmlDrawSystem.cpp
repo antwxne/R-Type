@@ -12,8 +12,8 @@
 #include "../../Component/Transform/Rotate.hpp"
 #include "../../Component/Color.hpp"
 
-SfmlDrawSystem::SfmlDrawSystem(SfmlDisplay &display, std::shared_ptr<ComponentManager> componentManager)
-:  _display(display), DrawSystem(componentManager)
+SfmlDrawSystem::SfmlDrawSystem(std::shared_ptr<ComponentManager> componentManager)
+: DrawSystem(componentManager)
 {
     _usedComponents.push_back(typeid(SfmlSprite).name());
 }
@@ -27,7 +27,7 @@ void SfmlDrawSystem::draw(const std::size_t entity)
     auto &sprite = _componentManager->getComponent<SfmlSprite>(entity).value();
 
     updateSprite(sprite, entity);
-    _display.getWindow().draw(sprite.sprite);
+    _display->getWindow()->draw(sprite.sprite);
 }
 
 void SfmlDrawSystem::updateSprite(SfmlSprite &sprite, const std::size_t entity)
@@ -51,7 +51,7 @@ void SfmlDrawSystem::setTexture(SfmlSprite &sprite, const std::size_t entity)
 {
     auto &texture = _componentManager->getComponent<Texture>(entity).value();
 
-    std::shared_ptr<sf::Texture> sfmlTexture = _display.getTexture(texture.idTexture);
+    std::shared_ptr<sf::Texture> sfmlTexture = _display->getTexture(texture.idTexture);
 
     if (sfmlTexture != nullptr)
         sprite.sprite.setTexture(*sfmlTexture);
@@ -75,8 +75,14 @@ void SfmlDrawSystem::setColor(SfmlSprite &sprite, const std::size_t entity)
 {
     auto &color = _componentManager->getComponent<Color>(entity).value();
 
-    std::shared_ptr<sf::Color> sfmlColor = _display.getColor(color.type);
+    std::shared_ptr<sf::Color> sfmlColor = _display->getColor(color.type);
 
-    if (sfmlColor)
+    if (sfmlColor) {
         sprite.sprite.setColor(*sfmlColor);
+    }
+}
+
+void SfmlDrawSystem::setDisplay(std::shared_ptr<SfmlDisplay> display)
+{
+    _display = display;
 }

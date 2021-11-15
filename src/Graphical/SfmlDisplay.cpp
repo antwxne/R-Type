@@ -7,9 +7,10 @@
 
 #include "SfmlDisplay.hpp"
 
-SfmlDisplay::SfmlDisplay(int widthWindow, int heightWindow, const std::string &nameWindow) : _window(sf::VideoMode(widthWindow, heightWindow), nameWindow)
+SfmlDisplay::SfmlDisplay(int widthWindow, int heightWindow, const std::string &nameWindow)
 {
-    _window.setFramerateLimit(60);
+    _window = std::make_shared<sf::RenderWindow>(sf::VideoMode(widthWindow, heightWindow), nameWindow);
+    _window->setFramerateLimit(60);
 }
 
 SfmlDisplay::~SfmlDisplay()
@@ -21,19 +22,19 @@ sf::Event &SfmlDisplay::getEvent()
     return _event;
 }
 
-sf::RenderWindow &SfmlDisplay::getWindow()
+std::shared_ptr<sf::RenderWindow> SfmlDisplay::getWindow()
 {
     return _window;
 }
 
 void SfmlDisplay::clear()
 {
-    _window.clear();
+    _window->clear();
 }
 
 void SfmlDisplay::display()
 {
-    _window.display();
+    _window->display();
 }
 
 std::shared_ptr<sf::Texture> SfmlDisplay::getTexture(TextureType type)

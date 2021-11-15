@@ -19,7 +19,7 @@ class SfmlDisplay : public IGraphical {
     public:
         SfmlDisplay(int widthWindow = 1920, int heightWindow = 1080, const std::string &nameWindow = "window");
         ~SfmlDisplay();
-        sf::RenderWindow &getWindow();
+        std::shared_ptr<sf::RenderWindow> getWindow();
         sf::Event &getEvent();
         std::shared_ptr<sf::Texture> getTexture(TextureType type);
         std::shared_ptr<sf::Color> getColor(ColorType type);
@@ -28,7 +28,7 @@ class SfmlDisplay : public IGraphical {
 
     protected:
     private:
-        sf::RenderWindow _window;
+        std::shared_ptr<sf::RenderWindow> _window;
         sf::Event _event;
         std::map<TextureType, std::shared_ptr<sf::Texture>> _textureMap;
         std::map<ColorType, std::shared_ptr<sf::Color>> _colorMap;

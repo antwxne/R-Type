@@ -14,9 +14,10 @@
 
 class SfmlDrawSystem : public DrawSystem{
     public:
-        SfmlDrawSystem(SfmlDisplay &display, std::shared_ptr<ComponentManager> componentManager);
+        SfmlDrawSystem(std::shared_ptr<ComponentManager> componentManager);
         ~SfmlDrawSystem();
         void draw(const std::size_t entity) override;
+        void setDisplay(std::shared_ptr<SfmlDisplay> display);
     protected:
         void updateSprite(SfmlSprite &sprite, const std::size_t entity);
         void setPosition(SfmlSprite &sprite, const std::size_t entity);
@@ -25,7 +26,7 @@ class SfmlDrawSystem : public DrawSystem{
         void setRotate(SfmlSprite &sprite, const std::size_t entity);
         void setColor(SfmlSprite &sprite, const std::size_t entity);
     private:
-        SfmlDisplay &_display;
+        std::shared_ptr<SfmlDisplay> _display;
 };
 
 #endif /* !SfmlDrawSystem_HPP_ */

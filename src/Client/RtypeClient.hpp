@@ -40,7 +40,7 @@ class RtypeClient {
     private:
         GameState _state;
 
-        SfmlDisplay _graphical;
+        std::shared_ptr<SfmlDisplay> _graphical;
         SfmlEventFactory _eventFactory;
         SfmlParallax _parallax;
         
