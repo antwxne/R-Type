@@ -35,6 +35,7 @@ class RtypeClient {
         void run();
         void manageState();
         void manageConnectMenu();
+        void manageGame();
         void handleEvents(const sf::Event& event);
         void handleTextInput(const sf::Event& event);
     private:

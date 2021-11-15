@@ -7,7 +7,7 @@
 
 #include "RtypeClient.hpp"
 
-RtypeClient::RtypeClient() : _state(GameState::ConnectMenu)
+RtypeClient::RtypeClient() : _state(GameState::Game)
 {
     _graphical = std::make_shared<SfmlDisplay>();
     _textureLogo.loadFromFile("assets/sprites/r_type_logo.png");
@@ -42,7 +42,7 @@ void RtypeClient::start()
     _ecs.subToComponent(player, Texture{TextureType::Player});
     _ecs.subToComponent(player, Scale{1});
     _ecs.subToComponent(player, Color{ColorType::None});
-    _ecs.subToComponent(player, SfmlSprite{sf::Sprite()});
+    _ecs.subToComponent(player, SfmlSprite{_spriteLogo}); // faudra changer par le sprite du player
     run();
 }
 
@@ -132,7 +132,7 @@ void RtypeClient::manageState()
         /* code */
         break;
     case GameState::Game:
-        /* code */
+        this->manageGame();
         break;
     default:
         return;
@@ -143,4 +143,9 @@ void RtypeClient::manageConnectMenu()
 {
     _graphical->getWindow()->draw(_spriteLogo);
     _connectMenu.draw(*_graphical->getWindow());
+}
+
+void RtypeClient::manageGame()
+{
+    //_ecs.getSystem<SfmlDrawSystem>()->draw(0);
 }
