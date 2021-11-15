@@ -58,6 +58,7 @@ jobs:
       - name: Recompile project
         run: |
           mkdir -p build && cd build && conan install .. --build=missing && cmake .. && cmake --build .
+          cd ..
           rmdir build
       - name: Compile project
         run: (mkdir -p build && cd build && conan install .. --build=missing && cmake .. && cmake --build .) > artifacts\complete_Windows_build_log.txt
