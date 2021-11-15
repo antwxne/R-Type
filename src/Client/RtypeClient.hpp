@@ -12,6 +12,7 @@
 #include "../Graphical/SfmlParallax.hpp"
 #include "../Graphical/SfmlMenu.hpp"
 #include "../Graphical/SfmlEventFactory.hpp"
+#include "../ECS/ECS.hpp"
 
 
 enum GameState
@@ -47,6 +48,8 @@ class RtypeClient {
 
         sf::Sprite _spriteLogo;
         sf::Texture _textureLogo;
+
+        ECS _ecs;
 };
 
 #endif /* !RtypeClient_HPP_ */

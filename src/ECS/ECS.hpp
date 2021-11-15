@@ -13,6 +13,9 @@
 #include "Entity/EntityManager.hpp"
 #include "Component/ComponentManager.hpp"
 #include "System/SystemManager.hpp"
+#include "System/Draw/SfmlDrawSystem.hpp"
+#include "System/MoveSystem.hpp"
+#include "component.hpp"
 
 class ECS {
 public:

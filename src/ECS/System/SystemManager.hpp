@@ -36,6 +36,7 @@ public:
     System &registerSystem(std::shared_ptr<ComponentManager> componentManager)
     {
         _systemsMap.emplace(typeid(System).name(), componentManager);
+        std::cout << "[DEBUG][SystemManager][registerSystem] any_cast" << std::endl;
         return std::any_cast<System &>(_systemsMap.at(typeid(System).name()));
     }
     template<typename System>

@@ -27,22 +27,25 @@ void RtypeClient::initMenu()
 
 void RtypeClient::start()
 {
-    //ecs.registerComponent<Position>();
-    /*ecs.registerComponent<Texture>();
-    ecs.registerComponent<Scale>();
-    ecs.registerComponent<Rotate>();
-    ecs.registerComponent<Color>();
-    ecs.registerComponent<SfmlSprite>();
-*/
-    /*auto draw = ecs.registerSystem<SfmlDrawSystem>();
+    std::cout << "Initialization ECS" << std::endl;
+    std::cout << "[ECS] Register components" << std::endl;
+    _ecs.registerComponent<Position>();
+    _ecs.registerComponent<Texture>();
+    _ecs.registerComponent<Scale>();
+    _ecs.registerComponent<Rotate>();
+    _ecs.registerComponent<Color>();
+    _ecs.registerComponent<SfmlSprite>();
+    std::cout << "[ECS] Register components OK" << std::endl;
+    std::cout << "[ECS] Register System" << std::endl;
+    auto draw = _ecs.registerSystem<SfmlDrawSystem>();
+    std::cout << "[ECS] Register System OK" << std::endl;
+    Entity player = _ecs.createEntity();
 
-    Entity player = ecs.createEntity();
-
-    ecs.subToComponent(player, Position{50, 50});
-    ecs.subToComponent(player, Texture{TextureType::Player});
-    ecs.subToComponent(player, Scale{1});
-    ecs.subToComponent(player, Color{ColoRtypeClient::None});
-    ecs.subToComponent(player, SfmlSprite{sf::Sprite()});*/
+    _ecs.subToComponent(player, Position{50, 50});
+    _ecs.subToComponent(player, Texture{TextureType::Player});
+    _ecs.subToComponent(player, Scale{1});
+    _ecs.subToComponent(player, Color{ColorType::None});
+    _ecs.subToComponent(player, SfmlSprite{sf::Sprite()});
     run();
 }
 
