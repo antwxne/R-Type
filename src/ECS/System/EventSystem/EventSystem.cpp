@@ -11,7 +11,7 @@
 #include "EventSystem.hpp"
 
 Event_n::EventSystem::EventSystem(
-    std::shared_ptr<ComponentManager::ComponentsMap_t> &components
+    std::shared_ptr<ComponentManager> components
 ) : ASystem(components), _callbacksMap(), _currentEvents(100), _raisedEvents()
 {
 }
@@ -53,7 +53,7 @@ void Event_n::EventSystem::update()
     for (const auto &event: _currentEvents) {
         try {
             for (const auto &callBackVector: _callbacksMap.at(event)) {
-                callBackVector.second(_components, callBackVector.first,
+                callBackVector.second(_componentManager, callBackVector.first,
                     std::ref(_raisedEvents));
             }
         } catch (const std::out_of_range &error) {

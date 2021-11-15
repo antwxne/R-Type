@@ -11,6 +11,7 @@
 #include <memory>
 #include <unordered_map>
 #include <any>
+#include <map>
 
 #include "ASystem.hpp"
 #include "ECS/Component/ComponentManager.hpp"
@@ -25,24 +26,22 @@ public:
 
 class SystemManager {
 public:
-    using SystemsMap_t = std::unordered_map<std::type_info, std::shared_ptr<std::any>, HasherTypeSystemInfo>;
+    using SystemsMap_t = std::unordered_map<std::string, std::any>;
 
 public:
 
-    SystemManager();
+    SystemManager() = default;
 
     template<typename System>
-    std::shared_ptr<System> registerSystem(std::shared_ptr<ComponentManager::ComponentsMap_t> components)
+    System &registerSystem(std::shared_ptr<ComponentManager> componentManager)
     {
-        auto plop = std::make_shared<System>(components);
-
-        _systemsMap.emplace(typeid(System), plop);
-        return plop;
+        _systemsMap.emplace(typeid(System).name(), componentManager);
+        return std::any_cast<System &>(_systemsMap.at(typeid(System).name()));
     }
     template<typename System>
-    std::shared_ptr<System> getSystem()
+    System &getSystem()
     {
-        return _systemsMap.at(typeid(System));
+        return _systemsMap.at(typeid(System).name());
     }
 private:
     SystemsMap_t _systemsMap;
