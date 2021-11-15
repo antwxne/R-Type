@@ -29,7 +29,7 @@ void DrawSystem::update()
 {
     for (std::size_t i = 0; i < MAX_ENTITIES; i++)
     {
-        if (checkAvaiableEntity(i))
+        if (checkAvailableEntity(i))
         {
             draw(i);
         }

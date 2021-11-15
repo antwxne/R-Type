@@ -8,7 +8,7 @@
 #ifndef RECTANGLE_HPP_
 #define RECTANGLE_HPP_
 
-struct rect
+struct Rectangle
 {
     int rectLeft;
     int rectTop;

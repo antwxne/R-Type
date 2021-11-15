@@ -17,7 +17,7 @@
 class ASystem {
 public:
     ASystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components);
-    bool checkAvaiableEntity(const size_t entity);
+    bool checkAvailableEntity(const size_t entity);
 
     virtual void update() = 0;
 protected:

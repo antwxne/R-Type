@@ -12,7 +12,7 @@ ASystem::ASystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components)
 
 }
 
-bool ASystem::checkAvaiableEntity(const size_t entity)
+bool ASystem::checkAvailableEntity(const size_t entity)
 {
     for (const auto &i : _usedComponents)
     {

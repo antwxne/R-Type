@@ -24,7 +24,7 @@ MoveSystem::~MoveSystem()
 void MoveSystem::update()
 {
     for (std::size_t i = 0; i < MAX_ENTITIES; i++) {
-        if (!checkAvaiableEntity(i))
+        if (!checkAvailableEntity(i))
             continue;
         auto &position = std::any_cast<Position&>(_components->at(typeid(Position))->getData(i).value());
         auto &speed = std::any_cast<Speed&>(_components->at(typeid(Speed))->getData(i).value());
