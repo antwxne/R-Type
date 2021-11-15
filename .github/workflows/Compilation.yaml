@@ -57,7 +57,6 @@ jobs:
         working-directory: ./
       - name: Recompile project
         run: |
-          rmdir build
           mkdir -p build && cd build && conan install .. --build=missing && cmake .. && cmake --build .
           rmdir build
       - name: Compile project
