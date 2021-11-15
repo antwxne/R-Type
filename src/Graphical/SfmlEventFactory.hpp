@@ -12,7 +12,8 @@
 #include <map>
 #include <string>
 
-enum ControlGame{
+enum ControlGame
+{
     UP,
     DOWN,
     LEFT,
@@ -20,9 +21,7 @@ enum ControlGame{
     SPACE,
     ESCAPE,
     DELETE,
-    QUIT,
     NONE,
-    CHARPRESSED,
 };
 
 class SfmlEventFactory {
@@ -31,6 +30,8 @@ class SfmlEventFactory {
         ~SfmlEventFactory();
         ControlGame getEventType(const sf::Event &event) const;
         std::string getTextEntered(const sf::Event &event) const;
+    private:
+        static std::map<sf::Keyboard::Key, ControlGame> eventType;
 };
 
 #endif /* !SFMLEVENTFACTORY_HPP_ */

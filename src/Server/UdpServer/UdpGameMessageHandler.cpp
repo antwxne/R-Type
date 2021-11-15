@@ -7,7 +7,7 @@
 
 #include "UdpGameMessageHandler.hpp"
 
-typedef void (UdpGameMessageHandler::*MFP)(GameUdpMessage<MessageType> &);
+typedef void (UdpGameMessageHandler::*UdpMFP)(GameUdpMessage<MessageType> &);
 
 UdpGameMessageHandler::UdpGameMessageHandler()
 {
@@ -20,7 +20,7 @@ UdpGameMessageHandler::~UdpGameMessageHandler()
 
 void UdpGameMessageHandler::handleMessage(GameUdpMessage<MessageType> &message)
 {
-    MFP fp;
+    UdpMFP fp;
     MessageType messageType = message.message.getMessageType();
 
     if (_map.find(messageType) == _map.end())

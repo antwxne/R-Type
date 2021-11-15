@@ -86,7 +86,7 @@ void GameInstance::startGame()
 {
     _state = Game;
 
-    _udpGameServer = std::make_unique<GameUdpServer>(0);
+    _udpGameServer = std::make_unique<GameUdpServer>(0, 4);
 
     Message<MessageType> startMessage;
 
