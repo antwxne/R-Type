@@ -8,11 +8,11 @@
 #ifndef RtypeClient_HPP_
 #define RtypeClient_HPP_
 
-#include "../Graphical/SfmlDisplay.hpp"
-#include "../Graphical/SfmlParallax.hpp"
-#include "../Graphical/SfmlMenu.hpp"
-#include "../Graphical/SfmlEventFactory.hpp"
-#include "../ECS/ECS.hpp"
+#include "Graphical/SfmlDisplay.hpp"
+#include "Graphical/SfmlParallax.hpp"
+#include "Graphical/SfmlMenu.hpp"
+#include "Graphical/SfmlEventFactory.hpp"
+#include "ECS/ECS.hpp"
 
 
 enum GameState

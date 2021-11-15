@@ -115,41 +115,38 @@ enum Events_e {
 };
 #endif
 
-struct Event {
-    Event(State_e newState = UNDEFINED, Events_e newEvent = NONE);
+struct Event_s {
+    Event_s(State_e newState = UNDEFINED, Events_e newEvent = NONE);
     State_e state;
     Events_e event;
 
-    bool operator==(const Event &other) const;
-    std::size_t operator()(const Event &evt) const;
+    bool operator==(const Event_s &other) const;
+    std::size_t operator()(const Event_s &evt) const;
 };
 
 class EventSystem : public ASystem {
 public:
     using Callback = std::function<void(
         std::shared_ptr<ComponentManager>, const std::size_t &,
-        std::queue<Event> &
-    )>;
-    using CallbackMap = std::unordered_map<Event, std::vector<std::pair<std::size_t, Callback>>, Event>;
+        std::queue<Event_s> &)>;
+//    using Callback = std::function<void()>;
+    using CallbackMap = std::unordered_map<Event_s, std::vector<std::pair<std::size_t, Callback>>, Event_s>;
 public:
     EventSystem(std::shared_ptr<ComponentManager> components);
     ~EventSystem() = default;
 
-    void subscribeToEvent(const Event &event, const Entity &entity,
-        const std::function<void(
-            std::shared_ptr<ComponentManager>, const size_t &,
-            std::queue<Event> &
-        )> &callback
+    void subscribeToEvent(const Event_s &event, const Entity &entity,
+         Callback callback
     ) noexcept;
-    void unsubscribeToEvent(const Event &event, const Entity &entity) noexcept;
+    void unsubscribeToEvent(const Event_s &event, const Entity &entity) noexcept;
     void update() override;
-    void setEvents(const std::vector<Event> &events) noexcept;
-    std::shared_ptr<std::vector<Event>> getRaisedEvents() noexcept;
+    void setEvents(const std::vector<Event_s> &events) noexcept;
+    std::shared_ptr<std::vector<Event_s>> getRaisedEvents() noexcept;
 
 private:
     CallbackMap _callbacksMap;
-    std::vector<Event> _currentEvents;
-    std::queue<Event> _raisedEvents;
+    std::vector<Event_s> _currentEvents;
+    std::queue<Event_s> _raisedEvents;
 };
 }
 #endif //RTYPE_EVENTSYSTEM_HPP

@@ -6,6 +6,8 @@
 */
 
 #include "RtypeClient.hpp"
+#include "ECS/System/EventSystem/EventSystem.hpp"
+#include "ECS/System/EventSystem/EventCallback.hpp"
 
 RtypeClient::RtypeClient() : _state(GameState::ConnectMenu)
 {
@@ -30,6 +32,7 @@ void RtypeClient::start()
 {
     _ecs.registerComponent<Position>();
     _ecs.registerComponent<Texture>();
+    _ecs.registerComponent<Acceleration>();
     _ecs.registerComponent<Scale>();
     _ecs.registerComponent<Rotate>();
     _ecs.registerComponent<Color>();
@@ -43,6 +46,21 @@ void RtypeClient::start()
     _ecs.subToComponent(player, Scale{1});
     _ecs.subToComponent(player, Color{ColorType::None});
     _ecs.subToComponent(player, SfmlSprite{sf::Sprite()});
+    _ecs.subToComponent(player, Acceleration{0, 0});
+
+
+    auto &evtManager = _ecs.registerSystem<Event_n::EventSystem>();
+
+    // BIND une fonction statique a un evenement
+    Event_n::Event_s evt(Event_n::PRESS, Event_n::KEY_UP);
+    evtManager.subscribeToEvent(evt, player, std::bind(EventCallback::changeAccelerationUP, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+
+    // remplir le vecteur d'evenements -> tous les evenements utilisés a cette frame
+    std::vector<Event_n::Event_s> tmp = {evt};
+    // envoyer les evenements dans le gestionnaire d'evenements
+    evtManager.setEvents(tmp);
+    // appliquer les evenements de la frame sur les components register
+    evtManager.update();
     run();
 }
 

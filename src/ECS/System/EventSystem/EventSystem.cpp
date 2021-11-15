@@ -16,8 +16,8 @@ Event_n::EventSystem::EventSystem(
 {
 }
 
-void Event_n::EventSystem::subscribeToEvent(const Event &event,
-    const Entity &entity, const Event_n::EventSystem::Callback &callback
+void Event_n::EventSystem::subscribeToEvent(const Event_s &event,
+    const Entity &entity, Event_n::EventSystem::Callback callback
 ) noexcept
 {
     std::size_t id;
@@ -26,7 +26,7 @@ void Event_n::EventSystem::subscribeToEvent(const Event &event,
     _callbacksMap[event].emplace_back(std::make_pair(id, callback));
 }
 
-void Event_n::EventSystem::unsubscribeToEvent(const Event_n::Event &event,
+void Event_n::EventSystem::unsubscribeToEvent(const Event_n::Event_s &event,
     const Entity &entity
 ) noexcept
 {
@@ -60,16 +60,17 @@ void Event_n::EventSystem::update()
             std::cerr << error.what() << std::endl;
         }
     }
+    _currentEvents.clear();
 }
 
-void Event_n::EventSystem::setEvents(const std::vector<Event_n::Event> &events) noexcept
+void Event_n::EventSystem::setEvents(const std::vector<Event_n::Event_s> &events) noexcept
 {
     _currentEvents = events;
 }
 
-std::shared_ptr<std::vector<Event_n::Event>> Event_n::EventSystem::getRaisedEvents() noexcept
+std::shared_ptr<std::vector<Event_n::Event_s>> Event_n::EventSystem::getRaisedEvents() noexcept
 {
-    std::shared_ptr<std::vector<Event_n::Event>> dest = std::make_shared<std::vector<Event_n::Event>>();
+    std::shared_ptr<std::vector<Event_n::Event_s>> dest = std::make_shared<std::vector<Event_n::Event_s>>();
 
     while (!_raisedEvents.empty()) {
         dest->push_back(_raisedEvents.front());
@@ -78,12 +79,12 @@ std::shared_ptr<std::vector<Event_n::Event>> Event_n::EventSystem::getRaisedEven
     return dest;
 }
 
-Event_n::Event::Event(Event_n::State_e newState, Event_n::Events_e newEvent)
+Event_n::Event_s::Event_s(Event_n::State_e newState, Event_n::Events_e newEvent)
     : state(newState), event(newEvent)
 {
 }
 
-std::size_t Event_n::Event::operator()(const Event_n::Event &evt) const
+std::size_t Event_n::Event_s::operator()(const Event_n::Event_s &evt) const
 {
     union convertToHash {
         std::size_t hash;
@@ -96,7 +97,7 @@ std::size_t Event_n::Event::operator()(const Event_n::Event &evt) const
     return conv.hash;
 }
 
-bool Event_n::Event::operator==(const Event_n::Event &other) const
+bool Event_n::Event_s::operator==(const Event_n::Event_s &other) const
 {
     return this->event == other.event && this->state == other.state;
 }
