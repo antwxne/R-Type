@@ -57,9 +57,9 @@ jobs:
         working-directory: ./
       - name: Recompile project
         run: |
-          rm -rf build
+          rmdir build
           mkdir -p build && cd build && conan install .. --build=missing && cmake .. && cmake --build .
-          rm -rf build
+          rmdir build
       - name: Compile project
         run: (mkdir -p build && cd build && conan install .. --build=missing && cmake .. && cmake --build .) > artifacts\complete_Windows_build_log.txt
       - name: Get end of compilation
