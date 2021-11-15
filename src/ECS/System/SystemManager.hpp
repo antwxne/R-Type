@@ -32,15 +32,17 @@ public:
     SystemManager();
 
     template<typename System>
-    std::shared_ptr<System> registerSystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components)
+    std::shared_ptr<System> registerSystem(std::shared_ptr<ComponentManager::ComponentsMap_t> components)
     {
-        _systemsMap.emplace(typeid(System), std::make_shared<System>(components));
-        return _systemsMap.at(typeid(System));
+        auto plop = std::make_shared<System>(components);
+
+        _systemsMap.emplace(typeid(System), plop);
+        return plop;
     }
     template<typename System>
     std::shared_ptr<System> getSystem()
     {
-        return (_systemsMap.at(typeid(System)));
+        return _systemsMap.at(typeid(System));
     }
 private:
     SystemsMap_t _systemsMap;

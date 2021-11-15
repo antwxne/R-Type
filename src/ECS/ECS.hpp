@@ -16,9 +16,7 @@
 
 class ECS {
 public:
-    ECS() = default;
-
-    void init() noexcept;
+    ECS();
 
     Entity createEntity();
     void destroyEntity(const Entity &entity);
@@ -58,14 +56,14 @@ public:
     {
         return _componentManager->getComponentsList<T>();
     }
-    ComponentManager::ComponentsMap_t &getComponentMap()
+    std::shared_ptr<ComponentManager::ComponentsMap_t> getComponentMap()
     {
         return _componentManager->getComponentMap();
     }
     template<typename System>
     std::shared_ptr<System> registerSystem()
     {
-        return _systemManager->registerSystem<System>(_componentManager);
+        return _systemManager->registerSystem<System>(_componentManager->getComponentMap());
     }
     template<typename System>
     std::shared_ptr<System> getSystem()

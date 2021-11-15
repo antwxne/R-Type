@@ -60,9 +60,9 @@ public:
     {
         return _componentsMap.at(typeid(T));
     }
-    ComponentsMap_t &getComponentMap()
+    std::shared_ptr<ComponentsMap_t> getComponentMap()
     {
-        return _componentsMap;
+        return std::make_shared<ComponentsMap_t>(_componentsMap);
     }
     template<typename Component>
     void subToComponent(const Entity &entity, const Component &component)
