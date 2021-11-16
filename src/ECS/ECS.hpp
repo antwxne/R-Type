@@ -40,12 +40,7 @@ public:
         _componentManager->unsubFromComponent<Component>(entity);
     }
     template<typename T>
-    T &getComponent(const Entity &entity)
-    {
-        return _componentManager->getComponent<T>(entity);
-    }
-    template<typename T>
-    const T &getComponent(const Entity &entity) const
+    std::optional<T> &getComponent(const Entity &entity)
     {
         return _componentManager->getComponent<T>(entity);
     }
@@ -69,7 +64,7 @@ public:
         return _systemManager->registerSystem<System>(_componentManager);
     }
     template<typename System>
-    std::shared_ptr<System> getSystem()
+    System &getSystem()
     {
         return _systemManager->getSystem<System>();
     }

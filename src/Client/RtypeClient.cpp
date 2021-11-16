@@ -38,11 +38,19 @@ void RtypeClient::start()
     draw.setDisplay(_graphical);
     Entity player = _ecs.createEntity();
 
+    std::size_t plop;
+    player >> plop;
+    std::cout << std::to_string(plop) << std::endl; 
     _ecs.subToComponent(player, Position{50, 50});
     _ecs.subToComponent(player, Texture{TextureType::Player});
     _ecs.subToComponent(player, Scale{1});
     _ecs.subToComponent(player, Color{ColorType::None});
     _ecs.subToComponent(player, SfmlSprite{_spriteLogo}); // faudra changer par le sprite du player
+    
+    std::optional<SfmlSprite> ad = _ecs.getComponent<SfmlSprite>(player);
+
+    std::cout << "da = " << ad.has_value() << std::endl;
+
     run();
 }
 
@@ -147,5 +155,7 @@ void RtypeClient::manageConnectMenu()
 
 void RtypeClient::manageGame()
 {
-    //_ecs.getSystem<SfmlDrawSystem>()->draw(0);
+    auto a = _ecs.getSystem<SfmlDrawSystem>();
+    //std::cout << "O" << std::endl;
+    a.draw(0);
 }

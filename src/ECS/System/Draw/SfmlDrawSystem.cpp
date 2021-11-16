@@ -24,10 +24,13 @@ SfmlDrawSystem::~SfmlDrawSystem()
 
 void SfmlDrawSystem::draw(const std::size_t entity)
 {
+    try {
     auto &sprite = _componentManager->getComponent<SfmlSprite>(entity).value();
 
     updateSprite(sprite, entity);
     _display->getWindow()->draw(sprite.sprite);
+    } catch (const std::exception &e) {
+    }
 }
 
 void SfmlDrawSystem::updateSprite(SfmlSprite &sprite, const std::size_t entity)

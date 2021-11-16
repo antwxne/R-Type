@@ -32,27 +32,14 @@ public:
         std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name())).deleteData(entity);
     }
 
+
     template<typename T>
-    T &getComponent(const Entity &entity)
+    std::optional<T> &getComponent(const Entity &entity)
     {
         return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name())).getData(entity);
     }
-
     template<typename T>
-    const T &getComponent(const Entity &entity) const
-    {
-        return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name())).getData(entity);
-    }
-
-    template<typename T>
-    std::optional<T> &getComponent(const std::size_t &id)
-    {
-        Entity entity(id);
-
-        return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name())).getData(entity);
-    }
-    template<typename T>
-    SparseArray<T> &getComponentsList()
+    std::optional<SparseArray<T>> &getComponentsList()
     {
         return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name()));
     }
