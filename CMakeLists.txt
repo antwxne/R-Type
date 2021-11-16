@@ -84,14 +84,18 @@ set(SHARED_SRC
         src/ECS/ECS.hpp
         src/ECS/System/ASystem.hpp
         src/ECS/System/ASystem.cpp
-        src/ECS/System/Audio.cpp
-        src/ECS/System/Audio.hpp
         src/ECS/System/MoveSystem.hpp
         src/ECS/System/MoveSystem.cpp
         src/ECS/System/Draw/DrawSystem.cpp
         src/ECS/System/Draw/DrawSystem.hpp
         src/ECS/System/Draw/SfmlDrawSystem.cpp
         src/ECS/System/Draw/SfmlDrawSystem.hpp
+        src/ECS/System/Audio/AudioSystem.cpp
+        src/ECS/System/Audio/AudioSystem.hpp
+        src/ECS/System/Audio/SfmlSoundSystem.cpp
+        src/ECS/System/Audio/SfmlSoundSystem.hpp
+        src/ECS/Component/Audio.hpp
+        src/ECS/Component/SfmlSound.hpp
         src/Graphical/SfmlDisplay.cpp
         src/Graphical/SfmlDisplay.hpp
         src/Graphical/SfmlButton.cpp
