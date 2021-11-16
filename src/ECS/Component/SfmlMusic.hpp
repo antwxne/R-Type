@@ -12,5 +12,6 @@
 struct SfmlMusic
 {
     sf::Music music;
+    bool isLoop;
 };
 #endif /* !SFMLMUSIC_HPP_ */

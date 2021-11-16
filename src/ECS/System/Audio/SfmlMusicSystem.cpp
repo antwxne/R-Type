@@ -42,6 +42,7 @@ void SfmlMusicSystem::play(int entity)
     SfmlMusic &music = std::any_cast<SfmlMusic &>(_components->at(typeid(SfmlMusic))->getData(entity).value());
     Audio &audio = std::any_cast<Audio &>(_components->at(typeid(Audio))->getData(entity).value());
     music.music.play();
+    music.music.setLoop(music.isLoop);
     audio.isPlayed = true;
 }
 
