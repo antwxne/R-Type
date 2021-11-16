@@ -31,6 +31,7 @@ class TcpClient
 
         void addGame(const std::string &name, char nbPlayers);
         std::list<std::pair<std::string, char>> &getGames();
+        void resetGameList();
         
         bool isConnected();
     private:

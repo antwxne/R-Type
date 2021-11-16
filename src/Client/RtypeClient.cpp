@@ -26,6 +26,7 @@ void RtypeClient::initMenu()
     _connectMenu.addButton("Port: ", 50, true);
     _connectMenu.addButton("Connect", 70, false, true);
 
+    _mainMenu.addButton("Refresh", 50, false, true);
     _mainMenu.addButton("Create game : ", 50, true, true);
 }
 
@@ -186,8 +187,20 @@ void RtypeClient::manageMainMenu()
         _mainMenu.resetValided();
         if (_mainMenu.getSelectedIndex() == 0)
         {
-
-            _networkClient->createGame(_mainMenu.getButtonText(0));
+            _networkClient->resetGameList();
+            _networkClient->getGames();
+            std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+            handleGetGames();
+        }
+        else if (_mainMenu.getSelectedIndex() == 1)
+        {
+            _networkClient->createGame(_mainMenu.getButtonText(1));
+        }
+        else
+        {
+            std::string name = _mainMenu.getButtonText(_mainMenu.getSelectedIndex()).substr(0, _mainMenu.getButtonText(_mainMenu.getSelectedIndex()).length() - 6);
+            std::cout << "JOin " << name << "\n";
+            _networkClient->joinGame(name);
         }
     }
 }
@@ -195,6 +208,7 @@ void RtypeClient::manageMainMenu()
 void RtypeClient::handleGetGames()
 {
     _mainMenu.resetButtons();
+    _mainMenu.addButton("Refresh", 50, false, true);
     _mainMenu.addButton("Create game: ", 50, true, true);
     for (auto &i : _networkClient->getGameList())
     {

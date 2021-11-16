@@ -93,3 +93,8 @@ std::list<std::pair<std::string, char>> &TcpClient::getGames()
 {
     return _gamesList;
 }
+
+void TcpClient::resetGameList()
+{
+    _gamesList.clear();
+}

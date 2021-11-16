@@ -53,7 +53,10 @@ void SfmlButton::setText(const std::string &text)
 
 std::string SfmlButton::getText() const
 {
-    return _text.getString().substring(_defaultTextSize);
+    if (_isInputButton)
+        return _text.getString().substring(_defaultTextSize);
+    else
+        return _text.getString();
 }
 
 

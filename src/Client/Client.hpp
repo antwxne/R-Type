@@ -30,6 +30,7 @@ class Client {
         void getGames();
         void getPlayersInGame(const std::string &name);
         std::list<std::pair<std::string, char>> &getGameList();
+        void resetGameList();
 
     private:
         void initUdpClient();

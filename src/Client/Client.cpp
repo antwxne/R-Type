@@ -172,3 +172,8 @@ std::list<std::pair<std::string, char>> &Client::getGameList()
 {
     return _tcpClient.getGames();
 }
+
+void Client::resetGameList()
+{
+    _tcpClient.resetGameList();
+}
