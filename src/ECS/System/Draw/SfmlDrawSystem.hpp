@@ -14,7 +14,7 @@
 
 class SfmlDrawSystem : public DrawSystem {
     public:
-        SfmlDrawSystem(SfmlDisplay &display, std::shared_ptr<ComponentManager::ComponentsMap_t> &components);
+        SfmlDrawSystem(SfmlDisplay &display, std::shared_ptr<ComponentManager> componentManager);
         ~SfmlDrawSystem();
         void draw(const std::size_t entity) override;
     protected:

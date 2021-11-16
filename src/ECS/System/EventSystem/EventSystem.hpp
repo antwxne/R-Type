@@ -116,7 +116,7 @@ enum Events_e {
 #endif
 
 struct Event {
-    explicit Event(State_e newState = UNDEFINED, Events_e newEvent = NONE);
+    Event(State_e newState = UNDEFINED, Events_e newEvent = NONE);
     State_e state;
     Events_e event;
 
@@ -127,17 +127,17 @@ struct Event {
 class EventSystem : public ASystem {
 public:
     using Callback = std::function<void(
-        std::shared_ptr<ComponentManager::ComponentsMap_t>, const std::size_t &,
+        std::shared_ptr<ComponentManager>, const std::size_t &,
         std::queue<Event> &
     )>;
     using CallbackMap = std::unordered_map<Event, std::vector<std::pair<std::size_t, Callback>>, Event>;
 public:
-    EventSystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components);
+    EventSystem(std::shared_ptr<ComponentManager> components);
     ~EventSystem() = default;
 
     void subscribeToEvent(const Event &event, const Entity &entity,
         const std::function<void(
-            std::shared_ptr<ComponentManager::ComponentsMap_t>, const size_t &,
+            std::shared_ptr<ComponentManager>, const size_t &,
             std::queue<Event> &
         )> &callback
     ) noexcept;

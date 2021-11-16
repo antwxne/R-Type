@@ -12,13 +12,13 @@
 #include "../../Component/Transform/Rotate.hpp"
 #include "../../Component/Color.hpp"
 
-DrawSystem::DrawSystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components) : ASystem(components)
+DrawSystem::DrawSystem(std::shared_ptr<ComponentManager> componentManager) : ASystem(componentManager)
 {
-    _usedComponents.push_back(typeid(Position));
-    _usedComponents.push_back(typeid(Texture));
-    _usedComponents.push_back(typeid(Scale));
-    _usedComponents.push_back(typeid(Rotate));
-    _usedComponents.push_back(typeid(Color));
+    _usedComponents.push_back(typeid(Position).name());
+    _usedComponents.push_back(typeid(Texture).name());
+    _usedComponents.push_back(typeid(Scale).name());
+    _usedComponents.push_back(typeid(Rotate).name());
+    _usedComponents.push_back(typeid(Color).name());
 }
 
 DrawSystem::~DrawSystem()

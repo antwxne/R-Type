@@ -14,7 +14,7 @@
 class DrawSystem : public ASystem
 {
     public:
-        DrawSystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components);
+        DrawSystem(std::shared_ptr<ComponentManager> componentManager);
         ~DrawSystem();
         void update() override;
     private:

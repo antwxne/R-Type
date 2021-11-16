@@ -12,9 +12,9 @@
 
 ColissionSystem::ColissionSystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components) : ASystem(components)
 {
-    _usedComponents.push_back(typeid(Rectangle));
-    _usedComponents.push_back(typeid(Colission));
-    _usedComponents.push_back(typeid(Position));
+    _usedComponents.push_back(typeid(Rectangle).name());
+    _usedComponents.push_back(typeid(Colission).name());
+    _usedComponents.push_back(typeid(Position).name());
 }
 
 ColissionSystem::~ColissionSystem()
@@ -27,17 +27,17 @@ void ColissionSystem::update()
     {
         if (!checkAvailableEntity(i))
             continue;
-        Position &position = std::any_cast<Position &>(_components->at(typeid(Position))->getData(i).value());
-        Rectangle &rectangle = std::any_cast<Rectangle &>(_components->at(typeid(Rectangle))->getData(i).value());
-        Colission &colission = std::any_cast<Colission &>(_components->at(typeid(Colission))->getData(i).value());
+        Position &position = _componentManager->getComponent<Position>(i).value();
+        Rectangle &rectangle = _componentManager->getComponent<Rectangle>(i).value();
+        Colission &colission = _componentManager->getComponent<Colission>(i).value();
 
         for (std::size_t j = 0; j < MAX_ENTITIES; j++)
         {
             if (!checkAvailableEntity(j))
                 continue;
-            Position &positionTmp = std::any_cast<Position &>(_components->at(typeid(Position))->getData(j).value());
-            Rectangle &rectangleTmp = std::any_cast<Rectangle &>(_components->at(typeid(Rectangle))->getData(j).value());
-            Colission &colissionTmp = std::any_cast<Colission &>(_components->at(typeid(Colission))->getData(j).value());
+            Position &positionTmp = _componentManager->getComponent<Position>(j).value();
+            Rectangle &rectangleTmp = _componentManager->getComponent<Rectangle>(j).value();
+            Colission &colissionTmp = _componentManager->getComponent<Colission>(j).value();
             if (positionTmp.x < position.x + rectangle.width &&
                 positionTmp.x + rectangleTmp.width > position.x &&
                 positionTmp.y < position.y + rectangle.height &&

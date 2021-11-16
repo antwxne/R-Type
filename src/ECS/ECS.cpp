@@ -16,3 +16,10 @@ void ECS::destroyEntity(const Entity &entity)
 {
     _entityManager->destroy(entity);
 }
+
+ECS::ECS()
+{
+    _entityManager = std::make_unique<EntityManager>();
+    _componentManager = std::make_shared<ComponentManager>();
+    _systemManager = std::make_unique<SystemManager>();
+}

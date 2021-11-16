@@ -10,11 +10,11 @@
 #include "../Component/Acceleration.hpp"
 #include "../Component/Transform/Position.hpp"
 
-MoveSystem::MoveSystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components) : ASystem(components)
+MoveSystem::MoveSystem(std::shared_ptr<ComponentManager> components) : ASystem(components)
 {
-    _usedComponents.push_back(typeid(Speed));
-    _usedComponents.push_back(typeid(Acceleration));
-    _usedComponents.push_back(typeid(Position));
+    _usedComponents.push_back(typeid(Speed).name());
+    _usedComponents.push_back(typeid(Acceleration).name());
+    _usedComponents.push_back(typeid(Position).name());
 }
 
 MoveSystem::~MoveSystem()
@@ -26,9 +26,9 @@ void MoveSystem::update()
     for (std::size_t i = 0; i < MAX_ENTITIES; i++) {
         if (!checkAvailableEntity(i))
             continue;
-        auto &position = std::any_cast<Position&>(_components->at(typeid(Position))->getData(i).value());
-        auto &speed = std::any_cast<Speed&>(_components->at(typeid(Speed))->getData(i).value());
-        auto &acceleration = std::any_cast<Acceleration&>(_components->at(typeid(Acceleration))->getData(i).value());
+        auto &position = _componentManager->getComponent<Position>(i).value();
+        auto &speed = _componentManager->getComponent<Speed>(i).value();
+        auto &acceleration = _componentManager->getComponent<Acceleration>(i).value();
 
         position.x += acceleration.x * speed.speed;
         position.y += acceleration.y * speed.speed;

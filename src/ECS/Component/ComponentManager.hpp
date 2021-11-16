@@ -11,54 +11,63 @@
 #include <unordered_map>
 #include <memory>
 #include <any>
+#include <map>
 
 #include "SparseArray/SparseArray.hpp"
 
 
-class HasherTypeInfo {
-public:
-    size_t operator() (const std::type_info & type) const {
-        return type.hash_code();
-    }
-};
+//class HasherTypeInfo {
+//public:
+//    size_t operator() (const std::string & str) const {
+//        return str.;
+//    }
+//};
 
 class ComponentManager {
 public:
-    using ComponentsMap_t = std::unordered_map<std::type_info, std::shared_ptr<SparseArray<std::any>>, HasherTypeInfo>;
+    using ComponentsMap_t = std::map<std::string, std::any>;
 
-    ComponentManager();
+    ComponentManager() = default;
     template<typename T>
     void registerComponent()
     {
-        _componentsMap.emplace(typeid(T), std::make_shared<SparseArray<T>>(SparseArray<T>(MAX_ENTITIES)));
+        _componentsMap.emplace(typeid(T).name(), std::make_any<SparseArray<T>>(MAX_ENTITIES));
     }
 
     template<typename T>
     void removeComponent(const Entity &entity)
     {
-        _componentsMap.at(typeid(T))->deleteData(entity);
+        std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name())).deleteData(entity);
     }
 
     template<typename T>
     T &getComponent(const Entity &entity)
     {
-        return _componentsMap.at(typeid(T))->getData(entity);
+        return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name())).getData(entity);
     }
 
     template<typename T>
     const T &getComponent(const Entity &entity) const
     {
-        return _componentsMap.at(typeid(T))->getData(entity);
+        return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name())).getData(entity);
+    }
+
+    template<typename T>
+    std::optional<T> &getComponent(const std::size_t &id)
+    {
+        Entity entity(id);
+
+        return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name())).getData(entity);
     }
     template<typename T>
-    std::shared_ptr<SparseArray<T>> &getComponentsList()
+    SparseArray<T> &getComponentsList()
     {
-        return _componentsMap.at(typeid(T));
+        return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name()));
     }
     template<typename T>
-    const std::shared_ptr<SparseArray<T>> &getComponentsList() const
+    const SparseArray<T> &getComponentsList() const
     {
-        return _componentsMap.at(typeid(T));
+        return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name()));
     }
     ComponentsMap_t &getComponentMap()
     {
@@ -67,18 +76,18 @@ public:
     template<typename Component>
     void subToComponent(const Entity &entity, const Component &component)
     {
-        _componentsMap.at(typeid(Component))->insertData(entity, component);
+        std::any_cast<SparseArray<Component>>(_componentsMap.at(typeid(Component).name())).insertData(entity, component);
     }
 
     template<typename Component>
     void unsubFromComponent(const Entity &entity)
     {
-        _componentsMap.at(typeid(Component))->deleteData(entity);
+        std::any_cast<SparseArray<Component>>(_componentsMap.at(typeid(Component).name())).deleteData(entity);
     }
     void entityDestroyed(const Entity &entity)
     {
         for (auto &elem : _componentsMap) {
-            elem.second->entityDestroyed(entity);
+            std::any_cast<SparseArray<std::any>>(elem.second).entityDestroyed(entity);
         }
     }
 

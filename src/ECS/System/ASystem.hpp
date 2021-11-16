@@ -16,13 +16,13 @@
 
 class ASystem {
 public:
-    ASystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components);
+    ASystem(std::shared_ptr<ComponentManager> components);
     bool checkAvailableEntity(const size_t entity);
 
     virtual void update() = 0;
 protected:
-    std::shared_ptr<ComponentManager::ComponentsMap_t> _components;
-    std::vector<std::reference_wrapper<const std::type_info>> _usedComponents;
+    std::shared_ptr<ComponentManager> _componentManager;
+    std::vector<std::string> _usedComponents;
 };
 
 #endif //RTYPE_ASYSTEM_HPP

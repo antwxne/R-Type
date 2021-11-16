@@ -53,13 +53,37 @@ int main(int ac, char **av)
 {
     int port = 0;
     int argCheck = checkArgs(ac, av);
-    
+
     if (argCheck == 1)
         return 0;
     else if (argCheck == -1)
         return 84;
-    
+
     port = getPort(av);
     if (port > 0)
         return launchServer(port);
 }
+
+//#include "ECS/ECS.hpp"
+//#include "ECS/component.hpp"
+//#include "ECS/system.hpp"
+//
+//int main()
+//{
+//    ECS ecs;
+//
+//    ecs.registerComponent<Position>();
+//    ecs.registerComponent<Texture>();
+//    ecs.registerComponent<Scale>();
+//    ecs.registerComponent<Rotate>();
+//    ecs.registerComponent<Color>();
+//    ecs.registerComponent<SfmlSprite>();
+//
+//    auto draw = ecs.registerSystem<SfmlDrawSystem>();
+//    Entity player = ecs.createEntity();
+//    ecs.subToComponent(player, Position{50, 50});
+//    ecs.subToComponent(player, Texture{TextureType::Player});
+//    ecs.subToComponent(player, Scale{1});
+//    ecs.subToComponent(player, Color{ColorType::None});
+//    ecs.subToComponent(player, SfmlSprite{sf::Sprite()});
+//}

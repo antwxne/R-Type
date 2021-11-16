@@ -12,10 +12,10 @@
 #include "../../Component/Transform/Rotate.hpp"
 #include "../../Component/Color.hpp"
 
-SfmlDrawSystem::SfmlDrawSystem(SfmlDisplay &display, std::shared_ptr<ComponentManager::ComponentsMap_t> &components)
-:  _display(display), DrawSystem(components)
+SfmlDrawSystem::SfmlDrawSystem(SfmlDisplay &display, std::shared_ptr<ComponentManager> componentManager)
+:  _display(display), DrawSystem(componentManager)
 {
-    _usedComponents.push_back(typeid(SfmlSprite));
+    _usedComponents.push_back(typeid(SfmlSprite).name());
 }
 
 SfmlDrawSystem::~SfmlDrawSystem()
@@ -24,7 +24,7 @@ SfmlDrawSystem::~SfmlDrawSystem()
 
 void SfmlDrawSystem::draw(const std::size_t entity)
 {
-    auto& sprite = std::any_cast<SfmlSprite&>(_components->at(typeid(SfmlSprite))->getData(entity).value());
+    auto &sprite = _componentManager->getComponent<SfmlSprite>(entity).value();
 
     updateSprite(sprite, entity);
     _display.getWindow().draw(sprite.sprite);
@@ -42,13 +42,14 @@ void SfmlDrawSystem::updateSprite(SfmlSprite &sprite, const std::size_t entity)
 
 void SfmlDrawSystem::setPosition(SfmlSprite &sprite, const std::size_t entity)
 {
-    auto& position = std::any_cast<Position&>(_components->at(typeid(Position))->getData(entity).value());
+    auto &position = _componentManager->getComponent<Position>(entity).value();
+
     sprite.sprite.setPosition({position.x, position.y});
 }
 
 void SfmlDrawSystem::setTexture(SfmlSprite &sprite, const std::size_t entity)
 {
-    auto& texture = std::any_cast<Texture&>(_components->at(typeid(Texture))->getData(entity).value());
+    auto &texture = _componentManager->getComponent<Texture>(entity).value();
 
     std::shared_ptr<sf::Texture> sfmlTexture = _display.getTexture(texture.idTexture);
 
@@ -58,21 +59,21 @@ void SfmlDrawSystem::setTexture(SfmlSprite &sprite, const std::size_t entity)
 
 void SfmlDrawSystem::setScale(SfmlSprite &sprite, const std::size_t entity)
 {
-    auto& scale = std::any_cast<Scale&>(_components->at(typeid(Scale))->getData(entity).value());
+    auto &scale = _componentManager->getComponent<Scale>(entity).value();
 
     sprite.sprite.setScale({scale.scaleX, scale.scaleY});
 }
 
 void SfmlDrawSystem::setRotate(SfmlSprite &sprite, const std::size_t entity)
 {
-    auto &rot = std::any_cast<Rotate&>(_components->at(typeid(Rotate))->getData(entity).value());
+    auto &rot = _componentManager->getComponent<Rotate>(entity).value();
 
     sprite.sprite.setRotation(rot.r);
 }
 
 void SfmlDrawSystem::setColor(SfmlSprite &sprite, const std::size_t entity)
 {
-    auto &color = std::any_cast<Color&>(_components->at(typeid(Color))->getData(entity).value());
+    auto &color = _componentManager->getComponent<Color>(entity).value();
 
     std::shared_ptr<sf::Color> sfmlColor = _display.getColor(color.type);
 
