@@ -44,10 +44,7 @@ void RtypeClient::start()
     _ecs.subToComponent(player, Texture{TextureType::Player});
     _ecs.subToComponent(player, Scale{1, 1});
     _ecs.subToComponent(player, Color{ColorType::None});
-//    _ecs.subToComponent(player, SfmlSprite{std::make_shared<sf::Sprite>()}); // faudra changer par le sprite du player
     _ecs.subToComponent(player, SfmlSprite{std::make_shared<sf::Sprite>()}); // faudra changer par le sprite du player
-
-    std::optional<SfmlSprite> ad = _ecs.getComponent<SfmlSprite>(player);
 
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     draw.setDisplay(_graphical);
