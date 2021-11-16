@@ -13,6 +13,7 @@
 #include "../Graphical/SfmlMenu.hpp"
 #include "../Graphical/SfmlEventFactory.hpp"
 #include "../ECS/ECS.hpp"
+#include "../ECS/Entity/PlayerEntity.hpp"
 
 
 enum GameState

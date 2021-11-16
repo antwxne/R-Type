@@ -109,6 +109,8 @@ set(SHARED_SRC
         src/Graphical/SfmlParallax.hpp
         src/ECS/System/EventSystem/EventSystem.hpp
         src/ECS/System/EventSystem/EventSystem.cpp
+        src/ECS/Entity/PlayerEntity.hpp
+        src/ECS/Entity/PlayerEntity.cpp
         )
 
 #Compilation

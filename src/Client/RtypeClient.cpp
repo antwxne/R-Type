@@ -29,26 +29,20 @@ void RtypeClient::initMenu()
 void RtypeClient::start()
 {
     _ecs.registerComponent<Position>();
+    _ecs.registerComponent<Speed>();
+    _ecs.registerComponent<Acceleration>();
     _ecs.registerComponent<Texture>();
     _ecs.registerComponent<Scale>();
     _ecs.registerComponent<Rotate>();
     _ecs.registerComponent<Color>();
     _ecs.registerComponent<SfmlSprite>();
-    Entity player = _ecs.createEntity();
 
-    std::size_t plop;
-    player >> plop;
-    _ecs.subToComponent(player, Rotate{0});
-
-    _ecs.subToComponent(player, Position{50, 50});
-    _ecs.subToComponent(player, Texture{TextureType::Player});
-    _ecs.subToComponent(player, Scale{1, 1});
-    _ecs.subToComponent(player, Color{ColorType::None});
-    _ecs.subToComponent(player, SfmlSprite{std::make_shared<sf::Sprite>()}); // faudra changer par le sprite du player
+    PlayerEntity _pe({150, 50}, {ColorType::None});
+    _pe.create(_ecs);
 
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
+    _ecs.registerSystem<MoveSystem>();
     draw.setDisplay(_graphical);
-
     run();
 }
 
@@ -153,7 +147,6 @@ void RtypeClient::manageConnectMenu()
 
 void RtypeClient::manageGame()
 {
-    const auto &p = _ecs.getComponent<Position>(0);
-    auto a = _ecs.getSystem<SfmlDrawSystem>();
-    a.draw(0);
+    _ecs.getSystem<SfmlDrawSystem>().draw(0);
+    //_ecs.getSystem<MoveSystem>().update();
 }
