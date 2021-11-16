@@ -8,9 +8,19 @@
 #ifndef SOUND_HPP_
 #define SOUND_HPP_
 
-struct Sound
+enum statusTypeAudio {
+    PLAY,
+    STOP,
+    PAUSE,
+    ISPLAYED,
+    NONE,
+};
+
+struct Audio
 {
-    int idSound;
+    std::size_t idAudio;
+    statusTypeAudio status;
+    bool isPlayed;
 };
 
 #endif /* !SOUND_HPP_ */

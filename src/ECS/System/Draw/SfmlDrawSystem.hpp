@@ -12,7 +12,7 @@
 #include "../../Component/SfmlSprite.hpp"
 #include "DrawSystem.hpp"
 
-class SfmlDrawSystem : public DrawSystem{
+class SfmlDrawSystem : public DrawSystem {
     public:
         SfmlDrawSystem(SfmlDisplay &display, std::shared_ptr<ComponentManager::ComponentsMap_t> &components);
         ~SfmlDrawSystem();
