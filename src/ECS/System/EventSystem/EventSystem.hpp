@@ -129,20 +129,19 @@ public:
     using Callback = std::function<void(
         std::shared_ptr<ComponentManager>, const std::size_t &,
         std::queue<Event_s> &)>;
-//    using Callback = std::function<void()>;
     using CallbackMap = std::unordered_map<Event_s, std::vector<std::pair<std::size_t, Callback>>, Event_s>;
 public:
     EventSystem(std::shared_ptr<ComponentManager> components);
     ~EventSystem() = default;
 
     void subscribeToEvent(const Event_s &event, const Entity &entity,
-         Callback callback
+         const Callback &callback
     ) noexcept;
     void unsubscribeToEvent(const Event_s &event, const Entity &entity) noexcept;
     void update() override;
     void setEvents(const std::vector<Event_s> &events) noexcept;
     std::shared_ptr<std::vector<Event_s>> getRaisedEvents() noexcept;
-
+    void unsubscribeToAllEvents(const Entity &entity) noexcept;
 private:
     CallbackMap _callbacksMap;
     std::vector<Event_s> _currentEvents;

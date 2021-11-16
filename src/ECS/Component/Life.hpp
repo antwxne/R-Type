@@ -10,7 +10,6 @@
 
 struct Life
 {
-    unsigned int life; // set to 3 lifes
     int health; // set to 100 HP
 };
 

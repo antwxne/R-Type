@@ -9,7 +9,7 @@
 #include "ECS/System/EventSystem/EventSystem.hpp"
 #include "ECS/System/EventSystem/EventCallback.hpp"
 
-RtypeClient::RtypeClient() : _state(GameState::ConnectMenu)
+RtypeClient::RtypeClient() : _state(GameState::Game)
 {
     _graphical = std::make_shared<SfmlDisplay>();
     _textureLogo.loadFromFile("assets/sprites/r_type_logo.png");

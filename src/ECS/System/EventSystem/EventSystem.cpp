@@ -16,8 +16,8 @@ Event_n::EventSystem::EventSystem(
 {
 }
 
-void Event_n::EventSystem::subscribeToEvent(const Event_s &event,
-    const Entity &entity, Event_n::EventSystem::Callback callback
+void Event_n::EventSystem::subscribeToEvent(const Event_n::Event_s &event,
+    const Entity &entity, const Event_n::EventSystem::Callback &callback
 ) noexcept
 {
     std::size_t id;
@@ -77,6 +77,20 @@ std::shared_ptr<std::vector<Event_n::Event_s>> Event_n::EventSystem::getRaisedEv
         _raisedEvents.pop();
     }
     return dest;
+}
+
+void Event_n::EventSystem::unsubscribeToAllEvents(const Entity &entity) noexcept
+{
+    for (auto &it : _callbacksMap) {
+        auto &elem = it.second;
+        elem.erase(std::remove_if(elem.begin(), elem.end(),
+            [entity](std::pair<std::size_t, Callback> &tmp) {
+                std::size_t id;
+
+                entity >> id;
+                return tmp.first == id;
+            }), elem.end());
+    }
 }
 
 Event_n::Event_s::Event_s(Event_n::State_e newState, Event_n::Events_e newEvent)

@@ -11,7 +11,7 @@
 
 class ColissionSystem : public ASystem {
     public:
-        ColissionSystem();
+        ColissionSystem(std::shared_ptr<ComponentManager> &components);
         ~ColissionSystem();
         void update() override;
     protected:

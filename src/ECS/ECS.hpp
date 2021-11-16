@@ -23,6 +23,10 @@ public:
 
     Entity createEntity();
     void destroyEntity(const Entity &entity);
+    void destroyEntity(std::size_t entity);
+
+    void garbageCollector();
+
 
     template<class Component>
     void registerComponent()
@@ -73,6 +77,11 @@ public:
     {
         return _systemManager->getSystem<System>();
     }
+private:
+    bool isAlive(const std::optional<Life> &lifeComponent) const;
+    bool isInScreen(
+        const std::optional<Position> &position, const std::optional<Rectangle> &hitbox) const;
+        //,const std::optional<Bullet> &bullet) const;
 private:
     std::unique_ptr<EntityManager> _entityManager;
     std::shared_ptr<ComponentManager> _componentManager;
