@@ -47,7 +47,7 @@ void RtypeClient::start()
     _ecs.subToComponent(player, Color{ColorType::None});
     _ecs.subToComponent(player, SfmlSprite{sf::Sprite()}); // faudra changer par le sprite du player
 
-    std::optional<Scale> ad = _ecs.getComponent<Scale>(player);
+    std::optional<SfmlSprite> ad = _ecs.getComponent<SfmlSprite>(player);
 
     std::cout << "da = " << ad.has_value() << std::endl;
 
