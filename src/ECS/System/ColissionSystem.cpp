@@ -6,11 +6,11 @@
 */
 
 #include "ColissionSystem.hpp"
-#include "../Component/Rectangle.hpp"
-#include "../Component/Colission.hpp"
-#include "../Component/Transform/Position.hpp"
-#include "../Component/Tag.hpp"
-#include "../Component/Life.hpp"
+#include "ECS/Component/Rectangle.hpp"
+#include "ECS/Component/Colission.hpp"
+#include "ECS/Component/Transform/Position.hpp"
+#include "ECS/Component/Tag.hpp"
+#include "ECS/Component/Life.hpp"
 #include "../../utils.hpp"
 
 ColissionSystem::ColissionSystem(std::shared_ptr<ComponentManager> &components) : ASystem(components)

@@ -6,9 +6,9 @@
 */
 
 #include "MoveSystem.hpp"
-#include "../Component/Speed.hpp"
-#include "../Component/Acceleration.hpp"
-#include "../Component/Transform/Position.hpp"
+#include "ECS/Component/Speed.hpp"
+#include "ECS/Component/Acceleration.hpp"
+#include "ECS/Component/Transform/Position.hpp"
 
 MoveSystem::MoveSystem(std::shared_ptr<ComponentManager> components) : ASystem(components)
 {
