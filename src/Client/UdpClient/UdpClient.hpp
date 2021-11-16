@@ -26,20 +26,17 @@ class UdpClient : public INetwork {
 
         void sendMessage(Message<MessageType> &message) override;
         void readMessageHeader() override;
-        void readMessageBody() override;
+        void readMessageBody(Message<MessageType> &message) override;
         void writeMessageHeader(Message<MessageType> &message) override;
         void writeMessageBody(Message<MessageType> &message) override;
 
     protected:
-        virtual void handleHeaderRecieve(const asio::error_code& error, std::size_t size);
-        virtual void handleBodyRecieve(const asio::error_code& error, std::size_t size);
     protected:
         asio::io_context _asioContext;
         asio::ip::udp::socket _socket;
         asio::ip::udp::endpoint _serverEndpoint;
         std::thread _threadContext;
 
-        Message<MessageType> _tmpMessage;
         std::list<Message<MessageType>> _messageList;
         UdpClientMessageHandler _messageHandler;
 };

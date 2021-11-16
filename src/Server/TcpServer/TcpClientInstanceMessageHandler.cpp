@@ -61,7 +61,6 @@ void TcpClientInstanceMessageHandler::handleSetPlayerName(TcpClientInstanceMessa
     try
     {
         message.message >> nameC;
-        
         message.client->informations.setName(nameC);
         writeResponse(message, 200);
     }
@@ -79,7 +78,7 @@ void TcpClientInstanceMessageHandler::handleSetPlayerName(TcpClientInstanceMessa
 void TcpClientInstanceMessageHandler::handleCreateGame(TcpClientInstanceMessage<MessageType> &message)
 {
     char nameC[GAME_NAME_MAX_LENGHT];
-
+    
     try
     {
         message.message >> nameC;
@@ -145,6 +144,7 @@ void TcpClientInstanceMessageHandler::handleGetGames(TcpClientInstanceMessage<Me
         response << MessageType::GetGamesList;
         response.setResponseCode(200);
         auto l = _server.gamesHandler.getListGames();
+
         for (auto &i : l)
         {
             char nameC[GAME_NAME_MAX_LENGHT];
@@ -164,7 +164,6 @@ void TcpClientInstanceMessageHandler::handleGetGames(TcpClientInstanceMessage<Me
 void TcpClientInstanceMessageHandler::handleGetPlayersInGame(TcpClientInstanceMessage<MessageType> &message)
 {
     char gameName[GAME_NAME_MAX_LENGHT];
-    std::cout << "In game\n";
 
     message.message >> gameName;
 

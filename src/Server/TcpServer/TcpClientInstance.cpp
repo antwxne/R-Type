@@ -25,19 +25,21 @@ void TcpClientInstance::sendMessage(Message<MessageType> &message)
 
 void TcpClientInstance::readMessageHeader()
 {
-    asio::async_read(_socket, asio::buffer(_tmpMessage.getHeaderPtr(), _tmpMessage.getHeaderSize()),
+    _messageToRead = Message<MessageType>();
+
+    asio::async_read(_socket, asio::buffer(_messageToRead.getHeaderPtr(), _messageToRead.getHeaderSize()),
 	[this](std::error_code ec, std::size_t length)
     {
         if (!ec)
         {
-            if (_tmpMessage.getBodySize() > 0)
+            if (_messageToRead.getBodySize() > 0)
             {
-                _tmpMessage.resizeBody(_tmpMessage.getBodySize());
-                readMessageBody();
+                _messageToRead.resizeBody(_messageToRead.getBodySize());
+                readMessageBody(_messageToRead);
             }
             else
             {
-                _messageList.push_back(TcpClientInstanceMessage<MessageType>(_tmpMessage, this->shared_from_this()));
+                _messageList.push_back(TcpClientInstanceMessage<MessageType>(_messageToRead, this->shared_from_this()));
                 readMessageHeader();
             }
         }
@@ -49,11 +51,10 @@ void TcpClientInstance::readMessageHeader()
     });
 }
 
-
-void TcpClientInstance::readMessageBody()
+void TcpClientInstance::readMessageBody(Message<MessageType> &message)
 {
-    asio::async_read(_socket, asio::buffer(_tmpMessage.getBodyDataPtr(), _tmpMessage.getBodySize()),
-		[this](std::error_code ec, std::size_t length)
+    asio::async_read(_socket, asio::buffer(_messageToRead.getBodyDataPtr(), _messageToRead.getBodySize()),
+	[this, message](std::error_code ec, std::size_t length) mutable
     {
         if (ec)
         {
@@ -62,7 +63,7 @@ void TcpClientInstance::readMessageBody()
         }
         else
         {
-            _messageList.push_back(TcpClientInstanceMessage<MessageType>(_tmpMessage, this->shared_from_this()));
+            _messageList.push_back(TcpClientInstanceMessage<MessageType>(_messageToRead, this->shared_from_this()));
             readMessageHeader();
         }
     });
@@ -70,14 +71,13 @@ void TcpClientInstance::readMessageBody()
 
 void TcpClientInstance::writeMessageHeader(Message<MessageType> &message)
 {
-    _messageToWrite = message;
     asio::async_write(_socket, asio::buffer(message.getHeaderPtr(),  message.getHeaderSize()),
-	[this](std::error_code ec, std::size_t length)
+	[this, message](std::error_code ec, std::size_t length) mutable
     {
         if (!ec)
         {
-            if (_messageToWrite.getBodySize() > 0)
-                writeMessageBody(_messageToWrite);
+            if (message.getBodySize() > 0)
+                writeMessageBody(message);
         }
         else
         {
@@ -96,12 +96,7 @@ void TcpClientInstance::writeMessageBody(Message<MessageType> &message)
         {
             _socket.close();
             _isConnected = false;
-        }
-        else
-        {
-            std::cout << "Write body "<< length << "\n";
-        }
-        
+        }        
     });
 }
 

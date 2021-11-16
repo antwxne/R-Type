@@ -8,7 +8,7 @@
 #include "SfmlButton.hpp"
 
 SfmlButton::SfmlButton(const std::string &text, const sf::Vector2f &pos,
-const float size, const sf::Font & font, bool isInputButton)
+const float size, const sf::Font & font, bool isInputButton, bool isValidedButton)
 {
     _text.setFont(font);
     _text.setFillColor(sf::Color::White);
@@ -53,9 +53,10 @@ void SfmlButton::setText(const std::string &text)
 
 std::string SfmlButton::getText() const
 {
-    return _text.getString();
+    return _text.getString().substring(_defaultTextSize);
 }
-#include<iostream>
+
+
 void SfmlButton::addText(const std::string &text)
 {
     if (_isInputButton == false)
@@ -74,4 +75,10 @@ void SfmlButton::removeText()
         str.pop_back();
         _text.setString(str);
     }
+}
+
+
+bool SfmlButton::validate()
+{
+    return _isValidedButton;
 }

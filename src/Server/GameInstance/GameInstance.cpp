@@ -26,7 +26,7 @@ void GameInstance::run()
         if (_udpGameServer)
             _udpGameServer->run();
         std::cout << _name << " Running with " << (int)_nbPlayers << " players\n";
-        sleep(1);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
 

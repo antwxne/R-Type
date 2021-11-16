@@ -24,7 +24,7 @@ void TcpAsioServer::run()
     while (1)   
     {
         update();
-        sleep(0.01);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
 

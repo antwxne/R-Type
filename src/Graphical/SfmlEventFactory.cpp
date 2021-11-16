@@ -15,7 +15,8 @@ std::map<sf::Keyboard::Key, ControlGame> SfmlEventFactory::eventType =  {
     {sf::Keyboard::Key::Right, ControlGame::RIGHT},
     {sf::Keyboard::Key::Escape, ControlGame::ESCAPE},
     {sf::Keyboard::Key::Space, ControlGame::SPACE},
-    {sf::Keyboard::Key::BackSpace, ControlGame::DELETE}
+    {sf::Keyboard::Key::Enter, ControlGame::ENTER},
+    {sf::Keyboard::Key::BackSpace, ControlGame::DELETE},
     };
 
 SfmlEventFactory::SfmlEventFactory()
@@ -42,7 +43,7 @@ std::string SfmlEventFactory::getTextEntered(const sf::Event &event) const
 {
     if (event.type == sf::Event::TextEntered)
     {
-        if (event.text.unicode < 128 && event.text.unicode != 8)
+        if (event.text.unicode < 128 && event.text.unicode != 8 && event.text.unicode != 13)
         {
             return std::string(1, static_cast<char>(event.text.unicode));
         }

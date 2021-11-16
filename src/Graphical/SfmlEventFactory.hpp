@@ -20,6 +20,7 @@ enum ControlGame
     RIGHT,
     SPACE,
     ESCAPE,
+    ENTER,
     DELETE,
     NONE,
 };

@@ -28,7 +28,7 @@ void UdpAsioServer::run()
 {
     while (1)
     {
-        sleep(0.1);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
 
@@ -44,46 +44,42 @@ void UdpAsioServer::sendMessage(Message<MessageType> &message)
 
 void UdpAsioServer::readMessageHeader()
 {
-    _socket.async_receive_from(asio::buffer(_tmpMessage.getHeaderPtr(), _tmpMessage.getHeaderSize()),
-    _lastEndpoint, std::bind(&UdpAsioServer::handleHeaderRecieve, this, std::placeholders::_1,
-    std::placeholders::_2));
+    Message<MessageType> message;
+
+    _socket.async_receive_from(asio::buffer(message.getHeaderPtr(), message.getHeaderSize()), _lastEndpoint,
+    [this, message](std::error_code ec, std::size_t length) mutable
+    {
+        if (ec)
+        {
+            readMessageHeader();
+            return;
+        }
+        if (message.getBodySize() > 0)
+        {
+            message.resizeBody(message.getBodySize());
+            readMessageBody(message);
+        }
+        else
+        {
+            _messageList.push_back(message);
+            readMessageHeader();
+        }
+    });
 }
 
-void UdpAsioServer::handleHeaderRecieve(const asio::error_code& error, std::size_t size)
+void UdpAsioServer::readMessageBody(Message<MessageType> &message)
 {
-    if (error)
+    _socket.async_receive_from(asio::buffer(message.getBodyDataPtr(), message.getBodySize()), _lastEndpoint,
+    [this, message](std::error_code ec, std::size_t length) mutable
     {
+        if (ec)
+        {
+            readMessageHeader();
+            return;
+        }
+        _messageList.push_back(message);
         readMessageHeader();
-        return;
-    }
-    if (_tmpMessage.getBodySize() > 0)
-    {
-        _tmpMessage.resizeBody(_tmpMessage.getBodySize());
-        readMessageBody();
-    }
-    else
-    {
-        _messageList.push_back(_tmpMessage);
-        readMessageHeader();
-    }
-}
-
-void UdpAsioServer::readMessageBody()
-{
-    _socket.async_receive_from(asio::buffer(_tmpMessage.getBodyDataPtr(), _tmpMessage.getBodySize()),
-    _lastEndpoint, std::bind(&UdpAsioServer::handleBodyRecieve, this, std::placeholders::_1,
-    std::placeholders::_2));
-}
-
-void UdpAsioServer::handleBodyRecieve(const asio::error_code& error, std::size_t size)
-{
-    if (error)
-    {
-        readMessageHeader();
-        return;
-    }
-    _messageList.push_back(_tmpMessage);
-    readMessageHeader();
+    });
 }
 
 void UdpAsioServer::writeMessageHeader(Message<MessageType> &message)
@@ -98,12 +94,27 @@ void UdpAsioServer::writeMessageBody(Message<MessageType> &message)
 
 void UdpAsioServer::writeMessageHeaderToEndpoint(Message<MessageType> &message, asio::ip::udp::endpoint &clientEndpoint)
 {
-    _socket.send_to(asio::buffer(message.getHeaderPtr(), message.getHeaderSize()), clientEndpoint);
-    if (message.getBodySize() > 0)
-        writeMessageBodyToEndpoint(message, clientEndpoint);
+    _socket.async_send_to(asio::buffer(message.getHeaderPtr(), message.getHeaderSize()), clientEndpoint, 
+    [this, message, clientEndpoint](std::error_code ec, std::size_t length) mutable
+    {
+        if (ec)
+        {
+            return;
+        }
+        if (message.getBodySize() > 0)
+            writeMessageBodyToEndpoint(message, clientEndpoint);
+    });
+    
 }
 
 void UdpAsioServer::writeMessageBodyToEndpoint(Message<MessageType> &message, asio::ip::udp::endpoint &clientEndpoint)
 {
-    _socket.send_to(asio::buffer(message.getBodyDataPtr(), message.getBodySize()), clientEndpoint);
+    _socket.async_send_to(asio::buffer(message.getBodyDataPtr(), message.getBodySize()), clientEndpoint,
+    [this](std::error_code ec, std::size_t length) mutable
+    {
+        if (ec)
+        {
+            return;
+        }
+    });
 }

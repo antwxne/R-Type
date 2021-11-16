@@ -9,6 +9,7 @@
 
 GameInstancesHandler::GameInstancesHandler(int maxGames) : _maxGames(maxGames)
 {
+    _nbGames = 0;
 }
 
 GameInstancesHandler::~GameInstancesHandler()
@@ -39,7 +40,6 @@ void GameInstancesHandler::removeEmptyGames()
             _gamesInstances.erase(it);
             (*itThread).detach();
             _gamesThread.erase(itThread);
-            std::cout << "Removed\n";
             return;
         }
     }

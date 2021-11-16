@@ -11,6 +11,7 @@
 #include <vector>
 #include <cstring>
 #include <iostream>
+#include "network.hpp"
 
 #define MAX_MESSAGE_BODY_SIZE 1000
 

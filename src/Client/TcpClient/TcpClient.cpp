@@ -66,12 +66,14 @@ bool TcpClient::tryConnect(const std::string &ip, int port)
 
         _threadContext = std::thread([this]() { _asioContext.run(); });
     }
+
     catch (std::exception& e)
 	{
 		std::cout << "Cannot connect : " << e.what() << std::endl;
 		return false;
 	}
-	return true;
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	return _connection->isConnected();
 }
 
 bool TcpClient::isConnected()
@@ -79,4 +81,15 @@ bool TcpClient::isConnected()
     if (!_connection)
         return false;
     return _connection->isConnected();
+}
+
+
+void TcpClient::addGame(const std::string &name, char nbPlayers)
+{
+    _gamesList.push_back({name, nbPlayers});
+}
+
+std::list<std::pair<std::string, char>> &TcpClient::getGames()
+{
+    return _gamesList;
 }

@@ -28,7 +28,9 @@ class TcpClient
         bool tryConnect(const std::string &ip, int port);
 
         std::string getIp() const;
-        
+
+        void addGame(const std::string &name, char nbPlayers);
+        std::list<std::pair<std::string, char>> &getGames();
         
         bool isConnected();
     private:
@@ -42,6 +44,8 @@ class TcpClient
         std::shared_ptr<TcpClientConnection> _connection;
         std::list<Message<MessageType>> _messageList;
         TcpClientMessageHandler _messageHandler;
+
+        std::list<std::pair<std::string, char>> _gamesList;
 };
 
 #endif /* !CLIENT_HPP_ */

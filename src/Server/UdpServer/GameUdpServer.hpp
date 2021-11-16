@@ -20,11 +20,9 @@ class GameUdpServer : public UdpAsioServer
         ~GameUdpServer();
         void run() override;
         void sendMessageToPlayer(GameUdpMessage<MessageType> &message, int nPlayer);
-
+        void readMessageHeader() override;
+        void readMessageBody(Message<MessageType> &message) override;
     private:
-        void handleHeaderRecieve(const asio::error_code& error, std::size_t size) override;
-        void handleBodyRecieve(const asio::error_code& error, std::size_t size) override;
-
         bool checkPlayerBinded(asio::ip::udp::endpoint endpoint);
         bool handlePlayerClient(asio::ip::udp::endpoint endpoint);
     private:

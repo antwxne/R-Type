@@ -65,7 +65,6 @@ void TcpClientMessageHandler::handleLeaveGame(Message<MessageType> &message)
 void TcpClientMessageHandler::handleGetGames(Message<MessageType> &message)
 {
     int bodysize = message.getBodySize();
-    std::cout << "GET GAMES "<< bodysize << "\n";
 
     try
     {
@@ -77,7 +76,7 @@ void TcpClientMessageHandler::handleGetGames(Message<MessageType> &message)
             bodysize -= GAME_NAME_MAX_LENGHT;
             message >> nPlayers;
             bodysize -= sizeof(char);
-            std::cout << "Game " << name << " with " << (int)nPlayers << " players\n";
+            _client.addGame(name, nPlayers);
         }
     }
     catch(const std::exception& e)
@@ -89,7 +88,6 @@ void TcpClientMessageHandler::handleGetGames(Message<MessageType> &message)
 void TcpClientMessageHandler::handleGetPlayersInGame(Message<MessageType> &message)
 {
     int bodysize = message.getBodySize();
-    std::cout << "GET PLayerInGame "<< bodysize << "\n";
 
     try
     {

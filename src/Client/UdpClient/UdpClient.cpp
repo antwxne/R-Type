@@ -39,7 +39,7 @@ void UdpClient::run()
             _messageList.pop_front();
             _messageHandler.handleMessage(message);
         }
-        sleep(0.001);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
 
@@ -50,56 +50,66 @@ void UdpClient::sendMessage(Message<MessageType> &message)
 
 void UdpClient::readMessageHeader()
 {
-    _socket.async_receive_from(asio::buffer(_tmpMessage.getHeaderPtr(), _tmpMessage.getHeaderSize()),
-    _serverEndpoint, std::bind(&UdpClient::handleHeaderRecieve, this, std::placeholders::_1,
-    std::placeholders::_2));
+    Message<MessageType> message;
+    _socket.async_receive_from(asio::buffer(message.getHeaderPtr(), message.getHeaderSize()), _serverEndpoint,
+    [this, message](std::error_code ec, std::size_t length) mutable
+    {   
+        if (ec)
+        {
+            readMessageHeader();
+            return;
+        }
+        if (message.getBodySize() > 0)
+        {
+            message.resizeBody(message.getBodySize());
+            readMessageBody(message);
+        }
+        else
+        {
+            _messageList.push_back(message);
+            readMessageHeader();
+        }
+    });
 }
 
-void UdpClient::handleHeaderRecieve(const asio::error_code& error, std::size_t size)
-{
-    if (error)
-    {
-        readMessageHeader();
-        return;
-    }
-    if (_tmpMessage.getBodySize() > 0)
-    {
-        _tmpMessage.resizeBody(_tmpMessage.getBodySize());
-        readMessageBody();
-    }
-    else
-    {
-        _messageList.push_back(_tmpMessage);
-        readMessageHeader();
-    }
-}
 
-void UdpClient::readMessageBody()
+void UdpClient::readMessageBody(Message<MessageType> &message)
 {
-    _socket.async_receive_from(asio::buffer(_tmpMessage.getBodyDataPtr(), _tmpMessage.getBodySize()),
-    _serverEndpoint, std::bind(&UdpClient::handleBodyRecieve, this, std::placeholders::_1,
-    std::placeholders::_2));
-}
-
-void UdpClient::handleBodyRecieve(const asio::error_code& error, std::size_t size)
-{
-    if (error)
+    _socket.async_receive_from(asio::buffer(message.getBodyDataPtr(), message.getBodySize()), _serverEndpoint,
+    [this, message](std::error_code ec, std::size_t length) mutable
     {
+        if (ec)
+        {
+            readMessageHeader();
+            return;
+        }
+        _messageList.push_back(message);
         readMessageHeader();
-        return;
-    }
-    _messageList.push_back(_tmpMessage);
-    readMessageHeader();
+    });
 }
 
 void UdpClient::writeMessageHeader(Message<MessageType> &message)
 {
-    _socket.send_to(asio::buffer(message.getHeaderPtr(), message.getHeaderSize()), _serverEndpoint);
-    if (message.getBodySize() > 0)
-        writeMessageBody(message);
+    _socket.async_send_to(asio::buffer(message.getHeaderPtr(), message.getHeaderSize()), _serverEndpoint,
+    [this, message](std::error_code ec, std::size_t length) mutable
+    {
+        if (ec)
+        {
+            return;
+        }
+        if (message.getBodySize() > 0)
+            writeMessageBody(message);
+    });
 }
 
 void UdpClient::writeMessageBody(Message<MessageType> &message)
 {
-    _socket.send_to(asio::buffer(message.getBodyDataPtr(), message.getBodySize()), _serverEndpoint);
+    _socket.async_send_to(asio::buffer(message.getBodyDataPtr(), message.getBodySize()), _serverEndpoint,
+    [this, message](std::error_code ec, std::size_t length) mutable
+    {
+        if (ec)
+        {
+            return;
+        }
+    });
 }
