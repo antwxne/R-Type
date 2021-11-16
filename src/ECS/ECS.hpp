@@ -45,12 +45,12 @@ public:
         return _componentManager->getComponent<T>(entity);
     }
     template<typename T>
-    std::shared_ptr<SparseArray<T>> &getComponentsList()
+    SparseArray<T> &getComponentsList()
     {
         return _componentManager->getComponentsList<T>();
     }
     template<typename T>
-    const std::shared_ptr<SparseArray<T>> &getComponentsList() const
+    const SparseArray<T> &getComponentsList() const
     {
         return _componentManager->getComponentsList<T>();
     }
