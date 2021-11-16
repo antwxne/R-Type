@@ -41,13 +41,13 @@ void RtypeClient::start()
     std::size_t plop;
     player >> plop;
     std::cout << std::to_string(plop) << std::endl; 
-    _ecs.subToComponent(player, Position{50, 50});
+    _ecs.subToComponent(player, Position{500, 500});
     _ecs.subToComponent(player, Texture{TextureType::Player});
-    _ecs.subToComponent(player, Scale{1});
+    _ecs.subToComponent(player, Scale{1.0f, 1.0f});
     _ecs.subToComponent(player, Color{ColorType::None});
-    _ecs.subToComponent(player, SfmlSprite{_spriteLogo}); // faudra changer par le sprite du player
-    
-    std::optional<SfmlSprite> ad = _ecs.getComponent<SfmlSprite>(player);
+    _ecs.subToComponent(player, SfmlSprite{sf::Sprite()}); // faudra changer par le sprite du player
+
+    std::optional<Scale> ad = _ecs.getComponent<Scale>(player);
 
     std::cout << "da = " << ad.has_value() << std::endl;
 
@@ -157,5 +157,5 @@ void RtypeClient::manageGame()
 {
     auto a = _ecs.getSystem<SfmlDrawSystem>();
     //std::cout << "O" << std::endl;
-    a.draw(0);
+    a.draw(1);
 }

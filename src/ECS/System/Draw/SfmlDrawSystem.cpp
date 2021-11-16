@@ -12,6 +12,8 @@
 #include "../../Component/Transform/Rotate.hpp"
 #include "../../Component/Color.hpp"
 
+#include <iostream>
+
 SfmlDrawSystem::SfmlDrawSystem(std::shared_ptr<ComponentManager> componentManager)
 : DrawSystem(componentManager)
 {
@@ -25,11 +27,13 @@ SfmlDrawSystem::~SfmlDrawSystem()
 void SfmlDrawSystem::draw(const std::size_t entity)
 {
     try {
-    auto &sprite = _componentManager->getComponent<SfmlSprite>(entity).value();
+    SfmlSprite &sprite = _componentManager->getComponent<SfmlSprite>(entity).value();
 
     updateSprite(sprite, entity);
     _display->getWindow()->draw(sprite.sprite);
+    std::cout << "x: " << sprite.sprite.getPosition().x << "\ny: " << sprite.sprite.getPosition().y << std::endl;
     } catch (const std::exception &e) {
+        //std::cout << "Throw ! Pas de sprite dispo !" << std::endl;
     }
 }
 
