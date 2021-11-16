@@ -37,19 +37,19 @@ public:
     template<typename T>
     void removeComponent(const Entity &entity)
     {
-        std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name())).deleteData(entity);
+        std::any_cast<SparseArray<T> &>(_componentsMap.at(typeid(T).name())).deleteData(entity);
     }
 
     template<typename T>
     T &getComponent(const Entity &entity)
     {
-        return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name())).getData(entity);
+        return std::any_cast<SparseArray<T> &>(_componentsMap.at(typeid(T).name())).getData(entity);
     }
 
     template<typename T>
     const T &getComponent(const Entity &entity) const
     {
-        return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name())).getData(entity);
+        return std::any_cast<SparseArray<T> &>(_componentsMap.at(typeid(T).name())).getData(entity);
     }
 
     template<typename T>
@@ -57,17 +57,17 @@ public:
     {
         Entity entity(id);
 
-        return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name())).getData(entity);
+        return std::any_cast<SparseArray<T> &>(_componentsMap.at(typeid(T).name())).getData(entity);
     }
     template<typename T>
     SparseArray<T> &getComponentsList()
     {
-        return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name()));
+        return std::any_cast<SparseArray<T> &>(_componentsMap.at(typeid(T).name()));
     }
     template<typename T>
     const SparseArray<T> &getComponentsList() const
     {
-        return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name()));
+        return std::any_cast<SparseArray<T> &>(_componentsMap.at(typeid(T).name()));
     }
     ComponentsMap_t &getComponentMap()
     {
@@ -76,7 +76,9 @@ public:
     template<typename Component>
     void subToComponent(const Entity &entity, const Component &component)
     {
-        std::any_cast<SparseArray<Component>>(_componentsMap.at(typeid(Component).name())).insertData(entity, component);
+        std::cout << "avant sub"<< std::endl;
+        std::any_cast<SparseArray<Component> &>(_componentsMap.at(typeid(Component).name())).insertData(entity, component);
+
     }
 
     template<typename Component>
@@ -90,7 +92,6 @@ public:
             std::any_cast<SparseArray<std::any>>(elem.second).entityDestroyed(entity);
         }
     }
-
 private:
     ComponentsMap_t _componentsMap;
 };

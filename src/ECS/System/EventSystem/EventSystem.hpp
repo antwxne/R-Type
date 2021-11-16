@@ -145,7 +145,7 @@ public:
     void update() override;
     void setEvents(const std::vector<Event> &events) noexcept;
     std::shared_ptr<std::vector<Event>> getRaisedEvents() noexcept;
-
+    void unsubscribeToAllEvents(const Entity &entity) noexcept;
 private:
     CallbackMap _callbacksMap;
     std::vector<Event> _currentEvents;

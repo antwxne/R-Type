@@ -41,7 +41,7 @@ public:
     template<typename System>
     System &getSystem()
     {
-        return _systemsMap.at(typeid(System).name());
+        return std::any_cast<System &>(_systemsMap.at(typeid(System).name()));
     }
 private:
     SystemsMap_t _systemsMap;
