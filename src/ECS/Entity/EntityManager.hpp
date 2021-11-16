@@ -14,7 +14,7 @@
 
 #include "rtype.h"
 #include "Entity.hpp"
-#include "ComponentManager.hpp"
+#include "ECS/Component/ComponentManager.hpp"
 
 class EntityManager {
     public:
