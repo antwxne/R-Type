@@ -10,10 +10,10 @@
 
 struct Rectangle
 {
-    int rectLeft;
-    int rectTop;
-    int rectWidth;
-    int rectHeight;
+    int x;
+    int y;
+    int width;
+    int height;
 };
 
 #endif /* !RECTANGLE_HPP_ */

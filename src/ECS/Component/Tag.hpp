@@ -7,22 +7,26 @@
 
 #ifndef TAG_HPP_
 #define TAG_HPP_
+#include <vector>
 
-struct Player
-{
+#ifdef __WIN32
+enum TagType: int {
+    BULLET,
+    ENNEMY,
+    PLAYER,
 };
 
-struct Enemy
-{
+#else
+
+enum TagType {
+    BULLET,
+    ENNEMY,
+    PLAYER,
+    POWERUP,
 };
+#endif
 
-struct PowerUp
-{
+struct Tag {
+    std::vector<TagType> type;
 };
-
-struct Bullet
-{
-};
-
-
 #endif /* !TAG_HPP_ */

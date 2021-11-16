@@ -82,8 +82,11 @@ set(SHARED_SRC
         src/ECS/Component/ComponentManager.hpp
         src/ECS/ECS.cpp
         src/ECS/ECS.hpp
+        src/utils.hpp
         src/ECS/System/ASystem.hpp
         src/ECS/System/ASystem.cpp
+        src/ECS/System/ColissionSystem.cpp
+        src/ECS/System/ColissionSystem.hpp
         src/ECS/System/MoveSystem.hpp
         src/ECS/System/MoveSystem.cpp
         src/ECS/System/Draw/DrawSystem.cpp
