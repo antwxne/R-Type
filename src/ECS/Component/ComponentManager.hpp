@@ -29,24 +29,24 @@ public:
     template<typename T>
     void removeComponent(const Entity &entity)
     {
-        std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name())).deleteData(entity);
+        std::any_cast<SparseArray<T> &>(_componentsMap.at(typeid(T).name())).deleteData(entity);
     }
 
 
     template<typename T>
     std::optional<T> &getComponent(const Entity &entity)
     {
-        return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name())).getData(entity);
+        return std::any_cast<SparseArray<T> &>(_componentsMap.at(typeid(T).name())).getData(entity);
     }
     template<typename T>
     SparseArray<T> &getComponentsList()
     {
-        return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name()));
+        return std::any_cast<SparseArray<T> &>(_componentsMap.at(typeid(T).name()));
     }
     template<typename T>
     const SparseArray<T> &getComponentsList() const
     {
-        return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name()));
+        return std::any_cast<SparseArray<T> &>(_componentsMap.at(typeid(T).name()));
     }
     ComponentsMap_t &getComponentMap()
     {
@@ -55,18 +55,18 @@ public:
     template<typename Component>
     void subToComponent(const Entity &entity, const Component &component)
     {
-        std::any_cast<SparseArray<Component>>(_componentsMap.at(typeid(Component).name())).insertData(entity, component);
+        std::any_cast<SparseArray<Component> &>(_componentsMap.at(typeid(Component).name())).insertData(entity, component);
     }
 
     template<typename Component>
     void unsubFromComponent(const Entity &entity)
     {
-        std::any_cast<SparseArray<Component>>(_componentsMap.at(typeid(Component).name())).deleteData(entity);
+        std::any_cast<SparseArray<Component> &>(_componentsMap.at(typeid(Component).name())).deleteData(entity);
     }
     void entityDestroyed(const Entity &entity)
     {
         for (auto &elem : _componentsMap) {
-            std::any_cast<SparseArray<std::any>>(elem.second).entityDestroyed(entity);
+            std::any_cast<SparseArray<std::any> &>(elem.second).entityDestroyed(entity);
         }
     }
 
