@@ -71,6 +71,14 @@ public:
         return _dataVector[index];
     }
 
+    std::optional<T> &operator[](const size_t index) noexcept
+    {
+        return _dataVector[index];
+    }
+    const std::optional<T> &operator[](const size_t index) const noexcept
+    {
+        return _dataVector[index];
+    }
     std::optional<T> &getData(const size_t &index) noexcept
     {
         return _dataVector[index];

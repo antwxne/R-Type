@@ -7,7 +7,7 @@
 
 #include "RtypeClient.hpp"
 
-RtypeClient::RtypeClient() : _state(GameState::ConnectMenu)
+RtypeClient::RtypeClient() : _state(GameState::Game)
 {
     _textureLogo.loadFromFile("assets/sprites/r_type_logo.png");
     _spriteLogo.setTexture(_textureLogo);

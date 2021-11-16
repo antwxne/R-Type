@@ -19,7 +19,6 @@
 #include "Component/Life.hpp"
 #include "Component/Rectangle.hpp"
 #include "Component/SfmlSprite.hpp"
-#include "Component/sound.hpp"
 #include "Component/Speed.hpp"
 #include "Component/Tag.hpp"
 #include "Component/text.hpp"

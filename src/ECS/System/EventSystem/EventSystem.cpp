@@ -78,6 +78,20 @@ std::shared_ptr<std::vector<Event_n::Event>> Event_n::EventSystem::getRaisedEven
     return dest;
 }
 
+void Event_n::EventSystem::unsubscribeToAllEvents(const Entity &entity) noexcept
+{
+    for (auto &it : _callbacksMap) {
+        auto &elem = it.second;
+        elem.erase(std::remove_if(elem.begin(), elem.end(),
+            [entity](std::pair<std::size_t, Callback> &tmp) {
+                std::size_t id;
+
+                entity >> id;
+                return tmp.first == id;
+            }), elem.end());
+    }
+}
+
 Event_n::Event::Event(Event_n::State_e newState, Event_n::Events_e newEvent)
     : state(newState), event(newEvent)
 {
