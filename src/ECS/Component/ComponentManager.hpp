@@ -39,7 +39,7 @@ public:
         return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name())).getData(entity);
     }
     template<typename T>
-    std::optional<SparseArray<T>> &getComponentsList()
+    SparseArray<T> &getComponentsList()
     {
         return std::any_cast<SparseArray<T>>(_componentsMap.at(typeid(T).name()));
     }
