@@ -92,12 +92,9 @@ set(SHARED_SRC
         src/ECS/System/Draw/SfmlDrawSystem.hpp
         src/ECS/System/Audio/AudioSystem.cpp
         src/ECS/System/Audio/AudioSystem.hpp
-        src/ECS/System/Audio/SfmlMusicSystem.cpp
-        src/ECS/System/Audio/SfmlMusicSystem.hpp
         src/ECS/System/Audio/SfmlSoundSystem.cpp
         src/ECS/System/Audio/SfmlSoundSystem.hpp
         src/ECS/Component/Audio.hpp
-        src/ECS/Component/SfmlMusic.hpp
         src/ECS/Component/SfmlSound.hpp
         src/Graphical/SfmlDisplay.cpp
         src/Graphical/SfmlDisplay.hpp

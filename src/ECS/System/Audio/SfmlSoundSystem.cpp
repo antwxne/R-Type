@@ -9,10 +9,10 @@
 #include "../../Component/SfmlSound.hpp"
 #include "../../Component/Audio.hpp"
 
-SfmlSoundSystem::SfmlSoundSystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components) : AudioSystem(components)
+SfmlSoundSystem::SfmlSoundSystem(std::shared_ptr<ComponentManager> &components) : AudioSystem(components)
 {
-    _usedComponents.push_back(typeid(SfmlSound));
-    _usedComponents.push_back(typeid(Audio));
+    _usedComponents.push_back(typeid(SfmlSound).name());
+    _usedComponents.push_back(typeid(Audio).name());
 }
 
 SfmlSoundSystem::~SfmlSoundSystem()
@@ -25,7 +25,7 @@ void SfmlSoundSystem::update()
     {
         if (!checkAvailableEntity(i))
             continue;
-        Audio &audio = std::any_cast<Audio &>(_components->at(typeid(Audio))->getData(i).value());
+        Audio &audio = _componentManager->getComponent<Audio>(i).value();
         if (audio.status == NONE)
             continue;
         if (audio.status == PAUSE && audio.isPlayed)
@@ -37,26 +37,26 @@ void SfmlSoundSystem::update()
     }
 }
 
-void SfmlSoundSystem::play(int entity)
+void SfmlSoundSystem::play(const std::size_t &entity)
 {
-    SfmlSound &sound = std::any_cast<SfmlSound &>(_components->at(typeid(SfmlSound))->getData(entity).value());
-    Audio &audio = std::any_cast<Audio &>(_components->at(typeid(Audio))->getData(entity).value());
+    SfmlSound &sound = _componentManager->getComponent<SfmlSound>(entity).value();
+    Audio &audio = _componentManager->getComponent<Audio>(entity).value();
     sound.sound.play();
     audio.isPlayed = true;
 }
 
-void SfmlSoundSystem::stop(int entity)
+void SfmlSoundSystem::stop(const std::size_t &entity)
 {
-    SfmlSound &sound = std::any_cast<SfmlSound &>(_components->at(typeid(SfmlSound))->getData(entity).value());
-    Audio &audio = std::any_cast<Audio &>(_components->at(typeid(Audio))->getData(entity).value());
+    SfmlSound &sound = _componentManager->getComponent<SfmlSound>(entity).value();
+    Audio &audio = _componentManager->getComponent<Audio>(entity).value();
     sound.sound.stop();
     audio.isPlayed = false;
 }
 
-void SfmlSoundSystem::pause(int entity)
+void SfmlSoundSystem::pause(const std::size_t &entity)
 {
-    SfmlSound &sound = std::any_cast<SfmlSound &>(_components->at(typeid(SfmlSound))->getData(entity).value());
-    Audio &audio = std::any_cast<Audio &>(_components->at(typeid(Audio))->getData(entity).value());
+    SfmlSound &sound = _componentManager->getComponent<SfmlSound>(entity).value();
+    Audio &audio = _componentManager->getComponent<Audio>(entity).value();
     sound.sound.pause();
     audio.isPlayed = false;
 }

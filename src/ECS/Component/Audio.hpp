@@ -8,6 +8,17 @@
 #ifndef SOUND_HPP_
 #define SOUND_HPP_
 
+#ifdef __WIN32
+enum statusTypeAudio: int {
+    PLAY,
+    STOP,
+    PAUSE,
+    ISPLAYED,
+    NONE,
+};
+
+#else
+
 enum statusTypeAudio {
     PLAY,
     STOP,
@@ -15,6 +26,7 @@ enum statusTypeAudio {
     ISPLAYED,
     NONE,
 };
+#endif
 
 struct Audio
 {

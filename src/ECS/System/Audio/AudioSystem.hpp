@@ -12,12 +12,12 @@
 
 class AudioSystem : public ASystem {
     public:
-        AudioSystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components);
+        AudioSystem(std::shared_ptr<ComponentManager> &components);
         ~AudioSystem();
         virtual void update() = 0;
-        virtual void play(int entity) = 0;
-        virtual void stop(int entity) = 0;
-        virtual void pause(int entity) = 0;
+        virtual void play(const std::size_t &entity) = 0;
+        virtual void stop(const std::size_t &entity) = 0;
+        virtual void pause(const std::size_t &entity) = 0;
     protected:
     private:
 };

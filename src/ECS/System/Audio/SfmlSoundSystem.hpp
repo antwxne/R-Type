@@ -11,12 +11,12 @@
 
 class SfmlSoundSystem : public AudioSystem {
     public:
-        SfmlSoundSystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components);
+        SfmlSoundSystem(std::shared_ptr<ComponentManager> &components);
         ~SfmlSoundSystem();
-        virtual void update() = 0;
-        virtual void play(int entity) = 0;
-        virtual void stop(int entity) = 0;
-        virtual void pause(int entity) = 0;
+        void update() override;
+        void play(const std::size_t &entity) override;
+        void stop(const std::size_t &entity) override;
+        void pause(const std::size_t &entity) override;
     protected:
     private:
 };

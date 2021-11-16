@@ -7,7 +7,7 @@
 
 #include "AudioSystem.hpp"
 
-AudioSystem::AudioSystem(std::shared_ptr<ComponentManager::ComponentsMap_t> &components) : ASystem(components)
+AudioSystem::AudioSystem(std::shared_ptr<ComponentManager> &components) : ASystem(components)
 {
 }
 
