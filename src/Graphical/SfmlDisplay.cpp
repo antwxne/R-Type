@@ -11,11 +11,17 @@ SfmlDisplay::SfmlDisplay(int widthWindow, int heightWindow, const std::string &n
 {
     _window = std::make_shared<sf::RenderWindow>(sf::VideoMode(widthWindow, heightWindow), nameWindow);
     _window->setFramerateLimit(60);
-    this->initTexture();
+    initTexture();
+    initColors();
 }
 
 SfmlDisplay::~SfmlDisplay()
 {
+}
+
+void SfmlDisplay::initColors()
+{
+    _colorMap[ColorType::Blue] = std::make_shared<sf::Color>(sf::Color::Blue);
 }
 
 void SfmlDisplay::initTexture()

@@ -21,13 +21,14 @@ class SfmlDisplay : public IGraphical {
         ~SfmlDisplay();
         std::shared_ptr<sf::RenderWindow> getWindow();
         sf::Event &getEvent();
-        void initTexture();
         std::shared_ptr<sf::Texture> getTexture(TextureType type);
         std::shared_ptr<sf::Color> getColor(ColorType type);
         void clear() override;
         void display() override;
 
-    protected:
+    private:
+        void initTexture();
+        void initColors();
     private:
         std::shared_ptr<sf::RenderWindow> _window;
         sf::Event _event;
