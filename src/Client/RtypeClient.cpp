@@ -11,7 +11,7 @@
 #include "ECS/component.hpp"
 #include <iostream>
 
-RtypeClient::RtypeClient() : _state(GameState::Game)
+RtypeClient::RtypeClient()
 {
     _graphical = std::make_shared<SfmlDisplay>();
     _textureLogo.loadFromFile("assets/sprites/r_type_logo.png");
@@ -19,6 +19,7 @@ RtypeClient::RtypeClient() : _state(GameState::Game)
     _stop = false;
     _state = GameState::ConnectMenu;
     initMenu();
+    registerComponents();
 }
 
 RtypeClient::~RtypeClient()
@@ -44,10 +45,9 @@ void RtypeClient::initMenu()
     _mainMenu.addButton("Create game : ", 50, true, 12, true);
 }
 
-void RtypeClient::start()
+void RtypeClient::registerComponents()
 {
     _ecs.registerComponent<Position>();
-    std::cout << "affter\n";
     _ecs.registerComponent<Speed>();
     _ecs.registerComponent<Acceleration>();
     _ecs.registerComponent<Texture>();
@@ -59,7 +59,10 @@ void RtypeClient::start()
     _ecs.registerComponent<Colission>();
     _ecs.registerComponent<Hitbox>();
     _ecs.registerComponent<Tag>();
+}
 
+void RtypeClient::start()
+{
     PlayerEntity _pe({150, 50}, {ColorType::None});
     BulletEntity _be({150, 800}, true);
     _pe.create(_ecs);

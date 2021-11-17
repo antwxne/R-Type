@@ -38,6 +38,7 @@ class RtypeClient {
         void stop();
 
     private:
+        void registerComponents();
         void initMenu();
         void run();
         void manageState();
