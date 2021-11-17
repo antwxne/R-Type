@@ -23,6 +23,7 @@ class BulletEntity : public IEntityRegister {
     private:
         Position _pos;
         bool _isBulletFriend;
+        sf::IntRect _rect;
 };
 
 #endif /* !BULLETENTITY_HPP_ */

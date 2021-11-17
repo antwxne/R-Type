@@ -21,9 +21,9 @@ SfmlDisplay::~SfmlDisplay()
 void SfmlDisplay::initTexture()
 {
     sf::Texture texture;
-    texture.loadFromFile("assets/sprites/r_type_logo.png");
+    texture.loadFromFile("assets/sprites/spaceship.gif");
     _textureMap[TextureType::Player] = std::make_shared<sf::Texture>(texture);
-    texture.loadFromFile("assets/sprites/r-typesheet1.gif");
+    texture.loadFromFile("assets/sprites/bullet.png");
     _textureMap[TextureType::Bullet] = std::make_shared<sf::Texture>(texture);
 }
 

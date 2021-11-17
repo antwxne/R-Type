@@ -33,7 +33,7 @@ void SfmlDrawSystem::draw(const std::size_t entity)
 void SfmlDrawSystem::updateSprite(SfmlSprite &sprite, const std::size_t entity)
 {
     setPosition(sprite, entity);
-
+    setTextureRect(sprite);
     if (sprite.sprite->getTexture() == nullptr)
     {
         setTexture(sprite, entity);
@@ -41,7 +41,26 @@ void SfmlDrawSystem::updateSprite(SfmlSprite &sprite, const std::size_t entity)
     setScale(sprite, entity);
     setRotate(sprite, entity);
     setColor(sprite, entity);
+}
 
+void SfmlDrawSystem::setTextureRect(SfmlSprite &sprite)
+{
+    float elapsed = sprite.clock.getElapsedTime().asSeconds();
+    if (elapsed > 1 && sprite.totalRect != 0)
+    {
+        sprite.actualRect += 1;
+        if (sprite.actualRect > sprite.totalRect - 1)
+        {
+            sprite.actualRect = 0;
+        }
+
+        sf::IntRect rect = sprite.textureRect;
+
+        rect.left = rect.width * sprite.actualRect;
+
+        sprite.sprite->setTextureRect(rect);
+        sprite.clock.restart();
+    }
 }
 
 void SfmlDrawSystem::setPosition(SfmlSprite &sprite, const std::size_t entity)

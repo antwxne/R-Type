@@ -25,6 +25,7 @@ class SfmlDrawSystem : public DrawSystem {
         void setScale(SfmlSprite &sprite, const std::size_t entity);
         void setRotate(SfmlSprite &sprite, const std::size_t entity);
         void setColor(SfmlSprite &sprite, const std::size_t entity);
+        void setTextureRect(SfmlSprite &sprite);
     private:
         std::shared_ptr<SfmlDisplay> _display;
 };
