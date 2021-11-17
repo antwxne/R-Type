@@ -29,8 +29,8 @@ void MoveSystem::update()
         auto &acceleration = _componentManager->getComponent<Acceleration>(
             i).value();
 
-        position.x += acceleration.x * speed.speed;
-        position.y += acceleration.y * speed.speed;
+        position.x += acceleration.x * (int)speed.speed;
+        position.y += acceleration.y * (int)speed.speed;
     }
 }
 

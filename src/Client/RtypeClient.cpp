@@ -64,9 +64,11 @@ void RtypeClient::registerComponents()
 void RtypeClient::start()
 {
     PlayerEntity _pe({150, 50}, ColorType::None);
+    EnemyEntity _ee({1050, 50});
     BulletEntity _be({150, 800}, true);
     _pe.create(_ecs);
     _be.create(_ecs);
+    _ee.create(_ecs);
 
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
