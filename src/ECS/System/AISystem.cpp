@@ -2,27 +2,28 @@
 ** EPITECH PROJECT, 2021
 ** B-CPP-501-PAR-5-1-rtype-thomas1.tricaud
 ** File description:
-** IASystem
+** AISystem
 */
 
-#include "IASystem.hpp"
+#include "AISystem.hpp"
 #include "ECS/Component/Rectangle.hpp"
 #include "ECS/Component/Transform/Position.hpp"
 #include "ECS/Component/Tag.hpp"
 #include "../../utils.hpp"
 
-IASystem::IASystem(std::shared_ptr<ComponentManager> &components) : ASystem(components)
+AISystem::AISystem(std::shared_ptr<ComponentManager> &components) : ASystem(components)
 {
     _usedComponents.push_back(typeid(Rectangle).name());
     _usedComponents.push_back(typeid(Position).name());
     _usedComponents.push_back(typeid(Tag).name());
+    _usedComponents.push_back(typeid(AI).name());
 }
 
-IASystem::~IASystem()
+AISystem::~AISystem()
 {
 }
 
-void IASystem::update()
+void AISystem::update()
 {
     for (std::size_t i = 0; i < MAX_ENTITIES; i++) {
         if (!checkAvailableEntity(i))
