@@ -100,6 +100,8 @@ set(SHARED_SRC
         src/ECS/System/Audio/AudioSystem.hpp
         src/ECS/System/Audio/SfmlSoundSystem.cpp
         src/ECS/System/Audio/SfmlSoundSystem.hpp
+        src/ECS/System/ShootSystem.cpp
+        src/ECS/System/ShootSystem.hpp
         src/ECS/Component/Audio.hpp
         src/ECS/Component/SfmlSound.hpp
         src/Graphical/SfmlDisplay.cpp

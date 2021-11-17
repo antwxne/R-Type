@@ -33,9 +33,11 @@ void PlayerEntity::create(ECS &ecs)
     ecs.subToComponent(_entity, Color{_color});
 
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
+    sf::Clock clock;
 
     sprite->setTextureRect(_textureRect);
 
+    ecs.subToComponent(_entity, Firerate{3, clock});
     ecs.subToComponent(_entity, SfmlSprite{sprite, _textureRect, 5, 0});
     ecs.subToComponent(_entity, Speed{10});
     ecs.subToComponent(_entity, Acceleration{1, 1});

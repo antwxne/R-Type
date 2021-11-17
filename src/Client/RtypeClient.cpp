@@ -61,6 +61,7 @@ void RtypeClient::registerComponents()
     _ecs.registerComponent<Tag>();
     _ecs.registerComponent<Life>();
     _ecs.registerComponent<Rectangle>();
+    _ecs.registerComponent<Firerate>();
     _ecs.registerComponent<AI>();
 }
 
@@ -76,6 +77,7 @@ void RtypeClient::start()
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
     _ecs.registerSystem<AISystem>();
+    _ecs.registerSystem<ShootSystem>();
     draw.setDisplay(_graphical);
 //    Entity player = _ecs.createEntity();
 
