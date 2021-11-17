@@ -19,13 +19,14 @@ class SfmlDrawSystem : public DrawSystem {
         void draw(const std::size_t entity) override;
         void setDisplay(std::shared_ptr<SfmlDisplay> display);
     protected:
+        bool checkAvailableEntity(size_t entity) const override;
         void updateSprite(SfmlSprite &sprite, const std::size_t entity);
         void setPosition(SfmlSprite &sprite, const std::size_t entity);
         void setTexture(SfmlSprite &sprite, const std::size_t entity);
         void setScale(SfmlSprite &sprite, const std::size_t entity);
         void setRotate(SfmlSprite &sprite, const std::size_t entity);
         void setColor(SfmlSprite &sprite, const std::size_t entity);
-        bool checkAvailableEntity(std::size_t entity) const override;
+        void setTextureRect(SfmlSprite &sprite);
     private:
         std::shared_ptr<SfmlDisplay> _display;
 };

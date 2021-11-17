@@ -13,9 +13,6 @@
 MoveSystem::MoveSystem(std::shared_ptr<ComponentManager> components) : ASystem(
     components)
 {
-    //    _usedComponents.push_back(typeid(Speed));
-    //    _usedComponents.push_back(typeid(Acceleration));
-    //    _usedComponents.push_back(typeid(Position));
 }
 
 MoveSystem::~MoveSystem()
@@ -39,9 +36,6 @@ void MoveSystem::update()
 
 bool MoveSystem::checkAvailableEntity(const size_t entity) const
 {
-    //    _usedComponents.push_back(typeid());
-    //    _usedComponents.push_back(typeid(Acceleration));
-    //    _usedComponents.push_back(typeid(Position));
     const auto &speed = _componentManager->getComponentsList<Speed>();
     const auto &acceleration = _componentManager->getComponentsList<Acceleration>();
     const auto &position = _componentManager->getComponentsList<Position>();

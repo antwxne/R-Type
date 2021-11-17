@@ -7,7 +7,7 @@
 
 #include "PlayerEntity.hpp"
 
-PlayerEntity::PlayerEntity(const Position &pos, const Color &color)
+PlayerEntity::PlayerEntity(const Position &pos,  ColorType color)
 {
     _pos = pos;
     _color = color;
@@ -21,14 +21,21 @@ void PlayerEntity::create(ECS &ecs)
 {
     Entity player = ecs.createEntity();
 
+    _textureRect = {0,0, 132, 64};
+
     ecs.subToComponent(player, Rotate{0});
     ecs.subToComponent(player, _pos);
     ecs.subToComponent(player, Texture{TextureType::Player});
     ecs.subToComponent(player, Scale{1, 1});
-    ecs.subToComponent(player, _color);
-    ecs.subToComponent(player, SfmlSprite{std::make_shared<sf::Sprite>()});
+    ecs.subToComponent(player, Color{_color});
+
+    std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
+
+    sprite->setTextureRect(_textureRect);
+
+    ecs.subToComponent(player, SfmlSprite{sprite, _textureRect, 5, 0});
     ecs.subToComponent(player, Speed{1});
     ecs.subToComponent(player, Acceleration{1, 1});
-    ecs.subToComponent(player, Rectangle{0, 0,1, 1});
-
+    ecs.subToComponent(player, Rectangle{_textureRect.width, _textureRect.height});
+    ecs.subToComponent(player, Colission{true});
 }

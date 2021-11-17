@@ -14,11 +14,6 @@
 
 DrawSystem::DrawSystem(std::shared_ptr<ComponentManager> componentManager) : ASystem(componentManager)
 {
-//    _usedComponents.push_back(typeid(Position).name());
-//    _usedComponents.push_back(typeid(Texture).name());
-//    _usedComponents.push_back(typeid(Scale).name());
-//    _usedComponents.push_back(typeid(Rotate).name());
-//    _usedComponents.push_back(typeid(Color).name());
 }
 
 DrawSystem::~DrawSystem()
@@ -34,6 +29,11 @@ void DrawSystem::update()
             draw(i);
         }
     }
+}
+
+bool DrawSystem::checkAvailableEntity(size_t entity) const
+{
+    return false;
 }
 
 

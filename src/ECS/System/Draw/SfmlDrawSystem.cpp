@@ -16,12 +16,27 @@ SfmlDrawSystem::SfmlDrawSystem(
     std::shared_ptr<ComponentManager> componentManager
 ) : DrawSystem(componentManager)
 {
-//    _usedComponents.push_back(typeid(SfmlSprite).name());
+
 }
 
 SfmlDrawSystem::~SfmlDrawSystem()
 {
 }
+
+bool SfmlDrawSystem::checkAvailableEntity(size_t entity) const
+{
+    const auto &pos = _componentManager->getComponentsList<Position>();
+    const auto &texture = _componentManager->getComponentsList<Texture>();
+    const auto &scale = _componentManager->getComponentsList<Scale>();
+    const auto &rotate = _componentManager->getComponentsList<Rotate>();
+    const auto &color = _componentManager->getComponentsList<Color>();
+    const auto &sprite = _componentManager->getComponentsList<SfmlSprite>();
+
+    return pos[entity].has_value() && texture[entity].has_value() &&
+    scale[entity].has_value() && rotate[entity].has_value() && color[entity].has_value()
+    && sprite[entity].has_value();
+}
+
 
 void SfmlDrawSystem::draw(const std::size_t entity)
 {
@@ -33,14 +48,34 @@ void SfmlDrawSystem::draw(const std::size_t entity)
 void SfmlDrawSystem::updateSprite(SfmlSprite &sprite, const std::size_t entity)
 {
     setPosition(sprite, entity);
-
-    if (sprite.sprite->getTexture() == nullptr) {
+    setTextureRect(sprite);
+    if (sprite.sprite->getTexture() == nullptr)
+    {
         setTexture(sprite, entity);
     }
     setScale(sprite, entity);
     setRotate(sprite, entity);
     setColor(sprite, entity);
+}
 
+void SfmlDrawSystem::setTextureRect(SfmlSprite &sprite)
+{
+    float elapsed = sprite.clock.getElapsedTime().asSeconds();
+    if (elapsed > 1 && sprite.totalRect != 0)
+    {
+        sprite.actualRect += 1;
+        if (sprite.actualRect > sprite.totalRect - 1)
+        {
+            sprite.actualRect = 0;
+        }
+
+        sf::IntRect rect = sprite.textureRect;
+
+        rect.left = rect.width * sprite.actualRect;
+
+        sprite.sprite->setTextureRect(rect);
+        sprite.clock.restart();
+    }
 }
 
 void SfmlDrawSystem::setPosition(SfmlSprite &sprite, const std::size_t entity)
@@ -92,8 +127,3 @@ void SfmlDrawSystem::setDisplay(std::shared_ptr<SfmlDisplay> display)
     _display = display;
 }
 
-bool SfmlDrawSystem::checkAvailableEntity(std::size_t entity) const
-{
-    const auto &sprite = _componentManager->getComponentsList<SfmlSprite>();
-    return sprite[entity].has_value();
-}

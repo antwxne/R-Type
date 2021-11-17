@@ -65,7 +65,7 @@ void RtypeClient::registerComponents()
 
 void RtypeClient::start()
 {
-    PlayerEntity _pe({150, 50}, {ColorType::None});
+    PlayerEntity _pe({150, 50}, ColorType::None);
     BulletEntity _be({150, 800}, true);
     _pe.create(_ecs);
     _be.create(_ecs);
@@ -303,8 +303,7 @@ void RtypeClient::manageLobbyMenu()
 
 void RtypeClient::manageGame()
 {
-    _ecs.getSystem<SfmlDrawSystem>().draw(0);
-    _ecs.getSystem<SfmlDrawSystem>().draw(1);
+    _ecs.getSystem<SfmlDrawSystem>().update();
     _ecs.getSystem<MoveSystem>().update();
     _ecs.garbageCollector();
 }
