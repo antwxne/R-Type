@@ -9,6 +9,7 @@
 #include "ECS/Component/Rectangle.hpp"
 #include "ECS/Component/Colission.hpp"
 #include "ECS/Component/Transform/Position.hpp"
+#include "ECS/Component/Transform/Scale.hpp"
 #include "ECS/Component/Tag.hpp"
 #include "ECS/Component/Life.hpp"
 #include "../../utils.hpp"
@@ -33,6 +34,7 @@ void ColissionSystem::update()
         Colission &colission = _componentManager->getComponent<Colission>(i).value();
         Tag &tag = _componentManager->getComponent<Tag>(i).value();
         Life &life = _componentManager->getComponent<Life>(i).value();
+        Scale &scale = _componentManager->getComponent<Scale>(i).value();
         if (!colission.isColide) {
             continue;
         }
@@ -47,12 +49,13 @@ void ColissionSystem::update()
             Colission &colissionTmp = _componentManager->getComponent<Colission>(j).value();
             Tag &tagTmp = _componentManager->getComponent<Tag>(j).value();
             Life &lifeTmp = _componentManager->getComponent<Life>(j).value();
+            Scale &scaleTmp = _componentManager->getComponent<Scale>(j).value();
             if (!colissionTmp.isColide)
                 continue;
-            if (positionTmp.x < position.x + rectangle.width &&
-                positionTmp.x + rectangleTmp.width > position.x &&
-                positionTmp.y < position.y + rectangle.height &&
-                rectangleTmp.height + positionTmp.y > position.y)
+            if (positionTmp.x < position.x + (rectangle.width * scale.scaleX) &&
+                positionTmp.x + (rectangleTmp.width * scaleTmp.scaleX) > position.x &&
+                positionTmp.y < position.y + (rectangle.height * scale.scaleY) &&
+                (rectangleTmp.height * scaleTmp.scaleY) + positionTmp.y > position.y)
             {
                 entityCollide.push_back(i);
                 if (contains(tag.type, TagType::PLAYER) && contains(tagTmp.type, TagType::ENNEMY))
