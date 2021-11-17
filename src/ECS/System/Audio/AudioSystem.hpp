@@ -8,7 +8,7 @@
 #ifndef AUDIOSYSTEM_HPP_
 #define AUDIOSYSTEM_HPP_
 
-#include "../ASystem.hpp"
+#include "ECS/System/ASystem.hpp"
 
 class AudioSystem : public ASystem {
     public:

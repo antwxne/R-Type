@@ -8,16 +8,18 @@
 #include "RtypeClient.hpp"
 #include "ECS/System/EventSystem/EventSystem.hpp"
 #include "ECS/System/EventSystem/EventCallback.hpp"
+#include "ECS/component.hpp"
 #include <iostream>
 
-RtypeClient::RtypeClient() : _state(GameState::Game)
+RtypeClient::RtypeClient()
 {
     _graphical = std::make_shared<SfmlDisplay>();
     _textureLogo.loadFromFile("assets/sprites/r_type_logo.png");
     _spriteLogo.setTexture(_textureLogo);
-    initMenu();
     _stop = false;
-    _state = GameState::ConnectMenu;
+    _state = GameState::Game;
+    initMenu();
+    registerComponents();
 }
 
 RtypeClient::~RtypeClient()
@@ -41,31 +43,38 @@ void RtypeClient::initMenu()
 
     _mainMenu.addButton("Refresh", 50, false, -1, true);
     _mainMenu.addButton("Create game : ", 50, true, 12, true);
-
 }
 
-void RtypeClient::start()
+void RtypeClient::registerComponents()
 {
-    /*_ecs.registerComponent<Position>();
+    _ecs.registerComponent<Position>();
+    _ecs.registerComponent<Speed>();
+    _ecs.registerComponent<Acceleration>();
     _ecs.registerComponent<Texture>();
     _ecs.registerComponent<Acceleration>();
     _ecs.registerComponent<Scale>();
     _ecs.registerComponent<Rotate>();
     _ecs.registerComponent<Color>();
     _ecs.registerComponent<SfmlSprite>();
+    _ecs.registerComponent<Colission>();
+    _ecs.registerComponent<Hitbox>();
+    _ecs.registerComponent<Tag>();
+}
+
+void RtypeClient::start()
+{
+    PlayerEntity _pe({150, 50}, {ColorType::None});
+    BulletEntity _be({150, 800}, true);
+    _pe.create(_ecs);
+    _be.create(_ecs);
+
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
+    _ecs.registerSystem<MoveSystem>();
     draw.setDisplay(_graphical);
     Entity player = _ecs.createEntity();
 
-    _ecs.subToComponent(player, Position{50, 50});
-    _ecs.subToComponent(player, Texture{TextureType::Player});
-    _ecs.subToComponent(player, Scale{1});
-    _ecs.subToComponent(player, Color{ColorType::None});
-    _ecs.subToComponent(player, SfmlSprite{sf::Sprite()});
-    _ecs.subToComponent(player, Acceleration{0, 0});
 
-
-    auto &evtManager = _ecs.registerSystem<Event_n::EventSystem>();
+/*    auto &evtManager = _ecs.registerSystem<Event_n::EventSystem>();
 
     // BIND une fonction statique a un evenement
     Event_n::Event_s evt(Event_n::PRESS, Event_n::KEY_UP);
@@ -167,7 +176,7 @@ void RtypeClient::manageState()
         manageLobbyMenu();
         break;
     case GameState::Game:
-        /* code */
+        this->manageGame();
         break;
     default:
         return;
@@ -288,5 +297,11 @@ void RtypeClient::manageLobbyMenu()
             _networkClient->getPlayersInGame(_currentGameName);
         }
     }
+}
 
+void RtypeClient::manageGame()
+{
+    _ecs.getSystem<SfmlDrawSystem>().draw(0);
+    _ecs.getSystem<SfmlDrawSystem>().draw(1);
+    _ecs.getSystem<MoveSystem>().update();
 }

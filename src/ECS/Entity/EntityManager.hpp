@@ -14,11 +14,11 @@
 
 #include "rtype.h"
 #include "Entity.hpp"
-#include "ECS/Component/ComponentManager.hpp"
+
 
 class EntityManager {
     public:
-        EntityManager(std::shared_ptr<ComponentManager> &components);
+        EntityManager();
         ~EntityManager() = default;
         Entity create();
         void destroy(const Entity &entity);
@@ -27,7 +27,6 @@ class EntityManager {
         Signature &getSignature(const Entity &entity);
         
     private:
-        std::shared_ptr<ComponentManager> _componentManager;
         std::queue<Entity> _avaiableEntities;
         std::array<std::optional<Signature>, MAX_ENTITIES> _entitiesSignature;
 };

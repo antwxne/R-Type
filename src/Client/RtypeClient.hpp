@@ -16,6 +16,9 @@
 #include "../Graphical/SfmlMenu.hpp"
 #include "../Graphical/SfmlEventFactory.hpp"
 #include "Client.hpp"
+#include "../ECS/ECS.hpp"
+#include "../ECS/Entity/PlayerEntity.hpp"
+#include "../ECS/Entity/BulletEntity.hpp"
 
 
 enum GameState
@@ -35,12 +38,14 @@ class RtypeClient {
         void stop();
 
     private:
+        void registerComponents();
         void initMenu();
         void run();
         void manageState();
         void manageConnectMenu();
         void manageMainMenu();
         void manageLobbyMenu();
+        void manageGame();
         void handleEvents(const sf::Event& event);
         void handleTextInput(const sf::Event& event);
         void handleInitLobby();
@@ -63,6 +68,8 @@ class RtypeClient {
 
         std::shared_ptr<Client> _networkClient;
         std::thread _networkThread;
+
+        ECS _ecs;
 };
 
 #endif /* !RtypeClient_HPP_ */

@@ -79,7 +79,9 @@ void GameInstance::removeDisconnectedClient(const std::string &clientName)
     {
         if ((*it)->informations.getName() == clientName)
         {
+            _clients.erase(it);
             _nbPlayers -= 1;
+            return;
         }
     }
 }

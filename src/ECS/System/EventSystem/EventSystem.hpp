@@ -143,6 +143,8 @@ public:
     std::shared_ptr<std::vector<Event_s>> getRaisedEvents() noexcept;
     void unsubscribeToAllEvents(const Entity &entity) noexcept;
 private:
+    bool checkAvailableEntity(std::size_t entity) const override;
+private:
     CallbackMap _callbacksMap;
     std::vector<Event_s> _currentEvents;
     std::queue<Event_s> _raisedEvents;

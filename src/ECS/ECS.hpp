@@ -23,10 +23,6 @@ public:
 
     Entity createEntity();
     void destroyEntity(const Entity &entity);
-    void destroyEntity(std::size_t entity);
-
-    void garbageCollector();
-
 
     template<class Component>
     void registerComponent()
@@ -44,22 +40,17 @@ public:
         _componentManager->unsubFromComponent<Component>(entity);
     }
     template<typename T>
-    T &getComponent(const Entity &entity)
+    std::optional<T> &getComponent(const Entity &entity)
     {
         return _componentManager->getComponent<T>(entity);
     }
     template<typename T>
-    const T &getComponent(const Entity &entity) const
-    {
-        return _componentManager->getComponent<T>(entity);
-    }
-    template<typename T>
-    std::shared_ptr<SparseArray<T>> &getComponentsList()
+    SparseArray<T> &getComponentsList()
     {
         return _componentManager->getComponentsList<T>();
     }
     template<typename T>
-    const std::shared_ptr<SparseArray<T>> &getComponentsList() const
+    const SparseArray<T> &getComponentsList() const
     {
         return _componentManager->getComponentsList<T>();
     }
@@ -73,15 +64,10 @@ public:
         return _systemManager->registerSystem<System>(_componentManager);
     }
     template<typename System>
-    std::shared_ptr<System> getSystem()
+    System &getSystem()
     {
         return _systemManager->getSystem<System>();
     }
-private:
-    bool isAlive(const std::optional<Life> &lifeComponent) const;
-    bool isInScreen(
-        const std::optional<Position> &position, const std::optional<Rectangle> &hitbox) const;
-        //,const std::optional<Bullet> &bullet) const;
 private:
     std::unique_ptr<EntityManager> _entityManager;
     std::shared_ptr<ComponentManager> _componentManager;

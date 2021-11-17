@@ -117,7 +117,11 @@ set(SHARED_SRC
         src/Graphical/SfmlParallax.hpp
         src/ECS/System/EventSystem/EventSystem.hpp
         src/ECS/System/EventSystem/EventSystem.cpp
-        src/ECS/System/EventSystem/EventCallback.cpp src/ECS/System/EventSystem/EventCallback.hpp)
+        src/ECS/System/EventSystem/EventCallback.cpp src/ECS/System/EventSystem/EventCallback.hpp
+        src/ECS/Entity/PlayerEntity.hpp
+        src/ECS/Entity/PlayerEntity.cpp
+        src/ECS/Entity/BulletEntity.cpp
+        src/ECS/Entity/BulletEntity.hpp)
 
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")

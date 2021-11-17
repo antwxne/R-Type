@@ -17,12 +17,12 @@
 class ASystem {
 public:
     ASystem(std::shared_ptr<ComponentManager> components);
-    bool checkAvailableEntity(const size_t entity);
-
     virtual void update() = 0;
+
+protected:
+    virtual bool checkAvailableEntity(size_t entity) const = 0;
 protected:
     std::shared_ptr<ComponentManager> _componentManager;
-    std::vector<std::string> _usedComponents;
 };
 
 #endif //RTYPE_ASYSTEM_HPP

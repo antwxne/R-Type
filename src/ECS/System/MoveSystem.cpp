@@ -10,11 +10,12 @@
 #include "ECS/Component/Acceleration.hpp"
 #include "ECS/Component/Transform/Position.hpp"
 
-MoveSystem::MoveSystem(std::shared_ptr<ComponentManager> components) : ASystem(components)
+MoveSystem::MoveSystem(std::shared_ptr<ComponentManager> components) : ASystem(
+    components)
 {
-    _usedComponents.push_back(typeid(Speed).name());
-    _usedComponents.push_back(typeid(Acceleration).name());
-    _usedComponents.push_back(typeid(Position).name());
+    //    _usedComponents.push_back(typeid(Speed));
+    //    _usedComponents.push_back(typeid(Acceleration));
+    //    _usedComponents.push_back(typeid(Position));
 }
 
 MoveSystem::~MoveSystem()
@@ -28,9 +29,23 @@ void MoveSystem::update()
             continue;
         auto &position = _componentManager->getComponent<Position>(i).value();
         auto &speed = _componentManager->getComponent<Speed>(i).value();
-        auto &acceleration = _componentManager->getComponent<Acceleration>(i).value();
+        auto &acceleration = _componentManager->getComponent<Acceleration>(
+            i).value();
 
         position.x += acceleration.x * speed.speed;
         position.y += acceleration.y * speed.speed;
     }
+}
+
+bool MoveSystem::checkAvailableEntity(const size_t entity) const
+{
+    //    _usedComponents.push_back(typeid());
+    //    _usedComponents.push_back(typeid(Acceleration));
+    //    _usedComponents.push_back(typeid(Position));
+    const auto &speed = _componentManager->getComponentsList<Speed>();
+    const auto &acceleration = _componentManager->getComponentsList<Acceleration>();
+    const auto &position = _componentManager->getComponentsList<Position>();
+
+    return speed[entity].has_value() && acceleration[entity].has_value() &&
+        position[entity].has_value();
 }
