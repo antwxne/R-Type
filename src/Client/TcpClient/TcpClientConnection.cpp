@@ -32,19 +32,6 @@ void TcpClientConnection::connectToServer(const asio::ip::tcp::resolver::results
 {
     _socket = asio::ip::tcp::socket(_asioContext);
 
-    /*try
-    {
-        _socket.connect(endpoints->endpoint());
-        _isConnected = true;
-        std::cout << "Connected " << std::endl;
-        readMessageHeader();
-    }
-    catch (std::exception &e)
-    {
-        std::cout << "Cannot connect : " << e.what() << std::endl;
-    }*/
-
-    std::cout << "Befire connected\n";
     asio::async_connect(_socket, endpoints,
 	[this](std::error_code ec, asio::ip::tcp::endpoint endpoint)
 	{
