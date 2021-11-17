@@ -20,6 +20,7 @@ class Client {
         void run();
         bool tryConnect(const std::string &ip, int port);
         void stop();
+        bool isTcpConnected();
         
         //Game Handler
 
@@ -32,8 +33,12 @@ class Client {
 
         std::list<std::pair<std::string, char>> &getGameList();
         void resetGameList();
+        bool isNewGameListAvailable();
 
         std::list<std::string> &getPlayersInGameList();
+        bool isNewPlayerListAvailable();
+
+        bool isInGame();
 
     private:
         void initUdpClient();

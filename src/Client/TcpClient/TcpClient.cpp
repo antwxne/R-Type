@@ -11,6 +11,8 @@
 TcpClient::TcpClient() : _messageHandler(*this)
 {
     _threadContext = std::thread([this]() { _asioContext.run();});
+    _newGameList = false;
+    _newInGamePlayerList = false;
 }
 
 TcpClient::~TcpClient()
@@ -71,7 +73,6 @@ bool TcpClient::tryConnect(const std::string &ip, int port)
         _asioContext, _messageList);
 
         _connection->connectToServer(endpoints);
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
     catch (std::exception& e)
@@ -97,6 +98,7 @@ void TcpClient::addGame(const std::string &name, char nbPlayers)
 
 std::list<std::pair<std::string, char>> &TcpClient::getGames()
 {
+    _newGameList = false;
     return _gamesList;
 }
 
@@ -105,6 +107,15 @@ void TcpClient::resetGameList()
     _gamesList.clear();
 }
 
+bool TcpClient::isNewGameListAvailable()
+{
+    return _newGameList;
+}
+
+void TcpClient::setGameListAvaible(bool value)
+{
+    _newGameList = value;
+}
 
 void TcpClient::addPlayerInGame(const std::string &name)
 {
@@ -113,10 +124,30 @@ void TcpClient::addPlayerInGame(const std::string &name)
 
 std::list<std::string> &TcpClient::getPlayersInGame()
 {
+    _newInGamePlayerList = false;
     return _inGamePlayerList;
 }
 
 void TcpClient::resetPlayerList()
 {
     _inGamePlayerList.clear();
+}
+
+bool TcpClient::isNewPlayerListAvailable()
+{
+    return _newInGamePlayerList;
+}
+void TcpClient::setPlayerListAvaible(bool value)
+{
+    _newInGamePlayerList = value;
+}
+
+bool TcpClient::isInGame()
+{
+    return _inGame;
+}
+
+void TcpClient::setInGame(bool value)
+{
+    _inGame = value;
 }

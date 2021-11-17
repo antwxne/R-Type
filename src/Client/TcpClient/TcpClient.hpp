@@ -33,12 +33,20 @@ class TcpClient
         void addGame(const std::string &name, char nbPlayers);
         std::list<std::pair<std::string, char>> &getGames();
         void resetGameList();
+        bool isNewGameListAvailable();
+        void setGameListAvaible(bool value);
 
         void addPlayerInGame(const std::string &name);
         std::list<std::string> &getPlayersInGame();
         void resetPlayerList();
+        bool isNewPlayerListAvailable();
+        void setPlayerListAvaible(bool value);
         
         bool isConnected();
+
+        bool isInGame();
+        void setInGame(bool value);
+
     private:
         void update();
     private:
@@ -55,7 +63,12 @@ class TcpClient
         TcpClientMessageHandler _messageHandler;
 
         std::list<std::pair<std::string, char>> _gamesList;
+        bool _newGameList;
+
         std::list<std::string> _inGamePlayerList;
+        bool _newInGamePlayerList;
+
+        bool _inGame;
 };
 
 #endif /* !CLIENT_HPP_ */

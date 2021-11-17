@@ -49,12 +49,14 @@ void TcpClientMessageHandler::handleSetName(Message<MessageType> &message)
 
 void TcpClientMessageHandler::handleCreateGame(Message<MessageType> &message)
 {
-
+    if (message.getResponseCode() == 200)
+        _client.setInGame(true);
 }
 
 void TcpClientMessageHandler::handleJoinGame(Message<MessageType> &message)
 {
-
+    if (message.getResponseCode() == 200)
+        _client.setInGame(true);
 }
 
 void TcpClientMessageHandler::handleLeaveGame(Message<MessageType> &message)
@@ -78,6 +80,7 @@ void TcpClientMessageHandler::handleGetGames(Message<MessageType> &message)
             bodysize -= sizeof(char);
             _client.addGame(name, nPlayers);
         }
+        _client.setGameListAvaible(true);
     }
     catch(const std::exception& e)
     {
@@ -102,6 +105,7 @@ void TcpClientMessageHandler::handleGetPlayersInGame(Message<MessageType> &messa
             bodysize -= PLAYER_NAME_MAX_LENGHT;
             _client.addPlayerInGame(name);
         }
+        _client.setPlayerListAvaible(true);
     }
     catch(const std::exception& e)
     {

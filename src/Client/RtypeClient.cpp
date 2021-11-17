@@ -178,6 +178,14 @@ void RtypeClient::manageConnectMenu()
 {
     _graphical->getWindow()->draw(_spriteLogo);
     _connectMenu.draw(_graphical->getWindow());
+    if (_networkClient && _networkClient->isTcpConnected())
+    {
+        _state = GameState::MainMenu;
+        _networkThread = std::thread(&Client::start, _networkClient);
+        _networkClient->setPlayerName(_connectMenu.getButtonText(0));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        _networkClient->getGames();
+    }
     if (_connectMenu.isValided())
     {
         _connectMenu.resetValided();
@@ -188,16 +196,7 @@ void RtypeClient::manageConnectMenu()
         {
             std::string sPort = _connectMenu.getButtonText(2);
             int port = std::stoi(sPort);
-            if (_networkClient->tryConnect(_connectMenu.getButtonText(1), port))
-            {
-                _state = GameState::MainMenu;
-                _networkThread = std::thread(&Client::start, _networkClient);
-                _networkClient->setPlayerName(_connectMenu.getButtonText(0));
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                _networkClient->getGames();
-                std::this_thread::sleep_for(std::chrono::milliseconds(100));
-                handleGetGames();
-            }
+            _networkClient->tryConnect(_connectMenu.getButtonText(1), port);
         }
         catch (std::exception &e)
         {
@@ -210,7 +209,8 @@ void RtypeClient::manageMainMenu()
 {
     _graphical->getWindow()->draw(_spriteLogo);
     _mainMenu.draw(_graphical->getWindow());
-
+    if (_networkClient->isNewGameListAvailable())
+        handleGetGames();
     if (_mainMenu.isValided())
     {
         _mainMenu.resetValided();
@@ -218,24 +218,24 @@ void RtypeClient::manageMainMenu()
         {
             _networkClient->resetGameList();
             _networkClient->getGames();
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
             handleGetGames();
         }
         else if (_mainMenu.getSelectedIndex() == 1)
         {
             _networkClient->createGame(_mainMenu.getButtonText(1));
-            _state = GameState::GameLobby;
             _currentGameName = _mainMenu.getButtonText(1);
-            handleInitLobby();
         }
         else
         {
             std::string name = _mainMenu.getButtonText(_mainMenu.getSelectedIndex()).substr(0, _mainMenu.getButtonText(_mainMenu.getSelectedIndex()).length() - 6);
             _networkClient->joinGame(name);
-            _state = GameState::GameLobby;
             _currentGameName = name;
-            handleInitLobby();
         }
+    }
+    if (_networkClient->isInGame())
+    {
+        _state = GameState::GameLobby;
+        _networkClient->getPlayersInGame(_currentGameName);
     }
 }
 
@@ -259,10 +259,6 @@ void RtypeClient::handleInitLobby()
     _lobbyMenu.resetTexts();
     _lobbyMenu.resetButtons();
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-    _networkClient->getPlayersInGame(_currentGameName);
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
-
     _lobbyMenu.addButton("Start " + _currentGameName, 70, false, -1, true);
 
     for (auto &i : _networkClient->getPlayersInGameList())
@@ -277,6 +273,10 @@ void RtypeClient::manageLobbyMenu()
     _graphical->getWindow()->draw(_spriteLogo);
     _lobbyMenu.draw(_graphical->getWindow());
 
+    if (_networkClient->isNewPlayerListAvailable())
+    {
+        handleInitLobby();
+    }
     if (_lobbyMenu.isValided())
     {
         if (_lobbyMenu.getSelectedIndex() == 0)
@@ -285,7 +285,7 @@ void RtypeClient::manageLobbyMenu()
         }
         else
         {
-            handleInitLobby();
+            _networkClient->getPlayersInGame(_currentGameName);
         }
     }
 

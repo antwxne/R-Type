@@ -192,3 +192,23 @@ std::list<std::string> &Client::getPlayersInGameList()
 {
     return _tcpClient.getPlayersInGame();
 }
+
+bool Client::isTcpConnected()
+{
+    return _tcpClient.isConnected();
+}
+
+bool Client::isNewGameListAvailable()
+{
+    return _tcpClient.isNewGameListAvailable();
+}
+
+bool Client::isNewPlayerListAvailable()
+{
+    return _tcpClient.isNewPlayerListAvailable();
+}
+
+bool Client::isInGame()
+{
+    return _tcpClient.isInGame();
+}
