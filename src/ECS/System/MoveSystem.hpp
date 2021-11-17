@@ -12,13 +12,15 @@
 #include <vector>
 
 class MoveSystem : public ASystem {
-    public:
-        MoveSystem(std::shared_ptr<ComponentManager> components);
-        ~MoveSystem();
-        void update() override;
+public:
+    MoveSystem(std::shared_ptr<ComponentManager> components);
+    ~MoveSystem();
+    void update() override;
 
-    protected:
-    private:
+protected:
+private:
+    bool checkAvailableEntity(const size_t entity) const override;
+
 };
 
 #endif /* !MOVESYSTEM_HPP_ */

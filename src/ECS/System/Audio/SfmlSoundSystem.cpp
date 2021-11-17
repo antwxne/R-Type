@@ -6,13 +6,13 @@
 */
 
 #include "SfmlSoundSystem.hpp"
-#include "../../Component/SfmlSound.hpp"
-#include "../../Component/Audio.hpp"
+#include "ECS/Component/SfmlSound.hpp"
+#include "ECS/Component/Audio.hpp"
 
 SfmlSoundSystem::SfmlSoundSystem(std::shared_ptr<ComponentManager> &components) : AudioSystem(components)
 {
-    _usedComponents.push_back(typeid(SfmlSound).name());
-    _usedComponents.push_back(typeid(Audio).name());
+//    _usedComponents.push_back(typeid(SfmlSound).name());
+//    _usedComponents.push_back(typeid(Audio).name());
 }
 
 SfmlSoundSystem::~SfmlSoundSystem()
@@ -59,4 +59,11 @@ void SfmlSoundSystem::pause(const std::size_t &entity)
     Audio &audio = _componentManager->getComponent<Audio>(entity).value();
     sound.sound.pause();
     audio.isPlayed = false;
+}
+
+bool SfmlSoundSystem::checkAvailableEntity(const size_t entity) const
+{
+    const auto &sound = _componentManager->getComponentsList<SfmlSound>();
+    const auto &audio = _componentManager->getComponentsList<Audio>();
+    return sound[entity].has_value() && audio[entity].has_value();
 }

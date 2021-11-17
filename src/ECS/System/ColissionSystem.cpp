@@ -15,11 +15,11 @@
 
 ColissionSystem::ColissionSystem(std::shared_ptr<ComponentManager> &components) : ASystem(components)
 {
-    _usedComponents.push_back(typeid(Rectangle).name());
-    _usedComponents.push_back(typeid(Colission).name());
-    _usedComponents.push_back(typeid(Position).name());
-    _usedComponents.push_back(typeid(Tag).name());
-    _usedComponents.push_back(typeid(Life).name());
+//    _usedComponents.push_back(typeid(Rectangle).name());
+//    _usedComponents.push_back(typeid(Colission).name());
+//    _usedComponents.push_back(typeid(Position).name());
+//    _usedComponents.push_back(typeid(Tag).name());
+//    _usedComponents.push_back(typeid(Life).name());
 }
 
 ColissionSystem::~ColissionSystem()
@@ -77,4 +77,16 @@ void ColissionSystem::update()
             }
         }
     }
+}
+
+bool ColissionSystem::checkAvailableEntity(std::size_t entity) const
+{
+    const auto &rectangle = _componentManager->getComponentsList<Rectangle>();
+    const auto &colision = _componentManager->getComponentsList<Colission>();
+    const auto &position = _componentManager->getComponentsList<Position>();
+    const auto &tag = _componentManager->getComponentsList<Tag>();
+    const auto &life = _componentManager->getComponentsList<Life>();
+    return rectangle[entity].has_value() && colision[entity].has_value() &&
+        position[entity].has_value() && tag[entity].has_value() && life[entity].has_value();
+
 }

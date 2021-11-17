@@ -17,7 +17,7 @@ RtypeClient::RtypeClient()
     _textureLogo.loadFromFile("assets/sprites/r_type_logo.png");
     _spriteLogo.setTexture(_textureLogo);
     _stop = false;
-    _state = GameState::ConnectMenu;
+    _state = GameState::Game;
     initMenu();
     registerComponents();
 }
@@ -303,5 +303,5 @@ void RtypeClient::manageGame()
 {
     _ecs.getSystem<SfmlDrawSystem>().draw(0);
     _ecs.getSystem<SfmlDrawSystem>().draw(1);
-    //_ecs.getSystem<MoveSystem>().update();
+    _ecs.getSystem<MoveSystem>().update();
 }

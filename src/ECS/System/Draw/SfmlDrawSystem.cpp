@@ -16,7 +16,7 @@ SfmlDrawSystem::SfmlDrawSystem(
     std::shared_ptr<ComponentManager> componentManager
 ) : DrawSystem(componentManager)
 {
-    _usedComponents.push_back(typeid(SfmlSprite).name());
+//    _usedComponents.push_back(typeid(SfmlSprite).name());
 }
 
 SfmlDrawSystem::~SfmlDrawSystem()
@@ -90,4 +90,10 @@ void SfmlDrawSystem::setColor(SfmlSprite &sprite, const std::size_t entity)
 void SfmlDrawSystem::setDisplay(std::shared_ptr<SfmlDisplay> display)
 {
     _display = display;
+}
+
+bool SfmlDrawSystem::checkAvailableEntity(std::size_t entity) const
+{
+    const auto &sprite = _componentManager->getComponentsList<SfmlSprite>();
+    return sprite[entity].has_value();
 }

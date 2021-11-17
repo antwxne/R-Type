@@ -93,6 +93,11 @@ void Event_n::EventSystem::unsubscribeToAllEvents(const Entity &entity) noexcept
     }
 }
 
+bool Event_n::EventSystem::checkAvailableEntity(std::size_t entity) const
+{
+    return true;
+}
+
 Event_n::Event_s::Event_s(Event_n::State_e newState, Event_n::Events_e newEvent)
     : state(newState), event(newEvent)
 {
