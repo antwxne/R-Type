@@ -18,8 +18,9 @@
 #include "Client.hpp"
 #include "../ECS/ECS.hpp"
 #include "../ECS/Entity/PlayerEntity.hpp"
+#include "../ECS/Entity/EnemyEntity.hpp"
 #include "../ECS/Entity/BulletEntity.hpp"
-
+#include "../ECS/System/AISystem.hpp"
 
 enum GameState
 {

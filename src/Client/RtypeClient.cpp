@@ -61,17 +61,21 @@ void RtypeClient::registerComponents()
     _ecs.registerComponent<Tag>();
     _ecs.registerComponent<Life>();
     _ecs.registerComponent<Rectangle>();
+    _ecs.registerComponent<AI>();
 }
 
 void RtypeClient::start()
 {
     PlayerEntity _pe({150, 50}, ColorType::None);
+    EnemyEntity _ee({1050, 50});
     BulletEntity _be({150, 800}, true);
     _pe.create(_ecs);
     _be.create(_ecs);
+    _ee.create(_ecs);
 
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
+    _ecs.registerSystem<AISystem>();
     draw.setDisplay(_graphical);
     Entity player = _ecs.createEntity();
 
@@ -306,4 +310,5 @@ void RtypeClient::manageGame()
     _ecs.getSystem<SfmlDrawSystem>().update();
     _ecs.getSystem<MoveSystem>().update();
     _ecs.garbageCollector();
+    _ecs.getSystem<AISystem>().update();
 }

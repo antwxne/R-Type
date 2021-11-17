@@ -28,5 +28,6 @@
 #include "Component/Transform/Position.hpp"
 #include "Component/Transform/Rotate.hpp"
 #include "Component/Transform/Scale.hpp"
+#include "Component/AI.hpp"
 
 #endif /* !COMPONENT_HPP_ */

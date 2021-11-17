@@ -13,5 +13,6 @@
 #include "System/MoveSystem.hpp"
 #include "System/Draw/DrawSystem.hpp"
 #include "System/Draw/SfmlDrawSystem.hpp"
+#include "System/AISystem.hpp"
 
 #endif /* !SYSTEM_HPP_ */
