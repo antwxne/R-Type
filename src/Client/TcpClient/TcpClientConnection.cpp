@@ -11,6 +11,7 @@ TcpClientConnection::TcpClientConnection(asio::ip::tcp::socket socket, asio::io_
 std::list<Message<MessageType>> &messageList)
 : _socket(std::move(socket)), _asioContext(context), _messageList(messageList)
 {
+    _isConnected = false;
 }
 
 TcpClientConnection::~TcpClientConnection()
@@ -19,7 +20,7 @@ TcpClientConnection::~TcpClientConnection()
 
 bool TcpClientConnection::isConnected()
 {
-    return _socket.is_open();
+    return _socket.is_open() && _isConnected;
 }
 
 std::string TcpClientConnection::getIp() const
@@ -31,6 +32,19 @@ void TcpClientConnection::connectToServer(const asio::ip::tcp::resolver::results
 {
     _socket = asio::ip::tcp::socket(_asioContext);
 
+    /*try
+    {
+        _socket.connect(endpoints->endpoint());
+        _isConnected = true;
+        std::cout << "Connected " << std::endl;
+        readMessageHeader();
+    }
+    catch (std::exception &e)
+    {
+        std::cout << "Cannot connect : " << e.what() << std::endl;
+    }*/
+
+    std::cout << "Befire connected\n";
     asio::async_connect(_socket, endpoints,
 	[this](std::error_code ec, asio::ip::tcp::endpoint endpoint)
 	{
@@ -38,7 +52,12 @@ void TcpClientConnection::connectToServer(const asio::ip::tcp::resolver::results
 		{
             std::cout << "Connected to " << endpoint << std::endl;
             readMessageHeader();
+            _isConnected = true;
 		}
+        else
+        {
+            std::cout << "Cannot connect: " << ec << std::endl;
+        }
 	});
 }
 
@@ -49,14 +68,16 @@ void TcpClientConnection::sendMessage(Message<MessageType> &message)
 
 void TcpClientConnection::writeMessageHeader(Message<MessageType> &message)
 {
-    _messageToWrite = message;
-    asio::async_write(_socket, asio::buffer(_messageToWrite.getHeaderPtr(), _messageToWrite.getHeaderSize()),
-	[this](std::error_code ec, std::size_t length)
+    asio::async_write(_socket, asio::buffer(message.getHeaderPtr(), message.getHeaderSize()),
+	[this, message](std::error_code ec, std::size_t length) mutable 
     {
         if (!ec)
         {
-            if (_messageToWrite.getBodySize() > 0)
-                writeMessageBody(_messageToWrite);
+            if (message.getBodySize() > 0)
+            {
+                writeMessageBody(message);
+                return;
+            }
         }
         else
         {
@@ -79,15 +100,16 @@ void TcpClientConnection::writeMessageBody(Message<MessageType> &message)
 
 void TcpClientConnection::readMessageHeader()
 {
+    _tmpMessage = Message<MessageType>();
     asio::async_read(_socket, asio::buffer(_tmpMessage.getHeaderPtr(), _tmpMessage.getHeaderSize()),
-	[this](std::error_code ec, std::size_t length)
+	[this](std::error_code ec, std::size_t length) mutable
     {
         if (!ec)
         {
             if (_tmpMessage.getBodySize() > 0)
             {
                 _tmpMessage.resizeBody(_tmpMessage.getBodySize());
-                readMessageBody();
+                readMessageBody(_tmpMessage);
             }
             else
             {
@@ -103,10 +125,10 @@ void TcpClientConnection::readMessageHeader()
 }
 
 
-void TcpClientConnection::readMessageBody()
+void TcpClientConnection::readMessageBody(Message<MessageType> &message)
 {
     asio::async_read(_socket, asio::buffer(_tmpMessage.getBodyDataPtr(), _tmpMessage.getBodySize()),
-		[this](std::error_code ec, std::size_t length)
+	[this, message](std::error_code ec, std::size_t length) mutable
     {
         if (ec)
         {

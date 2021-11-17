@@ -6,11 +6,13 @@
 */
 
 #include "Client.hpp"
+#include <chrono>
 
 Client::Client()
 {
     _tcpClient.start();
     _udpPort = -1;
+    _stop = false;
 }
 
 Client::~Client()
@@ -24,18 +26,23 @@ void Client::start()
 
 void Client::run()
 {
-    while (1)
+    while (!_stop)
     {
         _tcpClient.run();
-        sleep(0.001);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
+}
+
+void Client::stop()
+{
+    _tcpClient.stop();
+    _stop = true;
 }
 
 bool Client::tryConnect(const std::string &ip, int port)
 {
     return _tcpClient.tryConnect(ip, port);
 }
-
 
 void Client::initUdpClient()
 {
@@ -71,11 +78,10 @@ void Client::createGame(const std::string &name)
         std::cout << "Game Name is " << GAME_NAME_MAX_LENGHT << " length max!" << std::endl;
         return;
     }
-
     std::strcpy(nameC, name.c_str());
     msg << MessageType::CreateGame;
     msg << nameC;
-
+    
     _tcpClient.sendMessage(msg);
 }
 
@@ -141,13 +147,17 @@ void Client::getGames()
 void Client::getPlayersInGame(const std::string &name)
 {
     Message<MessageType> msg;
+    char nameC[GAME_NAME_MAX_LENGHT];
     
     if (_tcpClient.isConnected() == false)
     {
         std::cout << "You are not connected" << std::endl;
         return;
     }
+
+    std::strcpy(nameC, name.c_str());
     msg << MessageType::GetPlayersInGame;
+    msg << nameC;
     _tcpClient.sendMessage(msg);
 }
 
@@ -166,4 +176,19 @@ void Client::setPlayerName(const std::string &name)
     msg << nameC;
 
     _tcpClient.sendMessage(msg);
+}
+
+std::list<std::pair<std::string, char>> &Client::getGameList()
+{
+    return _tcpClient.getGames();
+}
+
+void Client::resetGameList()
+{
+    _tcpClient.resetGameList();
+}
+
+std::list<std::string> &Client::getPlayersInGameList()
+{
+    return _tcpClient.getPlayersInGame();
 }

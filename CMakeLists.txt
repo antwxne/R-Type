@@ -105,6 +105,8 @@ set(SHARED_SRC
         src/Graphical/SfmlButton.hpp
         src/Graphical/SfmlMenu.cpp
         src/Graphical/SfmlMenu.hpp
+        src/Graphical/SfmlText.cpp
+        src/Graphical/SfmlText.hpp
         src/Graphical/SfmlEventFactory.hpp
         src/Graphical/SfmlEventFactory.cpp
         src/Graphical/IGraphical.hpp

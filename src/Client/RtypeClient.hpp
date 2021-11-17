@@ -8,11 +8,14 @@
 #ifndef RtypeClient_HPP_
 #define RtypeClient_HPP_
 
-#include "Graphical/SfmlDisplay.hpp"
-#include "Graphical/SfmlParallax.hpp"
-#include "Graphical/SfmlMenu.hpp"
-#include "Graphical/SfmlEventFactory.hpp"
-#include "ECS/ECS.hpp"
+#include <memory>
+#include <thread>
+
+#include "../Graphical/SfmlDisplay.hpp"
+#include "../Graphical/SfmlParallax.hpp"
+#include "../Graphical/SfmlMenu.hpp"
+#include "../Graphical/SfmlEventFactory.hpp"
+#include "Client.hpp"
 
 
 enum GameState
@@ -29,27 +32,37 @@ class RtypeClient {
         RtypeClient();
         ~RtypeClient();
         void start();
+        void stop();
 
     private:
         void initMenu();
         void run();
         void manageState();
         void manageConnectMenu();
+        void manageMainMenu();
+        void manageLobbyMenu();
         void handleEvents(const sf::Event& event);
         void handleTextInput(const sf::Event& event);
+        void handleInitLobby();
+        void handleGetGames();
     private:
         GameState _state;
+        bool _stop;
 
         std::shared_ptr<SfmlDisplay> _graphical;
         SfmlEventFactory _eventFactory;
         SfmlParallax _parallax;
-        
-        SfmlMenu _connectMenu;
-
         sf::Sprite _spriteLogo;
         sf::Texture _textureLogo;
+        
+        SfmlMenu _connectMenu;
+        SfmlMenu _mainMenu;
+        SfmlMenu _lobbyMenu;
 
-        ECS _ecs;
+        std::string _currentGameName;
+
+        std::shared_ptr<Client> _networkClient;
+        std::thread _networkThread;
 };
 
 #endif /* !RtypeClient_HPP_ */

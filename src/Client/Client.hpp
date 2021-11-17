@@ -19,8 +19,8 @@ class Client {
         void start();
         void run();
         bool tryConnect(const std::string &ip, int port);
-
-
+        void stop();
+        
         //Game Handler
 
         void setPlayerName(const std::string &name);
@@ -30,11 +30,17 @@ class Client {
         void getGames();
         void getPlayersInGame(const std::string &name);
 
+        std::list<std::pair<std::string, char>> &getGameList();
+        void resetGameList();
+
+        std::list<std::string> &getPlayersInGameList();
+
     private:
         void initUdpClient();
 
     private:
         TcpClient _tcpClient;
+        bool _stop;
         int _udpPort;
         std::unique_ptr<UdpGameClient> _udpClient;
 };

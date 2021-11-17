@@ -23,12 +23,20 @@ class TcpClient
         ~TcpClient();
         void start();
         void run();
+        void stop();
 
         void sendMessage(Message<MessageType> &message);
         bool tryConnect(const std::string &ip, int port);
 
         std::string getIp() const;
-        
+
+        void addGame(const std::string &name, char nbPlayers);
+        std::list<std::pair<std::string, char>> &getGames();
+        void resetGameList();
+
+        void addPlayerInGame(const std::string &name);
+        std::list<std::string> &getPlayersInGame();
+        void resetPlayerList();
         
         bool isConnected();
     private:
@@ -38,10 +46,16 @@ class TcpClient
         std::string _ip;
 
         asio::io_context _asioContext;
+        asio::executor_work_guard<decltype(_asioContext.get_executor())> work{_asioContext.get_executor()};
+
 		std::thread _threadContext;
+
         std::shared_ptr<TcpClientConnection> _connection;
         std::list<Message<MessageType>> _messageList;
         TcpClientMessageHandler _messageHandler;
+
+        std::list<std::pair<std::string, char>> _gamesList;
+        std::list<std::string> _inGamePlayerList;
 };
 
 #endif /* !CLIENT_HPP_ */

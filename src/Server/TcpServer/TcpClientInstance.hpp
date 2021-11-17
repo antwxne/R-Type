@@ -13,6 +13,7 @@
 #include "network.hpp"
 #include "INetwork.hpp"
 #include <list>
+#include <vector>
 #include "TcpClientInstanceMessage.hpp"
 #include "../ClientInformations.hpp"
 
@@ -29,17 +30,16 @@ class TcpClientInstance : public std::enable_shared_from_this<TcpClientInstance>
         asio::ip::tcp::endpoint getSocketEndpoint();
     private:
         void writeMessageHeader(Message<MessageType> &message) override;
-        void readMessageBody() override;
+        void readMessageBody(Message<MessageType> &message) override;
         void writeMessageBody(Message<MessageType> &message) override;
     public:
         ClientInformations informations;
     private:
         asio::io_context& _asioContext;
         asio::ip::tcp::socket _socket;
-        Message<MessageType> _tmpMessage;
-        Message<MessageType> _messageToWrite;
         bool _isConnected;
         std::list<TcpClientInstanceMessage<MessageType>> &_messageList;
+        Message<MessageType> _messageToRead;
 };
 
 #endif /* !TcpClientInstance_HPP_ */

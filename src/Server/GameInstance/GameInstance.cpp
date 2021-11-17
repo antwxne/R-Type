@@ -25,8 +25,8 @@ void GameInstance::run()
     {
         if (_udpGameServer)
             _udpGameServer->run();
-        std::cout << _name << " Running with " << (int)_nbPlayers << " players\n";
-        sleep(1);
+        //std::cout << _name << " Running with " << (int)_nbPlayers << " players\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
 
@@ -38,9 +38,14 @@ void GameInstance::stop()
 std::list<std::string> GameInstance::getPlayers()
 {
     std::list<std::string> list;
+    std::cout << "getPlayer\n";
+
 
     for (auto &i : _clients)
+    {
+        std::cout << "omg new player\n";
         list.push_back(i->informations.getName());
+    }
     return list;
 }
 

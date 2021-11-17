@@ -8,7 +8,7 @@
 #include "SfmlButton.hpp"
 
 SfmlButton::SfmlButton(const std::string &text, const sf::Vector2f &pos,
-const float size, const sf::Font & font, bool isInputButton)
+const float size, const sf::Font & font, bool isInputButton, bool isValidedButton)
 {
     _text.setFont(font);
     _text.setFillColor(sf::Color::White);
@@ -18,15 +18,16 @@ const float size, const sf::Font & font, bool isInputButton)
     _isSelected = false;
     _isInputButton = isInputButton;
     _defaultTextSize = text.size();
+    _isValidedButton = isValidedButton;
 }
 
 SfmlButton::~SfmlButton()
 {
 }
 
-void SfmlButton::draw(sf::RenderWindow &window)
+void SfmlButton::draw(std::shared_ptr<sf::RenderWindow> window)
 {
-    window.draw(_text);
+    window->draw(_text);
 }
 
 void SfmlButton::select()
@@ -53,9 +54,13 @@ void SfmlButton::setText(const std::string &text)
 
 std::string SfmlButton::getText() const
 {
-    return _text.getString();
+    if (_isInputButton)
+        return _text.getString().substring(_defaultTextSize);
+    else
+        return _text.getString();
 }
-#include<iostream>
+
+
 void SfmlButton::addText(const std::string &text)
 {
     if (_isInputButton == false)
@@ -74,4 +79,10 @@ void SfmlButton::removeText()
         str.pop_back();
         _text.setString(str);
     }
+}
+
+
+bool SfmlButton::validate()
+{
+    return _isValidedButton;
 }

@@ -27,7 +27,7 @@ void GameUdpServer::run()
             _gameMessageList.pop_front();
             _gameMessageHandler.handleMessage(message);
         }
-        sleep(0.001);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
 
@@ -60,38 +60,48 @@ bool GameUdpServer::handlePlayerClient(asio::ip::udp::endpoint endpoint)
     return true;
 }
 
-void GameUdpServer::handleHeaderRecieve(const asio::error_code& error, std::size_t size)
+void GameUdpServer::readMessageHeader()
 {
-    if (error)
-    {
-        readMessageHeader();
-        return;
-    }
+    Message<MessageType> message;
 
-    handlePlayerClient(_lastEndpoint);
+    _socket.async_receive_from(asio::buffer(message.getHeaderPtr(), message.getHeaderSize()), _lastEndpoint,
+    [this, message](std::error_code ec, std::size_t length) mutable
+    {
+        if (ec)
+        {
+            readMessageHeader();
+            return;
+        }
+
+        handlePlayerClient(_lastEndpoint);
 
     
-    if (_tmpMessage.getBodySize() > 0)
-    {
-        _tmpMessage.resizeBody(_tmpMessage.getBodySize());
-        readMessageBody();
-    }
-    else
-    {
-        _gameMessageList.push_back(GameUdpMessage<MessageType>(_tmpMessage, _bindMap[_lastEndpoint]));
-        readMessageHeader();
-    }
+        if (message.getBodySize() > 0)
+        {
+            message.resizeBody(message.getBodySize());
+            readMessageBody(message);
+        }
+        else
+        {
+            _gameMessageList.push_back(GameUdpMessage<MessageType>(message, _bindMap[_lastEndpoint]));
+            readMessageHeader();
+        }
+    });
 }
 
-void GameUdpServer::handleBodyRecieve(const asio::error_code& error, std::size_t size)
+void GameUdpServer::readMessageBody(Message<MessageType> &message)
 {
-    if (error)
+    _socket.async_receive_from(asio::buffer(message.getBodyDataPtr(), message.getBodySize()), _lastEndpoint,
+    [this, message](std::error_code ec, std::size_t length) mutable
     {
+        if (ec)
+        {
+            readMessageHeader();
+            return;
+        }
+        _gameMessageList.push_back(GameUdpMessage<MessageType>(message, _bindMap[_lastEndpoint]));
         readMessageHeader();
-        return;
-    }
-    _gameMessageList.push_back(GameUdpMessage<MessageType>(_tmpMessage, _bindMap[_lastEndpoint]));
-    readMessageHeader();
+    });
 }
 
 void GameUdpServer::sendMessageToPlayer(GameUdpMessage<MessageType> &message, int nPlayer)

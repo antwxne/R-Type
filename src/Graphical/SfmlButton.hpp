@@ -10,13 +10,12 @@
 
 #include "SfmlDisplay.hpp"
 
-
 class SfmlButton {
     public:
         SfmlButton(const std::string &text, const sf::Vector2f &pos, const float size, const sf::Font & font,
-        bool isInputButton = false);
+        bool isInputButton = false, bool isValidedButton = false);
         ~SfmlButton();
-        void draw(sf::RenderWindow &window);
+        void draw(std::shared_ptr<sf::RenderWindow> window);
         void select();
         void unselect();
         void setText(const std::string &text);
@@ -24,12 +23,14 @@ class SfmlButton {
         bool isSelected() const;
         void addText(const std::string &text);
         void removeText();
+        bool validate();
 
     protected:
     private:
         sf::Text _text;
         int _defaultTextSize;
         bool _isInputButton;
+        bool _isValidedButton;
         bool _isSelected;
 };
 

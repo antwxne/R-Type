@@ -41,7 +41,7 @@ void TcpClientMessageHandler::handleMessage(Message<MessageType> &message)
 
 void TcpClientMessageHandler::handleSetName(Message<MessageType> &message)
 {
-    std::cout << "Ok set name\n";
+
 }
 
 
@@ -49,23 +49,22 @@ void TcpClientMessageHandler::handleSetName(Message<MessageType> &message)
 
 void TcpClientMessageHandler::handleCreateGame(Message<MessageType> &message)
 {
-    std::cout << "Ok create\n";
+
 }
 
 void TcpClientMessageHandler::handleJoinGame(Message<MessageType> &message)
 {
-    std::cout << "Ok join\n";
+
 }
 
 void TcpClientMessageHandler::handleLeaveGame(Message<MessageType> &message)
 {
-    std::cout << "Ok Leave\n";
+
 }
 
 void TcpClientMessageHandler::handleGetGames(Message<MessageType> &message)
 {
     int bodysize = message.getBodySize();
-    std::cout << "GET GAMES "<< bodysize << "\n";
 
     try
     {
@@ -77,7 +76,7 @@ void TcpClientMessageHandler::handleGetGames(Message<MessageType> &message)
             bodysize -= GAME_NAME_MAX_LENGHT;
             message >> nPlayers;
             bodysize -= sizeof(char);
-            std::cout << "Game " << name << " with " << (int)nPlayers << " players\n";
+            _client.addGame(name, nPlayers);
         }
     }
     catch(const std::exception& e)
@@ -89,20 +88,19 @@ void TcpClientMessageHandler::handleGetGames(Message<MessageType> &message)
 void TcpClientMessageHandler::handleGetPlayersInGame(Message<MessageType> &message)
 {
     int bodysize = message.getBodySize();
-    std::cout << "GET PLayerInGame "<< bodysize << "\n";
+    _client.resetPlayerList();
 
     try
     {
         char gameName[GAME_NAME_MAX_LENGHT];
         message >> gameName;
-        std::cout << "Game " << gameName << ":\n";
         bodysize -= GAME_NAME_MAX_LENGHT;
         while (bodysize > 0)
         {
             char name[PLAYER_NAME_MAX_LENGHT];
             message >> name;
             bodysize -= PLAYER_NAME_MAX_LENGHT;
-            std::cout << "Player "<< name << "\n";
+            _client.addPlayerInGame(name);
         }
     }
     catch(const std::exception& e)

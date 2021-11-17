@@ -26,17 +26,18 @@ class TcpClientConnection : public INetwork {
         void sendMessage(Message<MessageType> &message) override;
 
 
+
     protected:
         void writeMessageHeader(Message<MessageType> &message) override;
         void writeMessageBody(Message<MessageType> &message) override;
         void readMessageHeader() override;
-        void readMessageBody() override;
+        void readMessageBody(Message<MessageType> &message) override;
     private:
         asio::ip::tcp::socket _socket;
         asio::io_context &_asioContext;
         Message<MessageType> _tmpMessage;
-        Message<MessageType> _messageToWrite;
         std::list<Message<MessageType>> &_messageList;
+        bool _isConnected;
 };
 
 #endif /* !TcpClientConnection_HPP_ */

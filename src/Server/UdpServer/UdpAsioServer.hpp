@@ -26,7 +26,7 @@ class UdpAsioServer : public INetwork {
 
 
         void readMessageHeader() override;
-        void readMessageBody() override;
+        void readMessageBody(Message<MessageType> &message) override;
 
         void sendMessage(Message<MessageType> &message) override;
         void writeMessageHeader(Message<MessageType> &message) override;
@@ -36,14 +36,9 @@ class UdpAsioServer : public INetwork {
         void writeMessageBodyToEndpoint(Message<MessageType> &message, asio::ip::udp::endpoint &clientEndpoint);
 
     protected:
-        virtual void handleHeaderRecieve(const asio::error_code& error, std::size_t size);
-        virtual void handleBodyRecieve(const asio::error_code& error, std::size_t size);
-    protected:
         asio::io_context _asioContext;
 		std::thread _threadContext;
         asio::ip::udp::socket _socket;
-
-        Message<MessageType> _tmpMessage;
         asio::ip::udp::endpoint _lastEndpoint;
 
         std::list<Message<MessageType>> _messageList;
