@@ -59,6 +59,7 @@ void RtypeClient::registerComponents()
     _ecs.registerComponent<Colission>();
     _ecs.registerComponent<Hitbox>();
     _ecs.registerComponent<Tag>();
+    _ecs.registerComponent<AI>();
 }
 
 void RtypeClient::start()
@@ -72,6 +73,7 @@ void RtypeClient::start()
 
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
+    _ecs.registerSystem<AISystem>();
     draw.setDisplay(_graphical);
     Entity player = _ecs.createEntity();
 
@@ -305,4 +307,5 @@ void RtypeClient::manageGame()
 {
     _ecs.getSystem<SfmlDrawSystem>().update();
     _ecs.getSystem<MoveSystem>().update();
+    _ecs.getSystem<AISystem>().update();
 }

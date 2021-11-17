@@ -27,11 +27,12 @@ void EnemyEntity::create(ECS &ecs)
     ecs.subToComponent(enemy, Texture{TextureType::Enemy});
     ecs.subToComponent(enemy, Scale{1, 1});
     ecs.subToComponent(enemy, Color{ColorType::None});
+    ecs.subToComponent(enemy, AI{false, 0, 0, 800, 1920, 0, 1080});
 
     _textureRect = {0, 0, 257, 184};
     sprite->setTextureRect(_textureRect);
 
     ecs.subToComponent(enemy, SfmlSprite{sprite, _textureRect, 4,0});
     ecs.subToComponent(enemy, Speed{1});
-    ecs.subToComponent(enemy, Acceleration{-1, 0});
+    ecs.subToComponent(enemy, Acceleration{0, 0});
 }
