@@ -34,7 +34,8 @@ void SfmlDrawSystem::updateSprite(SfmlSprite &sprite, const std::size_t entity)
 {
     setPosition(sprite, entity);
 
-    if (sprite.sprite->getTexture() == nullptr) {
+    if (sprite.sprite->getTexture() == nullptr)
+    {
         setTexture(sprite, entity);
     }
     setScale(sprite, entity);

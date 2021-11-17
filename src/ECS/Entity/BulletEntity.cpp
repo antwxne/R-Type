@@ -10,6 +10,8 @@
 
 BulletEntity::BulletEntity(const Position &pos, const bool isBulletFriend)
 {
+    _pos = pos;
+    _isBulletFriend = isBulletFriend;
 }
 
 BulletEntity::~BulletEntity()

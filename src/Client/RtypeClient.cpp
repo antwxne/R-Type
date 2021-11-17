@@ -17,7 +17,7 @@ RtypeClient::RtypeClient()
     _textureLogo.loadFromFile("assets/sprites/r_type_logo.png");
     _spriteLogo.setTexture(_textureLogo);
     _stop = false;
-    _state = GameState::ConnectMenu;
+    _state = GameState::Game;
     initMenu();
     registerComponents();
 }
