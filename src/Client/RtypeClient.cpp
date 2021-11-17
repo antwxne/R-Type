@@ -17,6 +17,9 @@ RtypeClient::RtypeClient()
     _graphical = std::make_shared<SfmlDisplay>();
     _textureLogo.loadFromFile("assets/sprites/r_type_logo.png");
     _spriteLogo.setTexture(_textureLogo);
+    _menuMusic.openFromFile("assets/music/space_oddity.ogg");
+    _gameMusic.openFromFile("assets/music/red-alert.ogg");
+    sf::Music _gameMusic;
     _stop = false;
     _state = GameState::Game;
     initMenu();
@@ -116,10 +119,30 @@ void RtypeClient::run()
         _parallax.update();
         _parallax.draw(*_graphical->getWindow());
         manageState();
+        manageMusic();
         _graphical->display();
     }
     stop();
 }
+
+void RtypeClient::manageMusic()
+{
+    if (_state == GameState::Game)
+    {
+        if (_gameMusic.getStatus() != sf::Music::Playing)
+            _gameMusic.play();
+        if (_menuMusic.getStatus() == sf::Music::Playing)
+            _menuMusic.stop();
+    }
+    else
+    {
+        if (_gameMusic.getStatus() == sf::Music::Playing)
+            _gameMusic.stop();
+        if (_menuMusic.getStatus() != sf::Music::Playing)
+            _menuMusic.play();
+    }
+}
+
 
 void RtypeClient::handleEvents(const sf::Event& event)
 {
