@@ -16,7 +16,6 @@
 
 AISystem::AISystem(std::shared_ptr<ComponentManager> &components) : ASystem(components)
 {
-    _usedComponents.push_back(typeid(Rectangle).name());
     _usedComponents.push_back(typeid(Position).name());
     _usedComponents.push_back(typeid(Tag).name());
     _usedComponents.push_back(typeid(AI).name());
@@ -70,4 +69,13 @@ void AISystem::setPath(const std::size_t &entity)
         position.y += addY;
     if (round(position.x) == round(ai.x) && round(position.y) == round(ai.y))
         ai.isDestination = false;
+}
+
+bool AISystem::checkAvailableEntity(std::size_t entity) const
+{
+    const auto &position = _componentManager->getComponentsList<Position>();
+    const auto &ai = _componentManager->getComponentsList<AI>();
+    const auto &tag = _componentManager->getComponentsList<Tag>();
+
+    return position[entity].has_value() && ai[entity].has_value() && tag[entity].has_value();
 }

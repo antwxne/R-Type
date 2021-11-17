@@ -19,6 +19,7 @@ class AISystem : public ASystem  {
     private:
         void setDestination(const std::size_t &entity);
         void setPath(const std::size_t &entity);
+        bool checkAvailableEntity(std::size_t entity) const override;
 };
 
 #endif /* !AISYSTEM_HPP_ */
