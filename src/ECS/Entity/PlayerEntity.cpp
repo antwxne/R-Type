@@ -35,8 +35,8 @@ void PlayerEntity::create(ECS &ecs)
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
 
     sprite->setTextureRect(_textureRect);
-
-    ecs.subToComponent(_entity, SfmlSprite{sprite, _textureRect, 5, 0});
+    
+    ecs.subToComponent(_entity, SfmlSprite{sprite, _textureRect, 4, 0, 1});
     ecs.subToComponent(_entity, Speed{10});
     ecs.subToComponent(_entity, Acceleration{1, 1});
     ecs.subToComponent(_entity, Rectangle{_textureRect.width, _textureRect.height});

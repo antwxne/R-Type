@@ -13,6 +13,7 @@
 
 RtypeClient::RtypeClient()
 {
+    srand(time(NULL));
     _graphical = std::make_shared<SfmlDisplay>();
     _textureLogo.loadFromFile("assets/sprites/r_type_logo.png");
     _spriteLogo.setTexture(_textureLogo);
@@ -68,10 +69,18 @@ void RtypeClient::start()
 {
     PlayerEntity _pe({150, 50}, ColorType::None);
     EnemyEntity _ee({1050, 50});
+    EnemyEntity _ee2({1050, 50});
+    EnemyEntity _ee3({1050, 50});
+    EnemyEntity _ee4({1050, 50});
+    EnemyEntity _ee5({1050, 50});
     BulletEntity _be({150, 800}, true);
     _pe.create(_ecs);
     _be.create(_ecs);
     _ee.create(_ecs);
+    _ee2.create(_ecs);
+    _ee3.create(_ecs);
+    _ee4.create(_ecs);
+    _ee5.create(_ecs);
 
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
