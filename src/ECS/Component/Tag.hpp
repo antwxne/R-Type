@@ -8,19 +8,19 @@
 #ifndef TAG_HPP_
 #define TAG_HPP_
 
-struct Player
+struct PlayerTag
 {
 };
 
-struct Enemy
+struct EnemyTag
 {
 };
 
-struct PowerUp
+struct PowerUpTag
 {
 };
 
-struct Bullet
+struct BulletTag
 {
 };
 

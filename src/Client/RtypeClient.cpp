@@ -36,9 +36,16 @@ void RtypeClient::start()
     _ecs.registerComponent<Rotate>();
     _ecs.registerComponent<Color>();
     _ecs.registerComponent<SfmlSprite>();
+    _ecs.registerComponent<Colission>();
+    _ecs.registerComponent<Hitbox>();
+    _ecs.registerComponent<BulletTag>();
+    _ecs.registerComponent<PlayerTag>();
+    _ecs.registerComponent<EnemyTag>();
 
     PlayerEntity _pe({150, 50}, {ColorType::None});
+    BulletEntity _be({150, 800}, true);
     _pe.create(_ecs);
+    _be.create(_ecs);
 
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
@@ -148,5 +155,6 @@ void RtypeClient::manageConnectMenu()
 void RtypeClient::manageGame()
 {
     _ecs.getSystem<SfmlDrawSystem>().draw(0);
+    _ecs.getSystem<SfmlDrawSystem>().draw(1);
     //_ecs.getSystem<MoveSystem>().update();
 }

@@ -11,6 +11,7 @@
 #include "Component/Acceleration.hpp"
 #include "Component/Color.hpp"
 #include "Component/ComponentException.hpp"
+#include "Component/Colission.hpp"
 #include "Component/ComponentManager.hpp"
 #include "Component/Fight/Attack.hpp"
 #include "Component/Fight/Defense.hpp"

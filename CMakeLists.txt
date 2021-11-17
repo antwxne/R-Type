@@ -111,7 +111,8 @@ set(SHARED_SRC
         src/ECS/System/EventSystem/EventSystem.cpp
         src/ECS/Entity/PlayerEntity.hpp
         src/ECS/Entity/PlayerEntity.cpp
-        )
+        src/ECS/Entity/BulletEntity.cpp
+        src/ECS/Entity/BulletEntity.hpp)
 
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")

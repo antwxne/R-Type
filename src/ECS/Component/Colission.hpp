@@ -10,5 +10,5 @@
 
 struct Colission {
     bool isColide;
-}
+};
 #endif /* !COLISSION_HPP_ */

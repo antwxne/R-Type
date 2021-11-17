@@ -14,6 +14,7 @@
 #include "../Graphical/SfmlEventFactory.hpp"
 #include "../ECS/ECS.hpp"
 #include "../ECS/Entity/PlayerEntity.hpp"
+#include "../ECS/Entity/BulletEntity.hpp"
 
 
 enum GameState
