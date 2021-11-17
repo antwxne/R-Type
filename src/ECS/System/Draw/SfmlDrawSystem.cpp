@@ -16,7 +16,6 @@ SfmlDrawSystem::SfmlDrawSystem(
     std::shared_ptr<ComponentManager> componentManager
 ) : DrawSystem(componentManager)
 {
-//    _usedComponents.push_back(typeid(SfmlSprite).name());
 }
 
 SfmlDrawSystem::~SfmlDrawSystem()

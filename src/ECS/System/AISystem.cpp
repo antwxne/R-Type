@@ -16,9 +16,6 @@
 
 AISystem::AISystem(std::shared_ptr<ComponentManager> &components) : ASystem(components)
 {
-    _usedComponents.push_back(typeid(Position).name());
-    _usedComponents.push_back(typeid(Tag).name());
-    _usedComponents.push_back(typeid(AI).name());
 }
 
 AISystem::~AISystem()

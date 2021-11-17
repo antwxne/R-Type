@@ -15,11 +15,6 @@
 
 ColissionSystem::ColissionSystem(std::shared_ptr<ComponentManager> &components) : ASystem(components)
 {
-//    _usedComponents.push_back(typeid(Rectangle).name());
-//    _usedComponents.push_back(typeid(Colission).name());
-//    _usedComponents.push_back(typeid(Position).name());
-//    _usedComponents.push_back(typeid(Tag).name());
-//    _usedComponents.push_back(typeid(Life).name());
 }
 
 ColissionSystem::~ColissionSystem()
