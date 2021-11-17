@@ -294,8 +294,6 @@ void RtypeClient::manageLobbyMenu()
             _networkClient->getPlayersInGame(_currentGameName);
         }
     }
-
-    _connectMenu.draw(_graphical->getWindow());
 }
 
 void RtypeClient::manageGame()
