@@ -15,7 +15,7 @@
 
 class PlayerEntity : public IEntityRegister {
     public:
-        PlayerEntity(const Position &pos, const Color &color);
+        PlayerEntity(const Position &pos, ColorType color);
         ~PlayerEntity();
 
         void create(ECS &ecs);
@@ -23,7 +23,8 @@ class PlayerEntity : public IEntityRegister {
     protected:
     private:
         Position _pos;
-        Color _color;
+        ColorType _color;
+        sf::IntRect _textureRect;
 };
 
 #endif /* !PLAYERENTITY_HPP_ */

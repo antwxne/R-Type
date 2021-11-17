@@ -15,6 +15,10 @@
 struct SfmlSprite
 {
     std::shared_ptr<sf::Sprite> sprite;
+    sf::IntRect textureRect;
+    size_t totalRect;
+    size_t actualRect;
+    sf::Clock clock;
 };
 
 #endif /* !SPRITE_HPP_ */

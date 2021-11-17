@@ -1,0 +1,4 @@
+enemy : offset = 217 / max 651
+enemy2: offset = 125 / max 376
+enemy3: offset = 257 / max 1028
+spaceship: offset = 132 / max 660

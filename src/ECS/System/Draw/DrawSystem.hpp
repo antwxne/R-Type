@@ -17,6 +17,8 @@ class DrawSystem : public ASystem
         DrawSystem(std::shared_ptr<ComponentManager> componentManager);
         ~DrawSystem();
         void update() override;
+    protected:
+        bool checkAvailableEntity(size_t entity) const override;
     private:
         virtual void draw(const std::size_t entity);
 };
