@@ -85,6 +85,9 @@ set(SHARED_SRC
         src/utils.hpp
         src/ECS/System/ASystem.hpp
         src/ECS/System/ASystem.cpp
+        src/ECS/Component/AI.hpp
+        src/ECS/System/AISystem.cpp
+        src/ECS/System/AISystem.hpp
         src/ECS/System/ColissionSystem.cpp
         src/ECS/System/ColissionSystem.hpp
         src/ECS/System/MoveSystem.hpp

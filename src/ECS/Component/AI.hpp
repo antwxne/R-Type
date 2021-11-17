@@ -10,8 +10,12 @@
 
 struct AI {
     bool isDestination;
-    int x;
-    int y;
+    float x;
+    float y;
+    int rectXStart;
+    int rectXEnd;
+    int rectYStart;
+    int rectYEnd;
 };
 
 #endif /* !AI_HPP_ */

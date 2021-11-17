@@ -17,6 +17,8 @@ class AISystem : public ASystem  {
         void update() override;
     protected:
     private:
+        void setDestination(const std::size_t &entity);
+        void setPath(const std::size_t &entity);
 };
 
 #endif /* !AISYSTEM_HPP_ */
