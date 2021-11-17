@@ -48,6 +48,7 @@ public:
             throw ComponentException(entity, _dataVector[index],
                 "can't delete component, component doesn't exist.");
         }
+        std::cout << "DELETE IN SPARSE ARRAY" << std::endl;
         _dataVector[index] = std::nullopt;
     }
 

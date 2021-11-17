@@ -5,7 +5,7 @@
 ** EntityManager
 */
 
-#include <iostream>
+#include <algorithm>
 
 #include "EntityException.hpp"
 #include "EntityManager.hpp"
@@ -15,16 +15,16 @@ EntityManager::EntityManager()
 {
     for (size_t i = 0; i < MAX_ENTITIES; i++)
     {
-	    _avaiableEntities.push(Entity(i));
+	    _availableEntities.push(Entity(i));
     }
 }
 
 Entity EntityManager::create()
 {
-    Entity id = _avaiableEntities.front();
+    Entity id = _availableEntities.front();
 
-    _avaiableEntities.pop();
-
+    _availableEntities.pop();
+    _currentEntities.push_back(id);
     return id;
 }
 
@@ -34,47 +34,11 @@ void EntityManager::destroy(const Entity &entity)
     std::size_t index;
 
     entity >> index;
-    if (!_entitiesSignature[index].has_value())
-    {
-        throw EntityException(entity, "can't destroy, entity doesn't exist.");
-    }
-    _entitiesSignature[index] = std::nullopt;
-    _avaiableEntities.push(entity);
+    _currentEntities.erase(std::remove_if(_currentEntities.begin(), _currentEntities.end(), [=](Entity &a){return a == entity;}), _currentEntities.end());
+    _availableEntities.push(entity);
 }
 
-void EntityManager::setSignature(const Entity &entity, const Signature &signature)
+const std::vector<Entity> &EntityManager::getCurrentEntities() const
 {
-    std::size_t index;
-
-    entity >> index;
-	if (_entitiesSignature[index].has_value())
-    {
-        throw EntityException(entity, "can't set signature, entity already have a signature.");
-        return;
-    }
-	_entitiesSignature[index] = signature;
-}
-
-Signature &EntityManager::getSignature(const Entity &entity)
-{
-    std::size_t index;
-
-    entity >> index;
-	if (!_entitiesSignature[index].has_value())
-    {
-        throw EntityException(entity, "can't get signature, entity already have a signature.");
-    }
-    return _entitiesSignature[index].value();
-}
-
-const Signature &EntityManager::getSignature(const Entity &entity) const
-{
-    std::size_t index;
-
-    entity >> index;
-    if (!_entitiesSignature[index].has_value())
-    {
-        throw EntityException(entity, "can't get signature, entity already have a signature.");
-    }
-    return _entitiesSignature[index].value();
+    return _currentEntities;
 }

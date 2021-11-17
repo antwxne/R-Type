@@ -84,7 +84,7 @@ void Event_n::EventSystem::unsubscribeToAllEvents(const Entity &entity) noexcept
     for (auto &it : _callbacksMap) {
         auto &elem = it.second;
         elem.erase(std::remove_if(elem.begin(), elem.end(),
-            [entity](std::pair<std::size_t, Callback> &tmp) {
+            [=](std::pair<std::size_t, Callback> &tmp) {
                 std::size_t id;
 
                 entity >> id;

@@ -29,4 +29,6 @@ void PlayerEntity::create(ECS &ecs)
     ecs.subToComponent(player, SfmlSprite{std::make_shared<sf::Sprite>()});
     ecs.subToComponent(player, Speed{1});
     ecs.subToComponent(player, Acceleration{1, 1});
+    ecs.subToComponent(player, Rectangle{0, 0,1, 1});
+
 }

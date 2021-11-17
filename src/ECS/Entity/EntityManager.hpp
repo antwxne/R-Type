@@ -15,21 +15,17 @@
 #include "rtype.h"
 #include "Entity.hpp"
 
-
 class EntityManager {
-    public:
-        EntityManager();
-        ~EntityManager() = default;
-        Entity create();
-        void destroy(const Entity &entity);
-        void setSignature(const Entity &entity, const Signature &signature);
-        const Signature &getSignature(const Entity &entity) const;
-        Signature &getSignature(const Entity &entity);
-        
-    private:
-        std::queue<Entity> _avaiableEntities;
-        std::array<std::optional<Signature>, MAX_ENTITIES> _entitiesSignature;
-};
+public:
+    EntityManager();
+    ~EntityManager() = default;
+    Entity create();
+    void destroy(const Entity &entity);
+    const std::vector<Entity> &getCurrentEntities() const;
 
+private:
+    std::queue<Entity> _availableEntities;
+    std::vector<Entity> _currentEntities;
+};
 
 #endif /* !ENTITYMANAGER_HPP_ */

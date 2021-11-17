@@ -59,6 +59,8 @@ void RtypeClient::registerComponents()
     _ecs.registerComponent<Colission>();
     _ecs.registerComponent<Hitbox>();
     _ecs.registerComponent<Tag>();
+    _ecs.registerComponent<Life>();
+    _ecs.registerComponent<Rectangle>();
 }
 
 void RtypeClient::start()
@@ -304,4 +306,5 @@ void RtypeClient::manageGame()
     _ecs.getSystem<SfmlDrawSystem>().draw(0);
     _ecs.getSystem<SfmlDrawSystem>().draw(1);
     _ecs.getSystem<MoveSystem>().update();
+    _ecs.garbageCollector();
 }
