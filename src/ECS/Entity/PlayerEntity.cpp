@@ -6,6 +6,7 @@
 */
 
 #include "PlayerEntity.hpp"
+#include "ECS/component.hpp"
 
 PlayerEntity::PlayerEntity(const Position &pos,  ColorType color): IEntityRegister()
 {
@@ -25,6 +26,8 @@ void PlayerEntity::create(ECS &ecs)
 
     ecs.subToComponent(_entity, Rotate{0});
     ecs.subToComponent(_entity, _pos);
+    ecs.subToComponent(_entity, Tag{{TagType::PLAYER}});
+    ecs.subToComponent(_entity, Collision{true});
     ecs.subToComponent(_entity, Texture{TextureType::Player});
     ecs.subToComponent(_entity, Scale{1, 1});
     ecs.subToComponent(_entity, Color{_color});
@@ -37,5 +40,4 @@ void PlayerEntity::create(ECS &ecs)
     ecs.subToComponent(_entity, Speed{10});
     ecs.subToComponent(_entity, Acceleration{1, 1});
     ecs.subToComponent(_entity, Rectangle{_textureRect.width, _textureRect.height});
-    ecs.subToComponent(_entity, Colission{true});
 }

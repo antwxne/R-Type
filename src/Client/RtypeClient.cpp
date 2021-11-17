@@ -56,7 +56,7 @@ void RtypeClient::registerComponents()
     _ecs.registerComponent<Rotate>();
     _ecs.registerComponent<Color>();
     _ecs.registerComponent<SfmlSprite>();
-    _ecs.registerComponent<Colission>();
+    _ecs.registerComponent<Collision>();
     _ecs.registerComponent<Hitbox>();
     _ecs.registerComponent<Tag>();
     _ecs.registerComponent<Life>();

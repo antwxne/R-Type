@@ -8,7 +8,7 @@
 #ifndef COLISSION_HPP_
 #define COLISSION_HPP_
 
-struct Colission {
+struct Collision {
     bool isColide;
 };
 #endif /* !COLISSION_HPP_ */

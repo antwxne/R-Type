@@ -10,13 +10,6 @@
 
 #include "EventSystem.hpp"
 
-static void PLOP(std::shared_ptr<ComponentManager> componentManager, const std::size_t &entity,
-    std::queue<ControlGame> &raisedEvents)
-{
-    std::cout << "PLOP" << std::endl;
-}
-
-
 class EventCallback {
 public:
     static void changeAccelerationUP(std::shared_ptr<ComponentManager> componentManager, const std::size_t &entity,

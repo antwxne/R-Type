@@ -55,13 +55,10 @@ void EventCallback::changeAccelerationRIGHT(
     std::queue<ControlGame> &raisedEvents
 )
 {
-    std::cout << "go right" << std::endl;
     auto &currentAcceleration = componentManager->getComponent<Acceleration>(entity);
     if (!currentAcceleration.has_value()) {
         return;
     }
-    std::cout << "go right plop" << std::endl;
-
     currentAcceleration.value().x = 1;
     currentAcceleration.value().y = 0;
 }

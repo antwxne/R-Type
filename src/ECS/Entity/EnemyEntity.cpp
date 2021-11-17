@@ -25,6 +25,7 @@ void EnemyEntity::create(ECS &ecs)
     ecs.subToComponent(_entity, Rotate{0});
     ecs.subToComponent(_entity, _pos);
     ecs.subToComponent(_entity, Tag{{TagType::ENNEMY}});
+    ecs.subToComponent(_entity, Collision{true});
     ecs.subToComponent(_entity, Texture{TextureType::Enemy});
     ecs.subToComponent(_entity, Scale{1, 1});
     ecs.subToComponent(_entity, Color{ColorType::None});

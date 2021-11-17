@@ -7,7 +7,7 @@
 
 #include "ColissionSystem.hpp"
 #include "ECS/Component/Rectangle.hpp"
-#include "ECS/Component/Colission.hpp"
+#include "ECS/Component/Collision.hpp"
 #include "ECS/Component/Transform/Position.hpp"
 #include "ECS/Component/Transform/Scale.hpp"
 #include "ECS/Component/Tag.hpp"
@@ -31,7 +31,7 @@ void ColissionSystem::update()
             continue;
         Position &position = _componentManager->getComponent<Position>(i).value();
         Rectangle &rectangle = _componentManager->getComponent<Rectangle>(i).value();
-        Colission &colission = _componentManager->getComponent<Colission>(i).value();
+        Collision &colission = _componentManager->getComponent<Collision>(i).value();
         Tag &tag = _componentManager->getComponent<Tag>(i).value();
         Life &life = _componentManager->getComponent<Life>(i).value();
         Scale &scale = _componentManager->getComponent<Scale>(i).value();
@@ -46,7 +46,7 @@ void ColissionSystem::update()
                 continue;
             Position &positionTmp = _componentManager->getComponent<Position>(j).value();
             Rectangle &rectangleTmp = _componentManager->getComponent<Rectangle>(j).value();
-            Colission &colissionTmp = _componentManager->getComponent<Colission>(j).value();
+            Collision &colissionTmp = _componentManager->getComponent<Collision>(j).value();
             Tag &tagTmp = _componentManager->getComponent<Tag>(j).value();
             Life &lifeTmp = _componentManager->getComponent<Life>(j).value();
             Scale &scaleTmp = _componentManager->getComponent<Scale>(j).value();
@@ -80,7 +80,7 @@ void ColissionSystem::update()
 bool ColissionSystem::checkAvailableEntity(std::size_t entity) const
 {
     const auto &rectangle = _componentManager->getComponentsList<Rectangle>();
-    const auto &colision = _componentManager->getComponentsList<Colission>();
+    const auto &colision = _componentManager->getComponentsList<Collision>();
     const auto &position = _componentManager->getComponentsList<Position>();
     const auto &tag = _componentManager->getComponentsList<Tag>();
     const auto &life = _componentManager->getComponentsList<Life>();
