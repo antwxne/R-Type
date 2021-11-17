@@ -32,6 +32,19 @@ void TcpClientConnection::connectToServer(const asio::ip::tcp::resolver::results
 {
     _socket = asio::ip::tcp::socket(_asioContext);
 
+    /*try
+    {
+        _socket.connect(endpoints->endpoint());
+        _isConnected = true;
+        std::cout << "Connected " << std::endl;
+        readMessageHeader();
+    }
+    catch (std::exception &e)
+    {
+        std::cout << "Cannot connect : " << e.what() << std::endl;
+    }*/
+
+    std::cout << "Befire connected\n";
     asio::async_connect(_socket, endpoints,
 	[this](std::error_code ec, asio::ip::tcp::endpoint endpoint)
 	{
@@ -41,6 +54,10 @@ void TcpClientConnection::connectToServer(const asio::ip::tcp::resolver::results
             readMessageHeader();
             _isConnected = true;
 		}
+        else
+        {
+            std::cout << "Cannot connect: " << ec << std::endl;
+        }
 	});
 }
 
@@ -59,6 +76,7 @@ void TcpClientConnection::writeMessageHeader(Message<MessageType> &message)
             if (message.getBodySize() > 0)
             {
                 writeMessageBody(message);
+                return;
             }
         }
         else
@@ -77,8 +95,6 @@ void TcpClientConnection::writeMessageBody(Message<MessageType> &message)
         {
             _socket.close();
         }
-        /*else
-            std::cout << "body size write " << length << "\n";*/
     });
 }
 

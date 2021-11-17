@@ -10,6 +10,7 @@
 SfmlMenu::SfmlMenu()
 {
     _nbButtons = 0;
+    _nbText = 0;
     _selectedIndex = 0;
     _isValided = false;
     _font.loadFromFile("assets/font/origintech.ttf");
@@ -24,6 +25,8 @@ void SfmlMenu::draw(sf::RenderWindow &window)
 {
     for (auto &i : _buttonList)
         i.draw(window);
+    for (auto &i : _textList)
+        i.draw(window);
 }
 
 void SfmlMenu::addButton(const std::string &name, float size, bool isInputButton, bool isValidedButton)
@@ -31,7 +34,7 @@ void SfmlMenu::addButton(const std::string &name, float size, bool isInputButton
     sf::Vector2f pos;
 
     pos.x = 800;
-    pos.y = (_nbButtons + 1) * 200 + 50;
+    pos.y = (_nbButtons + _nbText + 1) * 200 + 50;
 
     SfmlButton button(name, pos, size, _font, isInputButton, isValidedButton);
 
@@ -40,6 +43,17 @@ void SfmlMenu::addButton(const std::string &name, float size, bool isInputButton
 
     _buttonList.push_back(button);
     _nbButtons++;
+}
+
+void SfmlMenu::addText(const std::string &name, float size)
+{
+    sf::Vector2f pos;
+
+    pos.x = 800;
+    pos.y = (_nbButtons + _nbText + 1) * 170 + 50;
+
+    _textList.push_back(SfmlText(name, pos, size, _font));
+    _nbText++;
 }
 
 void SfmlMenu::handleEvent(const ControlGame control)
@@ -174,6 +188,12 @@ void SfmlMenu::resetButtons()
     _nbButtons = 0;
     _selectedIndex = 0;
     _isValided = false;
+}
+
+void SfmlMenu::resetTexts()
+{
+    _textList.clear();
+    _nbText = 0;
 }
 
 int SfmlMenu::getSelectedIndex() const

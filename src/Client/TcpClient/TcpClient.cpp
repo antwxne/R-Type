@@ -10,10 +10,12 @@
 
 TcpClient::TcpClient() : _messageHandler(*this)
 {
+    _threadContext = std::thread([this]() { _asioContext.run();});
 }
 
 TcpClient::~TcpClient()
 {
+
 }
 
 void TcpClient::start()
@@ -29,6 +31,11 @@ void TcpClient::run()
     update();
 }
 
+void TcpClient::stop()
+{
+    _asioContext.stop();
+    _threadContext.join();
+}
 
 void TcpClient::update()
 {
@@ -56,6 +63,7 @@ bool TcpClient::tryConnect(const std::string &ip, int port)
     {
         _ip = ip;
         _port = port;
+
         asio::ip::tcp::resolver resolver(_asioContext);
         asio::ip::tcp::resolver::results_type endpoints = resolver.resolve(ip, std::to_string(port));
 
@@ -63,8 +71,7 @@ bool TcpClient::tryConnect(const std::string &ip, int port)
         _asioContext, _messageList);
 
         _connection->connectToServer(endpoints);
-
-        _threadContext = std::thread([this]() { _asioContext.run(); });
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 
     catch (std::exception& e)
@@ -72,7 +79,6 @@ bool TcpClient::tryConnect(const std::string &ip, int port)
 		std::cout << "Cannot connect : " << e.what() << std::endl;
 		return false;
 	}
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 	return _connection->isConnected();
 }
 
@@ -97,4 +103,20 @@ std::list<std::pair<std::string, char>> &TcpClient::getGames()
 void TcpClient::resetGameList()
 {
     _gamesList.clear();
+}
+
+
+void TcpClient::addPlayerInGame(const std::string &name)
+{
+    _inGamePlayerList.push_back(name);
+}
+
+std::list<std::string> &TcpClient::getPlayersInGame()
+{
+    return _inGamePlayerList;
+}
+
+void TcpClient::resetPlayerList()
+{
+    _inGamePlayerList.clear();
 }

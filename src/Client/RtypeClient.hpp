@@ -32,6 +32,7 @@ class RtypeClient {
         RtypeClient();
         ~RtypeClient();
         void start();
+        void stop();
 
     private:
         void initMenu();
@@ -39,11 +40,14 @@ class RtypeClient {
         void manageState();
         void manageConnectMenu();
         void manageMainMenu();
+        void manageLobbyMenu();
         void handleEvents(const sf::Event& event);
         void handleTextInput(const sf::Event& event);
+        void handleInitLobby();
         void handleGetGames();
     private:
         GameState _state;
+        bool _stop;
 
         SfmlDisplay _graphical;
         SfmlEventFactory _eventFactory;
@@ -53,10 +57,12 @@ class RtypeClient {
         
         SfmlMenu _connectMenu;
         SfmlMenu _mainMenu;
+        SfmlMenu _lobbyMenu;
+
+        std::string _currentGameName;
 
         std::shared_ptr<Client> _networkClient;
         std::thread _networkThread;
-
 };
 
 #endif /* !RtypeClient_HPP_ */

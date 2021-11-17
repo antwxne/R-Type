@@ -18,6 +18,7 @@ const float size, const sf::Font & font, bool isInputButton, bool isValidedButto
     _isSelected = false;
     _isInputButton = isInputButton;
     _defaultTextSize = text.size();
+    _isValidedButton = isValidedButton;
 }
 
 SfmlButton::~SfmlButton()

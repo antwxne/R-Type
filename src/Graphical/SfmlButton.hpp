@@ -10,7 +10,6 @@
 
 #include "SfmlDisplay.hpp"
 
-
 class SfmlButton {
     public:
         SfmlButton(const std::string &text, const sf::Vector2f &pos, const float size, const sf::Font & font,

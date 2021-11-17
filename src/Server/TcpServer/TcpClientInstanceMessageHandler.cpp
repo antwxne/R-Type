@@ -61,6 +61,7 @@ void TcpClientInstanceMessageHandler::handleSetPlayerName(TcpClientInstanceMessa
     try
     {
         message.message >> nameC;
+
         message.client->informations.setName(nameC);
         writeResponse(message, 200);
     }

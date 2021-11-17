@@ -41,7 +41,7 @@ void TcpClientMessageHandler::handleMessage(Message<MessageType> &message)
 
 void TcpClientMessageHandler::handleSetName(Message<MessageType> &message)
 {
-    std::cout << "Ok set name\n";
+
 }
 
 
@@ -49,17 +49,17 @@ void TcpClientMessageHandler::handleSetName(Message<MessageType> &message)
 
 void TcpClientMessageHandler::handleCreateGame(Message<MessageType> &message)
 {
-    std::cout << "Ok create\n";
+
 }
 
 void TcpClientMessageHandler::handleJoinGame(Message<MessageType> &message)
 {
-    std::cout << "Ok join\n";
+
 }
 
 void TcpClientMessageHandler::handleLeaveGame(Message<MessageType> &message)
 {
-    std::cout << "Ok Leave\n";
+
 }
 
 void TcpClientMessageHandler::handleGetGames(Message<MessageType> &message)
@@ -88,19 +88,19 @@ void TcpClientMessageHandler::handleGetGames(Message<MessageType> &message)
 void TcpClientMessageHandler::handleGetPlayersInGame(Message<MessageType> &message)
 {
     int bodysize = message.getBodySize();
+    _client.resetPlayerList();
 
     try
     {
         char gameName[GAME_NAME_MAX_LENGHT];
         message >> gameName;
-        std::cout << "Game " << gameName << ":\n";
         bodysize -= GAME_NAME_MAX_LENGHT;
         while (bodysize > 0)
         {
             char name[PLAYER_NAME_MAX_LENGHT];
             message >> name;
             bodysize -= PLAYER_NAME_MAX_LENGHT;
-            std::cout << "Player "<< name << "\n";
+            _client.addPlayerInGame(name);
         }
     }
     catch(const std::exception& e)
