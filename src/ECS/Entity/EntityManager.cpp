@@ -11,7 +11,7 @@
 #include "EntityManager.hpp"
 
 
-EntityManager::EntityManager(std::shared_ptr<ComponentManager> &components) : _componentManager(std::move(components))
+EntityManager::EntityManager()
 {
     for (size_t i = 0; i < MAX_ENTITIES; i++)
     {

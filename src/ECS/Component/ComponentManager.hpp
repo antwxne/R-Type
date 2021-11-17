@@ -32,23 +32,10 @@ public:
         std::any_cast<SparseArray<T> &>(_componentsMap.at(typeid(T).name())).deleteData(entity);
     }
 
-    template<typename T>
-    T &getComponent(const Entity &entity)
-    {
-        return std::any_cast<SparseArray<T> &>(_componentsMap.at(typeid(T).name())).getData(entity);
-    }
 
     template<typename T>
-    const T &getComponent(const Entity &entity) const
+    std::optional<T> &getComponent(const Entity &entity)
     {
-        return std::any_cast<SparseArray<T> &>(_componentsMap.at(typeid(T).name())).getData(entity);
-    }
-
-    template<typename T>
-    std::optional<T> &getComponent(const std::size_t &id)
-    {
-        Entity entity(id);
-
         return std::any_cast<SparseArray<T> &>(_componentsMap.at(typeid(T).name())).getData(entity);
     }
     template<typename T>
@@ -68,22 +55,21 @@ public:
     template<typename Component>
     void subToComponent(const Entity &entity, const Component &component)
     {
-        std::cout << "avant sub"<< std::endl;
         std::any_cast<SparseArray<Component> &>(_componentsMap.at(typeid(Component).name())).insertData(entity, component);
-
     }
 
     template<typename Component>
     void unsubFromComponent(const Entity &entity)
     {
-        std::any_cast<SparseArray<Component>>(_componentsMap.at(typeid(Component).name())).deleteData(entity);
+        std::any_cast<SparseArray<Component> &>(_componentsMap.at(typeid(Component).name())).deleteData(entity);
     }
     void entityDestroyed(const Entity &entity)
     {
         for (auto &elem : _componentsMap) {
-            std::any_cast<SparseArray<std::any>>(elem.second).entityDestroyed(entity);
+            std::any_cast<SparseArray<std::any> &>(elem.second).entityDestroyed(entity);
         }
     }
+
 private:
     ComponentsMap_t _componentsMap;
 };

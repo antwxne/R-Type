@@ -8,11 +8,13 @@
 #ifndef SPRITE_HPP_
 #define SPRITE_HPP_
 
+#include <memory>
+#include <string>
 #include "SFML/Graphics.hpp"
 
 struct SfmlSprite
 {
-    sf::Sprite sprite;
+    std::shared_ptr<sf::Sprite> sprite;
 };
 
 #endif /* !SPRITE_HPP_ */
