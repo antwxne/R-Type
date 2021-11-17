@@ -28,18 +28,19 @@ void RtypeClient::stop()
 {
     if (_networkClient)
         _networkClient->stop();
-    _networkThread.join();
+    if (_networkThread.joinable())
+        _networkThread.join();
 }
 
 void RtypeClient::initMenu()
 {
-    _connectMenu.addButton("Name: ", 50, true, false);
-    _connectMenu.addButton("IP: ", 50, true, false);
-    _connectMenu.addButton("Port: ", 50, true, false);
-    _connectMenu.addButton("Connect", 70, false, true);
+    _connectMenu.addButton("Name: ", 50, true, 10, false);
+    _connectMenu.addButton("IP: ", 50, true, -1, false);
+    _connectMenu.addButton("Port: ", 50, true, -1, false);
+    _connectMenu.addButton("Connect", 70, false, -1, true);
 
-    _mainMenu.addButton("Refresh", 50, false, true);
-    _mainMenu.addButton("Create game : ", 50, true, true);
+    _mainMenu.addButton("Refresh", 50, false, -1, true);
+    _mainMenu.addButton("Create game : ", 50, true, 12, true);
 
 }
 
@@ -241,14 +242,14 @@ void RtypeClient::manageMainMenu()
 void RtypeClient::handleGetGames()
 {
     _mainMenu.resetButtons();
-    _mainMenu.addButton("Refresh", 50, false, true);
-    _mainMenu.addButton("Create game: ", 50, true, true);
+    _mainMenu.addButton("Refresh", 50, false, -1, true);
+    _mainMenu.addButton("Create game: ", 50, true, 12, true);
     for (auto &i : _networkClient->getGameList())
     {
         std::string nbPLayer;
         nbPLayer += std::to_string((int) i.second);
         std::string name = i.first + " - " + nbPLayer + "/4";
-        _mainMenu.addButton(name, 50, false, true);
+        _mainMenu.addButton(name, 50, false, -1, true);
     }
 }
 
@@ -262,13 +263,13 @@ void RtypeClient::handleInitLobby()
     _networkClient->getPlayersInGame(_currentGameName);
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-    _lobbyMenu.addButton("Start", 80, false, true);
+    _lobbyMenu.addButton("Start " + _currentGameName, 70, false, -1, true);
 
     for (auto &i : _networkClient->getPlayersInGameList())
     {
         _lobbyMenu.addText("- " + i, 30);
     }
-    _lobbyMenu.addButton("Refresh", 50, false, true);
+    _lobbyMenu.addButton("Refresh", 50, false, -1, true);
 }
 
 void RtypeClient::manageLobbyMenu()

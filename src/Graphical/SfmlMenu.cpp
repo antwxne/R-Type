@@ -29,14 +29,14 @@ void SfmlMenu::draw(std::shared_ptr<sf::RenderWindow> window)
         i.draw(window);
 }
 
-void SfmlMenu::addButton(const std::string &name, float size, bool isInputButton, bool isValidedButton)
+void SfmlMenu::addButton(const std::string &name, float size, bool isInputButton, int maxTestSize, bool isValidedButton)
 {
     sf::Vector2f pos;
 
     pos.x = 800;
-    pos.y = (_nbButtons + _nbText + 1) * 200 + 50;
+    pos.y = (_nbButtons + _nbText + 1) * 170 + 50;
 
-    SfmlButton button(name, pos, size, _font, isInputButton, isValidedButton);
+    SfmlButton button(name, pos, size, _font, isInputButton, maxTestSize, isValidedButton);
 
     if (_nbButtons == 0)
         button.select();

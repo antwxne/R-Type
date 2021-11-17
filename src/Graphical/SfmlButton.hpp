@@ -13,7 +13,7 @@
 class SfmlButton {
     public:
         SfmlButton(const std::string &text, const sf::Vector2f &pos, const float size, const sf::Font & font,
-        bool isInputButton = false, bool isValidedButton = false);
+        bool isInputButton = false, int maxTextSize = -1, bool isValidedButton = false);
         ~SfmlButton();
         void draw(std::shared_ptr<sf::RenderWindow> window);
         void select();
@@ -28,6 +28,7 @@ class SfmlButton {
     protected:
     private:
         sf::Text _text;
+        int _maxTextSize;
         int _defaultTextSize;
         bool _isInputButton;
         bool _isValidedButton;

@@ -101,10 +101,8 @@ bool GameInstancesHandler::leaveGame(const std::string &gameName, std::shared_pt
 
 std::list<std::string> GameInstancesHandler::getPlayersInGame(const std::string &gameName)
 {
-    std::cout << "Check " << gameName << std::endl;
     for (auto &i : _gamesInstances)
     {
-        std::cout << "CHeck game "<< i->getName() <<"\n";
         if (i->getName() == gameName)
         {
             return i->getPlayers();

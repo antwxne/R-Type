@@ -38,12 +38,9 @@ void GameInstance::stop()
 std::list<std::string> GameInstance::getPlayers()
 {
     std::list<std::string> list;
-    std::cout << "getPlayer\n";
-
 
     for (auto &i : _clients)
     {
-        std::cout << "omg new player\n";
         list.push_back(i->informations.getName());
     }
     return list;

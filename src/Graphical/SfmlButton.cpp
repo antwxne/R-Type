@@ -8,7 +8,7 @@
 #include "SfmlButton.hpp"
 
 SfmlButton::SfmlButton(const std::string &text, const sf::Vector2f &pos,
-const float size, const sf::Font & font, bool isInputButton, bool isValidedButton)
+const float size, const sf::Font & font, bool isInputButton, int maxTextSize, bool isValidedButton)
 {
     _text.setFont(font);
     _text.setFillColor(sf::Color::White);
@@ -19,6 +19,7 @@ const float size, const sf::Font & font, bool isInputButton, bool isValidedButto
     _isInputButton = isInputButton;
     _defaultTextSize = text.size();
     _isValidedButton = isValidedButton;
+    _maxTextSize = maxTextSize;
 }
 
 SfmlButton::~SfmlButton()
@@ -65,7 +66,8 @@ void SfmlButton::addText(const std::string &text)
 {
     if (_isInputButton == false)
         return;
-    
+    if (_maxTextSize != -1 && _text.getString().getSize() - _defaultTextSize + text.size() > _maxTextSize - 1)
+        return;
     _text.setString(_text.getString() + text);
 }
 

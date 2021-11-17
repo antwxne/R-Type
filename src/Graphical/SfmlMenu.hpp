@@ -19,7 +19,8 @@ class SfmlMenu {
         SfmlMenu();
         ~SfmlMenu();
         void draw(std::shared_ptr<sf::RenderWindow> window);
-        void addButton(const std::string &name, float size, bool isInputButton = false, bool isValidedButton = false);
+        void addButton(const std::string &name, float size, bool isInputButton = false,
+        int maxTestSize = -1, bool isValidedButton = false);
         void addText(const std::string &name, float size);
         void handleEvent(const ControlGame control);
         void handleTextInput(const std::string &text);
