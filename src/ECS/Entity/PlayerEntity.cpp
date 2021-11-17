@@ -36,4 +36,6 @@ void PlayerEntity::create(ECS &ecs)
     ecs.subToComponent(player, SfmlSprite{sprite, _textureRect, 5, 0});
     ecs.subToComponent(player, Speed{1});
     ecs.subToComponent(player, Acceleration{1, 1});
+    ecs.subToComponent(player, Rectangle{_textureRect.width, _textureRect.height});
+    ecs.subToComponent(player, Colission{true});
 }

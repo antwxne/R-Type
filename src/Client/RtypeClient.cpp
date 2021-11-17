@@ -59,6 +59,7 @@ void RtypeClient::registerComponents()
     _ecs.registerComponent<Colission>();
     _ecs.registerComponent<Hitbox>();
     _ecs.registerComponent<Tag>();
+    _ecs.registerComponent<Rectangle>();
 }
 
 void RtypeClient::start()
