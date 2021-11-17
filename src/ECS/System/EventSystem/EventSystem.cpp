@@ -10,14 +10,13 @@
 
 #include "EventSystem.hpp"
 
-Event_n::EventSystem::EventSystem(
-    std::shared_ptr<ComponentManager> components
-) : ASystem(components), _callbacksMap(), _currentEvents(100), _raisedEvents()
+EventSystem::EventSystem(std::shared_ptr<ComponentManager> components
+) : ASystem(components), _callbacksMap(), _currentEvents(ControlGame::NONE), _raisedEvents()
 {
 }
 
-void Event_n::EventSystem::subscribeToEvent(const Event_n::Event_s &event,
-    const Entity &entity, const Event_n::EventSystem::Callback &callback
+void EventSystem::subscribeToEvent(const ControlGame &event,
+    const Entity &entity, const EventSystem::Callback &callback
 ) noexcept
 {
     std::size_t id;
@@ -26,7 +25,7 @@ void Event_n::EventSystem::subscribeToEvent(const Event_n::Event_s &event,
     _callbacksMap[event].emplace_back(std::make_pair(id, callback));
 }
 
-void Event_n::EventSystem::unsubscribeToEvent(const Event_n::Event_s &event,
+void EventSystem::unsubscribeToEvent(const ControlGame &event,
     const Entity &entity
 ) noexcept
 {
@@ -48,29 +47,30 @@ void Event_n::EventSystem::unsubscribeToEvent(const Event_n::Event_s &event,
     }
 }
 
-void Event_n::EventSystem::update()
+void EventSystem::update()
 {
-    for (const auto &event: _currentEvents) {
-        try {
-            for (const auto &callBackVector: _callbacksMap.at(event)) {
-                callBackVector.second(_componentManager, callBackVector.first,
-                    std::ref(_raisedEvents));
-            }
-        } catch (const std::out_of_range &error) {
-            std::cerr << error.what() << std::endl;
-        }
+    if (_currentEvents == ControlGame::NONE) {
+        return;
     }
-    _currentEvents.clear();
+    try {
+        for (const auto &callBackVector: _callbacksMap.at(_currentEvents)) {
+            callBackVector.second(_componentManager, callBackVector.first,
+                std::ref(_raisedEvents));
+        }
+    } catch (const std::out_of_range &error) {
+        std::cerr << error.what() << std::endl;
+    }
+    _currentEvents = ControlGame::NONE;
 }
 
-void Event_n::EventSystem::setEvents(const std::vector<Event_n::Event_s> &events) noexcept
+void EventSystem::setEvents(const ControlGame &event) noexcept
 {
-    _currentEvents = events;
+    _currentEvents = event;
 }
 
-std::shared_ptr<std::vector<Event_n::Event_s>> Event_n::EventSystem::getRaisedEvents() noexcept
+std::shared_ptr<std::vector<ControlGame>> EventSystem::getRaisedEvents() noexcept
 {
-    std::shared_ptr<std::vector<Event_n::Event_s>> dest = std::make_shared<std::vector<Event_n::Event_s>>();
+    std::shared_ptr<std::vector<ControlGame>> dest = std::make_shared<std::vector<ControlGame>>();
 
     while (!_raisedEvents.empty()) {
         dest->push_back(_raisedEvents.front());
@@ -79,9 +79,9 @@ std::shared_ptr<std::vector<Event_n::Event_s>> Event_n::EventSystem::getRaisedEv
     return dest;
 }
 
-void Event_n::EventSystem::unsubscribeToAllEvents(const Entity &entity) noexcept
+void EventSystem::unsubscribeToAllEvents(const Entity &entity) noexcept
 {
-    for (auto &it : _callbacksMap) {
+    for (auto &it: _callbacksMap) {
         auto &elem = it.second;
         elem.erase(std::remove_if(elem.begin(), elem.end(),
             [=](std::pair<std::size_t, Callback> &tmp) {
@@ -93,30 +93,7 @@ void Event_n::EventSystem::unsubscribeToAllEvents(const Entity &entity) noexcept
     }
 }
 
-bool Event_n::EventSystem::checkAvailableEntity(std::size_t entity) const
+bool EventSystem::checkAvailableEntity(std::size_t entity) const
 {
     return true;
-}
-
-Event_n::Event_s::Event_s(Event_n::State_e newState, Event_n::Events_e newEvent)
-    : state(newState), event(newEvent)
-{
-}
-
-std::size_t Event_n::Event_s::operator()(const Event_n::Event_s &evt) const
-{
-    union convertToHash {
-        std::size_t hash;
-        uint32_t var[2];
-    };
-    convertToHash conv;
-
-    conv.var[0] = evt.state;
-    conv.var[1] = evt.event;
-    return conv.hash;
-}
-
-bool Event_n::Event_s::operator==(const Event_n::Event_s &other) const
-{
-    return this->event == other.event && this->state == other.state;
 }

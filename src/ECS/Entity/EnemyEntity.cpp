@@ -7,7 +7,7 @@
 
 #include "EnemyEntity.hpp"
 
-EnemyEntity::EnemyEntity(const Position &pos)
+EnemyEntity::EnemyEntity(const Position &pos): IEntityRegister()
 {
     _pos = pos;
 }
@@ -18,21 +18,21 @@ EnemyEntity::~EnemyEntity()
 
 void EnemyEntity::create(ECS &ecs)
 {
-    Entity enemy = ecs.createEntity();
+    _entity = ecs.createEntity();
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
 
 
-    ecs.subToComponent(enemy, Rotate{0});
-    ecs.subToComponent(enemy, _pos);
-    ecs.subToComponent(enemy, Texture{TextureType::Enemy});
-    ecs.subToComponent(enemy, Scale{1, 1});
-    ecs.subToComponent(enemy, Color{ColorType::None});
-    ecs.subToComponent(enemy, AI{false, 0, 0, 800, 1920, 0, 1080});
+    ecs.subToComponent(_entity, Rotate{0});
+    ecs.subToComponent(_entity, _pos);
+    ecs.subToComponent(_entity, Texture{TextureType::Enemy});
+    ecs.subToComponent(_entity, Scale{1, 1});
+    ecs.subToComponent(_entity, Color{ColorType::None});
+    ecs.subToComponent(_entity, AI{false, 0, 0, 800, 1920, 0, 1080});
 
     _textureRect = {0, 0, 257, 184};
     sprite->setTextureRect(_textureRect);
 
-    ecs.subToComponent(enemy, SfmlSprite{sprite, _textureRect, 4,0});
-    ecs.subToComponent(enemy, Speed{1});
-    ecs.subToComponent(enemy, Acceleration{0, 0});
+    ecs.subToComponent(_entity, SfmlSprite{sprite, _textureRect, 4,0});
+    ecs.subToComponent(_entity, Speed{1});
+    ecs.subToComponent(_entity, Acceleration{0, 0});
 }

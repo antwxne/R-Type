@@ -77,21 +77,16 @@ void RtypeClient::start()
     _ecs.registerSystem<MoveSystem>();
     _ecs.registerSystem<AISystem>();
     draw.setDisplay(_graphical);
-    Entity player = _ecs.createEntity();
+//    Entity player = _ecs.createEntity();
 
 
-/*    auto &evtManager = _ecs.registerSystem<Event_n::EventSystem>();
-
+    auto &evtManager = _ecs.registerSystem<EventSystem>();
     // BIND une fonction statique a un evenement
-    Event_n::Event_s evt(Event_n::PRESS, Event_n::KEY_UP);
-    evtManager.subscribeToEvent(evt, player, std::bind(EventCallback::changeAccelerationUP, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    evtManager.subscribeToEvent(ControlGame::RIGHT, _pe.getEntity(), std::bind(EventCallback::changeAccelerationRIGHT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    evtManager.subscribeToEvent(ControlGame::UP, _pe.getEntity(), std::bind(EventCallback::changeAccelerationUP, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    evtManager.subscribeToEvent(ControlGame::DOWN, _pe.getEntity(), std::bind(EventCallback::changeAccelerationDOWN, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    evtManager.subscribeToEvent(ControlGame::LEFT, _pe.getEntity(), std::bind(EventCallback::changeAccelerationLEFT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
-    // remplir le vecteur d'evenements -> tous les evenements utilisés a cette frame
-    std::vector<Event_n::Event_s> tmp = {evt};
-    // envoyer les evenements dans le gestionnaire d'evenements
-    evtManager.setEvents(tmp);
-    // appliquer les evenements de la frame sur les components register
-    evtManager.update();*/
     run();
 }
 
@@ -134,6 +129,7 @@ void RtypeClient::handleEvents(const sf::Event& event)
             _lobbyMenu.handleEvent(control);
             break;
         case GameState::Game:
+            _ecs.getSystem<EventSystem>().setEvents(control);
             /* code */
             break;
         default:
@@ -307,8 +303,9 @@ void RtypeClient::manageLobbyMenu()
 
 void RtypeClient::manageGame()
 {
-    _ecs.getSystem<SfmlDrawSystem>().update();
-    _ecs.getSystem<MoveSystem>().update();
-    _ecs.garbageCollector();
+    _ecs.getSystem<EventSystem>().update();
     _ecs.getSystem<AISystem>().update();
+    _ecs.getSystem<MoveSystem>().update();
+    _ecs.getSystem<SfmlDrawSystem>().update();
+    _ecs.garbageCollector();
 }

@@ -27,7 +27,7 @@ include_directories(include/Network)
 
 #Sources
 
-set(CLIENT_MAIN src/Client/main.cpp )
+set(CLIENT_MAIN src/Client/main.cpp src/ECS/Entity/IEntityRegister.cpp)
 set(SERVER_MAIN src/Server/main.cpp)
 set(CLIENT_SRC
             src/Client/RtypeClient.cpp
@@ -123,7 +123,10 @@ set(SHARED_SRC
         src/ECS/Entity/EnemyEntity.hpp
         src/ECS/Entity/EnemyEntity.cpp
         src/ECS/Entity/BulletEntity.cpp
-        src/ECS/Entity/BulletEntity.hpp)
+        src/ECS/Entity/BulletEntity.hpp
+        src/ECS/Entity/IEntityRegister.cpp
+        src/ECS/Entity/IEntityRegister.hpp
+        )
 
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")

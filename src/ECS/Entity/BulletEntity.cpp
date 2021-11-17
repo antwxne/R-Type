@@ -8,7 +8,7 @@
 #include "BulletEntity.hpp"
 #include "../Component/Tag.hpp"
 
-BulletEntity::BulletEntity(const Position &pos, const bool isBulletFriend)
+BulletEntity::BulletEntity(const Position &pos, const bool isBulletFriend): IEntityRegister()
 {
     _pos = pos;
     _isBulletFriend = isBulletFriend;
@@ -20,30 +20,30 @@ BulletEntity::~BulletEntity()
 
 void BulletEntity::create(ECS &ecs)
 {
-    Entity bullet = ecs.createEntity();
+    _entity = ecs.createEntity();
 
     _rect = {0, 0, 110, 25};
 
     if (_isBulletFriend) {
-        ecs.subToComponent(bullet, Rotate{0});
-        ecs.subToComponent(bullet, Acceleration{1, 0});
-        ecs.subToComponent(bullet, Tag{{TagType::PLAYER, TagType::BULLET}});
+        ecs.subToComponent(_entity, Rotate{0});
+        ecs.subToComponent(_entity, Acceleration{1, 0});
+        ecs.subToComponent(_entity, Tag{{TagType::PLAYER, TagType::BULLET}});
     } else {
-        ecs.subToComponent(bullet, Rotate{180});
-        ecs.subToComponent(bullet, Acceleration{-1, 0});
-        ecs.subToComponent(bullet, Tag{{TagType::ENNEMY, TagType::BULLET}});
+        ecs.subToComponent(_entity, Rotate{180});
+        ecs.subToComponent(_entity, Acceleration{-1, 0});
+        ecs.subToComponent(_entity, Tag{{TagType::ENNEMY, TagType::BULLET}});
     }
-    ecs.subToComponent(bullet, _pos);
-    ecs.subToComponent(bullet, Texture{TextureType::Bullet});
-    ecs.subToComponent(bullet, Color{ColorType::None});
-    ecs.subToComponent(bullet, Scale{1.5, 1.5});
+    ecs.subToComponent(_entity, _pos);
+    ecs.subToComponent(_entity, Texture{TextureType::Bullet});
+    ecs.subToComponent(_entity, Color{ColorType::None});
+    ecs.subToComponent(_entity, Scale{1.5, 1.5});
 
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
 
     sprite->setTextureRect(_rect);
 
-    ecs.subToComponent(bullet, SfmlSprite{sprite, _rect, 0, 0});
-    ecs.subToComponent(bullet, Speed{10});
-    ecs.subToComponent(bullet, Colission{true});
-    ecs.subToComponent(bullet, Rectangle{_rect.width, _rect.height});
+    ecs.subToComponent(_entity, SfmlSprite{sprite, _rect, 0, 0});
+    ecs.subToComponent(_entity, Speed{10});
+    ecs.subToComponent(_entity, Colission{true});
+    ecs.subToComponent(_entity, Rectangle{_rect.width, _rect.height});
 }

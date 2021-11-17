@@ -8,7 +8,7 @@
 #include "SfmlEventFactory.hpp"
 
 
-std::map<sf::Keyboard::Key, ControlGame> SfmlEventFactory::eventType =  {
+const std::map<sf::Keyboard::Key, ControlGame> SfmlEventFactory::eventType =  {
     {sf::Keyboard::Key::Up, ControlGame::UP},
     {sf::Keyboard::Key::Down, ControlGame::DOWN},
     {sf::Keyboard::Key::Left, ControlGame::LEFT},
@@ -16,7 +16,7 @@ std::map<sf::Keyboard::Key, ControlGame> SfmlEventFactory::eventType =  {
     {sf::Keyboard::Key::Escape, ControlGame::ESCAPE},
     {sf::Keyboard::Key::Space, ControlGame::SPACE},
     {sf::Keyboard::Key::Enter, ControlGame::ENTER},
-    {sf::Keyboard::Key::BackSpace, ControlGame::DELETE},
+    {sf::Keyboard::Key::BackSpace, ControlGame::DELETE}
     };
 
 SfmlEventFactory::SfmlEventFactory()
@@ -32,7 +32,7 @@ ControlGame SfmlEventFactory::getEventType(const sf::Event &event) const
     if (event.type == sf::Event::KeyPressed)
     {
         if (eventType.find(event.key.code) != eventType.end())
-            return eventType[event.key.code];
+            return eventType.at(event.key.code);
         else
             return ControlGame::NONE;
     }

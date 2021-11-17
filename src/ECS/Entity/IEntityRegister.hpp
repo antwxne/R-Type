@@ -8,12 +8,17 @@
 #ifndef IENTITYREGISTER_HPP_
 #define IENTITYREGISTER_HPP_
 
-#include "../ECS.hpp"
+#include "ECS/ECS.hpp"
 
 class IEntityRegister {
-    public:
-        virtual ~IEntityRegister() = default;
-        virtual void create(ECS &ecs) = 0;
+public:
+    IEntityRegister();
+    ~IEntityRegister() = default;
+    virtual void create(ECS &ecs) = 0;
+    const Entity &getEntity() const;
+
+protected:
+    Entity _entity;
 };
 
 #endif /* !IENTITYREGISTER_HPP_ */

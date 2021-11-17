@@ -12,19 +12,17 @@
 #include "EntityManager.hpp"
 #include "IEntityRegister.hpp"
 
-
 class PlayerEntity : public IEntityRegister {
-    public:
-        PlayerEntity(const Position &pos, ColorType color);
-        ~PlayerEntity();
+public:
+    PlayerEntity(const Position &pos, ColorType color);
+    ~PlayerEntity();
 
-        void create(ECS &ecs);
+    void create(ECS &ecs) override;
 
-    protected:
-    private:
-        Position _pos;
-        ColorType _color;
-        sf::IntRect _textureRect;
+private:
+    Position _pos;
+    ColorType _color;
+    sf::IntRect _textureRect;
 };
 
 #endif /* !PLAYERENTITY_HPP_ */

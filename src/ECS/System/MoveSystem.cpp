@@ -31,6 +31,8 @@ void MoveSystem::update()
 
         position.x += acceleration.x * (int)speed.speed;
         position.y += acceleration.y * (int)speed.speed;
+        acceleration.x = 0;
+        acceleration.y = 0;
     }
 }
 
