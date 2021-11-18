@@ -74,7 +74,6 @@ void ColissionSystem::update()
                 position.x + rectangle.width > positionTmp.x &&
                 position.y < positionTmp.y + rectangleTmp.height &&
                 rectangle.height + position.y > positionTmp.y) {
-                std::cout << "je collide\n";
                 entityCollide.push_back(id);
                 if (contains(tag.type, TagType::PLAYER) &&
                     contains(tagTmp.type, TagType::ENNEMY)) {

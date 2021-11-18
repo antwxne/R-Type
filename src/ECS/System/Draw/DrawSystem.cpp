@@ -22,11 +22,14 @@ DrawSystem::~DrawSystem()
 
 void DrawSystem::update()
 {
-    for (std::size_t i = 0; i < MAX_ENTITIES; i++)
+    const auto &entities = _entityManager->getCurrentEntities();
+    std::size_t id;
+    for (const auto &entity : entities)
     {
-        if (checkAvailableEntity(i))
+        entity >> id;
+        if (checkAvailableEntity(id))
         {
-            draw(i);
+            draw(id);
         }
     }
 }

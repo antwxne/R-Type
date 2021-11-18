@@ -24,7 +24,10 @@ ECS::ECS()
 
 void ECS::destroyEntity(const Entity &entity)
 {
+    std::cout << "avant destroyEntity size == " << _entityManager->getCurrentEntities().size() << std::endl;
     _entityManager->destroy(entity);
+    std::cout << "apres destroyEntity size == " << _entityManager->getCurrentEntities().size() << std::endl;
+
 }
 
 void ECS::garbageCollector(std::vector<RaisedEvent> &raisedEvent)
@@ -41,7 +44,7 @@ void ECS::garbageCollector(std::vector<RaisedEvent> &raisedEvent)
             entity >> idx;
             if (!isAlive(lifes[idx])) {
                 raisedEvent.push_back(RaisedEvent::PLAYER_DIED);
-
+                destroyEntity(idx);
             }
             if (!isInScreen(positions[idx], hitboxes[idx], bullets[idx])) {
                 destroyEntity(idx);
@@ -56,7 +59,6 @@ bool ECS::isAlive(const std::optional<Life> &lifeComponent) const
     if (!lifeComponent.has_value()) {
         return true;
     }
-    std::cout << "life ==> " << lifeComponent.value().health << std::endl;
     return lifeComponent.value().health > 0;
 }
 
