@@ -21,8 +21,10 @@
 class EventSystem : public ASystem {
 public:
     using Callback = std::function<void(
-        std::shared_ptr<ComponentManager>, const std::size_t &,
-        std::shared_ptr<EntityManager> entityManager)>;
+        std::shared_ptr<ComponentManager>,
+        const std::size_t &,
+        std::shared_ptr<EntityManager> entityManager,
+        std::vector<RaisedEvent> &raisedEvents)>;
     using CallbackMap = std::unordered_map<ControlGame, std::vector<std::pair<std::size_t, Callback>>>;
 public:
     EventSystem(std::shared_ptr<ComponentManager> components, std::shared_ptr<EntityManager> entityManager);
@@ -33,13 +35,17 @@ public:
     ) noexcept;
     void unsubscribeToEvent(const ControlGame &event, const Entity &entity) noexcept;
     void update() override;
-    void setEvents(const ControlGame &events) noexcept;
+    void setEvents(std::vector<ControlGame> &events) noexcept;
     void unsubscribeToAllEvents(const Entity &entity) noexcept;
+    const std::vector<RaisedEvent> &getRaisedEvents() const noexcept;
+    void clearEvents();
+
 private:
     bool checkAvailableEntity(std::size_t entity) const override;
 private:
     CallbackMap _callbacksMap;
-    ControlGame _currentEvents;
+    std::vector<ControlGame> _currentEvents;
+    std::vector<RaisedEvent> _raisedEvents;
 };
 
 #endif //RTYPE_EVENTSYSTEM_HPP

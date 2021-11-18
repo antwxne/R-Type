@@ -5,19 +5,21 @@
 ** Created by antoine,
 */
 
-#include <iostream>
 
 #include "ECS/component.hpp"
 #include "EventCallback.hpp"
-#include "../../Entity/BulletEntity.hpp"
-#include "../../Component/Tag.hpp"
-#include "../../../utils.hpp"
+#include "ECS/Entity/BulletEntity.hpp"
+#include "ECS/Component/Tag.hpp"
+#include "utils.hpp"
 
-void EventCallback::changeAccelerationUP(std::shared_ptr<ComponentManager> componentManager,
-    const size_t &entity, std::shared_ptr<EntityManager> entityManager
+void EventCallback::changeAccelerationUP(
+    std::shared_ptr<ComponentManager> componentManager,
+    const std::size_t &entity, std::shared_ptr<EntityManager> entityManager,
+    std::vector<RaisedEvent> &raisedEvents
 )
 {
-    auto &currentAcceleration = componentManager->getComponent<Acceleration>(entity);
+    auto &currentAcceleration = componentManager->getComponent<Acceleration>(
+        entity);
     auto &currentSpeed = componentManager->getComponent<Speed>(entity);
 
     if (!currentAcceleration.has_value() || !currentSpeed.has_value()) {
@@ -29,11 +31,13 @@ void EventCallback::changeAccelerationUP(std::shared_ptr<ComponentManager> compo
 }
 
 void EventCallback::changeAccelerationDOWN(
-    std::shared_ptr<ComponentManager> componentManager, const size_t &entity,
-    std::shared_ptr<EntityManager> entityManager
+    std::shared_ptr<ComponentManager> componentManager,
+    const std::size_t &entity, std::shared_ptr<EntityManager> entityManager,
+    std::vector<RaisedEvent> &raisedEvents
 )
 {
-    auto &currentAcceleration = componentManager->getComponent<Acceleration>(entity);
+    auto &currentAcceleration = componentManager->getComponent<Acceleration>(
+        entity);
     auto &currentSpeed = componentManager->getComponent<Speed>(entity);
 
     if (!currentAcceleration.has_value() || !currentSpeed.has_value()) {
@@ -45,11 +49,13 @@ void EventCallback::changeAccelerationDOWN(
 }
 
 void EventCallback::changeAccelerationLEFT(
-    std::shared_ptr<ComponentManager> componentManager, const size_t &entity,
-    std::shared_ptr<EntityManager> entityManager
+    std::shared_ptr<ComponentManager> componentManager,
+    const std::size_t &entity, std::shared_ptr<EntityManager> entityManager,
+    std::vector<RaisedEvent> &raisedEvents
 )
 {
-    auto &currentAcceleration = componentManager->getComponent<Acceleration>(entity);
+    auto &currentAcceleration = componentManager->getComponent<Acceleration>(
+        entity);
     auto &currentSpeed = componentManager->getComponent<Speed>(entity);
 
     if (!currentAcceleration.has_value() || !currentSpeed.has_value()) {
@@ -61,11 +67,13 @@ void EventCallback::changeAccelerationLEFT(
 }
 
 void EventCallback::changeAccelerationRIGHT(
-    std::shared_ptr<ComponentManager> componentManager, const size_t &entity,
-    std::shared_ptr<EntityManager> entityManager
+    std::shared_ptr<ComponentManager> componentManager,
+    const std::size_t &entity, std::shared_ptr<EntityManager> entityManager,
+    std::vector<RaisedEvent> &raisedEvents
 )
 {
-    auto &currentAcceleration = componentManager->getComponent<Acceleration>(entity);
+    auto &currentAcceleration = componentManager->getComponent<Acceleration>(
+        entity);
     auto &currentSpeed = componentManager->getComponent<Speed>(entity);
 
     if (!currentAcceleration.has_value() || !currentSpeed.has_value()) {
@@ -76,15 +84,17 @@ void EventCallback::changeAccelerationRIGHT(
     currentSpeed.value().speed = 12;
 }
 
-void EventCallback::shoot(
-    std::shared_ptr<ComponentManager> componentManager, const size_t &entity,
-    std::shared_ptr<EntityManager> entityManager
+void EventCallback::shoot(std::shared_ptr<ComponentManager> componentManager,
+    const std::size_t &entity, std::shared_ptr<EntityManager> entityManager,
+    std::vector<RaisedEvent> &raisedEvents
 )
 {
     auto &currentFirerate = componentManager->getComponent<Firerate>(entity);
     auto &currentPostion = componentManager->getComponent<Position>(entity);
     auto &currentTag = componentManager->getComponent<Tag>(entity);
-    if (!currentFirerate.has_value() || !currentPostion.has_value() || !currentTag.has_value()) {
+
+    if (!currentFirerate.has_value() || !currentPostion.has_value() ||
+        !currentTag.has_value()) {
         return;
     }
     float elapsed = currentFirerate.value().clock.getElapsedTime().asSeconds();
@@ -93,19 +103,18 @@ void EventCallback::shoot(
     bool isFriend = true;
 
     if (elapsed < currentFirerate.value().delay) {
-        std::cout << "WAIT !" << std::endl;
         return;
     }
     if (contains(tag.type, TagType::ENNEMY)) {
         posBullet.x -= 130;
         posBullet.y += 20;
         isFriend = false;
-    }
-    else {
+    } else {
         posBullet.x += 130;
         posBullet.y += 20;
     }
     BulletEntity _be(posBullet, isFriend);
     _be.create(componentManager, entityManager);
     currentFirerate.value().clock.restart();
+    raisedEvents.emplace_back(RaisedEvent::SHOT);
 }

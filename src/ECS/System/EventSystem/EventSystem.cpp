@@ -11,8 +11,8 @@
 
 EventSystem::EventSystem(std::shared_ptr<ComponentManager> components,
     std::shared_ptr<EntityManager> entityManager
-) : ASystem(components, entityManager), _callbacksMap(),
-    _currentEvents(ControlGame::NONE)
+) : ASystem(components, entityManager), _callbacksMap(), _currentEvents(),
+    _raisedEvents()
 {
 }
 
@@ -50,23 +50,25 @@ void EventSystem::unsubscribeToEvent(const ControlGame &event,
 
 void EventSystem::update()
 {
-    if (_currentEvents == ControlGame::NONE) {
-        return;
-    }
     try {
-        for (const auto &callBackVector: _callbacksMap.at(_currentEvents)) {
-            callBackVector.second(_componentManager, callBackVector.first,
-                _entityManager);
+        for (const auto &currentEvent: _currentEvents) {
+            for (const auto &callBackVector: _callbacksMap.at(currentEvent)) {
+                callBackVector.second(_componentManager, callBackVector.first,
+                    _entityManager, std::ref(_raisedEvents));
+            }
         }
+        _currentEvents.clear();
     } catch (const std::out_of_range &error) {
         std::cerr << error.what() << std::endl;
     }
-    _currentEvents = ControlGame::NONE;
 }
 
-void EventSystem::setEvents(const ControlGame &event) noexcept
+
+void EventSystem::setEvents(std::vector<ControlGame> &events) noexcept
 {
-    _currentEvents = event;
+    for (const auto &event: events)
+        _currentEvents.push_back(event);
+    events.clear();
 }
 
 void EventSystem::unsubscribeToAllEvents(const Entity &entity) noexcept
@@ -86,4 +88,14 @@ void EventSystem::unsubscribeToAllEvents(const Entity &entity) noexcept
 bool EventSystem::checkAvailableEntity(std::size_t entity) const
 {
     return true;
+}
+
+const std::vector<RaisedEvent> &EventSystem::getRaisedEvents() const noexcept
+{
+    return _raisedEvents;
+}
+
+void EventSystem::clearEvents()
+{
+    _currentEvents.clear();
 }

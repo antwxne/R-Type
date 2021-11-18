@@ -12,8 +12,26 @@
 #include <map>
 #include <string>
 
-enum ControlGame
-{
+#ifdef _win32
+
+enum ControlGame: int {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+    SPACE,
+    ESCAPE,
+    ENTER,
+    DELETE,
+    NONE,
+};
+enum RaisedEvent: int {
+    SHOT,
+    PLAYER_DIED
+};
+#else
+
+enum ControlGame {
     UP,
     DOWN,
     LEFT,
@@ -25,14 +43,21 @@ enum ControlGame
     NONE,
 };
 
+enum RaisedEvent {
+    SHOT,
+    PLAYER_DIED
+};
+
+#endif
+
 class SfmlEventFactory {
-    public:
-        SfmlEventFactory();
-        ~SfmlEventFactory();
-        ControlGame getEventType(const sf::Event &event) const;
-        std::string getTextEntered(const sf::Event &event) const;
-    private:
-        static const std::map<sf::Keyboard::Key, ControlGame> eventType;
+public:
+    SfmlEventFactory();
+    ~SfmlEventFactory();
+    ControlGame getEventType(const sf::Event &event) const;
+    std::string getTextEntered(const sf::Event &event) const;
+private:
+    static const std::map<sf::Keyboard::Key, ControlGame> eventType;
 };
 
 #endif /* !SFMLEVENTFACTORY_HPP_ */
