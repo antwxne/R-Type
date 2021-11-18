@@ -42,7 +42,7 @@ void BulletEntity::create(ECS &ecs)
 
     sprite->setTextureRect(_rect);
 
-    ecs.subToComponent(_entity, SfmlSprite{sprite, _rect, 0, 0});
+    ecs.subToComponent(_entity, SfmlSprite{sprite, _rect, 0, 0, 0});
     ecs.subToComponent(_entity, Speed{10});
     ecs.subToComponent(_entity, Collision{true});
     ecs.subToComponent(_entity, Rectangle{_rect.width, _rect.height});

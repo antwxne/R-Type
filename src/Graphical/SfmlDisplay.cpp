@@ -31,8 +31,12 @@ void SfmlDisplay::initTexture()
     _textureMap[TextureType::Player] = std::make_shared<sf::Texture>(texture);
     texture.loadFromFile("assets/sprites/bullet.png");
     _textureMap[TextureType::Bullet] = std::make_shared<sf::Texture>(texture);
-    texture.loadFromFile("assets/sprites/enemy3.gif");
+    texture.loadFromFile("assets/sprites/enemy4.gif");
     _textureMap[TextureType::Enemy] = std::make_shared<sf::Texture>(texture);
+    texture.loadFromFile("assets/sprites/enemy2.gif");
+    _textureMap[TextureType::Enemy2] = std::make_shared<sf::Texture>(texture);
+    texture.loadFromFile("assets/sprites/enemy5.gif");
+    _textureMap[TextureType::Enemy3] = std::make_shared<sf::Texture>(texture);
 }
 
 sf::Event &SfmlDisplay::getEvent()
