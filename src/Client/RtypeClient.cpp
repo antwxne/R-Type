@@ -10,6 +10,7 @@
 #include "ECS/System/EventSystem/EventCallback.hpp"
 #include "ECS/component.hpp"
 #include <iostream>
+#include "ECS/system.hpp"
 
 RtypeClient::RtypeClient()
 {
@@ -76,6 +77,7 @@ void RtypeClient::start()
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
     _ecs.registerSystem<AISystem>();
+    _ecs.registerSystem<ColissionSystem>();
     draw.setDisplay(_graphical);
 //    Entity player = _ecs.createEntity();
 
@@ -304,6 +306,7 @@ void RtypeClient::manageLobbyMenu()
 void RtypeClient::manageGame()
 {
     _ecs.getSystem<EventSystem>().update();
+    _ecs.getSystem<ColissionSystem>().update();
     _ecs.getSystem<AISystem>().update();
     _ecs.getSystem<MoveSystem>().update();
     _ecs.getSystem<SfmlDrawSystem>().update();

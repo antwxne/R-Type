@@ -14,7 +14,6 @@ void EventCallback::changeAccelerationUP(std::shared_ptr<ComponentManager> compo
     const size_t &entity, std::queue<ControlGame> &raisedEvents
 )
 {
-    std::cout << "GO UP" << std::endl;
     auto &currentAcceleration = componentManager->getComponent<Acceleration>(entity);
     if (!currentAcceleration.has_value()) {
         return;

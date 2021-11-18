@@ -31,7 +31,7 @@ void PlayerEntity::create(ECS &ecs)
     ecs.subToComponent(_entity, Texture{TextureType::Player});
     ecs.subToComponent(_entity, Scale{1, 1});
     ecs.subToComponent(_entity, Color{_color});
-
+    ecs.subToComponent(_entity, Life{1});
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
 
     sprite->setTextureRect(_textureRect);

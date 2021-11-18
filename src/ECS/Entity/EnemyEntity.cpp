@@ -29,6 +29,7 @@ void EnemyEntity::create(ECS &ecs)
     ecs.subToComponent(_entity, Texture{TextureType::Enemy});
     ecs.subToComponent(_entity, Scale{1, 1});
     ecs.subToComponent(_entity, Color{ColorType::None});
+    ecs.subToComponent(_entity, Life{1});
     ecs.subToComponent(_entity, AI{false, 0, 0, 800, 1920, 1, 1080});
     ecs.subToComponent(_entity, Rectangle{257, 184});
     _textureRect = {0, 0, 257, 184};

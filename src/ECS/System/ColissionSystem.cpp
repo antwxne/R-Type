@@ -28,22 +28,28 @@ void ColissionSystem::update()
     for (std::size_t i = 0; i < MAX_ENTITIES; i++)
     {
         if (!checkAvailableEntity(i))
+        {
             continue;
+        }
+
         Position &position = _componentManager->getComponent<Position>(i).value();
         Rectangle &rectangle = _componentManager->getComponent<Rectangle>(i).value();
         Collision &colission = _componentManager->getComponent<Collision>(i).value();
         Tag &tag = _componentManager->getComponent<Tag>(i).value();
         Life &life = _componentManager->getComponent<Life>(i).value();
         Scale &scale = _componentManager->getComponent<Scale>(i).value();
-        if (!colission.isColide) {
+        if (!colission.isColide)
+        {
             continue;
         }
         for (std::size_t j = 0; j < MAX_ENTITIES; j++)
         {
             if (!checkAvailableEntity(j))
+            {
                 continue;
-            if (contains(entityCollide, j) && j == i)
-                continue;
+            }
+            // if (contains(entityCollide, j) && j == i)
+            //     continue;
             Position &positionTmp = _componentManager->getComponent<Position>(j).value();
             Rectangle &rectangleTmp = _componentManager->getComponent<Rectangle>(j).value();
             Collision &colissionTmp = _componentManager->getComponent<Collision>(j).value();
@@ -57,6 +63,8 @@ void ColissionSystem::update()
                 positionTmp.y < position.y + (rectangle.height * scale.scaleY) &&
                 (rectangleTmp.height * scaleTmp.scaleY) + positionTmp.y > position.y)
             {
+                std::cout << "TU COLLIDE \n";
+
                 entityCollide.push_back(i);
                 if (contains(tag.type, TagType::PLAYER) && contains(tagTmp.type, TagType::ENNEMY))
                 {
@@ -84,7 +92,7 @@ bool ColissionSystem::checkAvailableEntity(std::size_t entity) const
     const auto &position = _componentManager->getComponentsList<Position>();
     const auto &tag = _componentManager->getComponentsList<Tag>();
     const auto &life = _componentManager->getComponentsList<Life>();
-    return rectangle[entity].has_value() && colision[entity].has_value() &&
-        position[entity].has_value() && tag[entity].has_value() && life[entity].has_value();
 
+    return rectangle[entity].has_value() && colision[entity].has_value() &&
+           position[entity].has_value() && tag[entity].has_value() && life[entity].has_value();
 }
