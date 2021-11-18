@@ -14,6 +14,5 @@
 #include "System/Draw/DrawSystem.hpp"
 #include "System/Draw/SfmlDrawSystem.hpp"
 #include "System/AISystem.hpp"
-#include "System/ShootSystem.hpp"
 
 #endif /* !SYSTEM_HPP_ */

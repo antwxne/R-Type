@@ -89,10 +89,7 @@ void RtypeClient::start()
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
     _ecs.registerSystem<AISystem>();
-    _ecs.registerSystem<ShootSystem>();
     draw.setDisplay(_graphical);
-//    Entity player = _ecs.createEntity();
-
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
     // BIND une fonction statique a un evenement
