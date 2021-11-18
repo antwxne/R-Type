@@ -12,7 +12,8 @@
 
 class AISystem : public ASystem  {
     public:
-        AISystem(std::shared_ptr<ComponentManager> &components);
+        AISystem(
+            const std::shared_ptr<ComponentManager> &components, const std::shared_ptr<EntityManager> &entityManager);
         ~AISystem();
         void update() override;
     protected:

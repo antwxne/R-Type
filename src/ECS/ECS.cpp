@@ -14,16 +14,16 @@ Entity ECS::createEntity()
     return _entityManager->create();
 }
 
+ECS::ECS()
+{
+    _entityManager = std::make_shared<EntityManager>();
+    _componentManager = std::make_shared<ComponentManager>();
+    _systemManager = std::make_unique<SystemManager>(_componentManager, _entityManager);
+}
+
 void ECS::destroyEntity(const Entity &entity)
 {
     _entityManager->destroy(entity);
-}
-
-ECS::ECS()
-{
-    _entityManager = std::make_unique<EntityManager>();
-    _componentManager = std::make_shared<ComponentManager>();
-    _systemManager = std::make_unique<SystemManager>();
 }
 
 void ECS::garbageCollector()
@@ -51,6 +51,7 @@ bool ECS::isAlive(const std::optional<Life> &lifeComponent) const
     if (!lifeComponent.has_value()) {
         return true;
     }
+    std::cout << "life ==> " << lifeComponent.value().health << std::endl;
     return lifeComponent.value().health > 0;
 }
 
@@ -66,11 +67,25 @@ bool ECS::isInScreen(
     auto plop = position.value().x < windowSizeMin.first || position.value().y < windowSizeMin.second ||
         position.value().x + static_cast<float>(hitbox.value().width) > windowSizeMax.first ||
         position.value().y + static_cast<float>(hitbox.value().height) > windowSizeMax.second;
-    //std::cout << "plop == " << plop << " || x == " << position.value().x << " && y == " << position.value().y << std::endl;
     return !plop;
 }
 
 void ECS::destroyEntity(const size_t &entity)
 {
     destroyEntity(Entity(entity));
+}
+
+const std::shared_ptr<EntityManager> &ECS::getEntityManager() const
+{
+    return _entityManager;
+}
+
+const std::shared_ptr<ComponentManager> &ECS::getComponentManager() const
+{
+    return _componentManager;
+}
+
+const std::unique_ptr<SystemManager> &ECS::getSystemManager() const
+{
+    return _systemManager;
 }

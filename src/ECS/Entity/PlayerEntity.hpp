@@ -17,7 +17,7 @@ public:
     PlayerEntity(const Position &pos, ColorType color);
     ~PlayerEntity();
 
-    void create(ECS &ecs) override;
+    void create(std::shared_ptr<ComponentManager> componentManager, std::shared_ptr<EntityManager> entityManager) override;
 
 private:
     Position _pos;

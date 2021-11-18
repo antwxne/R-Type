@@ -13,8 +13,8 @@
 #include "../../Component/Color.hpp"
 
 SfmlDrawSystem::SfmlDrawSystem(
-    std::shared_ptr<ComponentManager> componentManager
-) : DrawSystem(componentManager)
+    const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager
+) : DrawSystem(componentManager, entityManager)
 {
 
 }
@@ -61,7 +61,7 @@ void SfmlDrawSystem::updateSprite(SfmlSprite &sprite, const std::size_t entity)
 void SfmlDrawSystem::setTextureRect(SfmlSprite &sprite)
 {
     float elapsed = sprite.clock.getElapsedTime().asSeconds();
-    if (elapsed > 1 && sprite.totalRect != 0)
+    if (elapsed > sprite.animationSpeed && sprite.totalRect != 0)
     {
         sprite.actualRect += 1;
         if (sprite.actualRect > sprite.totalRect - 1)

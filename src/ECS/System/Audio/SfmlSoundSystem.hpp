@@ -12,7 +12,7 @@
 
 class SfmlSoundSystem : public AudioSystem {
 public:
-    SfmlSoundSystem(std::shared_ptr<ComponentManager> &components);
+    SfmlSoundSystem(const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManagers);
     ~SfmlSoundSystem();
     void update() override;
     void play(const std::size_t &entity) override;

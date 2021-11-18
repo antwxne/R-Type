@@ -14,9 +14,13 @@
 
 RtypeClient::RtypeClient()
 {
+    srand(time(NULL));
     _graphical = std::make_shared<SfmlDisplay>();
     _textureLogo.loadFromFile("assets/sprites/r_type_logo.png");
     _spriteLogo.setTexture(_textureLogo);
+    _menuMusic.openFromFile("assets/music/space_oddity.ogg");
+    _gameMusic.openFromFile("assets/music/red-alert.ogg");
+    sf::Music _gameMusic;
     _stop = false;
     _state = GameState::Game;
     initMenu();
@@ -62,6 +66,7 @@ void RtypeClient::registerComponents()
     _ecs.registerComponent<Tag>();
     _ecs.registerComponent<Life>();
     _ecs.registerComponent<Rectangle>();
+    _ecs.registerComponent<Firerate>();
     _ecs.registerComponent<AI>();
 }
 
@@ -69,25 +74,31 @@ void RtypeClient::start()
 {
     PlayerEntity _pe({150, 50}, ColorType::None);
     EnemyEntity _ee({1050, 50});
+    EnemyEntity _ee2({1050, 50});
+    EnemyEntity _ee3({1050, 50});
+    EnemyEntity _ee4({1050, 50});
+    EnemyEntity _ee5({1050, 50});
     BulletEntity _be({150, 800}, true);
-    _pe.create(_ecs);
-    _be.create(_ecs);
-    _ee.create(_ecs);
+    _pe.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _be.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _ee.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _ee2.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _ee3.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _ee4.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _ee5.create(_ecs.getComponentManager(), _ecs.getEntityManager());
 
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
     _ecs.registerSystem<AISystem>();
     _ecs.registerSystem<ColissionSystem>();
     draw.setDisplay(_graphical);
-//    Entity player = _ecs.createEntity();
-
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
-    // BIND une fonction statique a un evenement
     evtManager.subscribeToEvent(ControlGame::RIGHT, _pe.getEntity(), std::bind(EventCallback::changeAccelerationRIGHT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     evtManager.subscribeToEvent(ControlGame::UP, _pe.getEntity(), std::bind(EventCallback::changeAccelerationUP, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     evtManager.subscribeToEvent(ControlGame::DOWN, _pe.getEntity(), std::bind(EventCallback::changeAccelerationDOWN, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     evtManager.subscribeToEvent(ControlGame::LEFT, _pe.getEntity(), std::bind(EventCallback::changeAccelerationLEFT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    evtManager.subscribeToEvent(ControlGame::SPACE, _pe.getEntity(), std::bind(EventCallback::shoot, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
     run();
 }
@@ -109,10 +120,30 @@ void RtypeClient::run()
         _parallax.update();
         _parallax.draw(*_graphical->getWindow());
         manageState();
+        manageMusic();
         _graphical->display();
     }
     stop();
 }
+
+void RtypeClient::manageMusic()
+{
+    if (_state == GameState::Game)
+    {
+        if (_gameMusic.getStatus() != sf::Music::Playing)
+            _gameMusic.play();
+        if (_menuMusic.getStatus() == sf::Music::Playing)
+            _menuMusic.stop();
+    }
+    else
+    {
+        if (_gameMusic.getStatus() == sf::Music::Playing)
+            _gameMusic.stop();
+        if (_menuMusic.getStatus() != sf::Music::Playing)
+            _menuMusic.play();
+    }
+}
+
 
 void RtypeClient::handleEvents(const sf::Event& event)
 {
@@ -132,7 +163,6 @@ void RtypeClient::handleEvents(const sf::Event& event)
             break;
         case GameState::Game:
             _ecs.getSystem<EventSystem>().setEvents(control);
-            /* code */
             break;
         default:
             return;

@@ -12,7 +12,7 @@
 #include "../../Component/Transform/Rotate.hpp"
 #include "../../Component/Color.hpp"
 
-DrawSystem::DrawSystem(std::shared_ptr<ComponentManager> componentManager) : ASystem(componentManager)
+DrawSystem::DrawSystem(const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager) : ASystem(componentManager, entityManager)
 {
 }
 

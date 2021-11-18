@@ -9,9 +9,11 @@
 #include "ECS/Component/Speed.hpp"
 #include "ECS/Component/Acceleration.hpp"
 #include "ECS/Component/Transform/Position.hpp"
+#include "ECS/Component/Tag.hpp"
+#include "utils.hpp"
 
-MoveSystem::MoveSystem(std::shared_ptr<ComponentManager> components) : ASystem(
-    components)
+MoveSystem::MoveSystem(const std::shared_ptr<ComponentManager> &components, const std::shared_ptr<EntityManager> &entityManager) : ASystem(
+    components, entityManager)
 {
 }
 
@@ -29,10 +31,12 @@ void MoveSystem::update()
         auto &acceleration = _componentManager->getComponent<Acceleration>(
             i).value();
 
-        position.x += acceleration.x * (int)speed.speed;
-        position.y += acceleration.y * (int)speed.speed;
-        acceleration.x = 0;
-        acceleration.y = 0;
+        position.x += acceleration.x * (speed.speed > 0 ? speed.speed : 0);
+        position.y += acceleration.y * (speed.speed > 0 ? speed.speed : 0);
+        const auto &tag = _componentManager->getComponent<Tag>(i);
+        if (tag.has_value() && contains<TagType>(tag.value().type, TagType::PLAYER) && !contains<TagType>(tag.value().type, TagType::BULLET)) {
+            speed.speed = speed.speed > 0 ? speed.speed - 0.2f : 0;
+        }
     }
 }
 

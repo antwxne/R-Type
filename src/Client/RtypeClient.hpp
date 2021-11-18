@@ -20,7 +20,7 @@
 #include "../ECS/Entity/PlayerEntity.hpp"
 #include "../ECS/Entity/EnemyEntity.hpp"
 #include "../ECS/Entity/BulletEntity.hpp"
-#include "../ECS/System/AISystem.hpp"
+#include "../ECS/system.hpp"
 
 enum GameState
 {
@@ -51,6 +51,7 @@ class RtypeClient {
         void handleTextInput(const sf::Event& event);
         void handleInitLobby();
         void handleGetGames();
+        void manageMusic();
     private:
         GameState _state;
         bool _stop;
@@ -60,6 +61,8 @@ class RtypeClient {
         SfmlParallax _parallax;
         sf::Sprite _spriteLogo;
         sf::Texture _textureLogo;
+        sf::Music _menuMusic;
+        sf::Music _gameMusic;
         
         SfmlMenu _connectMenu;
         SfmlMenu _mainMenu;

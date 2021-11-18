@@ -13,16 +13,19 @@
 #include "IEntityRegister.hpp"
 
 class EnemyEntity : public IEntityRegister {
-    public:
-        EnemyEntity(const Position &pos);
-        ~EnemyEntity();
+public:
+    EnemyEntity(const Position &pos);
+    ~EnemyEntity();
 
-        void create(ECS &ecs);
+    void create(std::shared_ptr<ComponentManager> componentManager,
+        std::shared_ptr<EntityManager> entityManager
+    )
+    override;
 
-    protected:
-    private:
-        Position _pos;
-        sf::IntRect _textureRect;
+protected:
+private:
+    Position _pos;
+    sf::IntRect _textureRect;
 };
 
 #endif /* !ENEMYENTITY_HPP_ */

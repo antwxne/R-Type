@@ -18,6 +18,7 @@ struct SfmlSprite
     sf::IntRect textureRect;
     size_t totalRect;
     size_t actualRect;
+    float animationSpeed;
     sf::Clock clock;
 };
 

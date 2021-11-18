@@ -13,7 +13,8 @@
 
 class MoveSystem : public ASystem {
 public:
-    MoveSystem(std::shared_ptr<ComponentManager> components);
+    MoveSystem(
+        const std::shared_ptr<ComponentManager> &components, const std::shared_ptr<EntityManager> &entityManager);
     ~MoveSystem();
     void update() override;
 

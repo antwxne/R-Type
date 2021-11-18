@@ -9,10 +9,8 @@
 #include "ECS/Component/SfmlSound.hpp"
 #include "ECS/Component/Audio.hpp"
 
-SfmlSoundSystem::SfmlSoundSystem(std::shared_ptr<ComponentManager> &components) : AudioSystem(components)
+SfmlSoundSystem::SfmlSoundSystem(const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager) : AudioSystem(componentManager, entityManager)
 {
-//    _usedComponents.push_back(typeid(SfmlSound).name());
-//    _usedComponents.push_back(typeid(Audio).name());
 }
 
 SfmlSoundSystem::~SfmlSoundSystem()

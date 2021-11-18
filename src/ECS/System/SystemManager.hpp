@@ -17,26 +17,19 @@
 #include "ECS/Component/ComponentManager.hpp"
 #include "SparseArray/SparseArray.hpp"
 
-class HasherTypeSystemInfo {
-public:
-    size_t operator()(const std::type_info &type) const
-    {
-        return type.hash_code();
-    }
-};
-
 class SystemManager {
 public:
     using SystemsMap_t = std::unordered_map<std::string, std::any>;
 
 public:
 
-    SystemManager() = default;
+    SystemManager(const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager);
 
     template<typename System>
-    System &registerSystem(std::shared_ptr<ComponentManager> componentManager)
+    System &registerSystem()
     {
-        _systemsMap.emplace(typeid(System).name(), System(componentManager));
+        _systemsMap.emplace(typeid(System).name(),
+            System(_componentManager, _entityManager));
         return std::any_cast<System &>(_systemsMap[typeid(System).name()]);
     }
 
@@ -48,6 +41,8 @@ public:
 
 private:
     SystemsMap_t _systemsMap;
+    std::shared_ptr<ComponentManager> _componentManager;
+    std::shared_ptr<EntityManager> _entityManager;
 };
 
 #endif //RTYPE_SYSTEMMANAGER_HPP
