@@ -18,11 +18,14 @@ void EventCallback::changeAccelerationUP(std::shared_ptr<ComponentManager> compo
 )
 {
     auto &currentAcceleration = componentManager->getComponent<Acceleration>(entity);
-    if (!currentAcceleration.has_value()) {
+    auto &currentSpeed = componentManager->getComponent<Speed>(entity);
+
+    if (!currentAcceleration.has_value() || !currentSpeed.has_value()) {
         return;
     }
     currentAcceleration.value().x = 0;
     currentAcceleration.value().y = -1;
+    currentSpeed.value().speed = 5;
 }
 
 void EventCallback::changeAccelerationDOWN(
@@ -31,11 +34,14 @@ void EventCallback::changeAccelerationDOWN(
 )
 {
     auto &currentAcceleration = componentManager->getComponent<Acceleration>(entity);
-    if (!currentAcceleration.has_value()) {
+    auto &currentSpeed = componentManager->getComponent<Speed>(entity);
+
+    if (!currentAcceleration.has_value() || !currentSpeed.has_value()) {
         return;
     }
     currentAcceleration.value().x = 0;
     currentAcceleration.value().y = 1;
+    currentSpeed.value().speed = 5;
 }
 
 void EventCallback::changeAccelerationLEFT(
@@ -44,12 +50,14 @@ void EventCallback::changeAccelerationLEFT(
 )
 {
     auto &currentAcceleration = componentManager->getComponent<Acceleration>(entity);
-    if (!currentAcceleration.has_value()) {
+    auto &currentSpeed = componentManager->getComponent<Speed>(entity);
+
+    if (!currentAcceleration.has_value() || !currentSpeed.has_value()) {
         return;
     }
     currentAcceleration.value().x = -1;
     currentAcceleration.value().y = 0;
-
+    currentSpeed.value().speed = 5;
 }
 
 void EventCallback::changeAccelerationRIGHT(
@@ -58,11 +66,14 @@ void EventCallback::changeAccelerationRIGHT(
 )
 {
     auto &currentAcceleration = componentManager->getComponent<Acceleration>(entity);
-    if (!currentAcceleration.has_value()) {
+    auto &currentSpeed = componentManager->getComponent<Speed>(entity);
+
+    if (!currentAcceleration.has_value() || !currentSpeed.has_value()) {
         return;
     }
     currentAcceleration.value().x = 1;
     currentAcceleration.value().y = 0;
+    currentSpeed.value().speed = 5;
 }
 
 void EventCallback::shoot(
@@ -86,12 +97,14 @@ void EventCallback::shoot(
         return;
     }
     if (contains(tag.type, TagType::ENNEMY)) {
-        posBullet.x -= 300;
+        posBullet.x -= 130;
+        posBullet.y += 20;
         isFriend = false;
     }
-    else
-        posBullet.x += 300;
-
+    else {
+        posBullet.x += 130;
+        posBullet.y += 20;
+    }
     BulletEntity _be(posBullet, isFriend);
     std::cout << "PAN PAN PAN !" << std::endl;
     _be.create(componentManager, entityManager);

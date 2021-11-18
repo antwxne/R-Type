@@ -35,7 +35,7 @@ void BulletEntity::create(std::shared_ptr<ComponentManager> componentManager, st
     }
     componentManager->subToComponent(_entity, _pos);
     componentManager->subToComponent(_entity, Texture{TextureType::Bullet});
-    componentManager->subToComponent(_entity, Color{ColorType::None});
+    componentManager->subToComponent(_entity, Color{ColorType::Red});
     componentManager->subToComponent(_entity, Scale{1.5, 1.5});
 
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
