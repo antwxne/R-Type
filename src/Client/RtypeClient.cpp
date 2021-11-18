@@ -68,6 +68,7 @@ void RtypeClient::registerComponents()
     _ecs.registerComponent<Rectangle>();
     _ecs.registerComponent<Firerate>();
     _ecs.registerComponent<AI>();
+    _ecs.registerComponent<SfmlSound>();
 }
 
 void RtypeClient::start()
@@ -90,35 +91,40 @@ void RtypeClient::start()
     _ecs.registerSystem<MoveSystem>();
     _ecs.registerSystem<AISystem>();
     _ecs.registerSystem<ColissionSystem>();
+    _ecs.registerSystem<PlaySoundEvents>();
+
     draw.setDisplay(_graphical);
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
-    evtManager.subscribeToEvent(ControlGame::RIGHT, _pe.getEntity(), std::bind(EventCallback::changeAccelerationRIGHT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-    evtManager.subscribeToEvent(ControlGame::UP, _pe.getEntity(), std::bind(EventCallback::changeAccelerationUP, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-    evtManager.subscribeToEvent(ControlGame::DOWN, _pe.getEntity(), std::bind(EventCallback::changeAccelerationDOWN, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-    evtManager.subscribeToEvent(ControlGame::LEFT, _pe.getEntity(), std::bind(EventCallback::changeAccelerationLEFT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-    evtManager.subscribeToEvent(ControlGame::SPACE, _pe.getEntity(), std::bind(EventCallback::shoot, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    evtManager.subscribeToEvent(ControlGame::RIGHT, _pe.getEntity(), std::bind(EventCallback::changeAccelerationRIGHT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+    evtManager.subscribeToEvent(ControlGame::UP, _pe.getEntity(), std::bind(EventCallback::changeAccelerationUP, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+    evtManager.subscribeToEvent(ControlGame::DOWN, _pe.getEntity(), std::bind(EventCallback::changeAccelerationDOWN, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+    evtManager.subscribeToEvent(ControlGame::LEFT, _pe.getEntity(), std::bind(EventCallback::changeAccelerationLEFT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+    evtManager.subscribeToEvent(ControlGame::SPACE, _pe.getEntity(), std::bind(EventCallback::shoot, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
 
     run();
 }
 
 void RtypeClient::run()
 {
-    while (_graphical->getWindow()->isOpen())
-    {
-        while (_graphical->getWindow()->pollEvent(_graphical->getEvent()))
-        {
-            sf::Event event = _graphical->getEvent();
+    auto &eventSystem = _ecs.getSystem<EventSystem>();
 
+    while (_graphical->getWindow()->isOpen()) {
+        while (_graphical->getWindow()->pollEvent(_graphical->getEvent())) {
+            const sf::Event &event = _graphical->getEvent();
             if (event.type == sf::Event::Closed)
                 _graphical->getWindow()->close();
-            else if (event.type == sf::Event::KeyPressed || event.type == sf::Event::TextEntered)
+            else if (event.type == sf::Event::KeyPressed ||
+                event.type == sf::Event::TextEntered) {
                 handleEvents(event);
+            }
         }
+        eventSystem.setEvents(_frameEvents);
         _graphical->clear();
         _parallax.update();
         _parallax.draw(*_graphical->getWindow());
         manageState();
+        _raisedEvents = eventSystem.getRaisedEvents();
         manageMusic();
         _graphical->display();
     }
@@ -127,15 +133,12 @@ void RtypeClient::run()
 
 void RtypeClient::manageMusic()
 {
-    if (_state == GameState::Game)
-    {
+    if (_state == GameState::Game) {
         if (_gameMusic.getStatus() != sf::Music::Playing)
             _gameMusic.play();
         if (_menuMusic.getStatus() == sf::Music::Playing)
             _menuMusic.stop();
-    }
-    else
-    {
+    } else {
         if (_gameMusic.getStatus() == sf::Music::Playing)
             _gameMusic.stop();
         if (_menuMusic.getStatus() != sf::Music::Playing)
@@ -143,14 +146,13 @@ void RtypeClient::manageMusic()
     }
 }
 
-
-void RtypeClient::handleEvents(const sf::Event& event)
+void RtypeClient::handleEvents(const sf::Event &event)
 {
     ControlGame control = _eventFactory.getEventType(event);
-    if (control != ControlGame::NONE)
-    {
-        switch (_state)
-        {
+
+    if (control != ControlGame::NONE) {
+        _frameEvents.push_back(control);
+        switch (_state) {
         case GameState::ConnectMenu:
             _connectMenu.handleEvent(control);
             break;
@@ -161,55 +163,61 @@ void RtypeClient::handleEvents(const sf::Event& event)
             _lobbyMenu.handleEvent(control);
             break;
         case GameState::Game:
-            _ecs.getSystem<EventSystem>().setEvents(control);
-            break;
-        default:
-            return;
-        }
-    }
-    else if (event.type == sf::Event::TextEntered)
-    {
-        handleTextInput(event);
-    }
-}
-
-void RtypeClient::handleTextInput(const sf::Event& event)
-{
-    std::string input = _eventFactory.getTextEntered(event);
-    switch (_state)
-    {
-        case GameState::ConnectMenu:
-            _connectMenu.handleTextInput(input);
-            break;
-        case GameState::MainMenu:
-            _mainMenu.handleTextInput(input);
-            break;
-        case GameState::GameLobby:
-            _lobbyMenu.handleTextInput(input);
-            break;
-        case GameState::Game:
             /* code */
             break;
         default:
             return;
         }
+    } else if (event.type == sf::Event::TextEntered) {
+        handleTextInput(event);
+    }
+}
+
+void RtypeClient::handleTextInput(const sf::Event &event)
+{
+    std::string input = _eventFactory.getTextEntered(event);
+    switch (_state) {
+    case GameState::ConnectMenu:
+        _connectMenu.handleTextInput(input);
+        break;
+    case GameState::MainMenu:
+        _mainMenu.handleTextInput(input);
+        break;
+    case GameState::GameLobby:
+        _lobbyMenu.handleTextInput(input);
+        break;
+    case GameState::Game:
+        /* code */
+        break;
+    default:
+        return;
+    }
 }
 
 void RtypeClient::manageState()
 {
-    switch (_state)
-    {
+    static GameState previous_state = GameState::ConnectMenu;
+    switch (_state) {
     case GameState::ConnectMenu:
         manageConnectMenu();
+        previous_state = _state;
         break;
     case GameState::MainMenu:
         manageMainMenu();
+        previous_state = _state;
         break;
     case GameState::GameLobby:
         manageLobbyMenu();
+        previous_state = _state;
         break;
     case GameState::Game:
-        this->manageGame();
+        if (previous_state != _state) {
+            _ecs.getSystem<EventSystem>().clearEvents();
+            _ecs.getSystem<EventSystem>().clearRaisedEvents();
+            _raisedEvents.clear();
+        }
+        manageGame();
+        previous_state = _state;
         break;
     default:
         return;
@@ -220,28 +228,23 @@ void RtypeClient::manageConnectMenu()
 {
     _graphical->getWindow()->draw(_spriteLogo);
     _connectMenu.draw(_graphical->getWindow());
-    if (_networkClient && _networkClient->isTcpConnected())
-    {
+    if (_networkClient && _networkClient->isTcpConnected()) {
         _state = GameState::MainMenu;
         _networkThread = std::thread(&Client::start, _networkClient);
         _networkClient->setPlayerName(_connectMenu.getButtonText(0));
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         _networkClient->getGames();
     }
-    if (_connectMenu.isValided())
-    {
+    if (_connectMenu.isValided()) {
         _connectMenu.resetValided();
         if (_networkClient == nullptr)
             _networkClient = std::make_shared<Client>();
 
-        try
-        {
+        try {
             std::string sPort = _connectMenu.getButtonText(2);
             int port = std::stoi(sPort);
             _networkClient->tryConnect(_connectMenu.getButtonText(1), port);
-        }
-        catch (std::exception &e)
-        {
+        } catch (std::exception &e) {
             return;
         }
     }
@@ -253,29 +256,25 @@ void RtypeClient::manageMainMenu()
     _mainMenu.draw(_graphical->getWindow());
     if (_networkClient->isNewGameListAvailable())
         handleGetGames();
-    if (_mainMenu.isValided())
-    {
+    if (_mainMenu.isValided()) {
         _mainMenu.resetValided();
-        if (_mainMenu.getSelectedIndex() == 0)
-        {
+        if (_mainMenu.getSelectedIndex() == 0) {
             _networkClient->resetGameList();
             _networkClient->getGames();
             handleGetGames();
-        }
-        else if (_mainMenu.getSelectedIndex() == 1)
-        {
+        } else if (_mainMenu.getSelectedIndex() == 1) {
             _networkClient->createGame(_mainMenu.getButtonText(1));
             _currentGameName = _mainMenu.getButtonText(1);
-        }
-        else
-        {
-            std::string name = _mainMenu.getButtonText(_mainMenu.getSelectedIndex()).substr(0, _mainMenu.getButtonText(_mainMenu.getSelectedIndex()).length() - 6);
+        } else {
+            std::string name = _mainMenu.getButtonText(
+                _mainMenu.getSelectedIndex()).substr(0,
+                _mainMenu.getButtonText(_mainMenu.getSelectedIndex()).length() -
+                    6);
             _networkClient->joinGame(name);
             _currentGameName = name;
         }
     }
-    if (_networkClient->isInGame())
-    {
+    if (_networkClient->isInGame()) {
         _state = GameState::GameLobby;
         _networkClient->getPlayersInGame(_currentGameName);
     }
@@ -286,15 +285,13 @@ void RtypeClient::handleGetGames()
     _mainMenu.resetButtons();
     _mainMenu.addButton("Refresh", 50, false, -1, true);
     _mainMenu.addButton("Create game: ", 50, true, 12, true);
-    for (auto &i : _networkClient->getGameList())
-    {
+    for (auto &i: _networkClient->getGameList()) {
         std::string nbPLayer;
-        nbPLayer += std::to_string((int) i.second);
+        nbPLayer += std::to_string((int)i.second);
         std::string name = i.first + " - " + nbPLayer + "/4";
         _mainMenu.addButton(name, 50, false, -1, true);
     }
 }
-
 
 void RtypeClient::handleInitLobby()
 {
@@ -303,8 +300,7 @@ void RtypeClient::handleInitLobby()
 
     _lobbyMenu.addButton("Start " + _currentGameName, 70, false, -1, true);
 
-    for (auto &i : _networkClient->getPlayersInGameList())
-    {
+    for (auto &i: _networkClient->getPlayersInGameList()) {
         _lobbyMenu.addText("- " + i, 30);
     }
     _lobbyMenu.addButton("Refresh", 50, false, -1, true);
@@ -315,18 +311,13 @@ void RtypeClient::manageLobbyMenu()
     _graphical->getWindow()->draw(_spriteLogo);
     _lobbyMenu.draw(_graphical->getWindow());
 
-    if (_networkClient->isNewPlayerListAvailable())
-    {
+    if (_networkClient->isNewPlayerListAvailable()) {
         handleInitLobby();
     }
-    if (_lobbyMenu.isValided())
-    {
-        if (_lobbyMenu.getSelectedIndex() == 0)
-        {
+    if (_lobbyMenu.isValided()) {
+        if (_lobbyMenu.getSelectedIndex() == 0) {
             _state = GameState::Game;
-        }
-        else
-        {
+        } else {
             _networkClient->getPlayersInGame(_currentGameName);
         }
     }
@@ -334,10 +325,13 @@ void RtypeClient::manageLobbyMenu()
 
 void RtypeClient::manageGame()
 {
-    _ecs.getSystem<EventSystem>().update();
-    _ecs.getSystem<ColissionSystem>().update();
-    _ecs.getSystem<AISystem>().update();
-    _ecs.getSystem<MoveSystem>().update();
-    _ecs.getSystem<SfmlDrawSystem>().update();
-    _ecs.garbageCollector();
+    try {
+        _ecs.getSystem<EventSystem>().update();
+        _ecs.getSystem<ColissionSystem>().update();
+        _ecs.getSystem<AISystem>().update();
+        _ecs.getSystem<MoveSystem>().update();
+        _ecs.getSystem<SfmlDrawSystem>().update();
+        _ecs.getSystem<PlaySoundEvents>().update();
+    } catch (...) {}
+    _ecs.garbageCollector(std::ref(_raisedEvents));
 }

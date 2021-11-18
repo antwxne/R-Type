@@ -11,7 +11,9 @@
 
 struct SfmlSound
 {
+    bool play;
     sf::Sound sound;
+    std::shared_ptr<sf::SoundBuffer> soundBuffer;
 };
 
 #endif /* !SFMLSOUND_HPP_ */

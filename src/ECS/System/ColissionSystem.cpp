@@ -15,7 +15,9 @@
 #include "../../utils.hpp"
 
 ColissionSystem::ColissionSystem(
-    const std::shared_ptr<ComponentManager> &components, const std::shared_ptr<EntityManager> &entityManager) : ASystem(components, entityManager)
+    const std::shared_ptr<ComponentManager> &components,
+    const std::shared_ptr<EntityManager> &entityManager
+) : ASystem(components, entityManager)
 {
 }
 
@@ -26,55 +28,67 @@ ColissionSystem::~ColissionSystem()
 void ColissionSystem::update()
 {
     std::vector<std::size_t> entityCollide;
-    for (std::size_t i = 0; i < MAX_ENTITIES; i++)
-    {
-        if (!checkAvailableEntity(i))
-        {
+    auto &positions = _componentManager->getComponentsList<Position>();
+    auto &rectangles = _componentManager->getComponentsList<Rectangle>();
+    auto &colissions = _componentManager->getComponentsList<Collision>();
+    auto &tags = _componentManager->getComponentsList<Tag>();
+    auto &lifes = _componentManager->getComponentsList<Life>();
+    auto &scales = _componentManager->getComponentsList<Scale>();
+    const auto &entities = _entityManager->getCurrentEntities();
+    std::size_t id;
+    std::size_t otherId;
+
+
+    for (const auto &currentEntity: entities) {
+        currentEntity >> id;
+        if (!checkAvailableEntity(id)) {
             continue;
         }
 
-        Position &position = _componentManager->getComponent<Position>(i).value();
-        Rectangle &rectangle = _componentManager->getComponent<Rectangle>(i).value();
-        Collision &colission = _componentManager->getComponent<Collision>(i).value();
-        Tag &tag = _componentManager->getComponent<Tag>(i).value();
-        Life &life = _componentManager->getComponent<Life>(i).value();
-        Scale &scale = _componentManager->getComponent<Scale>(i).value();
-        if (!colission.isColide)
-        {
+        Position &position = positions[currentEntity].value();
+        Rectangle &rectangle = rectangles[currentEntity].value();
+        Collision &colission = colissions[currentEntity].value();
+        Tag &tag = tags[currentEntity].value();
+        Life &life = lifes[currentEntity].value();
+        Scale &scale = scales[currentEntity].value();
+
+        if (!colission.isColide) {
             continue;
         }
-        for (std::size_t j = 0; j < MAX_ENTITIES; j++)
-        {
-            if (!checkAvailableEntity(j))
-            {
+        for (const auto &otherEntity : entities) {
+            otherEntity >> otherId;
+            if (!checkAvailableEntity(id)) {
                 continue;
             }
-            if (contains(entityCollide, j) || j == i)
+            if (contains(entityCollide, otherId) || id == otherId)
                 continue;
-            Position &positionTmp = _componentManager->getComponent<Position>(j).value();
-            Rectangle &rectangleTmp = _componentManager->getComponent<Rectangle>(j).value();
-            Collision &colissionTmp = _componentManager->getComponent<Collision>(j).value();
-            Tag &tagTmp = _componentManager->getComponent<Tag>(j).value();
-            Life &lifeTmp = _componentManager->getComponent<Life>(j).value();
-            Scale &scaleTmp = _componentManager->getComponent<Scale>(j).value();
+            Position &positionTmp = positions[otherEntity].value();
+            Rectangle &rectangleTmp = rectangles[otherEntity].value();
+            Collision &colissionTmp = colissions[otherEntity].value();
+            Tag &tagTmp = tags[otherEntity].value();
+            Life &lifeTmp = lifes[otherEntity].value();
+            Scale &scaleTmp = scales[otherEntity].value();
             if (!colissionTmp.isColide)
                 continue;
-            if (position.x < positionTmp.x + rectangleTmp.width && position.x + rectangle.width > positionTmp.x &&
-                position.y < positionTmp.y + rectangleTmp.height && rectangle.height + position.y > positionTmp.y)
-            {
+            if (position.x < positionTmp.x + rectangleTmp.width &&
+                position.x + rectangle.width > positionTmp.x &&
+                position.y < positionTmp.y + rectangleTmp.height &&
+                rectangle.height + position.y > positionTmp.y) {
                 std::cout << "je collide\n";
-                entityCollide.push_back(i);
-                if (contains(tag.type, TagType::PLAYER) && contains(tagTmp.type, TagType::ENNEMY))
-                {
+                entityCollide.push_back(id);
+                if (contains(tag.type, TagType::PLAYER) &&
+                    contains(tagTmp.type, TagType::ENNEMY)) {
                     life.health = 0;
                 }
-                if (contains(tag.type, TagType::PLAYER) && (contains(tagTmp.type, TagType::BULLET) && contains(tagTmp.type, TagType::ENNEMY)))
-                {
+                if (contains(tag.type, TagType::PLAYER) &&
+                    (contains(tagTmp.type, TagType::BULLET) &&
+                        contains(tagTmp.type, TagType::ENNEMY))) {
                     life.health = 0;
                     lifeTmp.health = 0;
                 }
-                if (contains(tag.type, TagType::ENNEMY) && (contains(tagTmp.type, TagType::BULLET) && contains(tagTmp.type, TagType::PLAYER)))
-                {
+                if (contains(tag.type, TagType::ENNEMY) &&
+                    (contains(tagTmp.type, TagType::BULLET) &&
+                        contains(tagTmp.type, TagType::PLAYER))) {
                     life.health = 0;
                     lifeTmp.health = 0;
                 }
@@ -92,5 +106,6 @@ bool ColissionSystem::checkAvailableEntity(std::size_t entity) const
     const auto &life = _componentManager->getComponentsList<Life>();
 
     return rectangle[entity].has_value() && collision[entity].has_value() &&
-           position[entity].has_value() && tag[entity].has_value() && life[entity].has_value();
+        position[entity].has_value() && tag[entity].has_value() &&
+        life[entity].has_value();
 }

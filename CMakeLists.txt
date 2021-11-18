@@ -27,7 +27,7 @@ include_directories(include/Network)
 
 #Sources
 
-set(CLIENT_MAIN src/Client/main.cpp src/ECS/Entity/IEntityRegister.cpp)
+set(CLIENT_MAIN src/Client/main.cpp src/ECS/Entity/IEntityRegister.cpp src/ECS/System/Audio/PlaySoundEvents.cpp src/ECS/System/Audio/PlaySoundEvents.hpp)
 set(SERVER_MAIN src/Server/main.cpp)
 set(CLIENT_SRC
             src/Client/RtypeClient.cpp
