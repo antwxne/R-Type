@@ -14,15 +14,17 @@
 #include "../../utils.hpp"
 
 class ShootSystem : public ASystem {
-    public:
-        ShootSystem(std::shared_ptr<ComponentManager> &components);
-        ~ShootSystem();
+public:
+    ShootSystem(const std::shared_ptr<ComponentManager> &components,
+        const std::shared_ptr<EntityManager> &entityManager
+    );
+    ~ShootSystem();
 
-        void update() override;
-        void shoot(const std::size_t &entity);
-    protected:
-    private:
-        bool checkAvailableEntity(std::size_t entity) const override;
+    void update() override;
+    void shoot(const std::size_t &entity);
+protected:
+private:
+    bool checkAvailableEntity(std::size_t entity) const override;
 
 };
 

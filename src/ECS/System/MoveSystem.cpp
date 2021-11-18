@@ -10,8 +10,8 @@
 #include "ECS/Component/Acceleration.hpp"
 #include "ECS/Component/Transform/Position.hpp"
 
-MoveSystem::MoveSystem(std::shared_ptr<ComponentManager> components) : ASystem(
-    components)
+MoveSystem::MoveSystem(const std::shared_ptr<ComponentManager> &components, const std::shared_ptr<EntityManager> &entityManager) : ASystem(
+    components, entityManager)
 {
 }
 
@@ -31,8 +31,8 @@ void MoveSystem::update()
 
         position.x += acceleration.x * (int)speed.speed;
         position.y += acceleration.y * (int)speed.speed;
-        acceleration.x = 0;
-        acceleration.y = 0;
+//        acceleration.x = 0;
+//        acceleration.y = 0;
     }
 }
 

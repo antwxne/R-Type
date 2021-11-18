@@ -13,8 +13,8 @@
 #include "../../Component/Color.hpp"
 
 SfmlDrawSystem::SfmlDrawSystem(
-    std::shared_ptr<ComponentManager> componentManager
-) : DrawSystem(componentManager)
+    const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager
+) : DrawSystem(componentManager, entityManager)
 {
 
 }

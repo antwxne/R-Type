@@ -14,10 +14,9 @@
 #include "../../../utils.hpp"
 
 void EventCallback::changeAccelerationUP(std::shared_ptr<ComponentManager> componentManager,
-    const size_t &entity, std::queue<ControlGame> &raisedEvents
+    const size_t &entity, std::shared_ptr<EntityManager> entityManager
 )
 {
-    std::cout << "GO UP" << std::endl;
     auto &currentAcceleration = componentManager->getComponent<Acceleration>(entity);
     if (!currentAcceleration.has_value()) {
         return;
@@ -28,7 +27,7 @@ void EventCallback::changeAccelerationUP(std::shared_ptr<ComponentManager> compo
 
 void EventCallback::changeAccelerationDOWN(
     std::shared_ptr<ComponentManager> componentManager, const size_t &entity,
-    std::queue<ControlGame> &raisedEvents
+    std::shared_ptr<EntityManager> entityManager
 )
 {
     auto &currentAcceleration = componentManager->getComponent<Acceleration>(entity);
@@ -41,7 +40,7 @@ void EventCallback::changeAccelerationDOWN(
 
 void EventCallback::changeAccelerationLEFT(
     std::shared_ptr<ComponentManager> componentManager, const size_t &entity,
-    std::queue<ControlGame> &raisedEvents
+    std::shared_ptr<EntityManager> entityManager
 )
 {
     auto &currentAcceleration = componentManager->getComponent<Acceleration>(entity);
@@ -55,7 +54,7 @@ void EventCallback::changeAccelerationLEFT(
 
 void EventCallback::changeAccelerationRIGHT(
     std::shared_ptr<ComponentManager> componentManager, const size_t &entity,
-    std::queue<ControlGame> &raisedEvents
+    std::shared_ptr<EntityManager> entityManager
 )
 {
     auto &currentAcceleration = componentManager->getComponent<Acceleration>(entity);
@@ -68,7 +67,7 @@ void EventCallback::changeAccelerationRIGHT(
 
 void EventCallback::shoot(
     std::shared_ptr<ComponentManager> componentManager, const size_t &entity,
-    std::queue<ControlGame> &raisedEvents
+    std::shared_ptr<EntityManager> entityManager
 )
 {
     auto &currentFirerate = componentManager->getComponent<Firerate>(entity);
@@ -95,6 +94,6 @@ void EventCallback::shoot(
 
     BulletEntity _be(posBullet, isFriend);
     std::cout << "PAN PAN PAN !" << std::endl;
-    // _be.create()
+    _be.create(componentManager, entityManager);
     currentFirerate.value().clock.restart();
 }

@@ -78,13 +78,13 @@ void RtypeClient::start()
     EnemyEntity _ee4({1050, 50});
     EnemyEntity _ee5({1050, 50});
     BulletEntity _be({150, 800}, true);
-    _pe.create(_ecs);
-    _be.create(_ecs);
-    _ee.create(_ecs);
-    _ee2.create(_ecs);
-    _ee3.create(_ecs);
-    _ee4.create(_ecs);
-    _ee5.create(_ecs);
+    _pe.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _be.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _ee.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _ee2.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _ee3.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _ee4.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _ee5.create(_ecs.getComponentManager(), _ecs.getEntityManager());
 
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();

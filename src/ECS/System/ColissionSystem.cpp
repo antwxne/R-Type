@@ -14,7 +14,8 @@
 #include "ECS/Component/Life.hpp"
 #include "../../utils.hpp"
 
-ColissionSystem::ColissionSystem(std::shared_ptr<ComponentManager> &components) : ASystem(components)
+ColissionSystem::ColissionSystem(
+    const std::shared_ptr<ComponentManager> &components, const std::shared_ptr<EntityManager> &entityManager) : ASystem(components, entityManager)
 {
 }
 

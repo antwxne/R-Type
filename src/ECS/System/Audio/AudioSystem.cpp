@@ -7,7 +7,10 @@
 
 #include "AudioSystem.hpp"
 
-AudioSystem::AudioSystem(std::shared_ptr<ComponentManager> &components) : ASystem(components)
+AudioSystem::AudioSystem(
+    const std::shared_ptr<ComponentManager> &componentManager,
+    const std::shared_ptr<EntityManager> &entityManager
+) : ASystem(componentManager, entityManager)
 {
 }
 

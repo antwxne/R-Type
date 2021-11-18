@@ -7,7 +7,7 @@
 
 #include "ShootSystem.hpp"
 
-ShootSystem::ShootSystem(std::shared_ptr<ComponentManager> &components) : ASystem(components)
+ShootSystem::ShootSystem(const std::shared_ptr<ComponentManager> &components, const std::shared_ptr<EntityManager> &entityManager) : ASystem(components, entityManager)
 {
 }
 

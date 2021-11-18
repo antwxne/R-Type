@@ -14,18 +14,18 @@
 #include <vector>
 #include <queue>
 
-#include "ECS/Entity/Entity.hpp"
 #include "ECS/System/ASystem.hpp"
 #include "Graphical/SfmlEventFactory.hpp"
+#include "ECS/Entity/EntityManager.hpp"
 
 class EventSystem : public ASystem {
 public:
     using Callback = std::function<void(
         std::shared_ptr<ComponentManager>, const std::size_t &,
-        std::queue<ControlGame> &)>;
+        std::shared_ptr<EntityManager> entityManager)>;
     using CallbackMap = std::unordered_map<ControlGame, std::vector<std::pair<std::size_t, Callback>>>;
 public:
-    EventSystem(std::shared_ptr<ComponentManager> components);
+    EventSystem(std::shared_ptr<ComponentManager> components, std::shared_ptr<EntityManager> entityManager);
     ~EventSystem() = default;
 
     void subscribeToEvent(const ControlGame &event, const Entity &entity,
@@ -34,14 +34,12 @@ public:
     void unsubscribeToEvent(const ControlGame &event, const Entity &entity) noexcept;
     void update() override;
     void setEvents(const ControlGame &events) noexcept;
-    std::shared_ptr<std::vector<ControlGame>> getRaisedEvents() noexcept;
     void unsubscribeToAllEvents(const Entity &entity) noexcept;
 private:
     bool checkAvailableEntity(std::size_t entity) const override;
 private:
     CallbackMap _callbacksMap;
     ControlGame _currentEvents;
-    std::queue<ControlGame> _raisedEvents;
 };
 
 #endif //RTYPE_EVENTSYSTEM_HPP

@@ -16,21 +16,21 @@ EnemyEntity::~EnemyEntity()
 {
 }
 
-void EnemyEntity::create(ECS &ecs)
+void EnemyEntity::create(std::shared_ptr<ComponentManager> componentManager, std::shared_ptr<EntityManager> entityManager)
 {
-    _entity = ecs.createEntity();
+    _entity = entityManager->create();
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
 
 
-    ecs.subToComponent(_entity, Rotate{0});
-    ecs.subToComponent(_entity, _pos);
-    ecs.subToComponent(_entity, Tag{{TagType::ENNEMY}});
-    ecs.subToComponent(_entity, Collision{true});
-    ecs.subToComponent(_entity, Color{ColorType::None});
-    ecs.subToComponent(_entity, AI{false, 0, 0, 800, 1920, 1, 1080});
-    ecs.subToComponent(_entity, Rectangle{65, 132});
-    ecs.subToComponent(_entity, Speed{1});
-    ecs.subToComponent(_entity, Acceleration{0, 0});
+    componentManager->subToComponent(_entity, Rotate{0});
+    componentManager->subToComponent(_entity, _pos);
+    componentManager->subToComponent(_entity, Tag{{TagType::ENNEMY}});
+    componentManager->subToComponent(_entity, Collision{true});
+    componentManager->subToComponent(_entity, Color{ColorType::None});
+    componentManager->subToComponent(_entity, AI{false, 0, 0, 800, 1920, 1, 1080});
+    componentManager->subToComponent(_entity, Rectangle{65, 132});
+    componentManager->subToComponent(_entity, Speed{1});
+    componentManager->subToComponent(_entity, Acceleration{0, 0});
 
 
     int randNum = rand()%(3-1 + 1) + 1;
@@ -38,22 +38,22 @@ void EnemyEntity::create(ECS &ecs)
     switch (randNum)
     {
         case 1:
-            ecs.subToComponent(_entity, Texture{TextureType::Enemy});
+            componentManager->subToComponent(_entity, Texture{TextureType::Enemy});
             _textureRect = {0, 0, 65, 184};
-            ecs.subToComponent(_entity, Scale{2, 2});
-            ecs.subToComponent(_entity, SfmlSprite{sprite, _textureRect, 8,0, 0.25});
+            componentManager->subToComponent(_entity, Scale{2, 2});
+            componentManager->subToComponent(_entity, SfmlSprite{sprite, _textureRect, 8,0, 0.25});
             break;
         case 2:
-            ecs.subToComponent(_entity, Texture{TextureType::Enemy2});
+            componentManager->subToComponent(_entity, Texture{TextureType::Enemy2});
             _textureRect = {0, 0, 125, 121};
-            ecs.subToComponent(_entity, Scale{1.5, 1.5});
-            ecs.subToComponent(_entity, SfmlSprite{sprite, _textureRect, 3,0, 0.25});
+            componentManager->subToComponent(_entity, Scale{1.5, 1.5});
+            componentManager->subToComponent(_entity, SfmlSprite{sprite, _textureRect, 3,0, 0.25});
             break;
         default:
-            ecs.subToComponent(_entity, Texture{TextureType::Enemy3});
+            componentManager->subToComponent(_entity, Texture{TextureType::Enemy3});
             _textureRect = {0, 0, 65, 66};
-            ecs.subToComponent(_entity, Scale{2, 2});
-            ecs.subToComponent(_entity, SfmlSprite{sprite, _textureRect, 5,0, 0.25});
+            componentManager->subToComponent(_entity, Scale{2, 2});
+            componentManager->subToComponent(_entity, SfmlSprite{sprite, _textureRect, 5,0, 0.25});
             break;
     }
 

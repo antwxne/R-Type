@@ -9,7 +9,7 @@
 
 #include "ECS/component.hpp"
 
-ASystem::ASystem(std::shared_ptr<ComponentManager> components): _componentManager(std::move(components))
+ASystem::ASystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager): _componentManager(componentsManager), _entityManager(entityManager)
 {
 
 }
