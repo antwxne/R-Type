@@ -14,9 +14,10 @@
 
 class EnemyEntity : public IEntityRegister {
     public:
-        EnemyEntity(const Position &pos);
+        EnemyEntity();
         ~EnemyEntity();
 
+        void setPosition(const Position &pos);
         void create(ECS &ecs);
 
     protected:

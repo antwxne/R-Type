@@ -22,6 +22,8 @@
 #include "../ECS/Entity/BulletEntity.hpp"
 #include "../ECS/System/AISystem.hpp"
 
+#include "../DLLloader/DLLloader.hpp"
+
 enum GameState
 {
     ConnectMenu,
@@ -36,6 +38,7 @@ class RtypeClient {
         RtypeClient();
         ~RtypeClient();
         void start();
+        void loadEnemyLib(const std::string &filename);
         void stop();
 
     private:
@@ -72,6 +75,8 @@ class RtypeClient {
 
         std::shared_ptr<Client> _networkClient;
         std::thread _networkThread;
+
+        std::shared_ptr<DLLloader<IEntityRegister>> _enemyLoader;
 
         ECS _ecs;
 };

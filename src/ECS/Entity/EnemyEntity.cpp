@@ -7,13 +7,18 @@
 
 #include "EnemyEntity.hpp"
 
-EnemyEntity::EnemyEntity(const Position &pos): IEntityRegister()
+EnemyEntity::EnemyEntity(): IEntityRegister()
 {
-    _pos = pos;
+    _pos = Position{0, 0};
 }
 
 EnemyEntity::~EnemyEntity()
 {
+}
+
+void EnemyEntity::setPosition(const Position &pos)
+{
+    _pos = pos;
 }
 
 void EnemyEntity::create(ECS &ecs)
@@ -58,4 +63,9 @@ void EnemyEntity::create(ECS &ecs)
     }
 
     sprite->setTextureRect(_textureRect);
+}
+
+extern "C" std::shared_ptr<IEntityRegister> displayEntrypoint()
+{
+    return std::shared_ptr<IEntityRegister>(new EnemyEntity());
 }

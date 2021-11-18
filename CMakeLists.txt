@@ -120,12 +120,11 @@ set(SHARED_SRC
         src/ECS/System/EventSystem/EventCallback.cpp src/ECS/System/EventSystem/EventCallback.hpp
         src/ECS/Entity/PlayerEntity.hpp
         src/ECS/Entity/PlayerEntity.cpp
-        src/ECS/Entity/EnemyEntity.hpp
-        src/ECS/Entity/EnemyEntity.cpp
         src/ECS/Entity/BulletEntity.cpp
         src/ECS/Entity/BulletEntity.hpp
         src/ECS/Entity/IEntityRegister.cpp
         src/ECS/Entity/IEntityRegister.hpp
+        src/DLLloader/DLLloader.hpp
         )
 
 set (MONSTER_DYNAMIC_LIB

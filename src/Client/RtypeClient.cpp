@@ -19,15 +19,30 @@ RtypeClient::RtypeClient()
     _spriteLogo.setTexture(_textureLogo);
     _menuMusic.openFromFile("assets/music/space_oddity.ogg");
     _gameMusic.openFromFile("assets/music/red-alert.ogg");
+    _enemyLoader = NULL;
     sf::Music _gameMusic;
     _stop = false;
     _state = GameState::Game;
     initMenu();
     registerComponents();
+    loadEnemyLib("build/lib/libmonster.so");
 }
 
 RtypeClient::~RtypeClient()
 {
+}
+
+void RtypeClient::loadEnemyLib(const std::string &filename)
+{
+    std::string str("displayEntrypoint");
+
+    _enemyLoader = std::make_shared<DLLloader<IEntityRegister>>(filename, str);
+    if (_enemyLoader->getInstance() == NULL) {
+        std::cout << "Fuck that !" << std::endl;
+        throw (filename + " is not a monster library!");
+    }
+    else
+        std::cout << "OK LIB (I suppose..)" << std::endl;
 }
 
 void RtypeClient::stop()
@@ -71,19 +86,19 @@ void RtypeClient::registerComponents()
 void RtypeClient::start()
 {
     PlayerEntity _pe({150, 50}, ColorType::None);
-    EnemyEntity _ee({1050, 50});
-    EnemyEntity _ee2({1050, 50});
-    EnemyEntity _ee3({1050, 50});
-    EnemyEntity _ee4({1050, 50});
-    EnemyEntity _ee5({1050, 50});
+    // EnemyEntity _ee({1050, 50});
+    // EnemyEntity _ee2({1050, 50});
+    // EnemyEntity _ee3({1050, 50});
+    // EnemyEntity _ee4({1050, 50});
+    // EnemyEntity _ee5({1050, 50});
     BulletEntity _be({150, 800}, true);
     _pe.create(_ecs);
     _be.create(_ecs);
-    _ee.create(_ecs);
-    _ee2.create(_ecs);
-    _ee3.create(_ecs);
-    _ee4.create(_ecs);
-    _ee5.create(_ecs);
+    // _ee.create(_ecs);
+    // _ee2.create(_ecs);
+    // _ee3.create(_ecs);
+    // _ee4.create(_ecs);
+    // _ee5.create(_ecs);
 
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
