@@ -79,7 +79,6 @@ void RtypeClient::start()
     EnemyEntity _ee5({1050, 50});
     BulletEntity _be({150, 800}, true);
     _pe.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    _be.create(_ecs.getComponentManager(), _ecs.getEntityManager());
     _ee.create(_ecs.getComponentManager(), _ecs.getEntityManager());
     _ee2.create(_ecs.getComponentManager(), _ecs.getEntityManager());
     _ee3.create(_ecs.getComponentManager(), _ecs.getEntityManager());

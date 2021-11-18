@@ -25,7 +25,7 @@ void EventCallback::changeAccelerationUP(std::shared_ptr<ComponentManager> compo
     }
     currentAcceleration.value().x = 0;
     currentAcceleration.value().y = -1;
-    currentSpeed.value().speed = 5;
+    currentSpeed.value().speed = 12;
 }
 
 void EventCallback::changeAccelerationDOWN(
@@ -41,7 +41,7 @@ void EventCallback::changeAccelerationDOWN(
     }
     currentAcceleration.value().x = 0;
     currentAcceleration.value().y = 1;
-    currentSpeed.value().speed = 5;
+    currentSpeed.value().speed = 12;
 }
 
 void EventCallback::changeAccelerationLEFT(
@@ -57,7 +57,7 @@ void EventCallback::changeAccelerationLEFT(
     }
     currentAcceleration.value().x = -1;
     currentAcceleration.value().y = 0;
-    currentSpeed.value().speed = 5;
+    currentSpeed.value().speed = 12;
 }
 
 void EventCallback::changeAccelerationRIGHT(
@@ -73,7 +73,7 @@ void EventCallback::changeAccelerationRIGHT(
     }
     currentAcceleration.value().x = 1;
     currentAcceleration.value().y = 0;
-    currentSpeed.value().speed = 5;
+    currentSpeed.value().speed = 12;
 }
 
 void EventCallback::shoot(

@@ -11,7 +11,7 @@
 #include <SFML/System/Clock.hpp>
 struct Firerate
 {
-    unsigned int delay;
+    float delay;
     sf::Clock clock;
 };
 
