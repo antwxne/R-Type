@@ -27,7 +27,8 @@ public:
         std::vector<RaisedEvent> &raisedEvents)>;
     using CallbackMap = std::unordered_map<ControlGame, std::vector<std::pair<std::size_t, Callback>>>;
 public:
-    EventSystem(std::shared_ptr<ComponentManager> components, std::shared_ptr<EntityManager> entityManager);
+    EventSystem(
+        const std::shared_ptr<ComponentManager> &components, const std::shared_ptr<EntityManager> &entityManager);
     ~EventSystem() = default;
 
     void subscribeToEvent(const ControlGame &event, const Entity &entity,
@@ -39,6 +40,8 @@ public:
     void unsubscribeToAllEvents(const Entity &entity) noexcept;
     const std::vector<RaisedEvent> &getRaisedEvents() const noexcept;
     void clearEvents();
+    void clearRaisedEvents();
+
 
 private:
     bool checkAvailableEntity(std::size_t entity) const override;

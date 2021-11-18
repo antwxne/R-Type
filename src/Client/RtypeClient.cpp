@@ -67,6 +67,7 @@ void RtypeClient::registerComponents()
     _ecs.registerComponent<Rectangle>();
     _ecs.registerComponent<Firerate>();
     _ecs.registerComponent<AI>();
+    _ecs.registerComponent<SfmlSound>();
 }
 
 void RtypeClient::start()
@@ -88,6 +89,7 @@ void RtypeClient::start()
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
     _ecs.registerSystem<AISystem>();
+    _ecs.registerSystem<PlaySoundEvents>();
     draw.setDisplay(_graphical);
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
@@ -118,7 +120,6 @@ void RtypeClient::start()
 void RtypeClient::run()
 {
     auto &eventSystem = _ecs.getSystem<EventSystem>();
-    std::vector<RaisedEvent> raisedEvents;
 
     while (_graphical->getWindow()->isOpen()) {
         while (_graphical->getWindow()->pollEvent(_graphical->getEvent())) {
@@ -135,7 +136,7 @@ void RtypeClient::run()
         _parallax.update();
         _parallax.draw(*_graphical->getWindow());
         manageState();
-        raisedEvents = eventSystem.getRaisedEvents();
+        _raisedEvents = eventSystem.getRaisedEvents();
         manageMusic();
         _graphical->display();
     }
@@ -224,6 +225,8 @@ void RtypeClient::manageState()
     case GameState::Game:
         if (previous_state != _state) {
             _ecs.getSystem<EventSystem>().clearEvents();
+            _ecs.getSystem<EventSystem>().clearRaisedEvents();
+            _raisedEvents.clear();
         }
         manageGame();
         previous_state = _state;
@@ -338,5 +341,7 @@ void RtypeClient::manageGame()
     _ecs.getSystem<AISystem>().update();
     _ecs.getSystem<MoveSystem>().update();
     _ecs.getSystem<SfmlDrawSystem>().update();
-    _ecs.garbageCollector();
+    _ecs.getSystem<PlaySoundEvents>().update();
+
+    _ecs.garbageCollector(std::ref(_raisedEvents));
 }

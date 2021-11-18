@@ -9,8 +9,8 @@
 
 #include "EventSystem.hpp"
 
-EventSystem::EventSystem(std::shared_ptr<ComponentManager> components,
-    std::shared_ptr<EntityManager> entityManager
+EventSystem::EventSystem(const std::shared_ptr<ComponentManager> &components,
+    const std::shared_ptr<EntityManager> &entityManager
 ) : ASystem(components, entityManager), _callbacksMap(), _currentEvents(),
     _raisedEvents()
 {
@@ -98,4 +98,9 @@ const std::vector<RaisedEvent> &EventSystem::getRaisedEvents() const noexcept
 void EventSystem::clearEvents()
 {
     _currentEvents.clear();
+}
+
+void EventSystem::clearRaisedEvents()
+{
+    _raisedEvents.clear();
 }

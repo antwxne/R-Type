@@ -73,6 +73,7 @@ class RtypeClient {
         std::shared_ptr<Client> _networkClient;
         std::thread _networkThread;
         std::vector<ControlGame> _frameEvents;
+        std::vector<RaisedEvent> _raisedEvents;
         ECS _ecs;
 };
 

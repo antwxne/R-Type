@@ -16,6 +16,7 @@
 #include "System/Draw/SfmlDrawSystem.hpp"
 #include "System/MoveSystem.hpp"
 #include "component.hpp"
+#include "Graphical/SfmlEventFactory.hpp"
 
 class ECS {
 public:
@@ -70,7 +71,7 @@ public:
     {
         return _systemManager->getSystem<System>();
     }
-    void garbageCollector();
+    void garbageCollector(std::vector<RaisedEvent> &raisedEvent);
     const std::shared_ptr<EntityManager> &getEntityManager() const;
     const std::shared_ptr<ComponentManager> &getComponentManager() const;
     const std::unique_ptr<SystemManager> &getSystemManager() const;
