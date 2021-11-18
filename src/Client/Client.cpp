@@ -178,6 +178,23 @@ void Client::setPlayerName(const std::string &name)
     _tcpClient.sendMessage(msg);
 }
 
+void Client::startGame(const std::string &name)
+{
+    Message<MessageType> msg;
+    char nameC[GAME_NAME_MAX_LENGHT];
+    
+    if (_tcpClient.isConnected() == false)
+    {
+        std::cout << "You are not connected" << std::endl;
+        return;
+    }
+    std::strcpy(nameC, name.c_str());
+    msg << MessageType::StartGame;
+    msg << nameC;
+
+    _tcpClient.sendMessage(msg);
+}
+
 std::list<std::pair<std::string, char>> &Client::getGameList()
 {
     return _tcpClient.getGames();
@@ -211,4 +228,14 @@ bool Client::isNewPlayerListAvailable()
 bool Client::isInGame()
 {
     return _tcpClient.isInGame();
+}
+
+bool Client::isGameStarting()
+{
+    return _tcpClient.isGameStarting();
+}
+
+int Client::getUdpPort()
+{
+    return _tcpClient.getUdpPort();
 }

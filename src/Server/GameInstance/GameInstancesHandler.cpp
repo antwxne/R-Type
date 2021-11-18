@@ -110,3 +110,16 @@ std::list<std::string> GameInstancesHandler::getPlayersInGame(const std::string 
     }
     return std::list<std::string>();
 }
+
+bool GameInstancesHandler::startGame(const std::string &gameName)
+{
+    for (auto &i : _gamesInstances)
+    {
+        if (i->getName() == gameName)
+        {
+            i->startGame();
+            return true;
+        }
+    }
+    return false;
+}

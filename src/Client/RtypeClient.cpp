@@ -21,7 +21,7 @@ RtypeClient::RtypeClient()
     _gameMusic.openFromFile("assets/music/red-alert.ogg");
     sf::Music _gameMusic;
     _stop = false;
-    _state = GameState::Game;
+    _state = GameState::ConnectMenu;
     initMenu();
     registerComponents();
 }
@@ -321,14 +321,20 @@ void RtypeClient::manageLobbyMenu()
     }
     if (_lobbyMenu.isValided())
     {
+        _lobbyMenu.resetValided();
         if (_lobbyMenu.getSelectedIndex() == 0)
         {
-            _state = GameState::Game;
+            _networkClient->startGame(_currentGameName);
         }
         else
         {
             _networkClient->getPlayersInGame(_currentGameName);
         }
+    }
+    if (_networkClient->isGameStarting())
+    {
+        _state = GameState::Game;
+        std::cout << "Starting with port " << _networkClient->getUdpPort() << "\n";
     }
 }
 

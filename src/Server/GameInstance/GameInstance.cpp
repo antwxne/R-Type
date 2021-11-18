@@ -25,7 +25,6 @@ void GameInstance::run()
     {
         if (_udpGameServer)
             _udpGameServer->run();
-        //std::cout << _name << " Running with " << (int)_nbPlayers << " players\n";
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
@@ -94,12 +93,13 @@ void GameInstance::startGame()
 
     Message<MessageType> startMessage;
 
-    startMessage << MessageType::UdpGetPort;
+    startMessage << MessageType::StartGame;
 
     startMessage << _udpGameServer->getPort();
 
     for (auto &i : _clients)
     {
+        std::cout << "Send start Game\n";
         i->sendMessage(startMessage);
     }
 }

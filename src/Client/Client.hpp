@@ -30,6 +30,7 @@ class Client {
         void leaveGame(const std::string &name);
         void getGames();
         void getPlayersInGame(const std::string &name);
+        void startGame(const std::string &name);
 
         std::list<std::pair<std::string, char>> &getGameList();
         void resetGameList();
@@ -39,6 +40,9 @@ class Client {
         bool isNewPlayerListAvailable();
 
         bool isInGame();
+        bool isGameStarting();
+
+        int getUdpPort();
 
     private:
         void initUdpClient();

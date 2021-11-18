@@ -19,7 +19,7 @@ enum class MessageType : short
     LeaveGame = 3,
     GetGamesList = 4,
     GetPlayersInGame = 5,
-    UdpGetPort = 6,
+    StartGame = 6,
 
     GameRegister = 7,
     GameCommand = 8,
