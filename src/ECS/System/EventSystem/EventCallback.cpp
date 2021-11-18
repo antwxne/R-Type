@@ -106,7 +106,6 @@ void EventCallback::shoot(
         posBullet.y += 20;
     }
     BulletEntity _be(posBullet, isFriend);
-    std::cout << "PAN PAN PAN !" << std::endl;
     _be.create(componentManager, entityManager);
     currentFirerate.value().clock.restart();
 }
