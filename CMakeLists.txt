@@ -1,5 +1,5 @@
 #Cmake version
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.9)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -128,6 +128,12 @@ set(SHARED_SRC
         src/ECS/Entity/IEntityRegister.hpp
         )
 
+set (MONSTER_DYNAMIC_LIB
+    src/ECS/Entity/IEntityRegister.hpp
+    src/ECS/Entity/EnemyEntity.hpp
+    src/ECS/Entity/EnemyEntity.cpp
+)
+
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")
 
@@ -136,6 +142,8 @@ if(NOT UNIT_TESTS STREQUAL TRUE)
     conan_target_link_libraries(${SERVER_NAME} ${CONAN_LIBS})
 
     add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${CLIENT_SRC} ${SHARED_SRC})
+    ADD_LIBRARY(monster SHARED ${MONSTER_DYNAMIC_LIB})
+    install(TARGETS monster DESTINATION lib/${PROJECT_NAME})
     conan_target_link_libraries(${CLIENT_NAME} ${CONAN_LIBS})
 else()
     set(TESTS_NAME unit_tests)
