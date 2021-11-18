@@ -20,6 +20,8 @@ public:
         std::queue<ControlGame> &raisedEvents);
     static void changeAccelerationRIGHT(std::shared_ptr<ComponentManager> componentManager, const std::size_t &entity,
         std::queue<ControlGame> &raisedEvents);
+    static void shoot(std::shared_ptr<ComponentManager> componentManager, const std::size_t &entity,
+        std::queue<ControlGame> &raisedEvents);
 };
 
 #endif //RTYPE_EVENTCALLBACK_HPP
