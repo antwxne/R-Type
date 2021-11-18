@@ -23,17 +23,23 @@ MoveSystem::~MoveSystem()
 
 void MoveSystem::update()
 {
-    for (std::size_t i = 0; i < MAX_ENTITIES; i++) {
-        if (!checkAvailableEntity(i))
+    auto &positions = _componentManager->getComponentsList<Position>();
+    auto &speeds = _componentManager->getComponentsList<Speed>();
+    auto &accelerations = _componentManager->getComponentsList<Acceleration>();
+    const auto &entities = _entityManager->getCurrentEntities();
+    std::size_t id;
+
+    for (const auto &entity : entities) {
+        entity >> id;
+        if (!checkAvailableEntity(id))
             continue;
-        auto &position = _componentManager->getComponent<Position>(i).value();
-        auto &speed = _componentManager->getComponent<Speed>(i).value();
-        auto &acceleration = _componentManager->getComponent<Acceleration>(
-            i).value();
+        auto &position = positions[entity].value();
+        auto &speed = speeds[entity].value();
+        auto &acceleration = accelerations[entity].value();
 
         position.x += acceleration.x * (speed.speed > 0 ? speed.speed : 0);
         position.y += acceleration.y * (speed.speed > 0 ? speed.speed : 0);
-        const auto &tag = _componentManager->getComponent<Tag>(i);
+        const auto &tag = _componentManager->getComponent<Tag>(id);
         if (tag.has_value() && contains<TagType>(tag.value().type, TagType::PLAYER) && !contains<TagType>(tag.value().type, TagType::BULLET)) {
             speed.speed = speed.speed > 0 ? speed.speed - 0.2f : 0;
         }

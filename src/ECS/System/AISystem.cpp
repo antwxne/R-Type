@@ -26,17 +26,23 @@ AISystem::~AISystem()
 
 void AISystem::update()
 {
-    for (std::size_t i = 0; i < MAX_ENTITIES; i++) {
-        if (!checkAvailableEntity(i))
+    auto &tags = _componentManager->getComponentsList<Tag>();
+    auto &ais = _componentManager->getComponentsList<AI>();
+    const auto &entities = _entityManager->getCurrentEntities();
+    std::size_t id;
+
+    for (const auto &entity : entities) {
+        entity >> id;
+        if (!checkAvailableEntity(id))
             continue;
-        Tag &tag = _componentManager->getComponent<Tag>(i).value();
-        AI &ai = _componentManager->getComponent<AI>(i).value();
+        Tag &tag = tags[entity].value();
+        AI &ai = ais[entity].value();
         if (contains(tag.type, TagType::ENNEMY) && !contains(tag.type, TagType::BULLET)) {
             if (!ai.isDestination) {
-                setDestination(i);
+                setDestination(id);
             }
             else {
-                setPath(i);
+                setPath(id);
             }
         }
     }
