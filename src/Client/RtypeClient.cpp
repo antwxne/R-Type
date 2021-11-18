@@ -34,7 +34,7 @@ RtypeClient::~RtypeClient()
 
 void RtypeClient::loadEnemyLib(const std::string &filename)
 {
-    std::string str("displayEntrypoint");
+    std::string str("EnemyEntrypoint");
 
     _enemyLoader = std::make_shared<DLLloader<IEntityRegister>>(filename, str);
     if (_enemyLoader->getInstance() == NULL) {
@@ -80,6 +80,7 @@ void RtypeClient::registerComponents()
     _ecs.registerComponent<Tag>();
     _ecs.registerComponent<Life>();
     _ecs.registerComponent<Rectangle>();
+    _ecs.registerComponent<Firerate>();
     _ecs.registerComponent<AI>();
 }
 
@@ -92,20 +93,17 @@ void RtypeClient::start()
     // EnemyEntity _ee4({1050, 50});
     // EnemyEntity _ee5({1050, 50});
     BulletEntity _be({150, 800}, true);
-    _pe.create(_ecs);
-    _be.create(_ecs);
-    // _ee.create(_ecs);
-    // _ee2.create(_ecs);
-    // _ee3.create(_ecs);
-    // _ee4.create(_ecs);
-    // _ee5.create(_ecs);
+    _pe.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    // _ee.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    // _ee2.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    // _ee3.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    // _ee4.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    // _ee5.create(_ecs.getComponentManager(), _ecs.getEntityManager());
 
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
     _ecs.registerSystem<AISystem>();
     draw.setDisplay(_graphical);
-//    Entity player = _ecs.createEntity();
-
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
     // BIND une fonction statique a un evenement
@@ -113,6 +111,7 @@ void RtypeClient::start()
     evtManager.subscribeToEvent(ControlGame::UP, _pe.getEntity(), std::bind(EventCallback::changeAccelerationUP, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     evtManager.subscribeToEvent(ControlGame::DOWN, _pe.getEntity(), std::bind(EventCallback::changeAccelerationDOWN, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     evtManager.subscribeToEvent(ControlGame::LEFT, _pe.getEntity(), std::bind(EventCallback::changeAccelerationLEFT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    evtManager.subscribeToEvent(ControlGame::SPACE, _pe.getEntity(), std::bind(EventCallback::shoot, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
     run();
 }

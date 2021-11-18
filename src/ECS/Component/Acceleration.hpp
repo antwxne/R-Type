@@ -17,8 +17,8 @@ y: 1 UP y: -1 DOWN 0 NONE
 
 struct Acceleration
 {
-    int x;
-    int y;
+    float x;
+    float y;
 };
 
 #endif /* !ACCELERATION_HPP_ */

@@ -18,32 +18,32 @@ BulletEntity::~BulletEntity()
 {
 }
 
-void BulletEntity::create(ECS &ecs)
+void BulletEntity::create(std::shared_ptr<ComponentManager> componentManager, std::shared_ptr<EntityManager> entityManager)
 {
-    _entity = ecs.createEntity();
+    _entity = entityManager->create();
 
     _rect = {0, 0, 110, 25};
 
     if (_isBulletFriend) {
-        ecs.subToComponent(_entity, Rotate{0});
-        ecs.subToComponent(_entity, Acceleration{1, 0});
-        ecs.subToComponent(_entity, Tag{{TagType::PLAYER, TagType::BULLET}});
+        componentManager->subToComponent(_entity, Rotate{0});
+        componentManager->subToComponent(_entity, Acceleration{1, 0});
+        componentManager->subToComponent(_entity, Tag{{TagType::PLAYER, TagType::BULLET}});
     } else {
-        ecs.subToComponent(_entity, Rotate{180});
-        ecs.subToComponent(_entity, Acceleration{-1, 0});
-        ecs.subToComponent(_entity, Tag{{TagType::ENNEMY, TagType::BULLET}});
+        componentManager->subToComponent(_entity, Rotate{180});
+        componentManager->subToComponent(_entity, Acceleration{-1, 0});
+        componentManager->subToComponent(_entity, Tag{{TagType::ENNEMY, TagType::BULLET}});
     }
-    ecs.subToComponent(_entity, _pos);
-    ecs.subToComponent(_entity, Texture{TextureType::Bullet});
-    ecs.subToComponent(_entity, Color{ColorType::None});
-    ecs.subToComponent(_entity, Scale{1.5, 1.5});
+    componentManager->subToComponent(_entity, _pos);
+    componentManager->subToComponent(_entity, Texture{TextureType::Bullet});
+    componentManager->subToComponent(_entity, Color{ColorType::Red});
+    componentManager->subToComponent(_entity, Scale{1.5, 1.5});
 
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
 
     sprite->setTextureRect(_rect);
 
-    ecs.subToComponent(_entity, SfmlSprite{sprite, _rect, 0, 0, 0});
-    ecs.subToComponent(_entity, Speed{10});
-    ecs.subToComponent(_entity, Collision{true});
-    ecs.subToComponent(_entity, Rectangle{_rect.width, _rect.height});
+    componentManager->subToComponent(_entity, SfmlSprite{sprite, _rect, 0, 0, 0});
+    componentManager->subToComponent(_entity, Speed{10});
+    componentManager->subToComponent(_entity, Collision{true});
+    componentManager->subToComponent(_entity, Rectangle{_rect.width, _rect.height});
 }

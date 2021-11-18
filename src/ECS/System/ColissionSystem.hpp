@@ -12,7 +12,8 @@
 
 class ColissionSystem : public ASystem {
 public:
-    ColissionSystem(std::shared_ptr<ComponentManager> &components);
+    ColissionSystem(
+        const std::shared_ptr<ComponentManager> &components, const std::shared_ptr<EntityManager> &entityManager);
     ~ColissionSystem();
     void update() override;
 protected:

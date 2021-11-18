@@ -63,7 +63,7 @@ public:
     template<typename System>
     System &registerSystem()
     {
-        return _systemManager->registerSystem<System>(_componentManager);
+        return _systemManager->registerSystem<System>();
     }
     template<typename System>
     System &getSystem()
@@ -71,13 +71,18 @@ public:
         return _systemManager->getSystem<System>();
     }
     void garbageCollector();
+    const std::shared_ptr<EntityManager> &getEntityManager() const;
+    const std::shared_ptr<ComponentManager> &getComponentManager() const;
+    const std::unique_ptr<SystemManager> &getSystemManager() const;
+
 
 private:
     bool isAlive(const std::optional<Life> &lifeComponent) const;
     bool isInScreen(
         const std::optional<Position> &position, const std::optional<Rectangle> &hitbox,const std::optional<Tag> &bullet) const;
+
 private:
-    std::unique_ptr<EntityManager> _entityManager;
+    std::shared_ptr<EntityManager> _entityManager;
     std::shared_ptr<ComponentManager> _componentManager;
     std::unique_ptr<SystemManager> _systemManager;
 };

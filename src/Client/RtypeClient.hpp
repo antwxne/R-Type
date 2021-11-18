@@ -20,7 +20,7 @@
 #include "../ECS/Entity/PlayerEntity.hpp"
 #include "../ECS/Entity/EnemyEntity.hpp"
 #include "../ECS/Entity/BulletEntity.hpp"
-#include "../ECS/System/AISystem.hpp"
+#include "../ECS/system.hpp"
 
 #include "../DLLloader/DLLloader.hpp"
 

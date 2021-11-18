@@ -6,12 +6,13 @@
 */
 
 #include <utility>
-#include <exception>
 
 #include "EventSystem.hpp"
 
-EventSystem::EventSystem(std::shared_ptr<ComponentManager> components
-) : ASystem(components), _callbacksMap(), _currentEvents(ControlGame::NONE), _raisedEvents()
+EventSystem::EventSystem(std::shared_ptr<ComponentManager> components,
+    std::shared_ptr<EntityManager> entityManager
+) : ASystem(components, entityManager), _callbacksMap(),
+    _currentEvents(ControlGame::NONE)
 {
 }
 
@@ -55,7 +56,7 @@ void EventSystem::update()
     try {
         for (const auto &callBackVector: _callbacksMap.at(_currentEvents)) {
             callBackVector.second(_componentManager, callBackVector.first,
-                std::ref(_raisedEvents));
+                _entityManager);
         }
     } catch (const std::out_of_range &error) {
         std::cerr << error.what() << std::endl;
@@ -66,17 +67,6 @@ void EventSystem::update()
 void EventSystem::setEvents(const ControlGame &event) noexcept
 {
     _currentEvents = event;
-}
-
-std::shared_ptr<std::vector<ControlGame>> EventSystem::getRaisedEvents() noexcept
-{
-    std::shared_ptr<std::vector<ControlGame>> dest = std::make_shared<std::vector<ControlGame>>();
-
-    while (!_raisedEvents.empty()) {
-        dest->push_back(_raisedEvents.front());
-        _raisedEvents.pop();
-    }
-    return dest;
 }
 
 void EventSystem::unsubscribeToAllEvents(const Entity &entity) noexcept

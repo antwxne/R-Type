@@ -12,7 +12,7 @@
 
 class AudioSystem : public ASystem {
     public:
-        AudioSystem(std::shared_ptr<ComponentManager> &components);
+        AudioSystem(const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager);
         ~AudioSystem();
         virtual void update() = 0;
         virtual void play(const std::size_t &entity) = 0;

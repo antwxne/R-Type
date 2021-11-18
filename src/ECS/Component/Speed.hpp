@@ -10,7 +10,7 @@
 
 struct Speed
 {
-    unsigned int speed;
+    float speed;
 };
 
 

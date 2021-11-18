@@ -15,7 +15,8 @@
 #include <cmath>
 #include <cstdlib>
 
-AISystem::AISystem(std::shared_ptr<ComponentManager> &components) : ASystem(components)
+AISystem::AISystem(
+    const std::shared_ptr<ComponentManager> &components, const std::shared_ptr<EntityManager> &entityManager) : ASystem(components, entityManager)
 {
 }
 

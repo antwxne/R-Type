@@ -19,11 +19,13 @@ class EnemyEntity : public IEntityRegister {
 
         void setPosition(const Position &pos);
         void create(ECS &ecs);
-
-    protected:
-    private:
-        Position _pos;
-        sf::IntRect _textureRect;
+        void create(std::shared_ptr<ComponentManager> componentManager,
+            std::shared_ptr<EntityManager> entityManager
+        ) override;
+protected:
+private:
+    Position _pos;
+    sf::IntRect _textureRect;
 };
 
 #endif /* !ENEMYENTITY_HPP_ */
