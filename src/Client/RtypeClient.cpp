@@ -25,7 +25,7 @@ RtypeClient::RtypeClient()
     _state = GameState::Game;
     initMenu();
     registerComponents();
-    loadEnemyLib("build/lib/libmonsterEnemyLib.so");
+    loadEnemyLib("build/lib/libThirdMonsterEntity.so");
 }
 
 RtypeClient::~RtypeClient()
@@ -36,12 +36,10 @@ void RtypeClient::loadEnemyLib(const std::string &filename)
 {
     std::string str("EnemyEntityEntrypoint");
 
-    std::cout << "On cherche..." << std::endl;
     _enemyLoader = std::make_shared<DLLloader<IEntityRegister>>(filename, str);
     std::cout << "Fin des recherches" << std::endl;
     if (_enemyLoader->getInstance() == NULL) {
-        fprintf(stderr, "%s\n", dlerror());
-        std::cout << "Fuck that !" << std::endl;
+        std::cout << "Error !" << std::endl;
     }
     else
         std::cout << "OK LIB (I suppose..)" << std::endl;
@@ -90,24 +88,12 @@ void RtypeClient::start()
 {
     PlayerEntity _pe({150, 50}, ColorType::None);
     _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _enemyLoader->getInstance()->setPosition(Position{1500, 500});
     _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _enemyLoader->getInstance()->setPosition(Position{500, 200});
     _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
 
-    // EnemyEntity _ee({1050, 50});
-    // EnemyEntity _ee2({1050, 50});
-    // EnemyEntity _ee3({1050, 50});
-    // EnemyEntity _ee4({1050, 50});
-    // EnemyEntity _ee5({1050, 50});
-    BulletEntity _be({150, 800}, true);
     _pe.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    // _ee.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    // _ee2.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    // _ee3.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    // _ee4.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    // _ee5.create(_ecs.getComponentManager(), _ecs.getEntityManager());
 
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();

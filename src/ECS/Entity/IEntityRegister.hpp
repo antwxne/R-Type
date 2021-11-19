@@ -18,8 +18,10 @@ public:
     ~IEntityRegister() = default;
     virtual void create(std::shared_ptr<ComponentManager> componentManager, std::shared_ptr<EntityManager> entityManager) = 0;
     const Entity &getEntity() const;
+    void setPosition(const Position &pos);
 
 protected:
+    Position _pos;
     Entity _entity;
 };
 

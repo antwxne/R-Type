@@ -14,7 +14,10 @@ set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall -Wextra -g -ggdb -g3")
 #Bin name
 set(SERVER_NAME r-type_server)
 set(CLIENT_NAME r-type_client)
-set(LIB_ENEMY_NAME monsterEnemyLib)
+
+set(LIB_FIRST_ENEMY FirstMonsterEntity)
+set(LIB_SECOND_ENEMY SecondMonsterEntity)
+set(LIB_THIRD_ENEMY ThirdMonsterEntity)
 
 
 #Truc conan
@@ -129,11 +132,9 @@ set(SHARED_SRC
         src/DLLloader/DLLloader.hpp
         )
 
-set (MONSTER_DYNAMIC_LIB
+set (MONSTER_LIB_SHARED_SRC
     src/ECS/Entity/IEntityRegister.hpp
     src/ECS/Entity/IEntityRegister.cpp
-    src/ECS/Entity/EnemyEntity.hpp
-    src/ECS/Entity/EnemyEntity.cpp
     src/ECS/Entity/Entity.cpp
     src/ECS/Entity/Entity.hpp
     src/ECS/Entity/EntityManager.cpp
@@ -158,10 +159,24 @@ if(NOT UNIT_TESTS STREQUAL TRUE)
 
     add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${CLIENT_SRC} ${SHARED_SRC})
     conan_target_link_libraries(${CLIENT_NAME} ${CONAN_LIBS})
-    
-    ADD_LIBRARY(${LIB_ENEMY_NAME} SHARED ${MONSTER_DYNAMIC_LIB})
-    install(TARGETS ${LIB_ENEMY_NAME} DESTINATION lib/${PROJECT_NAME})
-    conan_target_link_libraries(${LIB_ENEMY_NAME} ${CONAN_LIBS})
+
+    #FirstMonsterEntityLib
+    ADD_LIBRARY(${LIB_FIRST_ENEMY} SHARED ${MONSTER_LIB_SHARED_SRC}
+    src/ECS/Entity/monster/FirstMonsterEntity.hpp
+    src/ECS/Entity/monster/FirstMonsterEntity.cpp)
+    install(TARGETS ${LIB_FIRST_ENEMY} DESTINATION lib/${PROJECT_NAME})
+
+    #SecondMonsterEntityLib
+    ADD_LIBRARY(${LIB_SECOND_ENEMY} SHARED ${MONSTER_LIB_SHARED_SRC}
+    src/ECS/Entity/monster/SecondMonsterEntity.hpp
+    src/ECS/Entity/monster/SecondMonsterEntity.cpp)
+    install(TARGETS ${LIB_SECOND_NAME} DESTINATION lib/${PROJECT_NAME})
+
+    #ThirdMonsterEntityLib
+    ADD_LIBRARY(${LIB_THIRD_ENEMY} SHARED ${MONSTER_LIB_SHARED_SRC}
+    src/ECS/Entity/monster/ThirdMonsterEntity.hpp
+    src/ECS/Entity/monster/ThirdMonsterEntity.cpp)
+    install(TARGETS ${LIB_THIRD_ENEMY} DESTINATION lib/${PROJECT_NAME})
 
 else()
     set(TESTS_NAME unit_tests)
