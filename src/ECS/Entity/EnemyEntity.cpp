@@ -9,6 +9,7 @@
 
 EnemyEntity::EnemyEntity(): IEntityRegister()
 {
+    std::cout << "VICTOIRE" << std::endl;
     _pos = Position{0, 0};
 }
 
@@ -65,7 +66,7 @@ void EnemyEntity::create(std::shared_ptr<ComponentManager> componentManager, std
     sprite->setTextureRect(_textureRect);
 }
 
-extern "C" std::shared_ptr<IEntityRegister> EnemyEntrypoint()
+extern "C" std::shared_ptr<IEntityRegister> EnemyEntityEntrypoint()
 {
     return std::shared_ptr<IEntityRegister>(new EnemyEntity());
 }

@@ -8,7 +8,8 @@
 #ifndef ENEMYENTITY_HPP_
 #define ENEMYENTITY_HPP_
 
-#include "../ECS.hpp"
+#include "../component.hpp"
+#include "../Component/ComponentManager.hpp"
 #include "EntityManager.hpp"
 #include "IEntityRegister.hpp"
 
@@ -18,7 +19,6 @@ class EnemyEntity : public IEntityRegister {
         ~EnemyEntity();
 
         void setPosition(const Position &pos);
-        void create(ECS &ecs);
         void create(std::shared_ptr<ComponentManager> componentManager,
             std::shared_ptr<EntityManager> entityManager
         ) override;

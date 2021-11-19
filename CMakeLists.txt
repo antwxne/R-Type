@@ -14,6 +14,8 @@ set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall -Wextra -g -ggdb -g3")
 #Bin name
 set(SERVER_NAME r-type_server)
 set(CLIENT_NAME r-type_client)
+set(LIB_ENEMY_NAME monsterEnemyLib)
+
 
 #Truc conan
 include(${CMAKE_SOURCE_DIR}/build/conanbuildinfo.cmake)
@@ -27,7 +29,7 @@ include_directories(include/Network)
 
 #Sources
 
-set(CLIENT_MAIN src/Client/main.cpp src/ECS/Entity/IEntityRegister.cpp)
+set(CLIENT_MAIN src/Client/main.cpp)
 set(SERVER_MAIN src/Server/main.cpp)
 set(CLIENT_SRC
             src/Client/RtypeClient.cpp
@@ -122,15 +124,29 @@ set(SHARED_SRC
         src/ECS/Entity/PlayerEntity.cpp
         src/ECS/Entity/BulletEntity.cpp
         src/ECS/Entity/BulletEntity.hpp
-        src/ECS/Entity/IEntityRegister.cpp
         src/ECS/Entity/IEntityRegister.hpp
+        src/ECS/Entity/IEntityRegister.cpp
         src/DLLloader/DLLloader.hpp
         )
 
 set (MONSTER_DYNAMIC_LIB
     src/ECS/Entity/IEntityRegister.hpp
+    src/ECS/Entity/IEntityRegister.cpp
     src/ECS/Entity/EnemyEntity.hpp
     src/ECS/Entity/EnemyEntity.cpp
+    src/ECS/Entity/Entity.cpp
+    src/ECS/Entity/Entity.hpp
+    src/ECS/Entity/EntityManager.cpp
+    src/ECS/Entity/EntityManager.hpp
+    src/SparseArray/SparseArray.hpp
+    src/ECS/Entity/EntityException.cpp
+    src/ECS/Entity/EntityException.hpp
+    src/ECS/Component/ComponentException.hpp
+    src/ECS/System/SystemManager.cpp
+    src/ECS/System/SystemManager.hpp
+    src/ECS/Component/ComponentManager.hpp
+    src/ECS/ECS.cpp
+    src/ECS/ECS.hpp
 )
 
 #Compilation
@@ -141,9 +157,12 @@ if(NOT UNIT_TESTS STREQUAL TRUE)
     conan_target_link_libraries(${SERVER_NAME} ${CONAN_LIBS})
 
     add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${CLIENT_SRC} ${SHARED_SRC})
-    ADD_LIBRARY(monster SHARED ${MONSTER_DYNAMIC_LIB})
-    install(TARGETS monster DESTINATION lib/${PROJECT_NAME})
     conan_target_link_libraries(${CLIENT_NAME} ${CONAN_LIBS})
+    
+    ADD_LIBRARY(${LIB_ENEMY_NAME} SHARED ${MONSTER_DYNAMIC_LIB})
+    install(TARGETS ${LIB_ENEMY_NAME} DESTINATION lib/${PROJECT_NAME})
+    conan_target_link_libraries(${LIB_ENEMY_NAME} ${CONAN_LIBS})
+
 else()
     set(TESTS_NAME unit_tests)
     set(TESTS_SRC ${CLIENT_SRC} ${SERVER_SRC} ${SHARED_SRC})

@@ -25,7 +25,7 @@ RtypeClient::RtypeClient()
     _state = GameState::Game;
     initMenu();
     registerComponents();
-    loadEnemyLib("build/lib/libmonster.so");
+    loadEnemyLib("build/lib/libmonsterEnemyLib.so");
 }
 
 RtypeClient::~RtypeClient()
@@ -34,12 +34,14 @@ RtypeClient::~RtypeClient()
 
 void RtypeClient::loadEnemyLib(const std::string &filename)
 {
-    std::string str("EnemyEntrypoint");
+    std::string str("EnemyEntityEntrypoint");
 
+    std::cout << "On cherche..." << std::endl;
     _enemyLoader = std::make_shared<DLLloader<IEntityRegister>>(filename, str);
+    std::cout << "Fin des recherches" << std::endl;
     if (_enemyLoader->getInstance() == NULL) {
+        fprintf(stderr, "%s\n", dlerror());
         std::cout << "Fuck that !" << std::endl;
-        throw (filename + " is not a monster library!");
     }
     else
         std::cout << "OK LIB (I suppose..)" << std::endl;
@@ -87,6 +89,13 @@ void RtypeClient::registerComponents()
 void RtypeClient::start()
 {
     PlayerEntity _pe({150, 50}, ColorType::None);
+    _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
+
     // EnemyEntity _ee({1050, 50});
     // EnemyEntity _ee2({1050, 50});
     // EnemyEntity _ee3({1050, 50});

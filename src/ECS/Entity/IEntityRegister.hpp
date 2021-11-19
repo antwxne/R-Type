@@ -8,7 +8,9 @@
 #ifndef IENTITYREGISTER_HPP_
 #define IENTITYREGISTER_HPP_
 
-#include "ECS/ECS.hpp"
+#include "../component.hpp"
+#include "../Component/ComponentManager.hpp"
+#include "EntityManager.hpp"
 
 class IEntityRegister {
 public:
