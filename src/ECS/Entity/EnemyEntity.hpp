@@ -17,8 +17,8 @@ public:
     EnemyEntity(const Position &pos);
     ~EnemyEntity();
 
-    void create(std::shared_ptr<ComponentManager> componentManager,
-        std::shared_ptr<EntityManager> entityManager
+    void create(const std::shared_ptr<ComponentManager> &componentManager,
+        const std::shared_ptr<EntityManager> &entityManager
     )
     override;
 

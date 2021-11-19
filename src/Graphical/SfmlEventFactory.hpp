@@ -40,6 +40,7 @@ enum ControlGame {
     ESCAPE,
     ENTER,
     DELETE,
+    D,
     NONE,
 };
 

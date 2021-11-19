@@ -17,7 +17,7 @@ class BulletEntity : public IEntityRegister {
         BulletEntity(const Position &pos, const bool isBulletFriend);
         ~BulletEntity();
 
-        void create(std::shared_ptr<ComponentManager> componentManager, std::shared_ptr<EntityManager> entityManager) override;
+        void create(const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager) override;
 
     protected:
     private:

@@ -24,9 +24,8 @@ ECS::ECS()
 
 void ECS::destroyEntity(const Entity &entity)
 {
-    std::cout << "avant destroyEntity size == " << _entityManager->getCurrentEntities().size() << std::endl;
     _entityManager->destroy(entity);
-    std::cout << "apres destroyEntity size == " << _entityManager->getCurrentEntities().size() << std::endl;
+    std::cout << "destroyEntity  == " << entity << std::endl;
 
 }
 
@@ -36,7 +35,9 @@ void ECS::garbageCollector(std::vector<RaisedEvent> &raisedEvent)
         const auto &lifes = _componentManager->getComponentsList<Life>();
         const auto &positions = _componentManager->getComponentsList<Position>();
         const auto &hitboxes = _componentManager->getComponentsList<Rectangle>();
-        const auto &bullets = _componentManager->getComponentsList<Tag>();
+        const auto &tags = _componentManager->getComponentsList<Tag>();
+        const auto &sounds = _componentManager->getComponentsList<SfmlSound>();
+
         std::size_t idx;
         const auto &currentEntities = _entityManager->getCurrentEntities();
 
@@ -46,7 +47,7 @@ void ECS::garbageCollector(std::vector<RaisedEvent> &raisedEvent)
                 raisedEvent.push_back(RaisedEvent::PLAYER_DIED);
                 destroyEntity(idx);
             }
-            if (!isInScreen(positions[idx], hitboxes[idx], bullets[idx])) {
+            if (!isInScreen(positions[idx], hitboxes[idx], tags[idx])) {
                 destroyEntity(idx);
             }
         }
@@ -100,4 +101,29 @@ const std::shared_ptr<ComponentManager> &ECS::getComponentManager() const
 const std::unique_ptr<SystemManager> &ECS::getSystemManager() const
 {
     return _systemManager;
+}
+
+bool ECS::isADeadSound(const std::optional<Tag> &tag,
+    const std::optional<SfmlSound> &sound
+)
+{
+    const std::vector<TagType> types = {TagType::PLAYER, TagType::BULLET,
+        TagType::ENNEMY};
+
+    if (!tag.has_value() || !sound.has_value()) {
+        return false;
+    }
+    for (const auto &type: types) {
+        if (contains<TagType>(tag.value().type, type)) {
+            std::cout << "2" << std::endl;
+            return false;
+        }
+    }
+    if (contains<TagType>(tag.value().type, TagType::SOUND) &&
+        !sound.value().play) {
+        std::cout << "3" << std::endl;
+        return false;
+    }
+
+    return false;
 }

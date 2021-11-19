@@ -21,27 +21,29 @@
 class EventSystem : public ASystem {
 public:
     using Callback = std::function<void(
-        std::shared_ptr<ComponentManager>,
-        const std::size_t &,
-        std::shared_ptr<EntityManager> entityManager,
-        std::vector<RaisedEvent> &raisedEvents)>;
+        const std::shared_ptr<ComponentManager> &componentManager,
+        const std::size_t &entity,
+        const std::shared_ptr<EntityManager> &entityManager,
+        std::vector<RaisedEvent> &raisedEvents
+    )>;
     using CallbackMap = std::unordered_map<ControlGame, std::vector<std::pair<std::size_t, Callback>>>;
 public:
-    EventSystem(
-        const std::shared_ptr<ComponentManager> &components, const std::shared_ptr<EntityManager> &entityManager);
+    EventSystem(const std::shared_ptr<ComponentManager> &components,
+        const std::shared_ptr<EntityManager> &entityManager
+    );
     ~EventSystem() = default;
 
     void subscribeToEvent(const ControlGame &event, const Entity &entity,
-         const Callback &callback
+        const Callback &callback
     ) noexcept;
-    void unsubscribeToEvent(const ControlGame &event, const Entity &entity) noexcept;
+    void unsubscribeToEvent(const ControlGame &event, const Entity &entity
+    ) noexcept;
     void update() override;
     void setEvents(std::vector<ControlGame> &events) noexcept;
     void unsubscribeToAllEvents(const Entity &entity) noexcept;
     const std::vector<RaisedEvent> &getRaisedEvents() const noexcept;
     void clearEvents();
     void clearRaisedEvents();
-
 
 private:
     bool checkAvailableEntity(std::size_t entity) const override;

@@ -101,6 +101,7 @@ void RtypeClient::start()
     evtManager.subscribeToEvent(ControlGame::DOWN, _pe.getEntity(), std::bind(EventCallback::changeAccelerationDOWN, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
     evtManager.subscribeToEvent(ControlGame::LEFT, _pe.getEntity(), std::bind(EventCallback::changeAccelerationLEFT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
     evtManager.subscribeToEvent(ControlGame::SPACE, _pe.getEntity(), std::bind(EventCallback::shoot, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
+//    evtManager.subscribeToEvent(ControlGame::D, _pe.getEntity(), std::bind(EventCallback::explosionSound, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
 
     run();
 }
@@ -134,8 +135,8 @@ void RtypeClient::run()
 void RtypeClient::manageMusic()
 {
     if (_state == GameState::Game) {
-        if (_gameMusic.getStatus() != sf::Music::Playing)
-            _gameMusic.play();
+//        if (_gameMusic.getStatus() != sf::Music::Playing)
+//            _gameMusic.play();
         if (_menuMusic.getStatus() == sf::Music::Playing)
             _menuMusic.stop();
     } else {

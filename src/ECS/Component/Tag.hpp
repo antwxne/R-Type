@@ -23,6 +23,7 @@ enum TagType {
     ENNEMY,
     PLAYER,
     POWERUP,
+    SOUND
 };
 #endif
 

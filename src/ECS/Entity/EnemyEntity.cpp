@@ -16,7 +16,8 @@ EnemyEntity::~EnemyEntity()
 {
 }
 
-void EnemyEntity::create(std::shared_ptr<ComponentManager> componentManager, std::shared_ptr<EntityManager> entityManager)
+void EnemyEntity::create(
+    const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager)
 {
     _entity = entityManager->create();
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();

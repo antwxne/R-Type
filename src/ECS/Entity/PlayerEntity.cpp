@@ -18,7 +18,8 @@ PlayerEntity::~PlayerEntity()
 {
 }
 
-void PlayerEntity::create(std::shared_ptr<ComponentManager> componentManager, std::shared_ptr<EntityManager> entityManager)
+void PlayerEntity::create(
+    const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager)
 {
     _entity = entityManager->create();
 

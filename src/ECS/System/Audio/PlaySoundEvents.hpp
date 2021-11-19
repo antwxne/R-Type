@@ -10,7 +10,7 @@
 
 #include "ECS/System/ASystem.hpp"
 
-class PlaySoundEvents: ASystem {
+class PlaySoundEvents: public ASystem {
 public:
     PlaySoundEvents(const std::shared_ptr<ComponentManager> &components, const std::shared_ptr<EntityManager> &entityManager);
 

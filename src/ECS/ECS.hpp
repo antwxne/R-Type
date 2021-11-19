@@ -81,7 +81,9 @@ private:
     bool isAlive(const std::optional<Life> &lifeComponent) const;
     bool isInScreen(
         const std::optional<Position> &position, const std::optional<Rectangle> &hitbox,const std::optional<Tag> &bullet) const;
-
+    bool isADeadSound(const std::optional<Tag> &tag,
+        const std::optional<SfmlSound> &sound
+    );
 private:
     std::shared_ptr<EntityManager> _entityManager;
     std::shared_ptr<ComponentManager> _componentManager;

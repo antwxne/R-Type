@@ -11,10 +11,10 @@
 #include "ECS/Entity/BulletEntity.hpp"
 #include "ECS/Component/Tag.hpp"
 #include "utils.hpp"
+#include "ECS/Entity/SoundEntity.hpp"
 
-void EventCallback::changeAccelerationUP(
-    std::shared_ptr<ComponentManager> componentManager,
-    const std::size_t &entity, std::shared_ptr<EntityManager> entityManager,
+void EventCallback::changeAccelerationUP(const std::shared_ptr<ComponentManager> &componentManager,
+    const std::size_t &entity, const std::shared_ptr<EntityManager> &entityManager,
     std::vector<RaisedEvent> &raisedEvents
 )
 {
@@ -31,8 +31,8 @@ void EventCallback::changeAccelerationUP(
 }
 
 void EventCallback::changeAccelerationDOWN(
-    std::shared_ptr<ComponentManager> componentManager,
-    const std::size_t &entity, std::shared_ptr<EntityManager> entityManager,
+    const std::shared_ptr<ComponentManager> &componentManager,
+    const std::size_t &entity, const std::shared_ptr<EntityManager> &entityManager,
     std::vector<RaisedEvent> &raisedEvents
 )
 {
@@ -49,9 +49,9 @@ void EventCallback::changeAccelerationDOWN(
 }
 
 void EventCallback::changeAccelerationLEFT(
-    std::shared_ptr<ComponentManager> componentManager,
-    const std::size_t &entity, std::shared_ptr<EntityManager> entityManager,
-    std::vector<RaisedEvent> &raisedEvents
+    const std::shared_ptr<ComponentManager> &componentManager,
+    const std::size_t &entity, const std::shared_ptr<EntityManager> &entityManager,
+    std::vector<RaisedEvent> &raisedEventss
 )
 {
     auto &currentAcceleration = componentManager->getComponent<Acceleration>(
@@ -67,8 +67,8 @@ void EventCallback::changeAccelerationLEFT(
 }
 
 void EventCallback::changeAccelerationRIGHT(
-    std::shared_ptr<ComponentManager> componentManager,
-    const std::size_t &entity, std::shared_ptr<EntityManager> entityManager,
+    const std::shared_ptr<ComponentManager> &componentManager,
+    const std::size_t &entity, const std::shared_ptr<EntityManager> &entityManager,
     std::vector<RaisedEvent> &raisedEvents
 )
 {
@@ -84,8 +84,8 @@ void EventCallback::changeAccelerationRIGHT(
     currentSpeed.value().speed = 12;
 }
 
-void EventCallback::shoot(std::shared_ptr<ComponentManager> componentManager,
-    const std::size_t &entity, std::shared_ptr<EntityManager> entityManager,
+void EventCallback::shoot( const std::shared_ptr<ComponentManager> &componentManager,
+    const std::size_t &entity, const std::shared_ptr<EntityManager> &entityManager,
     std::vector<RaisedEvent> &raisedEvents
 )
 {
@@ -117,5 +117,23 @@ void EventCallback::shoot(std::shared_ptr<ComponentManager> componentManager,
     _be.create(componentManager, entityManager);
     currentFirerate.value().clock.restart();
     raisedEvents.emplace_back(RaisedEvent::SHOT);
+
+}
+
+
+void EventCallback::explosionSound(
+    const std::shared_ptr<ComponentManager> &componentManager,
+    const std::size_t &entity, const std::shared_ptr<EntityManager> &entityManager,
+    std::vector<RaisedEvent> &raisedEvents
+)
+{
+    std::cout << "EXPLOSION" << std::endl;
+    std::cout << "nb entites avant == " << entityManager->getCurrentEntities().size() << std::endl;
+
+
+    SoundEntity newEntity("./assets/sound/explosion.ogg");
+
+    newEntity.create(componentManager, entityManager);
+    std::cout << "nb entites apres == " << entityManager->getCurrentEntities().size() << std::endl;
 
 }

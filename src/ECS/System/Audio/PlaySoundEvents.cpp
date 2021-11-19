@@ -24,6 +24,7 @@ void PlaySoundEvents::update()
     for (const auto &entity : entities) {
         auto &currentSound = sounds[entity];
         if (currentSound.has_value() && currentSound.value().play) {
+            std::cout << "play"<< std::endl;
             currentSound.value().sound.play();
             currentSound.value().play = false;
         }

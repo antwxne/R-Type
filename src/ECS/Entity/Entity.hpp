@@ -20,7 +20,7 @@ class Entity {
         bool operator==(const Entity &entity) const;
     protected:
     private:
-        std::size_t _size;
+        int _size;
 };
 
 std::ostream& operator<<(std::ostream& os, const Entity& entity);

@@ -14,7 +14,8 @@ class IEntityRegister {
 public:
     IEntityRegister();
     ~IEntityRegister() = default;
-    virtual void create(std::shared_ptr<ComponentManager> componentManager, std::shared_ptr<EntityManager> entityManager) = 0;
+    virtual void create(
+        const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager) = 0;
     const Entity &getEntity() const;
 
 protected:

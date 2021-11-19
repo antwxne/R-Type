@@ -8,7 +8,7 @@
 #ifndef PLAYERENTITY_HPP_
 #define PLAYERENTITY_HPP_
 
-#include "../ECS.hpp"
+#include "ECS/ECS.hpp"
 #include "EntityManager.hpp"
 #include "IEntityRegister.hpp"
 
@@ -17,7 +17,8 @@ public:
     PlayerEntity(const Position &pos, ColorType color);
     ~PlayerEntity();
 
-    void create(std::shared_ptr<ComponentManager> componentManager, std::shared_ptr<EntityManager> entityManager) override;
+    void create(
+        const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager) override;
 
 private:
     Position _pos;

@@ -16,7 +16,8 @@ const std::map<sf::Keyboard::Key, ControlGame> SfmlEventFactory::eventType =  {
     {sf::Keyboard::Key::Escape, ControlGame::ESCAPE},
     {sf::Keyboard::Key::Space, ControlGame::SPACE},
     {sf::Keyboard::Key::Enter, ControlGame::ENTER},
-    {sf::Keyboard::Key::BackSpace, ControlGame::DELETE}
+    {sf::Keyboard::Key::BackSpace, ControlGame::DELETE},
+    {sf::Keyboard::Key::D, ControlGame::D}
     };
 
 SfmlEventFactory::SfmlEventFactory()

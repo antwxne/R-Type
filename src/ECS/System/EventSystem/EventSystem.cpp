@@ -57,10 +57,10 @@ void EventSystem::update()
                     _entityManager, std::ref(_raisedEvents));
             }
         }
-        _currentEvents.clear();
     } catch (const std::out_of_range &error) {
         std::cerr << error.what() << std::endl;
     }
+    _currentEvents.clear();
 }
 
 
