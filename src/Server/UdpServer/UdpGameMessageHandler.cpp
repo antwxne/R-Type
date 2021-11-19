@@ -6,12 +6,14 @@
 */
 
 #include "UdpGameMessageHandler.hpp"
+#include "Graphical/SfmlEventFactory.hpp"
 
 typedef void (UdpGameMessageHandler::*UdpMFP)(GameUdpMessage<MessageType> &);
 
 UdpGameMessageHandler::UdpGameMessageHandler()
 {
     _map[MessageType::GameCommand] = &UdpGameMessageHandler::handleCommand;
+    _map[MessageType::GameRegister] = &UdpGameMessageHandler::handleRegister;
 }
 
 UdpGameMessageHandler::~UdpGameMessageHandler()
@@ -33,5 +35,12 @@ void UdpGameMessageHandler::handleMessage(GameUdpMessage<MessageType> &message)
 
 void UdpGameMessageHandler::handleCommand(GameUdpMessage<MessageType> &message)
 {
-    std::cout << "Command!\n";
+    ControlGame control;
+
+    message.message >> control;
+    std::cout << "Command " << control << " from "  << message.nPlayer << "\n";
+}
+
+void UdpGameMessageHandler::handleRegister(GameUdpMessage<MessageType> &message)
+{
 }

@@ -333,10 +333,16 @@ void RtypeClient::manageLobbyMenu()
     }
     if (_networkClient->isGameStarting())
     {
+        handleInitGame();
         _state = GameState::Game;
-        std::cout << "Starting with port " << _networkClient->getUdpPort() << "\n";
     }
 }
+
+void RtypeClient::handleInitGame()
+{
+    _networkClient->initUdpClient();
+}
+
 
 void RtypeClient::manageGame()
 {

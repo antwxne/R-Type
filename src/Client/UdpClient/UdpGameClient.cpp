@@ -26,9 +26,23 @@ void UdpGameClient::start()
 
 void UdpGameClient::sendRegisterMessage()
 {
+    std::cout << "Send register message\n";
     Message<MessageType> message;
 
     message << MessageType::GameRegister;
+
+    sendMessage(message);
+}
+
+void UdpGameClient::sendCommand(ControlGame control)
+{
+    std::cout << "Command message\n";
+
+    Message<MessageType> message;
+
+    message << MessageType::GameCommand;
+
+    message << control;
 
     sendMessage(message);
 }

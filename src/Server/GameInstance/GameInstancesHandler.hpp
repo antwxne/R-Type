@@ -18,6 +18,7 @@ class GameInstancesHandler {
     public:
         GameInstancesHandler(int maxGames);
         ~GameInstancesHandler();
+        void stop();
 
         bool addGame(const std::string &gameName, std::shared_ptr<TcpClientInstance> &host);
         bool joinGame(const std::string &gameName, std::shared_ptr<TcpClientInstance> &client);

@@ -42,15 +42,16 @@ class Client {
         bool isInGame();
         bool isGameStarting();
 
+        // Udp Handler
+
         int getUdpPort();
+        void initUdpClient();
 
     private:
-        void initUdpClient();
 
     private:
         TcpClient _tcpClient;
         bool _stop;
-        int _udpPort;
         std::unique_ptr<UdpGameClient> _udpClient;
 };
 

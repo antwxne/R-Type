@@ -23,14 +23,17 @@ void GameInstance::run()
 {
     while (_run)
     {
-        if (_udpGameServer)
-            _udpGameServer->run();
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
 
 void GameInstance::stop()
 {
+    if (_udpGameServer)
+    {
+        _udpGameServer->stop();
+        _udpThread.join();
+    }
     _run = false;
 }
 
@@ -90,6 +93,8 @@ void GameInstance::startGame()
     _state = Game;
 
     _udpGameServer = std::make_unique<GameUdpServer>(0, 4);
+    _udpGameServer->start();
+    _udpThread  = std::thread([this]() { _udpGameServer->run();});
 
     Message<MessageType> startMessage;
 
@@ -99,7 +104,6 @@ void GameInstance::startGame()
 
     for (auto &i : _clients)
     {
-        std::cout << "Send start Game\n";
         i->sendMessage(startMessage);
     }
 }

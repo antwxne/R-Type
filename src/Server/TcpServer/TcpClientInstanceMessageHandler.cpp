@@ -197,7 +197,7 @@ void TcpClientInstanceMessageHandler::handleGetPlayersInGame(TcpClientInstanceMe
 void TcpClientInstanceMessageHandler::handleStartGame(TcpClientInstanceMessage<MessageType> &message)
 {
     char gameName[GAME_NAME_MAX_LENGHT];
-    std::cout << "Handle StartGame\n"; 
+
     try
     {
         message.message >> gameName;

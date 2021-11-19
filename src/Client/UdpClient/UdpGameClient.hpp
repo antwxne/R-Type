@@ -9,6 +9,7 @@
 #define UDPGAMECLIENT_HPP_
 
 #include "UdpClient.hpp"
+#include "Graphical/SfmlEventFactory.hpp"
 
 class UdpGameClient : public UdpClient {
     public:
@@ -16,6 +17,7 @@ class UdpGameClient : public UdpClient {
         ~UdpGameClient();
         void start() override;
         void sendRegisterMessage();
+        void sendCommand(ControlGame control);
 
     protected:
     private:

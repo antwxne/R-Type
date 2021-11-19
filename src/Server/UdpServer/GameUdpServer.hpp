@@ -19,9 +19,9 @@ class GameUdpServer : public UdpAsioServer
         GameUdpServer(int port, int nbPlayers);
         ~GameUdpServer();
         void run() override;
-        void sendMessageToPlayer(GameUdpMessage<MessageType> &message, int nPlayer);
+        void sendMessageToPlayer(Message<MessageType> &message, int nPlayer);
         void readMessageHeader() override;
-        void readMessageBody(Message<MessageType> &message) override;
+        void readMessageBody() override;
     private:
         bool checkPlayerBinded(asio::ip::udp::endpoint endpoint);
         bool handlePlayerClient(asio::ip::udp::endpoint endpoint);

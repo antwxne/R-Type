@@ -47,6 +47,7 @@ class GameInstance : public IAsioGameInstance {
         std::vector<std::shared_ptr<TcpClientInstance>> _clients;
 
         std::unique_ptr<GameUdpServer> _udpGameServer;
+        std::thread _udpThread;
 };
 
 #endif /* !GAMEINSTANCE_HPP_ */

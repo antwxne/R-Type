@@ -50,6 +50,7 @@ class RtypeClient {
         void handleEvents(const sf::Event& event);
         void handleTextInput(const sf::Event& event);
         void handleInitLobby();
+        void handleInitGame();
         void handleGetGames();
         void manageMusic();
     private:

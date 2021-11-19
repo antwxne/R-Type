@@ -16,6 +16,14 @@ GameInstancesHandler::~GameInstancesHandler()
 {
 }
 
+void GameInstancesHandler::stop()
+{
+    for (auto &i : _gamesInstances)
+        i->stop();
+    for (auto &i : _gamesThread)
+        i.join();
+}
+
 void GameInstancesHandler::update()
 {
     if (_gamesInstances.size() > 0)
@@ -37,9 +45,9 @@ void GameInstancesHandler::removeEmptyGames()
         if ((*it)->getNPlayers() == 0)
         {
             (*it)->stop();
-            _gamesInstances.erase(it);
-            (*itThread).detach();
+            (*itThread).join();
             _gamesThread.erase(itThread);
+            _gamesInstances.erase(it);
             return;
         }
     }

@@ -26,20 +26,21 @@ void UdpClient::start()
 {
     readMessageHeader();
     _threadContext = std::thread([this]() { _asioContext.run(); });
-    run();
+}
+
+void UdpClient::stop()
+{
+    _asioContext.stop();
+    _threadContext.join();
 }
 
 void UdpClient::run()
 {
-    while (1)
+    if (_messageList.size() > 0)
     {
-        if (_messageList.size() > 0)
-        {
-            Message<MessageType> message = _messageList.front();
-            _messageList.pop_front();
-            _messageHandler.handleMessage(message);
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        Message<MessageType> message = _messageList.front();
+        _messageList.pop_front();
+        _messageHandler.handleMessage(message);
     }
 }
 
@@ -50,40 +51,40 @@ void UdpClient::sendMessage(Message<MessageType> &message)
 
 void UdpClient::readMessageHeader()
 {
-    Message<MessageType> message;
-    _socket.async_receive_from(asio::buffer(message.getHeaderPtr(), message.getHeaderSize()), _serverEndpoint,
-    [this, message](std::error_code ec, std::size_t length) mutable
+    _tmpMessage = Message<MessageType>();
+    _socket.async_receive_from(asio::buffer(_tmpMessage.getHeaderPtr(), _tmpMessage.getHeaderSize()), _serverEndpoint,
+    [this](std::error_code ec, std::size_t length)
     {   
         if (ec)
         {
             readMessageHeader();
             return;
         }
-        if (message.getBodySize() > 0)
+        if (_tmpMessage.getBodySize() > 0)
         {
-            message.resizeBody(message.getBodySize());
-            readMessageBody(message);
+            _tmpMessage.resizeBody(_tmpMessage.getBodySize());
+            readMessageBody();
         }
         else
         {
-            _messageList.push_back(message);
+            _messageList.push_back(_tmpMessage);
             readMessageHeader();
         }
     });
 }
 
 
-void UdpClient::readMessageBody(Message<MessageType> &message)
+void UdpClient::readMessageBody()
 {
-    _socket.async_receive_from(asio::buffer(message.getBodyDataPtr(), message.getBodySize()), _serverEndpoint,
-    [this, message](std::error_code ec, std::size_t length) mutable
+    _socket.async_receive_from(asio::buffer(_tmpMessage.getBodyDataPtr(), _tmpMessage.getBodySize()), _serverEndpoint,
+    [this](std::error_code ec, std::size_t length)
     {
         if (ec)
         {
             readMessageHeader();
             return;
         }
-        _messageList.push_back(message);
+        _messageList.push_back(_tmpMessage);
         readMessageHeader();
     });
 }
