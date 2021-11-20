@@ -101,27 +101,14 @@ void UdpAsioServer::writeMessageBody(Message<MessageType> &message)
 
 void UdpAsioServer::writeMessageHeaderToEndpoint(Message<MessageType> &message, const asio::ip::udp::endpoint &clientEndpoint)
 {
-    _socket.async_send_to(asio::buffer(message.getHeaderPtr(), message.getHeaderSize()), clientEndpoint, 
-    [this, message, clientEndpoint](std::error_code ec, std::size_t length) mutable
-    {
-        if (ec)
-        {
-            return;
-        }
-        if (message.getBodySize() > 0)
-            writeMessageBodyToEndpoint(message, clientEndpoint);
-    });
+    _socket.send_to(asio::buffer(message.getHeaderPtr(), message.getHeaderSize()), clientEndpoint);
+
+    if (message.getBodySize() > 0)
+        writeMessageBodyToEndpoint(message, clientEndpoint);
     
 }
 
 void UdpAsioServer::writeMessageBodyToEndpoint(Message<MessageType> &message, const asio::ip::udp::endpoint &clientEndpoint)
 {
-    _socket.async_send_to(asio::buffer(message.getBodyDataPtr(), message.getBodySize()), clientEndpoint,
-    [this](std::error_code ec, std::size_t length) mutable
-    {
-        if (ec)
-        {
-            return;
-        }
-    });
+    _socket.send_to(asio::buffer(message.getBodyDataPtr(), message.getBodySize()), clientEndpoint);
 }

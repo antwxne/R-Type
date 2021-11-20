@@ -83,10 +83,10 @@ void GameInstanceEcs::getCurrentEntityInfo(const Entity &entity)
 {
     if (!checkNetworkEntity(entity))
         return;
-    
+
     size_t ent;
     entity >> ent;
-    
+
     Rotate &rotate = _ecs.getComponent<Rotate>(entity).value();
     Color &color = _ecs.getComponent<Color>(entity).value();
     Texture &texture = _ecs.getComponent<Texture>(entity).value();

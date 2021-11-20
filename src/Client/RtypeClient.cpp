@@ -354,7 +354,7 @@ void RtypeClient::manageGame()
 void RtypeClient::handleInComingEntities()
 {
     std::list<NetworkEntityInformation> entities = _networkClient->getEntitiesInfos();
-
+    //std::cout << "size entities " << entities.size() << std::endl;
     for (auto & i : entities)
     {
         if (_serverToClientEntityMap.find(i.entity) == _serverToClientEntityMap.end())

@@ -39,5 +39,6 @@ void UdpGameClientMessageHandler::handleEnnemyUpdate(Message<MessageType> &messa
 
     message >> info;
 
+    std::cout << "New info pos = " << info.position.y << std::endl;
     _client.addEntityInfo(info);
 }
