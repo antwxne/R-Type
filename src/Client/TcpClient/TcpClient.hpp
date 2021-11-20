@@ -30,6 +30,8 @@ class TcpClient
 
         std::string getIp() const;
 
+        std::string getServerIp() const;
+
         void addGame(const std::string &name, char nbPlayers);
         std::list<std::pair<std::string, char>> &getGames();
         void resetGameList();

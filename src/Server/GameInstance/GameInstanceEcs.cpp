@@ -156,7 +156,7 @@ void GameInstanceEcs::handleNewPlayer(int nPlayer)
 
 void GameInstanceEcs::handleCommandPlayer(int nPlayer, ControlGame control)
 {
-    std::cout << "New command from " << nPlayer << "\n";
+
     try
     {
         size_t entityPlayer = _playerToEntityMap[nPlayer];

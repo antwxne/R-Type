@@ -75,8 +75,6 @@ void EventSystem::update()
 
 void EventSystem::setEvents(const size_t &entity, ControlGame &event) noexcept
 {
-    std::cout << "New event of player " << entity << std::endl;
-
     _currentEvents[entity].push_back(event);
 }
 

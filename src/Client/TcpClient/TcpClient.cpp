@@ -30,6 +30,12 @@ std::string TcpClient::getIp() const
 {
     return _connection->getIp();
 }
+
+std::string TcpClient::getServerIp() const
+{
+    return _ip;
+}
+
 void TcpClient::run()
 {
     update();

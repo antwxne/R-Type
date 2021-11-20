@@ -233,8 +233,11 @@ void RtypeClient::manageMainMenu()
             _networkClient->getGames();
             handleGetGames();
         } else if (_mainMenu.getSelectedIndex() == 1) {
-            _networkClient->createGame(_mainMenu.getButtonText(1));
-            _currentGameName = _mainMenu.getButtonText(1);
+            if (_mainMenu.getButtonText(1).size() > 0)
+            {
+                _networkClient->createGame(_mainMenu.getButtonText(1));
+                _currentGameName = _mainMenu.getButtonText(1);
+            }
         } else {
             std::string name = _mainMenu.getButtonText(
                 _mainMenu.getSelectedIndex()).substr(0,
@@ -313,7 +316,6 @@ void RtypeClient::manageGame()
 {
     try
     {
-        //_ecs.getSystem<EventSystem>().update();
         //_ecs.getSystem<MoveSystem>().update();
         _ecs.getSystem<SfmlDrawSystem>().update();
         handleInComingEntities();
@@ -369,8 +371,6 @@ void RtypeClient::handleNewEntity(const NetworkEntityInformation &info)
     _ecs.subToComponent(newEntity, Speed{0});
     _ecs.subToComponent(newEntity, Acceleration{0, 0});
     _ecs.subToComponent(newEntity, Position{0,0});
-
-
 
     handleUpdateEntity(info);
 }

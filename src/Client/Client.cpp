@@ -238,7 +238,7 @@ void Client::initUdpClient()
         std::cout << "UdpPort not set, the game is not launched" << std::endl;
         return;
     }
-    _udpClient = std::make_unique<UdpGameClient>(_tcpClient.getIp(), getUdpPort());
+    _udpClient = std::make_unique<UdpGameClient>(_tcpClient.getServerIp(), getUdpPort());
     _udpClient->start();
 }
 
