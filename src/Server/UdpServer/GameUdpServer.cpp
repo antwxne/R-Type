@@ -6,8 +6,10 @@
 */
 
 #include "GameUdpServer.hpp"
+#include "GameInstance.hpp"
 
-GameUdpServer::GameUdpServer(int port, int nbPlayers) : UdpAsioServer(port)
+GameUdpServer::GameUdpServer(GameInstance &gameInstance, int port, int nbPlayers) :
+UdpAsioServer(port), _gameMessageHandler(*this), _gameInstance(gameInstance)
 {
     _nbPlayers = nbPlayers;
     _bindedPlayers = 0;
@@ -105,4 +107,9 @@ void GameUdpServer::sendMessageToAll(Message<MessageType> &message)
     {
         writeMessageHeaderToEndpoint(message, i.first);
     }
+}
+
+void GameUdpServer::handleRegister(int nPlayer)
+{
+
 }

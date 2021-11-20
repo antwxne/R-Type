@@ -23,6 +23,7 @@ class GameInstanceEcs {
         GameInstanceEcs(GameInstance &_gameInstance);
         ~GameInstanceEcs();
         void run();
+        void handleNewPlayer(int nPlayer);
 
     private:
         void registerComponents();
@@ -34,6 +35,8 @@ class GameInstanceEcs {
         ECS _ecs;
         GameInstance &_gameInstance;
         std::chrono::_V2::system_clock::time_point _networkSendClock;
+
+        std::map<int, size_t> _playerToEntityMap;
 };
 
 #endif /* !GAMEINSTANCEECS_HPP_ */

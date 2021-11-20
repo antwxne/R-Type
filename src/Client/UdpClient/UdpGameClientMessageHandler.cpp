@@ -13,7 +13,7 @@ typedef void (UdpGameClientMessageHandler::*UdpGameMFP)(Message<MessageType> &);
 
 UdpGameClientMessageHandler::UdpGameClientMessageHandler(UdpGameClient &client) : _client(client)
 {
-    _map[MessageType::EnemyEntityUpdate] = &UdpGameClientMessageHandler::handleEnnemyUpdate;
+    _map[MessageType::EntityUpdate] = &UdpGameClientMessageHandler::handleEntityUpdate;
 }
 
 UdpGameClientMessageHandler::~UdpGameClientMessageHandler()
@@ -33,12 +33,11 @@ void UdpGameClientMessageHandler::handleMessage(Message<MessageType> &message)
     return (this->*fp)(message);
 }
 
-void UdpGameClientMessageHandler::handleEnnemyUpdate(Message<MessageType> &message)
+void UdpGameClientMessageHandler::handleEntityUpdate(Message<MessageType> &message)
 {
     NetworkEntityInformation info;
 
     message >> info;
 
-    std::cout << "New info pos = " << info.position.y << std::endl;
     _client.addEntityInfo(info);
 }

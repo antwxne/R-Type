@@ -99,7 +99,7 @@ void GameInstanceEcs::getCurrentEntityInfo(const Entity &entity)
     NetworkEntityInformation info = {ent, position, acceleration, speed, color, rotate, texture, scale,
     sprite.totalRect, sprite.animationSpeed,  sprite.textureRect};
 
-    _gameInstance.sendEnnemyEntityRegisterMessage(info);
+    _gameInstance.sendEntityUpdateMessage(info);
 }
 
 bool GameInstanceEcs::checkNetworkEntity(const Entity &entity)
@@ -119,6 +119,36 @@ bool GameInstanceEcs::checkNetworkEntity(const Entity &entity)
     return rotate[ent].has_value() && color[ent].has_value() &&
         texture[ent].has_value() && scale[ent].has_value() && speed[ent].has_value()
         && acceleration[ent].has_value() && position[ent].has_value() && sprite[ent].has_value();
+}
+
+void GameInstanceEcs::handleNewPlayer(int nPlayer)
+{
+    switch (nPlayer)
+    {
+        case 1:
+        {
+            PlayerEntity entity({100, 100}, ColorType::Blue);
+            entity.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+            break;
+        }
+        case 2:
+        {
+            PlayerEntity entity2({100, 300}, ColorType::Red);
+            entity2.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+            break;
+        }
+        case 3:
+        {
+            PlayerEntity entity3({100, 500}, ColorType::Yellow);
+            entity3.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+            break;
+        }
+        default:
+        {
+            PlayerEntity entity4({100, 700}, ColorType::Green);
+            entity4.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+        }
+    }
 }
 
 void GameInstanceEcs::run()

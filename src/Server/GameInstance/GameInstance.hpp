@@ -40,7 +40,9 @@ class GameInstance : public IAsioGameInstance {
         std::list<std::string> getPlayers();
         char getNPlayers() const;
 
-        void sendEnnemyEntityRegisterMessage(const NetworkEntityInformation &info);
+        void sendEntityUpdateMessage(const NetworkEntityInformation &info);
+
+        void handleClientRegister(int nPlayer);
 
     private:
         void sendStartMessages();

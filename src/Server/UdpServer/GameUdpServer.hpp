@@ -13,15 +13,20 @@
 #include "UdpGameMessageHandler.hpp"
 #include <map>
 
+class GameInstance;
+
 class GameUdpServer : public UdpAsioServer
 {
     public:
-        GameUdpServer(int port, int nbPlayers);
+        GameUdpServer(GameInstance &gameInstance, int port, int nbPlayers);
         ~GameUdpServer();
         void run() override;
         void sendMessageToAll(Message<MessageType> &message);
         void readMessageHeader() override;
         void readMessageBody() override;
+
+        void handleRegister(int nPlayer);
+
     private:
         bool checkPlayerBinded(asio::ip::udp::endpoint endpoint);
         bool handlePlayerClient(asio::ip::udp::endpoint endpoint);
@@ -33,6 +38,7 @@ class GameUdpServer : public UdpAsioServer
         std::list<GameUdpMessage<MessageType>> _gameMessageList;
         UdpGameMessageHandler _gameMessageHandler;
 
+        GameInstance &_gameInstance;
 };
 
 #endif /* !GAMEUDPSERVER_HPP_ */

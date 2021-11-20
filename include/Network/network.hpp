@@ -24,9 +24,7 @@ enum class MessageType : short
     GameRegister = 7,
     GameCommand = 8,
 
-    PlayerEntityUpdate = 9,
-    BulletEntityUpdate = 10,
-    EnemyEntityUpdate = 11,
+    EntityUpdate = 9,
 };
 
 #endif /* !NETWORK_HPP_ */

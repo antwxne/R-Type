@@ -95,7 +95,7 @@ void GameInstance::startGame()
 {
     _state = Game;
 
-    _udpGameServer = std::make_unique<GameUdpServer>(0, 4);
+    _udpGameServer = std::make_unique<GameUdpServer>(*this, 0, 4);
     _udpGameServer->start();
     _udpThread  = std::thread([this]() { _udpGameServer->run();});
 
@@ -128,13 +128,18 @@ char GameInstance::getNPlayers() const
     return _nbPlayers;
 }
 
-void GameInstance::sendEnnemyEntityRegisterMessage(const NetworkEntityInformation &info)
+void GameInstance::sendEntityUpdateMessage(const NetworkEntityInformation &info)
 {
     Message<MessageType> message;
 
-    message << MessageType::EnemyEntityUpdate;
+    message << MessageType::EntityUpdate;
 
     message << info;
 
     _udpGameServer->sendMessageToAll(message);
+}
+
+void GameInstance::handleClientRegister(int nPlayer)
+{
+    
 }

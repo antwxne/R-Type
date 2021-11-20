@@ -91,26 +91,13 @@ void UdpClient::readMessageBody()
 
 void UdpClient::writeMessageHeader(Message<MessageType> &message)
 {
-    _socket.async_send_to(asio::buffer(message.getHeaderPtr(), message.getHeaderSize()), _serverEndpoint,
-    [this, message](std::error_code ec, std::size_t length) mutable
-    {
-        if (ec)
-        {
-            return;
-        }
-        if (message.getBodySize() > 0)
-            writeMessageBody(message);
-    });
+    _socket.send_to(asio::buffer(message.getHeaderPtr(), message.getHeaderSize()), _serverEndpoint);
+
+    if (message.getBodySize() > 0)
+        writeMessageBody(message);
 }
 
 void UdpClient::writeMessageBody(Message<MessageType> &message)
 {
-    _socket.async_send_to(asio::buffer(message.getBodyDataPtr(), message.getBodySize()), _serverEndpoint,
-    [this, message](std::error_code ec, std::size_t length) mutable
-    {
-        if (ec)
-        {
-            return;
-        }
-    });
+    _socket.send_to(asio::buffer(message.getBodyDataPtr(), message.getBodySize()), _serverEndpoint);
 }

@@ -22,6 +22,8 @@
 #include "../ECS/Entity/BulletEntity.hpp"
 #include "../ECS/system.hpp"
 
+
+
 enum GameState
 {
     ConnectMenu,
@@ -57,6 +59,7 @@ class RtypeClient {
         void handleInComingEntities();
         void handleNewEntity(const NetworkEntityInformation &info);
         void handleUpdateEntity(const NetworkEntityInformation &info);
+        void sendControlsToServer();
     private:
         GameState _state;
         bool _stop;
@@ -81,6 +84,8 @@ class RtypeClient {
         ECS _ecs;
 
         std::map<size_t, size_t> _serverToClientEntityMap;
+
+        std::list<ControlGame> _gameControlList;
 };
 
 #endif /* !RtypeClient_HPP_ */

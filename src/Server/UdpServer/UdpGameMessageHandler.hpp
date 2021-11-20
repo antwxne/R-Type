@@ -16,9 +16,11 @@ class UdpGameMessageHandler;
 
 typedef void (UdpGameMessageHandler::*UdpMFP)(GameUdpMessage<MessageType> &);
 
+class GameUdpServer;
+
 class UdpGameMessageHandler {
     public:
-        UdpGameMessageHandler();
+        UdpGameMessageHandler(GameUdpServer &server);
         ~UdpGameMessageHandler();
         void handleMessage(GameUdpMessage<MessageType> &message);
     private:
@@ -28,6 +30,7 @@ class UdpGameMessageHandler {
     protected:
     private:
         std::map<MessageType, UdpMFP> _map;
+        GameUdpServer &_server;
 };
 
 #endif /* !UDPGAMEMESSAGEHANDLER_HPP_ */

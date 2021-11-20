@@ -11,14 +11,20 @@
 #include "ECS/component.hpp"
 #include <iostream>
 
+typedef std::chrono::high_resolution_clock Clock;
+
 RtypeClient::RtypeClient()
 {
     srand(time(NULL));
     _graphical = std::make_shared<SfmlDisplay>();
     _textureLogo.loadFromFile("assets/sprites/r_type_logo.png");
     _spriteLogo.setTexture(_textureLogo);
+
     _menuMusic.openFromFile("assets/music/space_oddity.ogg");
     _gameMusic.openFromFile("assets/music/red-alert.ogg");
+    _menuMusic.setLoop(true);
+    _gameMusic.setLoop(true);
+
     sf::Music _gameMusic;
     _stop = false;
     _state = GameState::ConnectMenu;
@@ -159,8 +165,8 @@ void RtypeClient::handleEvents(const sf::Event& event)
             _lobbyMenu.handleEvent(control);
             break;
         case GameState::Game:
-            _ecs.getSystem<EventSystem>().setEvents(control);
-            /* code */
+            _gameControlList.push_back(control);
+            //_ecs.getSystem<EventSystem>().setEvents(control);
             break;
         default:
             return;
@@ -345,16 +351,30 @@ void RtypeClient::handleInitGame()
 
 void RtypeClient::manageGame()
 {
-    _ecs.getSystem<EventSystem>().update();
-    //_ecs.getSystem<MoveSystem>().update();
-    _ecs.getSystem<SfmlDrawSystem>().update();
-    handleInComingEntities();
+    try
+    {
+        _ecs.getSystem<EventSystem>().update();
+        //_ecs.getSystem<MoveSystem>().update();
+        _ecs.getSystem<SfmlDrawSystem>().update();
+        handleInComingEntities();
+        sendControlsToServer();
+    }
+    catch (const std::exception &e)
+    {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+}
+
+void RtypeClient::sendControlsToServer()
+{
+    _networkClient->sendCommands(_gameControlList);
+    _gameControlList.clear();
 }
 
 void RtypeClient::handleInComingEntities()
 {
     std::list<NetworkEntityInformation> entities = _networkClient->getEntitiesInfos();
-    //std::cout << "size entities " << entities.size() << std::endl;
+
     for (auto & i : entities)
     {
         if (_serverToClientEntityMap.find(i.entity) == _serverToClientEntityMap.end())

@@ -26,6 +26,7 @@ class UdpGameClient : public UdpClient {
         void addEntityInfo(const NetworkEntityInformation& info);
         std::list<NetworkEntityInformation> &getEntitiesInfos();
         void resetEntitiesList();
+        void sendCommands(const std::list<ControlGame> &controls);
 
     protected:
     private:

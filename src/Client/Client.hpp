@@ -51,6 +51,8 @@ class Client {
         std::list<NetworkEntityInformation> &getEntitiesInfos();
         void clearEntitiesInfos();
 
+        void sendCommands(const std::list<ControlGame> &controls);
+
 
     private:
 

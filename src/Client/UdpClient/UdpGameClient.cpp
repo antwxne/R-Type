@@ -58,7 +58,9 @@ void UdpGameClient::sendCommand(ControlGame control)
 
 void UdpGameClient::addEntityInfo(const NetworkEntityInformation& info)
 {
+    std::cout << "Before push\n";
     _entitiesInfos.push_back(info);
+    std::cout << "After push\n";
 }
 
 std::list<NetworkEntityInformation> &UdpGameClient::getEntitiesInfos()
@@ -69,4 +71,17 @@ std::list<NetworkEntityInformation> &UdpGameClient::getEntitiesInfos()
 void UdpGameClient::resetEntitiesList()
 {
     _entitiesInfos.clear();
+}
+
+void UdpGameClient::sendCommands(const std::list<ControlGame> &controls)
+{
+    for (auto &i : controls)
+    {
+        Message<MessageType> message;
+
+        message << MessageType::GameCommand;
+        message << i;
+
+        sendMessage(message);
+    }
 }

@@ -252,3 +252,8 @@ void Client::clearEntitiesInfos()
 {
     _udpClient->resetEntitiesList();
 }
+
+void Client::sendCommands(const std::list<ControlGame> &controls)
+{
+    _udpClient->sendCommands(controls);
+}
