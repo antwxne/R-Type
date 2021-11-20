@@ -130,6 +130,8 @@ set(SHARED_SRC
         src/ECS/Entity/IEntityRegister.hpp
         src/ECS/Entity/IEntityRegister.cpp
         src/DLLloader/DLLloader.hpp
+        src/Monster/Monster.hpp
+        src/Monster/Monster.cpp
         )
 
 set (MONSTER_LIB_SHARED_SRC

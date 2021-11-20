@@ -22,6 +22,8 @@
 #include "../ECS/Entity/BulletEntity.hpp"
 #include "../ECS/system.hpp"
 
+#include "../Monster/Monster.hpp"
+
 #include "../DLLloader/DLLloader.hpp"
 
 enum GameState
@@ -79,6 +81,7 @@ class RtypeClient {
         std::shared_ptr<DLLloader<IEntityRegister>> _enemyLoader;
 
         ECS _ecs;
+        Monster _monster;
 };
 
 #endif /* !RtypeClient_HPP_ */

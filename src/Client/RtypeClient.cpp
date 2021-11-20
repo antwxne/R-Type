@@ -11,7 +11,7 @@
 #include "ECS/component.hpp"
 #include <iostream>
 
-RtypeClient::RtypeClient()
+RtypeClient::RtypeClient() : _monster("./lib")
 {
     srand(time(NULL));
     _graphical = std::make_shared<SfmlDisplay>();
@@ -26,6 +26,7 @@ RtypeClient::RtypeClient()
     initMenu();
     registerComponents();
     loadEnemyLib("build/lib/libThirdMonsterEntity.so");
+    _monster.getLibraries();
 }
 
 RtypeClient::~RtypeClient()
@@ -87,11 +88,13 @@ void RtypeClient::registerComponents()
 void RtypeClient::start()
 {
     PlayerEntity _pe({150, 50}, ColorType::None);
-    _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    _enemyLoader->getInstance()->setPosition(Position{1500, 500});
-    _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    _enemyLoader->getInstance()->setPosition(Position{500, 200});
-    _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    // _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    // _enemyLoader->getInstance()->setPosition(Position{1500, 500});
+    // _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    // _enemyLoader->getInstance()->setPosition(Position{500, 200});
+    // _enemyLoader->getInstance()->create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _monster.create(_ecs.getComponentManager(), _ecs.getEntityManager(), Position{1500, 500});
+    //monster.create(_ecs.getComponentManager(), _ecs.getEntityManager(), Position{100, 500});
 
     _pe.create(_ecs.getComponentManager(), _ecs.getEntityManager());
 

@@ -39,6 +39,7 @@ DLLloader<T>::DLLloader(const std::string &filename, std::string &symbol)
 template<typename T>
 DLLloader<T>::~DLLloader()
 {
+    std::cout << "On ferme la boutique" << std::endl;
     _instance.reset();
     if (_handle)
         Cdlclose();
