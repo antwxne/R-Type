@@ -1,0 +1,39 @@
+name: Compilation
+
+on:
+  push:
+    commit-ignore:
+      - [skip ci]
+      - [skip compilation]
+  workflow_dispatch:
+
+jobs:
+  Compile_on_Linx:
+    runs-on: ubuntu-latest
+    name: Linux
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install prerequires
+        run: ./requires
+        working-directory: ./.github/workflows/
+      - name: Install, update and configure conan
+        run: |
+          pip3 install conan
+          pip3 install conan --upgrade
+          conan profile new --detect default
+          conan profile update settings.compiler.libcxx=libstdc++11 default
+      - name: Compile project
+        run: make
+        working-directory: ./
+
+  Compil_on_Windows:
+    runs-on: windows-latest
+    name: Windows
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install and update conan
+        run: |
+          pip3 install conan
+          pip3 install conan --upgrade
+      - name: Compile project
+        run: mkdir -p build && cd build && conan install .. --build=missing && cmake .. && cmake --build .
