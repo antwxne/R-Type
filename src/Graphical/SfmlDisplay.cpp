@@ -22,6 +22,9 @@ SfmlDisplay::~SfmlDisplay()
 void SfmlDisplay::initColors()
 {
     _colorMap[ColorType::Blue] = std::make_shared<sf::Color>(sf::Color::Blue);
+    _colorMap[ColorType::Red] = std::make_shared<sf::Color>(sf::Color::Red);
+    _colorMap[ColorType::Yellow] = std::make_shared<sf::Color>(sf::Color::Yellow);
+    _colorMap[ColorType::Green] = std::make_shared<sf::Color>(sf::Color::Green);
 }
 
 void SfmlDisplay::initTexture()

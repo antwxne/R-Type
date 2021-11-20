@@ -125,43 +125,42 @@ void GameInstanceEcs::handleNewPlayer(int nPlayer)
         {
             entity.setPos({100, 100});
             entity.setColor(ColorType::Blue);
-            _playerToEntityMap[1] = entity.getEntityValue();
             break;
         }
         case 2:
         {
             entity.setPos({100, 300});
             entity.setColor(ColorType::Red);
-            _playerToEntityMap[2] = entity.getEntityValue();
             break;
         }
         case 3:
         {
             entity.setPos({100, 500});
             entity.setColor(ColorType::Yellow);
-            _playerToEntityMap[3] = entity.getEntityValue();
             break;
         }
         default:
         {
             entity.setPos({100, 700});
             entity.setColor(ColorType::Green);
-            _playerToEntityMap[4] = entity.getEntityValue();
         }
     }
+    entity.create(_ecs.getComponentManager(), _ecs.getEntityManager());
     evtManager.subscribeToEvent(ControlGame::RIGHT, entity.getEntity(), std::bind(EventCallback::changeAccelerationRIGHT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
     evtManager.subscribeToEvent(ControlGame::UP, entity.getEntity(), std::bind(EventCallback::changeAccelerationUP, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
     evtManager.subscribeToEvent(ControlGame::DOWN, entity.getEntity(), std::bind(EventCallback::changeAccelerationDOWN, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
     evtManager.subscribeToEvent(ControlGame::LEFT, entity.getEntity(), std::bind(EventCallback::changeAccelerationLEFT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
     evtManager.subscribeToEvent(ControlGame::SPACE, entity.getEntity(), std::bind(EventCallback::shoot, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3,std::placeholders::_4));
-    entity.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _playerToEntityMap[nPlayer] = entity.getEntityValue();
 }
 
 void GameInstanceEcs::handleCommandPlayer(int nPlayer, ControlGame control)
 {
+    std::cout << "New command from " << nPlayer << "\n";
     try
     {
         size_t entityPlayer = _playerToEntityMap[nPlayer];
+
         _ecs.getSystem<EventSystem>().setEvents(entityPlayer, control);
     }
     catch(const std::exception& e)
