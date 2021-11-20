@@ -11,7 +11,6 @@
 Client::Client()
 {
     _tcpClient.start();
-    _udpPort = -1;
     _stop = false;
 }
 
@@ -29,6 +28,8 @@ void Client::run()
     while (!_stop)
     {
         _tcpClient.run();
+        if (_udpClient)
+            _udpClient->run();
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
@@ -36,6 +37,8 @@ void Client::run()
 void Client::stop()
 {
     _tcpClient.stop();
+    if (_udpClient)
+        _udpClient->stop();
     _stop = true;
 }
 
@@ -43,24 +46,6 @@ bool Client::tryConnect(const std::string &ip, int port)
 {
     return _tcpClient.tryConnect(ip, port);
 }
-
-void Client::initUdpClient()
-{
-    if (_tcpClient.isConnected() == false)
-    {
-        std::cout << "Cannot init UdpClient before connecting to Server" << std::endl;
-        return;
-    }
-
-    if (_udpPort == -1)
-    {
-        std::cout << "UdpPort not set, the game is not launched" << std::endl;
-        return;
-    }
-
-    _udpClient = std::make_unique<UdpGameClient>(_tcpClient.getIp(), _udpPort);
-}
-
 
 // Game Messages Send
 void Client::createGame(const std::string &name)
@@ -178,6 +163,23 @@ void Client::setPlayerName(const std::string &name)
     _tcpClient.sendMessage(msg);
 }
 
+void Client::startGame(const std::string &name)
+{
+    Message<MessageType> msg;
+    char nameC[GAME_NAME_MAX_LENGHT];
+    
+    if (_tcpClient.isConnected() == false)
+    {
+        std::cout << "You are not connected" << std::endl;
+        return;
+    }
+    std::strcpy(nameC, name.c_str());
+    msg << MessageType::StartGame;
+    msg << nameC;
+
+    _tcpClient.sendMessage(msg);
+}
+
 std::list<std::pair<std::string, char>> &Client::getGameList()
 {
     return _tcpClient.getGames();
@@ -211,4 +213,47 @@ bool Client::isNewPlayerListAvailable()
 bool Client::isInGame()
 {
     return _tcpClient.isInGame();
+}
+
+bool Client::isGameStarting()
+{
+    return _tcpClient.isGameStarting();
+}
+
+int Client::getUdpPort()
+{
+    return _tcpClient.getUdpPort();
+}
+
+void Client::initUdpClient()
+{
+    if (_tcpClient.isConnected() == false)
+    {
+        std::cout << "Cannot init UdpClient before connecting to Server" << std::endl;
+        return;
+    }
+
+    if (getUdpPort() == -1)
+    {
+        std::cout << "UdpPort not set, the game is not launched" << std::endl;
+        return;
+    }
+    _udpClient = std::make_unique<UdpGameClient>(_tcpClient.getIp(), getUdpPort());
+    _udpClient->start();
+}
+
+
+std::list<NetworkEntityInformation> &Client::getEntitiesInfos()
+{
+    return _udpClient->getEntitiesInfos();
+}
+
+void Client::clearEntitiesInfos()
+{
+    _udpClient->resetEntitiesList();
+}
+
+void Client::sendCommands(const std::list<ControlGame> &controls)
+{
+    _udpClient->sendCommands(controls);
 }

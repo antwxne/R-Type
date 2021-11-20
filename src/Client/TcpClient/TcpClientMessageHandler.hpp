@@ -35,7 +35,7 @@ class TcpClientMessageHandler {
         void handleGetGames(Message<MessageType> &message);
         void handleGetPlayersInGame(Message<MessageType> &message);
 
-        void handleGetUdpPort(Message<MessageType> &message);
+        void handleStartGame(Message<MessageType> &message);
     private:
         std::map<MessageType, MFP> _map;
         TcpClient &_client;

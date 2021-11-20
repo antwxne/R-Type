@@ -15,5 +15,7 @@
 #include "System/Draw/SfmlDrawSystem.hpp"
 #include "System/AISystem.hpp"
 #include "System/Audio/PlaySoundEvents.hpp"
+#include "System/EventSystem/EventCallback.hpp"
+#include "System/EventSystem/EventSystem.hpp"
 
 #endif /* !SYSTEM_HPP_ */

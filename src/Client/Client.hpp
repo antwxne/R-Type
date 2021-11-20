@@ -11,6 +11,7 @@
 #include <memory>
 #include "TcpClient/TcpClient.hpp"
 #include "UdpClient/UdpGameClient.hpp"
+#include "NetworkEntityInformation.hpp"
 
 class Client {
     public:
@@ -30,6 +31,7 @@ class Client {
         void leaveGame(const std::string &name);
         void getGames();
         void getPlayersInGame(const std::string &name);
+        void startGame(const std::string &name);
 
         std::list<std::pair<std::string, char>> &getGameList();
         void resetGameList();
@@ -39,14 +41,24 @@ class Client {
         bool isNewPlayerListAvailable();
 
         bool isInGame();
+        bool isGameStarting();
+
+        // Udp Handler
+
+        int getUdpPort();
+        void initUdpClient();
+
+        std::list<NetworkEntityInformation> &getEntitiesInfos();
+        void clearEntitiesInfos();
+
+        void sendCommands(const std::list<ControlGame> &controls);
+
 
     private:
-        void initUdpClient();
 
     private:
         TcpClient _tcpClient;
         bool _stop;
-        int _udpPort;
         std::unique_ptr<UdpGameClient> _udpClient;
 };
 

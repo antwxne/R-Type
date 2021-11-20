@@ -44,6 +44,8 @@ set(CLIENT_SRC
             src/Client/UdpClient/UdpClient.hpp
             src/Client/UdpClient/UdpClientMessageHandler.cpp
             src/Client/UdpClient/UdpClientMessageHandler.hpp
+            src/Client/UdpClient/UdpGameClientMessageHandler.cpp
+            src/Client/UdpClient/UdpGameClientMessageHandler.hpp
             src/Client/UdpClient/UdpGameClient.cpp
             src/Client/UdpClient/UdpGameClient.hpp
 )
@@ -55,6 +57,8 @@ set(SERVER_SRC
             src/Server/GameInstance/GameInstance.hpp
             src/Server/GameInstance/GameInstancesHandler.cpp
             src/Server/GameInstance/GameInstancesHandler.hpp
+            src/Server/GameInstance/GameInstanceEcs.cpp
+            src/Server/GameInstance/GameInstanceEcs.hpp
             src/Server/TcpServer/TcpAsioServer.cpp
             src/Server/TcpServer/TcpAsioServer.hpp
             src/Server/TcpServer/TcpClientInstance.cpp

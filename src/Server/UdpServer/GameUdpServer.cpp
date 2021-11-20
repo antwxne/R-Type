@@ -6,8 +6,10 @@
 */
 
 #include "GameUdpServer.hpp"
+#include "../GameInstance/GameInstance.hpp"
 
-GameUdpServer::GameUdpServer(int port, int nbPlayers) : UdpAsioServer(port)
+GameUdpServer::GameUdpServer(GameInstance &gameInstance, int port, int nbPlayers) :
+UdpAsioServer(port), _gameMessageHandler(*this), _gameInstance(gameInstance)
 {
     _nbPlayers = nbPlayers;
     _bindedPlayers = 0;
@@ -19,7 +21,7 @@ GameUdpServer::~GameUdpServer()
 
 void GameUdpServer::run()
 {
-    while (1)
+    while (_running)
     {
         if (_gameMessageList.size() > 0)
         {
@@ -40,7 +42,6 @@ bool GameUdpServer::handlePlayerClient(asio::ip::udp::endpoint endpoint)
 {
     if (checkPlayerBinded(_lastEndpoint) == false)
     {
-        std::cout << "New player!\n";
         if (_bindedPlayers >= _nbPlayers)
         {
             readMessageHeader();
@@ -48,63 +49,70 @@ bool GameUdpServer::handlePlayerClient(asio::ip::udp::endpoint endpoint)
         }
         else
         {
-            std::cout << "New player binded\n";
             _bindedPlayers++;
             _bindMap[_lastEndpoint] = _bindedPlayers;
         }
-    }
-    else
-    {
-        std::cout << "KNowed player\n";
     }
     return true;
 }
 
 void GameUdpServer::readMessageHeader()
 {
-    Message<MessageType> message;
+    _tmpMessage = Message<MessageType>();
 
-    _socket.async_receive_from(asio::buffer(message.getHeaderPtr(), message.getHeaderSize()), _lastEndpoint,
-    [this, message](std::error_code ec, std::size_t length) mutable
+    _socket.async_receive_from(asio::buffer(_tmpMessage.getHeaderPtr(), _tmpMessage.getHeaderSize()), _lastEndpoint,
+    [this](std::error_code ec, std::size_t length)
     {
         if (ec)
         {
             readMessageHeader();
             return;
         }
+        if (!handlePlayerClient(_lastEndpoint))
+            return;
 
-        handlePlayerClient(_lastEndpoint);
-
-    
-        if (message.getBodySize() > 0)
+        if (_tmpMessage.getBodySize() > 0)
         {
-            message.resizeBody(message.getBodySize());
-            readMessageBody(message);
+            _tmpMessage.resizeBody(_tmpMessage.getBodySize());
+            readMessageBody();
         }
         else
         {
-            _gameMessageList.push_back(GameUdpMessage<MessageType>(message, _bindMap[_lastEndpoint]));
+            _gameMessageList.push_back(GameUdpMessage<MessageType>(_tmpMessage, _bindMap[_lastEndpoint]));
             readMessageHeader();
         }
     });
 }
 
-void GameUdpServer::readMessageBody(Message<MessageType> &message)
+void GameUdpServer::readMessageBody()
 {
-    _socket.async_receive_from(asio::buffer(message.getBodyDataPtr(), message.getBodySize()), _lastEndpoint,
-    [this, message](std::error_code ec, std::size_t length) mutable
+    _socket.async_receive_from(asio::buffer(_tmpMessage.getBodyDataPtr(), _tmpMessage.getBodySize()), _lastEndpoint,
+    [this](std::error_code ec, std::size_t length)
     {
         if (ec)
         {
             readMessageHeader();
             return;
         }
-        _gameMessageList.push_back(GameUdpMessage<MessageType>(message, _bindMap[_lastEndpoint]));
+        _gameMessageList.push_back(GameUdpMessage<MessageType>(_tmpMessage, _bindMap[_lastEndpoint]));
         readMessageHeader();
     });
 }
 
-void GameUdpServer::sendMessageToPlayer(GameUdpMessage<MessageType> &message, int nPlayer)
+void GameUdpServer::sendMessageToAll(Message<MessageType> &message)
 {
-    
+    for (auto &i : _bindMap)
+    {
+        writeMessageHeaderToEndpoint(message, i.first);
+    }
+}
+
+void GameUdpServer::handleRegister(int nPlayer)
+{
+    _gameInstance.handleClientRegister(nPlayer);
+}
+
+void GameUdpServer::handleClientCommand(int nPlayer, ControlGame control)
+{
+    _gameInstance.handleClientCommand(nPlayer, control);
 }

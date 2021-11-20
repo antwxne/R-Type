@@ -15,7 +15,11 @@
 class PlayerEntity : public IEntityRegister {
 public:
     PlayerEntity(const Position &pos, ColorType color);
+    PlayerEntity();
     ~PlayerEntity();
+
+    void setPos(const Position &pos);
+    void setColor(ColorType color);
 
     void create(
         const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager) override;

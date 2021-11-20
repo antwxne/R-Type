@@ -22,6 +22,7 @@ TcpAsioServer &server)
     _map[MessageType::LeaveGame] = &TcpClientInstanceMessageHandler::handleLeaveGame;
     _map[MessageType::GetGamesList] = &TcpClientInstanceMessageHandler::handleGetGames;
     _map[MessageType::GetPlayersInGame] = &TcpClientInstanceMessageHandler::handleGetPlayersInGame;
+    _map[MessageType::StartGame] = &TcpClientInstanceMessageHandler::handleStartGame;
 }
 
 TcpClientInstanceMessageHandler::~TcpClientInstanceMessageHandler()
@@ -166,10 +167,9 @@ void TcpClientInstanceMessageHandler::handleGetPlayersInGame(TcpClientInstanceMe
 {
     char gameName[GAME_NAME_MAX_LENGHT];
 
-    message.message >> gameName;
-
     try
     {
+        message.message >> gameName;
         Message<MessageType> response;
         response << MessageType::GetPlayersInGame;
         response.setResponseCode(200);
@@ -189,6 +189,24 @@ void TcpClientInstanceMessageHandler::handleGetPlayersInGame(TcpClientInstanceMe
     catch(std::exception &e)
     {
         std::cout << "Error handleGetGames : " << e.what() << std::endl;
+        writeResponse(message, 500);
+    }
+}
+
+
+void TcpClientInstanceMessageHandler::handleStartGame(TcpClientInstanceMessage<MessageType> &message)
+{
+    char gameName[GAME_NAME_MAX_LENGHT];
+
+    try
+    {
+        message.message >> gameName;
+
+        _server.gamesHandler.startGame(gameName);
+    }
+    catch(std::exception &e)
+    {
+        std::cout << "Error handleStartGame : " << e.what() << std::endl;
         writeResponse(message, 500);
     }
 }

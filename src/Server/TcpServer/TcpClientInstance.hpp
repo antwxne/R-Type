@@ -30,7 +30,7 @@ class TcpClientInstance : public std::enable_shared_from_this<TcpClientInstance>
         asio::ip::tcp::endpoint getSocketEndpoint();
     private:
         void writeMessageHeader(Message<MessageType> &message) override;
-        void readMessageBody(Message<MessageType> &message) override;
+        void readMessageBody() override;
         void writeMessageBody(Message<MessageType> &message) override;
     public:
         ClientInformations informations;
