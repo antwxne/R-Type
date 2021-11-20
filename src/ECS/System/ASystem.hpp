@@ -17,8 +17,7 @@
 
 class ASystem {
 public:
-    ASystem(
-        const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager);
+    ASystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager);
     virtual void update() = 0;
 
 protected:
