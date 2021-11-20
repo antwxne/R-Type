@@ -71,7 +71,7 @@ public:
     {
         return _systemManager->getSystem<System>();
     }
-    void garbageCollector(std::vector<RaisedEvent> &raisedEvent);
+    void garbageCollector(std::vector<std::pair<size_t, RaisedEvent>> &raisedEvent);
     const std::shared_ptr<EntityManager> &getEntityManager() const;
     const std::shared_ptr<ComponentManager> &getComponentManager() const;
     const std::unique_ptr<SystemManager> &getSystemManager() const;

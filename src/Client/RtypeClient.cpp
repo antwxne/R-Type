@@ -318,6 +318,7 @@ void RtypeClient::manageGame()
         _ecs.getSystem<MoveSystem>().update();
         _ecs.getSystem<SfmlDrawSystem>().update();
         handleInComingEntities();
+        handleInCommingDestructionEntity();
         sendControlsToServer();
     }
     catch (const std::exception &e)
@@ -348,6 +349,23 @@ void RtypeClient::handleInComingEntities()
         }
     }
     _networkClient->clearEntitiesInfos();
+}
+
+void RtypeClient::handleInCommingDestructionEntity()
+{
+    std::list<std::pair<size_t, RaisedEvent>> entities = _networkClient->getEntitiesRaisedEvent();
+    
+    for (auto &i :entities)
+    {
+        if (i.second == RaisedEvent::ENTITY_DEAD)
+        {
+            std::cout << "Destruction\n";
+            _ecs.getEntityManager()->destroy(_serverToClientEntityMap[i.first]);
+            _serverToClientEntityMap.erase(i.first);
+        }
+    }
+    _networkClient->resetRaisedEvent();
+
 }
 
 void RtypeClient::handleNewEntity(const NetworkEntityInformation &info)

@@ -51,7 +51,11 @@ class Client {
         std::list<NetworkEntityInformation> &getEntitiesInfos();
         void clearEntitiesInfos();
 
+        std::list<std::pair<size_t, RaisedEvent>> &getEntitiesRaisedEvent();
+        void resetRaisedEvent();
+
         void sendCommands(const std::list<ControlGame> &controls);
+
 
 
     private:

@@ -25,30 +25,30 @@ ECS::ECS()
 void ECS::destroyEntity(const Entity &entity)
 {
     _entityManager->destroy(entity);
-    std::cout << "destroyEntity  == " << entity << std::endl;
-
 }
 
-void ECS::garbageCollector(std::vector<RaisedEvent> &raisedEvent)
+void ECS::garbageCollector(std::vector<std::pair<size_t, RaisedEvent>> &raisedEvent)
 {
     try {
         const auto &lifes = _componentManager->getComponentsList<Life>();
         const auto &positions = _componentManager->getComponentsList<Position>();
         const auto &hitboxes = _componentManager->getComponentsList<Rectangle>();
         const auto &tags = _componentManager->getComponentsList<Tag>();
-        const auto &sounds = _componentManager->getComponentsList<SfmlSound>();
 
         std::size_t idx;
         const auto &currentEntities = _entityManager->getCurrentEntities();
 
-        for (const auto &entity: currentEntities) {
+        for (const auto &entity: currentEntities)
+        {
             entity >> idx;
             if (!isAlive(lifes[idx])) {
-                raisedEvent.push_back(RaisedEvent::PLAYER_DIED);
+                raisedEvent.push_back({idx, RaisedEvent::ENTITY_DEAD});
                 destroyEntity(idx);
+                return;
             }
             if (!isInScreen(positions[idx], hitboxes[idx], tags[idx])) {
                 destroyEntity(idx);
+                return;
             }
         }
     } catch (...) {

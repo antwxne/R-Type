@@ -59,6 +59,9 @@ class RtypeClient {
         void handleInComingEntities();
         void handleNewEntity(const NetworkEntityInformation &info);
         void handleUpdateEntity(const NetworkEntityInformation &info);
+
+        void handleInCommingDestructionEntity();
+        
         void sendControlsToServer();
     private:
         GameState _state;

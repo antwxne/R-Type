@@ -13,6 +13,7 @@ _maxPlayers(maxPlayers)
     _state = WaitingScreen;
     _nbPlayers = 0;
     _run = true;
+    srand(time(NULL));
 }
 
 GameInstance::~GameInstance()
@@ -23,10 +24,13 @@ void GameInstance::run()
 {
     while (_run)
     {
-        if (_state == GameInstanceState::Game && _ecs)
-            _ecs->run();
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        try
+        {
+            if (_state == GameInstanceState::Game && _ecs)
+                _ecs->run();
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+        catch(...) {}
     }
 }
 
@@ -147,4 +151,20 @@ void GameInstance::handleClientRegister(int nPlayer)
 void GameInstance::handleClientCommand(int nPlayer, ControlGame control)
 {
     _ecs->handleCommandPlayer(nPlayer, control);
+}
+
+void GameInstance::sendEntityRaisedEvent(const std::vector<std::pair<size_t, RaisedEvent>> &info)
+{
+
+    for (auto &i : info)
+    {
+        Message<MessageType> message;
+
+        message << MessageType::EntityDestruction;
+
+        message << i.first;
+        message << i.second;
+
+        _udpGameServer->sendMessageToAll(message);
+    }
 }

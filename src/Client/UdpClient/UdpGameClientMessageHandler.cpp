@@ -14,6 +14,7 @@ typedef void (UdpGameClientMessageHandler::*UdpGameMFP)(Message<MessageType> &);
 UdpGameClientMessageHandler::UdpGameClientMessageHandler(UdpGameClient &client) : _client(client)
 {
     _map[MessageType::EntityUpdate] = &UdpGameClientMessageHandler::handleEntityUpdate;
+    _map[MessageType::EntityDestruction] = &UdpGameClientMessageHandler::handleEntityDestruction;
 }
 
 UdpGameClientMessageHandler::~UdpGameClientMessageHandler()
@@ -40,4 +41,17 @@ void UdpGameClientMessageHandler::handleEntityUpdate(Message<MessageType> &messa
     message >> info;
 
     _client.addEntityInfo(info);
+}
+
+void UdpGameClientMessageHandler::handleEntityDestruction(Message<MessageType> &message)
+{
+    RaisedEvent event;
+    size_t entity;
+
+    message >> event;
+    message >> entity;
+
+    std::cout << "Entity Destruction\n";
+
+    _client.addEntityRaisedEvent(entity, event);
 }

@@ -23,15 +23,24 @@ class UdpGameClient : public UdpClient {
         void run() override;
         void sendRegisterMessage();
         void sendCommand(ControlGame control);
+
         void addEntityInfo(const NetworkEntityInformation& info);
         std::list<NetworkEntityInformation> &getEntitiesInfos();
         void resetEntitiesList();
+
+        void addEntityRaisedEvent(size_t entity, RaisedEvent event);
+        std::list<std::pair<size_t, RaisedEvent>> &getEntitiesRaisedEvent();
+        void resetRaisedEvent();
+
+
         void sendCommands(const std::list<ControlGame> &controls);
 
     protected:
     private:
         UdpGameClientMessageHandler _gameHandler;
+
         std::list<NetworkEntityInformation> _entitiesInfos;
+        std::list<std::pair<size_t, RaisedEvent>> _entitiesRaisedEvent;
         std::mutex _entitiesInfosMutex;
 };
 

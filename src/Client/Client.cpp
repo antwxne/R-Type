@@ -27,10 +27,14 @@ void Client::run()
 {
     while (!_stop)
     {
-        _tcpClient.run();
-        if (_udpClient)
-            _udpClient->run();
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        try
+        {
+            _tcpClient.run();
+            if (_udpClient)
+                _udpClient->run();
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        }
+        catch (...) {}
     }
 }
 
@@ -256,4 +260,13 @@ void Client::clearEntitiesInfos()
 void Client::sendCommands(const std::list<ControlGame> &controls)
 {
     _udpClient->sendCommands(controls);
+}
+
+std::list<std::pair<size_t, RaisedEvent>> &Client::getEntitiesRaisedEvent()
+{
+    return _udpClient->getEntitiesRaisedEvent();
+}
+void Client::resetRaisedEvent()
+{
+    _udpClient->resetRaisedEvent();
 }

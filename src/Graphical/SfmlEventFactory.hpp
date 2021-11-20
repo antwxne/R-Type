@@ -27,7 +27,7 @@ enum ControlGame: int {
 };
 enum RaisedEvent: int {
     SHOT,
-    PLAYER_DIED
+    ENTITY_DEAD
 };
 #else
 
@@ -46,7 +46,7 @@ enum ControlGame {
 
 enum RaisedEvent {
     SHOT,
-    PLAYER_DIED
+    ENTITY_DEAD
 };
 
 #endif

@@ -25,6 +25,7 @@ enum class MessageType : short
     GameCommand = 8,
 
     EntityUpdate = 9,
+    EntityDestruction = 10,
 };
 
 #endif /* !NETWORK_HPP_ */

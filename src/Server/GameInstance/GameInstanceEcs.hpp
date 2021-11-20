@@ -32,6 +32,7 @@ class GameInstanceEcs {
         void networkEntityUpdate();
         void getCurrentEntityInfo(const Entity &entity);
         bool checkNetworkEntity(const Entity &entity);
+        void sendDestructionMessage(const std::vector<std::pair<size_t, RaisedEvent>> &events);
     private:
         ECS _ecs;
         GameInstance &_gameInstance;
@@ -39,7 +40,7 @@ class GameInstanceEcs {
 
         std::map<int, size_t> _playerToEntityMap;
 
-        std::vector<RaisedEvent> _raisedEvents;
+        std::vector<std::pair<size_t, RaisedEvent>> _raisedEvents;
 };
 
 #endif /* !GAMEINSTANCEECS_HPP_ */

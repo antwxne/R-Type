@@ -117,7 +117,6 @@ void EventCallback::shoot( const std::shared_ptr<ComponentManager> &componentMan
     BulletEntity _be(posBullet, isFriend);
     _be.create(componentManager, entityManager);
     currentFirerate.value().clock.restart();
-    raisedEvents.emplace_back(RaisedEvent::SHOT);
 }
 
 

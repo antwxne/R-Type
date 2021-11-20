@@ -41,6 +41,7 @@ class GameInstance : public IAsioGameInstance {
         char getNPlayers() const;
 
         void sendEntityUpdateMessage(const NetworkEntityInformation &info);
+        void sendEntityRaisedEvent(const std::vector<std::pair<size_t, RaisedEvent>> &info);
 
         void handleClientRegister(int nPlayer);
         void handleClientCommand(int nPlayer, ControlGame control);
