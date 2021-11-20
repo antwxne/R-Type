@@ -6,10 +6,10 @@
 */
 
 #include "RoundSystem.hpp"
-#include "ECS/Component/Game.hpp"
+#include "ECS/Component/Round.hpp"
 #include "ECS/Component/Tag.hpp"
 #include "../../utils.hpp"
-
+#include "ECS/Entity/EnemyEntity.hpp"
 RoundSystem::RoundSystem(const std::shared_ptr<ComponentManager> &components, const std::shared_ptr<EntityManager> &entityManager) : ASystem(components, entityManager)
 {
 }
@@ -22,21 +22,21 @@ void RoundSystem::update()
 {
     const auto &entities = _entityManager->getCurrentEntities();
     std::size_t id;
-    int nbEnnemies = 0;
+    int nbEnemies = 0;
     auto &tags = _componentManager->getComponentsList<Tag>();
-    auto &games = _componentManager->getComponentsList<Game>();
+    auto &rounds = _componentManager->getComponentsList<Round>();
 
     for (const auto &currentEntity : entities)
     {
         currentEntity >> id;
-        if (!checkAvailableEntityEnnemy(id))
+        if (!checkAvailableEntityEnemy(id))
         {
             continue;
         }
         Tag &tag = tags[currentEntity].value();
-        if (contains(tag.type, TagType::ENNEMY) && !contains(tag.type, TagType::BULLET))
+        if (contains(tag.type, TagType::ENEMY) && !contains(tag.type, TagType::BULLET))
         {
-            nbEnnemies++;
+            nbEnemies++;
         }
     }
     for (const auto &currentEntity : entities)
@@ -46,26 +46,40 @@ void RoundSystem::update()
         {
             continue;
         }
-        Game &game = games[currentEntity].value();
-        if (nbEnnemies != game.nbEnnemies) {
-            game.score += 10 * (abs(nbEnnemies - game.nbEnnemies));
+        Round &round = rounds[currentEntity].value();
+        if (nbEnemies != round.nbEnemies)
+        {
+            round.score += 10 * (abs(nbEnemies - round.nbEnemies));
         }
-        game.nbEnnemies = nbEnnemies;
-        if (nbEnnemies == 0) {
-            game.round += 1;
-            game.nbEnnemies = 5;
+        round.nbEnemies = nbEnemies;
+        if (nbEnemies == 0)
+        {
+            round.round += 1;
+            std::cout << "Round " << round.round << std::endl;
+            round.nbEnemies = 5;
+        }
+    }
+    std::cout << "nbEnemies" << nbEnemies << std::endl;
+
+    if (nbEnemies == 0)
+    {
+        std::cout << "je crée un ennemie\n";
+        for (int i = 0; i < 5; i++)
+        {
+            EnemyEntity enemy({1920, (static_cast<float>(200 * i))});
+            enemy.create(_componentManager, _entityManager);
         }
     }
 }
 
 bool RoundSystem::checkAvailableEntity(size_t entity) const
 {
-    const auto &game = _componentManager->getComponentsList<Game>();
+    const auto &round = _componentManager->getComponentsList<Round>();
 
-    return game[entity].has_value();
+    return round[entity].has_value();
 }
 
-bool RoundSystem::checkAvailableEntityEnnemy(std::size_t entity) const
+bool RoundSystem::checkAvailableEntityEnemy(std::size_t entity) const
 {
     const auto &tag = _componentManager->getComponentsList<Tag>();
 

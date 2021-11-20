@@ -108,7 +108,7 @@ bool ECS::isADeadSound(const std::optional<Tag> &tag,
 )
 {
     const std::vector<TagType> types = {TagType::PLAYER, TagType::BULLET,
-        TagType::ENNEMY};
+        TagType::ENEMY};
 
     if (!tag.has_value() || !sound.has_value()) {
         return false;

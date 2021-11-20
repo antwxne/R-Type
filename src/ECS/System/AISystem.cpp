@@ -37,7 +37,7 @@ void AISystem::update()
             continue;
         Tag &tag = tags[entity].value();
         AI &ai = ais[entity].value();
-        if (contains(tag.type, TagType::ENNEMY) && !contains(tag.type, TagType::BULLET)) {
+        if (contains(tag.type, TagType::ENEMY) && !contains(tag.type, TagType::BULLET)) {
             if (!ai.isDestination) {
                 setDestination(id);
             }

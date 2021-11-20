@@ -9,10 +9,10 @@
 #define GAME_HPP_
 
 
-struct Game {
+struct Round {
     int round;
     int score;
-    int nbEnnemies;
+    int nbEnemies;
 };
 
 #endif /* !GAME_HPP_ */

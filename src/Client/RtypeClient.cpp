@@ -9,6 +9,7 @@
 #include "ECS/System/EventSystem/EventSystem.hpp"
 #include "ECS/System/EventSystem/EventCallback.hpp"
 #include "ECS/component.hpp"
+#include "ECS/Entity/RoundEntity.hpp"
 #include <iostream>
 #include "ECS/system.hpp"
 
@@ -69,26 +70,19 @@ void RtypeClient::registerComponents()
     _ecs.registerComponent<Firerate>();
     _ecs.registerComponent<AI>();
     _ecs.registerComponent<SfmlSound>();
+    _ecs.registerComponent<Round>();
 }
 
 void RtypeClient::start()
 {
     PlayerEntity _pe({150, 50}, ColorType::None);
-    EnemyEntity _ee({1050, 50});
-    EnemyEntity _ee2({1050, 50});
-    EnemyEntity _ee3({1050, 50});
-    EnemyEntity _ee4({1050, 50});
-    EnemyEntity _ee5({1050, 50});
-    BulletEntity _be({150, 800}, true);
     _pe.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    _ee.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    _ee2.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    _ee3.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    _ee4.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    _ee5.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    RoundEntity _round(Round{1, 0, 5});
+    _round.create(_ecs.getComponentManager(), _ecs.getEntityManager());
 
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
+    _ecs.registerSystem<RoundSystem>();
     _ecs.registerSystem<AISystem>();
     _ecs.registerSystem<ColissionSystem>();
     _ecs.registerSystem<PlaySoundEvents>();
@@ -330,6 +324,7 @@ void RtypeClient::manageGame()
         _ecs.getSystem<EventSystem>().update();
         _ecs.getSystem<ColissionSystem>().update();
         _ecs.getSystem<AISystem>().update();
+        _ecs.getSystem<RoundSystem>().update();
         _ecs.getSystem<MoveSystem>().update();
         _ecs.getSystem<SfmlDrawSystem>().update();
         _ecs.getSystem<PlaySoundEvents>().update();

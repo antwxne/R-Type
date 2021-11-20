@@ -19,7 +19,7 @@ class RoundSystem : public ASystem {
     protected:
     private:
         bool checkAvailableEntity(std::size_t entity) const override;
-        bool checkAvailableEntityEnnemy(std::size_t entity) const;
+        bool checkAvailableEntityEnemy(std::size_t entity) const;
 };
 
 #endif /* !ROUNDSYSTEM_HPP_ */

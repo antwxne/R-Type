@@ -76,16 +76,16 @@ void ColissionSystem::update()
                 rectangle.height + position.y > positionTmp.y) {
                 entityCollide.push_back(id);
                 if (contains(tag.type, TagType::PLAYER) &&
-                    contains(tagTmp.type, TagType::ENNEMY)) {
+                    contains(tagTmp.type, TagType::ENEMY)) {
                     life.health = 0;
                 }
                 if (contains(tag.type, TagType::PLAYER) &&
                     (contains(tagTmp.type, TagType::BULLET) &&
-                        contains(tagTmp.type, TagType::ENNEMY))) {
+                        contains(tagTmp.type, TagType::ENEMY))) {
                     life.health = 0;
                     lifeTmp.health = 0;
                 }
-                if (contains(tag.type, TagType::ENNEMY) &&
+                if (contains(tag.type, TagType::ENEMY) &&
                     (contains(tagTmp.type, TagType::BULLET) &&
                         contains(tagTmp.type, TagType::PLAYER))) {
                     life.health = 0;
