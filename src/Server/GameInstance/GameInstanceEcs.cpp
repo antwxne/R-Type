@@ -46,6 +46,7 @@ void GameInstanceEcs::registerComponents()
     _ecs.registerComponent<Rectangle>();
     _ecs.registerComponent<Firerate>();
     _ecs.registerComponent<AI>();
+    _ecs.registerComponent<MoveClock>();
 }
 
 void GameInstanceEcs::registerSystems()
@@ -55,6 +56,12 @@ void GameInstanceEcs::registerSystems()
     _ecs.registerSystem<ColissionSystem>();
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
+
+    EnemyEntity e({800,800});
+    e.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+
+    EnemyEntity e2({900,800});
+    e2.create(_ecs.getComponentManager(), _ecs.getEntityManager());
 
 }
 

@@ -29,5 +29,6 @@
 #include "Component/Transform/Rotate.hpp"
 #include "Component/Transform/Scale.hpp"
 #include "Component/AI.hpp"
+#include "Component/MoveClock.hpp"
 
 #endif /* !COMPONENT_HPP_ */

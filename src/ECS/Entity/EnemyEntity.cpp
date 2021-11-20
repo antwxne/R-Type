@@ -32,6 +32,7 @@ void EnemyEntity::create(
     componentManager->subToComponent(_entity, Speed{1});
     componentManager->subToComponent(_entity, Life{1});
     componentManager->subToComponent(_entity, Acceleration{0, 0});
+    componentManager->subToComponent(_entity, MoveClock{7});
 
     int randNum = rand()%(3-1 + 1) + 1;
 

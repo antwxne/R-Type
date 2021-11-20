@@ -46,6 +46,7 @@ void PlayerEntity::create(
     componentManager->subToComponent(_entity, Texture{TextureType::Player});
     componentManager->subToComponent(_entity, Scale{1, 1});
     componentManager->subToComponent(_entity, Color{_color});
+    componentManager->subToComponent(_entity, MoveClock{7});
 
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
     sf::Clock clock;

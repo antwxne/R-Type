@@ -36,13 +36,14 @@ void BulletEntity::create(
     }
     componentManager->subToComponent(_entity, _pos);
     componentManager->subToComponent(_entity, Texture{TextureType::Bullet});
-    componentManager->subToComponent(_entity, Color{ColorType::Red});
+    componentManager->subToComponent(_entity, Color{ColorType::None});
     componentManager->subToComponent(_entity, Scale{1.5, 1.5});
 
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
 
     sprite->setTextureRect(_rect);
 
+    componentManager->subToComponent(_entity, MoveClock{7});
     componentManager->subToComponent(_entity, SfmlSprite{sprite, _rect, 0, 0, 0});
     componentManager->subToComponent(_entity, Speed{10});
     componentManager->subToComponent(_entity, Life{1});
