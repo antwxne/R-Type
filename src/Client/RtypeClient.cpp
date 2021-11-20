@@ -77,15 +77,15 @@ void RtypeClient::start()
 {
     PlayerEntity _pe({150, 50}, ColorType::None);
     _pe.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    RoundEntity _round(Round{1, 0, 5});
+    RoundEntity _round({1, 0, 5});
     _round.create(_ecs.getComponentManager(), _ecs.getEntityManager());
 
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
-    _ecs.registerSystem<RoundSystem>();
     _ecs.registerSystem<AISystem>();
     _ecs.registerSystem<ColissionSystem>();
     _ecs.registerSystem<PlaySoundEvents>();
+    _ecs.registerSystem<RoundSystem>();
 
     draw.setDisplay(_graphical);
 
@@ -321,13 +321,21 @@ void RtypeClient::manageLobbyMenu()
 void RtypeClient::manageGame()
 {
     try {
+        std::cout << "1\n";
         _ecs.getSystem<EventSystem>().update();
-        _ecs.getSystem<ColissionSystem>().update();
-        _ecs.getSystem<AISystem>().update();
-        _ecs.getSystem<RoundSystem>().update();
-        _ecs.getSystem<MoveSystem>().update();
+        std::cout << "2\n";
         _ecs.getSystem<SfmlDrawSystem>().update();
+        std::cout << "3\n";
+        _ecs.getSystem<ColissionSystem>().update();
+        std::cout << "4\n";
+        _ecs.getSystem<AISystem>().update();
+        std::cout << "5\n";
+        _ecs.getSystem<MoveSystem>().update();
+        std::cout << "6\n";
         _ecs.getSystem<PlaySoundEvents>().update();
+        std::cout << "7\n";
+        _ecs.getSystem<RoundSystem>().update();
+        std::cout << "8\n";
     } catch (...) {}
     _ecs.garbageCollector(std::ref(_raisedEvents));
 }

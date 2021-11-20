@@ -18,7 +18,5 @@ RoundEntity::~RoundEntity()
 
 void RoundEntity::create(const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager)
 {
-    _entity = entityManager->create();
-
-    componentManager->subToComponent(_entity, _round);
+    componentManager->subToComponent(entityManager->create(), _round);
 }

@@ -7,8 +7,10 @@
 
 #ifndef ROUNDENTITY_HPP_
 #define ROUNDENTITY_HPP_
+
+#include "../ECS.hpp"
+#include "EntityManager.hpp"
 #include "IEntityRegister.hpp"
-#include "ECS/component.hpp"
 
 class RoundEntity : public IEntityRegister {
     public:
