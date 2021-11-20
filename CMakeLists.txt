@@ -92,6 +92,9 @@ set(SHARED_SRC
         src/ECS/Component/AI.hpp
         src/ECS/System/AISystem.cpp
         src/ECS/System/AISystem.hpp
+        src/ECS/Component/Round.hpp
+        src/ECS/System/RoundSystem.cpp
+        src/ECS/System/RoundSystem.hpp
         src/ECS/System/ColissionSystem.cpp
         src/ECS/System/ColissionSystem.hpp
         src/ECS/System/MoveSystem.hpp
@@ -120,6 +123,8 @@ set(SHARED_SRC
         src/ECS/System/EventSystem/EventSystem.hpp
         src/ECS/System/EventSystem/EventSystem.cpp
         src/ECS/System/EventSystem/EventCallback.cpp src/ECS/System/EventSystem/EventCallback.hpp
+        src/ECS/Entity/RoundEntity.cpp
+        src/ECS/Entity/RoundEntity.hpp
         src/ECS/Entity/PlayerEntity.hpp
         src/ECS/Entity/PlayerEntity.cpp
         src/ECS/Entity/EnemyEntity.hpp

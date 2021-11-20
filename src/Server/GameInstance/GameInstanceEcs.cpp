@@ -9,6 +9,7 @@
 #include "ECS/component.hpp"
 #include "ECS/system.hpp"
 #include "ECS/Entity/EnemyEntity.hpp"
+#include "ECS/Entity/RoundEntity.hpp"
 #include "ECS/Entity/PlayerEntity.hpp"
 #include "GameInstance.hpp"
 #include "NetworkEntityInformation.hpp"
@@ -19,7 +20,8 @@ GameInstanceEcs::GameInstanceEcs(GameInstance &gameInstance) : _gameInstance(gam
 {
     registerComponents();
     registerSystems();
-
+    RoundEntity round({1, 0, 5});
+    round.create(_ecs.getComponentManager(), _ecs.getEntityManager());
     _networkSendClock = Clock::now();
 }
 
@@ -47,6 +49,7 @@ void GameInstanceEcs::registerComponents()
     _ecs.registerComponent<Firerate>();
     _ecs.registerComponent<AI>();
     _ecs.registerComponent<MoveClock>();
+    _ecs.registerComponent<Round>();
 }
 
 void GameInstanceEcs::registerSystems()
@@ -54,15 +57,9 @@ void GameInstanceEcs::registerSystems()
     _ecs.registerSystem<MoveSystem>();
     _ecs.registerSystem<AISystem>();
     _ecs.registerSystem<ColissionSystem>();
+    _ecs.registerSystem<RoundSystem>();
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
-
-    EnemyEntity e({800,800});
-    e.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-
-    EnemyEntity e2({900,800});
-    e2.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-
 }
 
 void GameInstanceEcs::networkEntityUpdate()
@@ -183,6 +180,7 @@ void GameInstanceEcs::run()
     _ecs.getSystem<ColissionSystem>().update();
     _ecs.getSystem<AISystem>().update();
     _ecs.getSystem<MoveSystem>().update();
+    _ecs.getSystem<RoundSystem>().update();
     _ecs.garbageCollector(_raisedEvents);
     networkEntityUpdate();
     handleRaisedEvents();

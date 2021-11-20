@@ -16,8 +16,7 @@
 
 ColissionSystem::ColissionSystem(
     const std::shared_ptr<ComponentManager> &components,
-    const std::shared_ptr<EntityManager> &entityManager
-) : ASystem(components, entityManager)
+    const std::shared_ptr<EntityManager> &entityManager) : ASystem(components, entityManager)
 {
 }
 
@@ -38,10 +37,11 @@ void ColissionSystem::update()
     std::size_t id;
     std::size_t otherId;
 
-
-    for (const auto &currentEntity: entities) {
+    for (const auto &currentEntity : entities)
+    {
         currentEntity >> id;
-        if (!checkAvailableEntity(id)) {
+        if (!checkAvailableEntity(id))
+        {
             continue;
         }
 
@@ -52,45 +52,59 @@ void ColissionSystem::update()
         Life &life = lifes[currentEntity].value();
         Scale &scale = scales[currentEntity].value();
 
-        if (!colission.isColide) {
+        if (!colission.isColide)
+        {
             continue;
         }
-        for (const auto &otherEntity : entities) {
-            otherEntity >> otherId;
-            if (!checkAvailableEntity(id)) {
-                continue;
+        for (const auto &otherEntity : entities)
+        {
+            try
+            {
+                otherEntity >> otherId;
+                if (!checkAvailableEntity(id))
+                {
+                    continue;
+                }
+                if (contains(entityCollide, otherId) || id == otherId)
+                    continue;
+                Position &positionTmp = positions[otherEntity].value();
+                Rectangle &rectangleTmp = rectangles[otherEntity].value();
+                Collision &colissionTmp = colissions[otherEntity].value();
+                Tag &tagTmp = tags[otherEntity].value();
+                Life &lifeTmp = lifes[otherEntity].value();
+                Scale &scaleTmp = scales[otherEntity].value();
+                if (!colissionTmp.isColide)
+                    continue;
+                if (position.x < positionTmp.x + rectangleTmp.width &&
+                    position.x + rectangle.width > positionTmp.x &&
+                    position.y < positionTmp.y + rectangleTmp.height &&
+                    rectangle.height + position.y > positionTmp.y)
+                {
+                    entityCollide.push_back(id);
+                    if (contains(tag.type, TagType::PLAYER) &&
+                        contains(tagTmp.type, TagType::ENEMY))
+                    {
+                        life.health = 0;
+                    }
+                    if (contains(tag.type, TagType::PLAYER) &&
+                        (contains(tagTmp.type, TagType::BULLET) &&
+                         contains(tagTmp.type, TagType::ENEMY)))
+                    {
+                        life.health = 0;
+                        lifeTmp.health = 0;
+                    }
+                    if (contains(tag.type, TagType::ENEMY) &&
+                        (contains(tagTmp.type, TagType::BULLET) &&
+                         contains(tagTmp.type, TagType::PLAYER)))
+                    {
+                        life.health = 0;
+                        lifeTmp.health = 0;
+                    }
+                }
             }
-            if (contains(entityCollide, otherId) || id == otherId)
+            catch (...)
+            {
                 continue;
-            Position &positionTmp = positions[otherEntity].value();
-            Rectangle &rectangleTmp = rectangles[otherEntity].value();
-            Collision &colissionTmp = colissions[otherEntity].value();
-            Tag &tagTmp = tags[otherEntity].value();
-            Life &lifeTmp = lifes[otherEntity].value();
-            Scale &scaleTmp = scales[otherEntity].value();
-            if (!colissionTmp.isColide)
-                continue;
-            if (position.x < positionTmp.x + rectangleTmp.width &&
-                position.x + rectangle.width > positionTmp.x &&
-                position.y < positionTmp.y + rectangleTmp.height &&
-                rectangle.height + position.y > positionTmp.y) {
-                entityCollide.push_back(id);
-                if (contains(tag.type, TagType::PLAYER) &&
-                    contains(tagTmp.type, TagType::ENNEMY)) {
-                    life.health = 0;
-                }
-                if (contains(tag.type, TagType::PLAYER) &&
-                    (contains(tagTmp.type, TagType::BULLET) &&
-                        contains(tagTmp.type, TagType::ENNEMY))) {
-                    life.health = 0;
-                    lifeTmp.health = 0;
-                }
-                if (contains(tag.type, TagType::ENNEMY) &&
-                    (contains(tagTmp.type, TagType::BULLET) &&
-                        contains(tagTmp.type, TagType::PLAYER))) {
-                    life.health = 0;
-                    lifeTmp.health = 0;
-                }
             }
         }
     }
@@ -105,6 +119,6 @@ bool ColissionSystem::checkAvailableEntity(std::size_t entity) const
     const auto &life = _componentManager->getComponentsList<Life>();
 
     return rectangle[entity].has_value() && collision[entity].has_value() &&
-        position[entity].has_value() && tag[entity].has_value() &&
-        life[entity].has_value();
+           position[entity].has_value() && tag[entity].has_value() &&
+           life[entity].has_value();
 }

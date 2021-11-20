@@ -24,7 +24,7 @@ void EnemyEntity::create(
 
     componentManager->subToComponent(_entity, Rotate{0});
     componentManager->subToComponent(_entity, _pos);
-    componentManager->subToComponent(_entity, Tag{{TagType::ENNEMY}});
+    componentManager->subToComponent(_entity, Tag{{TagType::ENEMY}});
     componentManager->subToComponent(_entity, Collision{true});
     componentManager->subToComponent(_entity, Color{ColorType::None});
     componentManager->subToComponent(_entity, AI{false, 0, 0, 800, 1920, 1, 1080});

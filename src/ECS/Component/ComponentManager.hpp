@@ -66,7 +66,6 @@ public:
     void entityDestroyed(const Entity &entity)
     {
         for (auto &elem : _componentsMap) {
-            std::cout << "LA" << std::endl;
             std::any_cast<SparseArray<std::any> &>(elem.second).entityDestroyed(entity);
         }
     }

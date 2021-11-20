@@ -12,7 +12,7 @@
 #ifdef __WIN32
 enum TagType: int {
     BULLET,
-    ENNEMY,
+    ENEMY,
     PLAYER,
 };
 
@@ -20,7 +20,7 @@ enum TagType: int {
 
 enum TagType {
     BULLET,
-    ENNEMY,
+    ENEMY,
     PLAYER,
     POWERUP,
     SOUND

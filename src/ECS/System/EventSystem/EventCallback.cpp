@@ -106,7 +106,7 @@ void EventCallback::shoot( const std::shared_ptr<ComponentManager> &componentMan
     if (elapsed < currentFirerate.value().delay) {
         return;
     }
-    if (contains(tag.type, TagType::ENNEMY)) {
+    if (contains(tag.type, TagType::ENEMY)) {
         posBullet.x -= 130;
         posBullet.y += 20;
         isFriend = false;

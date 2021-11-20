@@ -10,6 +10,7 @@
 #include "ECS/System/EventSystem/EventCallback.hpp"
 #include "ECS/component.hpp"
 #include "ECS/Entity/SoundEntity.hpp"
+#include "ECS/Entity/RoundEntity.hpp"
 #include <iostream>
 #include "ECS/system.hpp"
 
@@ -77,6 +78,7 @@ void RtypeClient::registerComponents()
     _ecs.registerComponent<AI>();
     _ecs.registerComponent<SfmlSound>();
     _ecs.registerComponent<MoveClock>();
+    _ecs.registerComponent<Round>();
 }
 
 void RtypeClient::start()

@@ -15,6 +15,7 @@
 #include "System/Draw/SfmlDrawSystem.hpp"
 #include "System/AISystem.hpp"
 #include "System/Audio/SfmlSoundSystem.hpp"
+#include "System/RoundSystem.hpp"
 #include "System/EventSystem/EventCallback.hpp"
 #include "System/EventSystem/EventSystem.hpp"
 

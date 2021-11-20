@@ -32,7 +32,7 @@ void BulletEntity::create(
     } else {
         componentManager->subToComponent(_entity, Rotate{180});
         componentManager->subToComponent(_entity, Acceleration{-1, 0});
-        componentManager->subToComponent(_entity, Tag{{TagType::ENNEMY, TagType::BULLET}});
+        componentManager->subToComponent(_entity, Tag{{TagType::ENEMY, TagType::BULLET}});
     }
     componentManager->subToComponent(_entity, _pos);
     componentManager->subToComponent(_entity, Texture{TextureType::Bullet});
