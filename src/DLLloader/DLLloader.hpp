@@ -18,11 +18,11 @@ class DLLloader {
         DLLloader(const std::string &filename, std::string &symbol);
         ~DLLloader();
         std::shared_ptr<T> &getInstance();
+        int Cdlclose();
     protected:
         void Cdlopen(const std::string &filename, int flag);
         std::string Cdlerror();
         void *Cdlsym(std::string symbol);
-        int Cdlclose();
         void computeInstance(const std::string &symbol);
     private:
         void *_handle;
@@ -41,8 +41,10 @@ DLLloader<T>::~DLLloader()
 {
     std::cout << "On ferme la boutique" << std::endl;
     _instance.reset();
-    if (_handle)
-        Cdlclose();
+    // if (_handle != NULL) {
+    //     std::cout << "On Cdlclose !" << std::endl;
+    //     Cdlclose();
+    // }
 }
 
 template<typename T>
