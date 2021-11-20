@@ -88,12 +88,9 @@ set(SHARED_SRC
         src/ECS/Component/AI.hpp
         src/ECS/System/AISystem.cpp
         src/ECS/System/AISystem.hpp
-<<<<<<< HEAD
         src/ECS/Component/Game.hpp
         src/ECS/System/RoundSystem.cpp
         src/ECS/System/RoundSystem.hpp
-=======
->>>>>>> parent of 24cae41 ([ADD] Start of gameScore with game logic)
         src/ECS/System/ColissionSystem.cpp
         src/ECS/System/ColissionSystem.hpp
         src/ECS/System/MoveSystem.hpp
