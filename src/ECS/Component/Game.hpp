@@ -12,6 +12,7 @@
 struct Game {
     int round;
     int score;
+    int nbEnnemies;
 };
 
 #endif /* !GAME_HPP_ */
