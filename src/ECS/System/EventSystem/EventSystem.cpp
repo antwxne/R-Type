@@ -69,7 +69,6 @@ void EventSystem::update()
     } catch (const std::out_of_range &error) {
         std::cerr << error.what() << std::endl;
     }
-    std::cout << "End update\n";
     clearEvents();
 }
 

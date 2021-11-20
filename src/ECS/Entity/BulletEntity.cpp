@@ -42,10 +42,7 @@ void BulletEntity::create(
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
 
     sprite->setTextureRect(_rect);
-    std::shared_ptr<sf::SoundBuffer> tmp = std::make_shared<sf::SoundBuffer>();
-    tmp->loadFromFile("assets/sound/shot.ogg");
 
-    componentManager->subToComponent(_entity, SfmlSound{true, sf::Sound(*tmp), tmp});
     componentManager->subToComponent(_entity, SfmlSprite{sprite, _rect, 0, 0, 0});
     componentManager->subToComponent(_entity, Speed{10});
     componentManager->subToComponent(_entity, Life{1});
