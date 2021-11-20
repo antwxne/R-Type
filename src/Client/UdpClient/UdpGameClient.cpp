@@ -7,7 +7,7 @@
 
 #include "UdpGameClient.hpp"
 
-UdpGameClient::UdpGameClient(const std::string &ip, int port) : UdpClient(ip, port)
+UdpGameClient::UdpGameClient(const std::string &ip, int port) : UdpClient(ip, port), _gameHandler(*this)
 {
 }
 
@@ -15,6 +15,15 @@ UdpGameClient::~UdpGameClient()
 {
 }
 
+void UdpGameClient::run()
+{
+    if (_messageList.size() > 0)
+    {
+        Message<MessageType> message = _messageList.front();
+        _messageList.pop_front();
+        _gameHandler.handleMessage(message);
+    }
+}
 
 void UdpGameClient::start()
 {
@@ -45,4 +54,19 @@ void UdpGameClient::sendCommand(ControlGame control)
     message << control;
 
     sendMessage(message);
+}
+
+void UdpGameClient::addEntityInfo(const NetworkEntityInformation& info)
+{
+    _entitiesInfos.push_back(info);
+}
+
+std::list<NetworkEntityInformation> &UdpGameClient::getEntitiesInfos()
+{
+    return _entitiesInfos;
+}
+
+void UdpGameClient::resetEntitiesList()
+{
+    _entitiesInfos.clear();
 }

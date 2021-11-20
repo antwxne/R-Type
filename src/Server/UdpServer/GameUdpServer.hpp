@@ -19,7 +19,7 @@ class GameUdpServer : public UdpAsioServer
         GameUdpServer(int port, int nbPlayers);
         ~GameUdpServer();
         void run() override;
-        void sendMessageToPlayer(Message<MessageType> &message, int nPlayer);
+        void sendMessageToAll(Message<MessageType> &message);
         void readMessageHeader() override;
         void readMessageBody() override;
     private:

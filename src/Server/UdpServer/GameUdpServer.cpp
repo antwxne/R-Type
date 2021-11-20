@@ -99,7 +99,10 @@ void GameUdpServer::readMessageBody()
     });
 }
 
-void GameUdpServer::sendMessageToPlayer(Message<MessageType> &message, int nPlayer)
+void GameUdpServer::sendMessageToAll(Message<MessageType> &message)
 {
-    
+    for (auto &i : _bindMap)
+    {
+        writeMessageHeaderToEndpoint(message, i.first);
+    }
 }

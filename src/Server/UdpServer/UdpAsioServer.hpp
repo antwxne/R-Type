@@ -33,8 +33,8 @@ class UdpAsioServer : public INetwork {
         void writeMessageHeader(Message<MessageType> &message) override;
         void writeMessageBody(Message<MessageType> &message) override;
 
-        void writeMessageHeaderToEndpoint(Message<MessageType> &message, asio::ip::udp::endpoint &clientEndpoint);
-        void writeMessageBodyToEndpoint(Message<MessageType> &message, asio::ip::udp::endpoint &clientEndpoint);
+        void writeMessageHeaderToEndpoint(Message<MessageType> &message, const asio::ip::udp::endpoint &clientEndpoint);
+        void writeMessageBodyToEndpoint(Message<MessageType> &message, const asio::ip::udp::endpoint &clientEndpoint);
 
     protected:
         asio::io_context _asioContext;

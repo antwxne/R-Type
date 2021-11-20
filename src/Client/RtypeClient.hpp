@@ -53,6 +53,10 @@ class RtypeClient {
         void handleInitGame();
         void handleGetGames();
         void manageMusic();
+
+        void handleInComingEntities();
+        void handleNewEntity(const NetworkEntityInformation &info);
+        void handleUpdateEntity(const NetworkEntityInformation &info);
     private:
         GameState _state;
         bool _stop;
@@ -75,6 +79,8 @@ class RtypeClient {
         std::thread _networkThread;
 
         ECS _ecs;
+
+        std::map<size_t, size_t> _serverToClientEntityMap;
 };
 
 #endif /* !RtypeClient_HPP_ */

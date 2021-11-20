@@ -99,7 +99,7 @@ void UdpAsioServer::writeMessageBody(Message<MessageType> &message)
 
 }
 
-void UdpAsioServer::writeMessageHeaderToEndpoint(Message<MessageType> &message, asio::ip::udp::endpoint &clientEndpoint)
+void UdpAsioServer::writeMessageHeaderToEndpoint(Message<MessageType> &message, const asio::ip::udp::endpoint &clientEndpoint)
 {
     _socket.async_send_to(asio::buffer(message.getHeaderPtr(), message.getHeaderSize()), clientEndpoint, 
     [this, message, clientEndpoint](std::error_code ec, std::size_t length) mutable
@@ -114,7 +114,7 @@ void UdpAsioServer::writeMessageHeaderToEndpoint(Message<MessageType> &message, 
     
 }
 
-void UdpAsioServer::writeMessageBodyToEndpoint(Message<MessageType> &message, asio::ip::udp::endpoint &clientEndpoint)
+void UdpAsioServer::writeMessageBodyToEndpoint(Message<MessageType> &message, const asio::ip::udp::endpoint &clientEndpoint)
 {
     _socket.async_send_to(asio::buffer(message.getBodyDataPtr(), message.getBodySize()), clientEndpoint,
     [this](std::error_code ec, std::size_t length) mutable

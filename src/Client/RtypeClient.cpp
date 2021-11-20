@@ -71,7 +71,7 @@ void RtypeClient::registerComponents()
 
 void RtypeClient::start()
 {
-    PlayerEntity _pe({150, 50}, ColorType::None);
+    /*PlayerEntity _pe({150, 50}, ColorType::None);
     EnemyEntity _ee({1050, 50});
     EnemyEntity _ee2({1050, 50});
     EnemyEntity _ee3({1050, 50});
@@ -83,20 +83,19 @@ void RtypeClient::start()
     _ee2.create(_ecs.getComponentManager(), _ecs.getEntityManager());
     _ee3.create(_ecs.getComponentManager(), _ecs.getEntityManager());
     _ee4.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    _ee5.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    _ee5.create(_ecs.getComponentManager(), _ecs.getEntityManager());*/
 
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
-    _ecs.registerSystem<AISystem>();
     draw.setDisplay(_graphical);
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
     // BIND une fonction statique a un evenement
-    evtManager.subscribeToEvent(ControlGame::RIGHT, _pe.getEntity(), std::bind(EventCallback::changeAccelerationRIGHT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    /*evtManager.subscribeToEvent(ControlGame::RIGHT, _pe.getEntity(), std::bind(EventCallback::changeAccelerationRIGHT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     evtManager.subscribeToEvent(ControlGame::UP, _pe.getEntity(), std::bind(EventCallback::changeAccelerationUP, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     evtManager.subscribeToEvent(ControlGame::DOWN, _pe.getEntity(), std::bind(EventCallback::changeAccelerationDOWN, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     evtManager.subscribeToEvent(ControlGame::LEFT, _pe.getEntity(), std::bind(EventCallback::changeAccelerationLEFT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-    evtManager.subscribeToEvent(ControlGame::SPACE, _pe.getEntity(), std::bind(EventCallback::shoot, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    evtManager.subscribeToEvent(ControlGame::SPACE, _pe.getEntity(), std::bind(EventCallback::shoot, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));*/
 
     run();
 }
@@ -347,8 +346,76 @@ void RtypeClient::handleInitGame()
 void RtypeClient::manageGame()
 {
     _ecs.getSystem<EventSystem>().update();
-    _ecs.getSystem<AISystem>().update();
-    _ecs.getSystem<MoveSystem>().update();
+    //_ecs.getSystem<MoveSystem>().update();
     _ecs.getSystem<SfmlDrawSystem>().update();
-    _ecs.garbageCollector();
+    handleInComingEntities();
+}
+
+void RtypeClient::handleInComingEntities()
+{
+    std::list<NetworkEntityInformation> entities = _networkClient->getEntitiesInfos();
+
+    for (auto & i : entities)
+    {
+        if (_serverToClientEntityMap.find(i.entity) == _serverToClientEntityMap.end())
+        {
+            handleNewEntity(i);
+        }
+        else
+        {
+            handleUpdateEntity(i);
+        }
+    }
+    _networkClient->clearEntitiesInfos();
+}
+
+void RtypeClient::handleNewEntity(const NetworkEntityInformation &info)
+{
+    size_t newEntity;
+    
+    _ecs.createEntity() >> newEntity;
+
+    
+    _serverToClientEntityMap[info.entity] = newEntity;
+
+    std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
+
+    sprite->setTextureRect(info.textureRect);
+    _ecs.subToComponent(newEntity, Rotate{0});
+    _ecs.subToComponent(newEntity, Color{ColorType::None});
+    _ecs.subToComponent(newEntity, Texture{TextureType::Enemy});
+    _ecs.subToComponent(newEntity, Scale{0, 0});
+    _ecs.subToComponent(newEntity, SfmlSprite{sprite, {0,0,0,0}, 0,0, 0});
+    _ecs.subToComponent(newEntity, Speed{0});
+    _ecs.subToComponent(newEntity, Acceleration{0, 0});
+    _ecs.subToComponent(newEntity, Position{0,0});
+
+
+
+    handleUpdateEntity(info);
+}
+
+void RtypeClient::handleUpdateEntity(const NetworkEntityInformation &info)
+{
+    size_t clientEntity = _serverToClientEntityMap[info.entity];
+
+    Rotate &rotate = _ecs.getComponent<Rotate>(clientEntity).value();
+    Color &color = _ecs.getComponent<Color>(clientEntity).value();
+    Texture &texture = _ecs.getComponent<Texture>(clientEntity).value();
+    Scale &scale = _ecs.getComponent<Scale>(clientEntity).value();
+    Speed &speed = _ecs.getComponent<Speed>(clientEntity).value();
+    Acceleration & acceleration = _ecs.getComponent<Acceleration>(clientEntity).value();
+    Position &position = _ecs.getComponent<Position>(clientEntity).value();
+    SfmlSprite &sprite = _ecs.getComponent<SfmlSprite>(clientEntity).value();
+
+    rotate = info.rotate;
+    color = info.color;
+    texture = info.textureType;
+    scale = info.scale;
+    speed = info.speed;
+    acceleration = info.acceleration;
+    position = info.position;
+    sprite.animationSpeed = info.animationSpeed;
+    sprite.totalRect = info.totalTextureRect;
+    sprite.textureRect = info.textureRect;
 }

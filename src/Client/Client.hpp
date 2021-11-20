@@ -11,6 +11,7 @@
 #include <memory>
 #include "TcpClient/TcpClient.hpp"
 #include "UdpClient/UdpGameClient.hpp"
+#include "NetworkEntityInformation.hpp"
 
 class Client {
     public:
@@ -46,6 +47,10 @@ class Client {
 
         int getUdpPort();
         void initUdpClient();
+
+        std::list<NetworkEntityInformation> &getEntitiesInfos();
+        void clearEntitiesInfos();
+
 
     private:
 

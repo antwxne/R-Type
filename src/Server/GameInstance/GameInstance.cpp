@@ -23,6 +23,9 @@ void GameInstance::run()
 {
     while (_run)
     {
+        if (_state == GameInstanceState::Game && _ecs)
+            _ecs->run();
+
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }
@@ -96,6 +99,13 @@ void GameInstance::startGame()
     _udpGameServer->start();
     _udpThread  = std::thread([this]() { _udpGameServer->run();});
 
+    sendStartMessages();
+
+    _ecs = std::make_shared<GameInstanceEcs>(*this);
+}
+
+void GameInstance::sendStartMessages()
+{
     Message<MessageType> startMessage;
 
     startMessage << MessageType::StartGame;
@@ -116,4 +126,15 @@ std::string GameInstance::getName() const
 char GameInstance::getNPlayers() const
 {
     return _nbPlayers;
+}
+
+void GameInstance::sendEnnemyEntityRegisterMessage(const NetworkEntityInformation &info)
+{
+    Message<MessageType> message;
+
+    message << MessageType::EnemyEntityUpdate;
+
+    message << info;
+
+    _udpGameServer->sendMessageToAll(message);
 }

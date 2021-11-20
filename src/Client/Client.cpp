@@ -241,3 +241,14 @@ void Client::initUdpClient()
     _udpClient = std::make_unique<UdpGameClient>(_tcpClient.getIp(), getUdpPort());
     _udpClient->start();
 }
+
+
+std::list<NetworkEntityInformation> &Client::getEntitiesInfos()
+{
+    return _udpClient->getEntitiesInfos();
+}
+
+void Client::clearEntitiesInfos()
+{
+    _udpClient->resetEntitiesList();
+}

@@ -22,7 +22,7 @@ class UdpClient : public INetwork {
         UdpClient(const std::string &ip, int port);
         ~UdpClient();
         virtual void start();
-        void run();
+        virtual void run();
         void stop();
 
         void sendMessage(Message<MessageType> &message) override;

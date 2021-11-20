@@ -15,6 +15,9 @@
 #include "IAsioGameInstance.hpp"
 #include "../UdpServer/GameUdpServer.hpp"
 
+#include "GameInstanceEcs.hpp"
+#include "NetworkEntityInformation.hpp"
+
 enum GameInstanceState
 {
     WaitingScreen,
@@ -37,7 +40,10 @@ class GameInstance : public IAsioGameInstance {
         std::list<std::string> getPlayers();
         char getNPlayers() const;
 
-    protected:
+        void sendEnnemyEntityRegisterMessage(const NetworkEntityInformation &info);
+
+    private:
+        void sendStartMessages();
     private:
         bool _run;
         GameInstanceState _state;
@@ -45,9 +51,10 @@ class GameInstance : public IAsioGameInstance {
         char _maxPlayers;
         char _nbPlayers;
         std::vector<std::shared_ptr<TcpClientInstance>> _clients;
-
         std::unique_ptr<GameUdpServer> _udpGameServer;
         std::thread _udpThread;
+
+        std::shared_ptr<GameInstanceEcs> _ecs;
 };
 
 #endif /* !GAMEINSTANCE_HPP_ */
