@@ -21,8 +21,7 @@
 #include "../ECS/Entity/EnemyEntity.hpp"
 #include "../ECS/Entity/BulletEntity.hpp"
 #include "../ECS/system.hpp"
-
-
+#include "../Graphical/SfmlSoundHandler.hpp"
 
 enum GameState
 {
@@ -78,6 +77,8 @@ class RtypeClient {
         SfmlMenu _connectMenu;
         SfmlMenu _mainMenu;
         SfmlMenu _lobbyMenu;
+
+        SfmlSoundHandler _soundHandler;
 
         std::string _currentGameName;
 

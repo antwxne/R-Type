@@ -41,18 +41,41 @@ void ECS::garbageCollector(std::vector<std::pair<size_t, RaisedEvent>> &raisedEv
         for (const auto &entity: currentEntities)
         {
             entity >> idx;
-            if (!isAlive(lifes[idx])) {
+            if (!isAlive(lifes[idx]))
+            {
                 raisedEvent.push_back({idx, RaisedEvent::ENTITY_DEAD});
                 destroyEntity(idx);
                 return;
             }
-            if (!isInScreen(positions[idx], hitboxes[idx], tags[idx])) {
+            if (!isInScreen(positions[idx], hitboxes[idx], tags[idx]))
+            {
                 destroyEntity(idx);
                 return;
             }
         }
-    } catch (...) {
-    }
+    } 
+    catch (...) {}
+}
+
+void ECS::graphicalGarbageCollector()
+{
+    try {
+        const auto &sounds = _componentManager->getComponentsList<SfmlSound>();
+
+        std::size_t idx;
+        const auto &currentEntities = _entityManager->getCurrentEntities();
+
+        for (const auto &entity: currentEntities)
+        {
+            entity >> idx;
+            if (isADeadSound(sounds[idx]))
+            {
+                destroyEntity(idx);
+                return;
+            }
+        }
+    } 
+    catch (...) {}
 }
 
 bool ECS::isAlive(const std::optional<Life> &lifeComponent) const
@@ -103,27 +126,11 @@ const std::unique_ptr<SystemManager> &ECS::getSystemManager() const
     return _systemManager;
 }
 
-bool ECS::isADeadSound(const std::optional<Tag> &tag,
-    const std::optional<SfmlSound> &sound
-)
+bool ECS::isADeadSound(const std::optional<SfmlSound> &sound)
 {
-    const std::vector<TagType> types = {TagType::PLAYER, TagType::BULLET,
-        TagType::ENNEMY};
-
-    if (!tag.has_value() || !sound.has_value()) {
+    if (!sound.has_value())
+    {
         return false;
     }
-    for (const auto &type: types) {
-        if (contains<TagType>(tag.value().type, type)) {
-            std::cout << "2" << std::endl;
-            return false;
-        }
-    }
-    if (contains<TagType>(tag.value().type, TagType::SOUND) &&
-        !sound.value().play) {
-        std::cout << "3" << std::endl;
-        return false;
-    }
-
-    return false;
+    return (sound->play == true && sound->sound->getStatus() == sf::SoundSource::Status::Stopped);
 }

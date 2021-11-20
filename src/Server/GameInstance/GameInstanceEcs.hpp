@@ -33,6 +33,7 @@ class GameInstanceEcs {
         void getCurrentEntityInfo(const Entity &entity);
         bool checkNetworkEntity(const Entity &entity);
         void sendDestructionMessage(const std::vector<std::pair<size_t, RaisedEvent>> &events);
+        void handleRaisedEvents();
     private:
         ECS _ecs;
         GameInstance &_gameInstance;

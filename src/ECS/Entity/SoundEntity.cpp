@@ -7,7 +7,7 @@
 
 #include "SoundEntity.hpp"
 
-SoundEntity::SoundEntity(const std::string &soundPath): _soundPath(soundPath)
+SoundEntity::SoundEntity(const SoundType &sound): _sound(sound)
 {
 
 }
@@ -17,11 +17,7 @@ void SoundEntity::create(
     const std::shared_ptr<EntityManager> &entityManager
 )
 {
+    std::shared_ptr<sf::Sound> sound = std::make_shared<sf::Sound>();
     _entity = entityManager->create();
-    std::cout << "new SOUND entity: "<< _entity << std::endl;
-    std::shared_ptr<sf::SoundBuffer> tmp = std::make_shared<sf::SoundBuffer>();
-    tmp->loadFromFile(_soundPath);
-
-    componentManager->subToComponent(_entity, SfmlSound{true, sf::Sound(*tmp), tmp});
-//    componentManager->subToComponent(_entity, Tag{{TagType::SOUND}});
+    componentManager->subToComponent(_entity, SfmlSound{false, _sound, sound});
 }

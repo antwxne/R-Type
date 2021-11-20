@@ -185,10 +185,23 @@ void GameInstanceEcs::run()
     _ecs.getSystem<MoveSystem>().update();
     _ecs.garbageCollector(_raisedEvents);
     networkEntityUpdate();
+    handleRaisedEvents();
+}
+
+void GameInstanceEcs::handleRaisedEvents()
+{
+    auto &event = _ecs.getSystem<EventSystem>();
+
+    std::vector<RaisedEvent> eventRaised = event.getRaisedEvents();
+
+    for (auto &i: eventRaised)
+    {
+        _raisedEvents.push_back({0, i});
+    }
 
     sendDestructionMessage(_raisedEvents);
-
     _raisedEvents.clear();
+    event.clearRaisedEvents();
 }
 
 void GameInstanceEcs::sendDestructionMessage(const std::vector<std::pair<size_t, RaisedEvent>> &events)

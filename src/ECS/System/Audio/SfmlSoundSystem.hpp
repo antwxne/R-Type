@@ -8,19 +8,19 @@
 #ifndef SFMLSOUNDSYSTEM_HPP_
 #define SFMLSOUNDSYSTEM_HPP_
 
-#include "AudioSystem.hpp"
+#include "../ASystem.hpp"
+#include "Graphical/SfmlSoundHandler.hpp"
 
-class SfmlSoundSystem : public AudioSystem {
+class SfmlSoundSystem : public ASystem
+{
 public:
     SfmlSoundSystem(const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManagers);
     ~SfmlSoundSystem();
     void update() override;
-    void play(const std::size_t &entity) override;
-    void stop(const std::size_t &entity) override;
-    void pause(const std::size_t &entity) override;
 protected:
 private:
     bool checkAvailableEntity(const size_t entity) const override;
+    SfmlSoundHandler _handler;
 
 };
 

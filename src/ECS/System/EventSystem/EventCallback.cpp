@@ -114,25 +114,8 @@ void EventCallback::shoot( const std::shared_ptr<ComponentManager> &componentMan
         posBullet.x += 130;
         posBullet.y += 20;
     }
+    raisedEvents.push_back(RaisedEvent::SHOT);
     BulletEntity _be(posBullet, isFriend);
     _be.create(componentManager, entityManager);
     currentFirerate.value().clock.restart();
-}
-
-
-void EventCallback::explosionSound(
-    const std::shared_ptr<ComponentManager> &componentManager,
-    const std::size_t &entity, const std::shared_ptr<EntityManager> &entityManager,
-    std::vector<RaisedEvent> &raisedEvents
-)
-{
-    std::cout << "EXPLOSION" << std::endl;
-    std::cout << "nb entites avant == " << entityManager->getCurrentEntities().size() << std::endl;
-
-
-    SoundEntity newEntity("./assets/sound/explosion.ogg");
-
-    newEntity.create(componentManager, entityManager);
-    std::cout << "nb entites apres == " << entityManager->getCurrentEntities().size() << std::endl;
-
 }

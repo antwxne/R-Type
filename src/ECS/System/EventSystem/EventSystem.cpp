@@ -61,7 +61,7 @@ void EventSystem::update()
                     if (callbackVector.first == event)
                     {
                         callbackVector.second(_componentManager, currentEvent.first,
-                        _entityManager, std::ref(_raisedEvents));
+                        _entityManager, _raisedEvents);
                     }
                 }
             }

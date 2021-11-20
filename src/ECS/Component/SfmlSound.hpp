@@ -8,12 +8,13 @@
 #ifndef SFMLSOUND_HPP_
 #define SFMLSOUND_HPP_
 #include "SFML/Audio.hpp"
+#include "Graphical/SfmlSoundHandler.hpp"
 
 struct SfmlSound
 {
     bool play;
-    sf::Sound sound;
-    std::shared_ptr<sf::SoundBuffer> soundBuffer;
+    SoundType soundtype;
+    std::shared_ptr<sf::Sound> sound;
 };
 
 #endif /* !SFMLSOUND_HPP_ */

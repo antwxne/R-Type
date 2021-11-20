@@ -9,6 +9,7 @@
 #include "ECS/System/EventSystem/EventSystem.hpp"
 #include "ECS/System/EventSystem/EventCallback.hpp"
 #include "ECS/component.hpp"
+#include "ECS/Entity/SoundEntity.hpp"
 #include <iostream>
 #include "ECS/system.hpp"
 
@@ -83,7 +84,8 @@ void RtypeClient::start()
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
     draw.setDisplay(_graphical);
-    _ecs.registerSystem<PlaySoundEvents>();
+    _ecs.registerSystem<SfmlSoundSystem>();
+    
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
     run();
@@ -317,6 +319,8 @@ void RtypeClient::manageGame()
     {
         _ecs.getSystem<MoveSystem>().update();
         _ecs.getSystem<SfmlDrawSystem>().update();
+        _ecs.getSystem<SfmlSoundSystem>().update();
+        _ecs.graphicalGarbageCollector();
         handleInComingEntities();
         handleInCommingDestructionEntity();
         sendControlsToServer();
@@ -359,9 +363,16 @@ void RtypeClient::handleInCommingDestructionEntity()
     {
         if (i.second == RaisedEvent::ENTITY_DEAD)
         {
-            std::cout << "Destruction\n";
             _ecs.getEntityManager()->destroy(_serverToClientEntityMap[i.first]);
             _serverToClientEntityMap.erase(i.first);
+
+            SoundEntity soundE(SoundType::Explosion);
+            soundE.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+        }
+        else if (i.second == RaisedEvent::SHOT)
+        {
+            SoundEntity sound(SoundType::Shot);
+            sound.create(_ecs.getComponentManager(), _ecs.getEntityManager());
         }
     }
     _networkClient->resetRaisedEvent();

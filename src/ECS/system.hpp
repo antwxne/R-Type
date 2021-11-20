@@ -14,7 +14,7 @@
 #include "System/Draw/DrawSystem.hpp"
 #include "System/Draw/SfmlDrawSystem.hpp"
 #include "System/AISystem.hpp"
-#include "System/Audio/PlaySoundEvents.hpp"
+#include "System/Audio/SfmlSoundSystem.hpp"
 #include "System/EventSystem/EventCallback.hpp"
 #include "System/EventSystem/EventSystem.hpp"
 

@@ -38,10 +38,6 @@ public:
         const std::size_t &entity, const std::shared_ptr<EntityManager> &entityManager,
         std::vector<RaisedEvent> &raisedEvents
     );
-    static void explosionSound( const std::shared_ptr<ComponentManager> &componentManager,
-        const std::size_t &entity, const std::shared_ptr<EntityManager> &entityManager,
-        std::vector<RaisedEvent> &raisedEvents
-    );
 };
 
 #endif //RTYPE_EVENTCALLBACK_HPP

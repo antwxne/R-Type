@@ -35,7 +35,6 @@ void UdpGameClient::start()
 
 void UdpGameClient::sendRegisterMessage()
 {
-    std::cout << "Send register message\n";
     Message<MessageType> message;
 
     message << MessageType::GameRegister;

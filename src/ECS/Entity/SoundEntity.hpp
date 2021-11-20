@@ -14,14 +14,14 @@
 
 class SoundEntity: public IEntityRegister {
 public:
-    SoundEntity(const std::string& soundPath);
+    SoundEntity(const SoundType& sound);
     ~SoundEntity() = default;
 
     void create(
         const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager) override;
 
 private:
-    std::string _soundPath;
+    SoundType _sound;
 };
 
 #endif //RTYPE_SOUNDENTITY_HPP

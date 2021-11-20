@@ -51,7 +51,5 @@ void UdpGameClientMessageHandler::handleEntityDestruction(Message<MessageType> &
     message >> event;
     message >> entity;
 
-    std::cout << "Entity Destruction\n";
-
     _client.addEntityRaisedEvent(entity, event);
 }

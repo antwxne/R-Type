@@ -119,7 +119,6 @@ void TcpClientMessageHandler::handleStartGame(Message<MessageType> &message)
     int port;
 
     message >> port;
-    std::cout << "Handle start Game\n";
     _client.setGameStarting(true);
     _client.setUdpPort(port);
 }
