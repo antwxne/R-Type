@@ -15,5 +15,6 @@
 #include "System/Draw/SfmlDrawSystem.hpp"
 #include "System/AISystem.hpp"
 #include "System/Audio/PlaySoundEvents.hpp"
+#include "System/EnemyShootSystem.hpp"
 
 #endif /* !SYSTEM_HPP_ */

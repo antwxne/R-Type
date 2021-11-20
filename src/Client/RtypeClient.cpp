@@ -74,16 +74,15 @@ void RtypeClient::registerComponents()
 void RtypeClient::start()
 {
     PlayerEntity _pe({150, 50}, ColorType::None);
-    EnemyEntity _ee({1050, 50});
-    EnemyEntity _ee2({1050, 50});
+    EnemyEntity _ee({1295, 31});
+    EnemyEntity _ee2({1700, 17});
     EnemyEntity _ee3({1050, 50});
-    EnemyEntity _ee4({1050, 50});
-    EnemyEntity _ee5({1050, 50});
-    BulletEntity _be({150, 800}, true);
+    EnemyEntity _ee4({1050, 842});
+    EnemyEntity _ee5({1050, 1000});
     _pe.create(_ecs.getComponentManager(), _ecs.getEntityManager());
     _ee.create(_ecs.getComponentManager(), _ecs.getEntityManager());
     _ee2.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    _ee3.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+     _ee3.create(_ecs.getComponentManager(), _ecs.getEntityManager());
     _ee4.create(_ecs.getComponentManager(), _ecs.getEntityManager());
     _ee5.create(_ecs.getComponentManager(), _ecs.getEntityManager());
 
@@ -92,6 +91,7 @@ void RtypeClient::start()
     _ecs.registerSystem<AISystem>();
     _ecs.registerSystem<ColissionSystem>();
     _ecs.registerSystem<PlaySoundEvents>();
+    _ecs.registerSystem<EnemyShootSystem>();
 
     draw.setDisplay(_graphical);
 
@@ -332,7 +332,8 @@ void RtypeClient::manageGame()
         _ecs.getSystem<AISystem>().update();
         _ecs.getSystem<MoveSystem>().update();
         _ecs.getSystem<SfmlDrawSystem>().update();
-        _ecs.getSystem<PlaySoundEvents>().update();
+        //_ecs.getSystem<PlaySoundEvents>().update();
+        _ecs.getSystem<EnemyShootSystem>().update();
     } catch (...) {}
     _ecs.garbageCollector(std::ref(_raisedEvents));
 }
