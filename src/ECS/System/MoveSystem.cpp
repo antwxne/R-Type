@@ -36,10 +36,29 @@ void MoveSystem::update()
         auto &position = positions[entity].value();
         auto &speed = speeds[entity].value();
         auto &acceleration = accelerations[entity].value();
+        const auto &tag = _componentManager->getComponent<Tag>(id);
 
+        if (tag.has_value() && contains<TagType>(tag.value().type, TagType::PLAYER) && !contains<TagType>(tag.value().type, TagType::BULLET)) {
+            if (position.x + acceleration.x * speed.speed >= 1820) {
+                acceleration.x = 0;
+                continue;
+            }
+            if (position.y + acceleration.y * speed.speed >= 1020) {
+                acceleration.y = 0;
+                continue;
+            }
+
+            if (position.x + acceleration.x * speed.speed <= 0) {
+                acceleration.x = 0;
+                continue;
+            }
+            if (position.y + acceleration.y * speed.speed <= 0) {
+                acceleration.y = 0;
+                continue;
+            }
+        }
         position.x += acceleration.x * (speed.speed > 0 ? speed.speed : 0);
         position.y += acceleration.y * (speed.speed > 0 ? speed.speed : 0);
-        const auto &tag = _componentManager->getComponent<Tag>(id);
         if (tag.has_value() && contains<TagType>(tag.value().type, TagType::PLAYER) && !contains<TagType>(tag.value().type, TagType::BULLET)) {
             speed.speed = speed.speed > 0 ? speed.speed - 0.2f : 0;
         }
