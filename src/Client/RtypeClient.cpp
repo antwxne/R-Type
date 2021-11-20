@@ -321,21 +321,13 @@ void RtypeClient::manageLobbyMenu()
 void RtypeClient::manageGame()
 {
     try {
-        std::cout << "1\n";
         _ecs.getSystem<EventSystem>().update();
-        std::cout << "2\n";
         _ecs.getSystem<SfmlDrawSystem>().update();
-        std::cout << "3\n";
         _ecs.getSystem<ColissionSystem>().update();
-        std::cout << "4\n";
         _ecs.getSystem<AISystem>().update();
-        std::cout << "5\n";
         _ecs.getSystem<MoveSystem>().update();
-        std::cout << "6\n";
         _ecs.getSystem<PlaySoundEvents>().update();
-        std::cout << "7\n";
         _ecs.getSystem<RoundSystem>().update();
-        std::cout << "8\n";
     } catch (...) {}
     _ecs.garbageCollector(std::ref(_raisedEvents));
 }
