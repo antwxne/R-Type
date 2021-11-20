@@ -31,7 +31,7 @@ class TcpClientConnection : public INetwork {
         void writeMessageHeader(Message<MessageType> &message) override;
         void writeMessageBody(Message<MessageType> &message) override;
         void readMessageHeader() override;
-        void readMessageBody(Message<MessageType> &message) override;
+        void readMessageBody() override;
     private:
         asio::ip::tcp::socket _socket;
         asio::io_context &_asioContext;

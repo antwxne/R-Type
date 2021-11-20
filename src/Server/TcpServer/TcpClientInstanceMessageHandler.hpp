@@ -41,6 +41,8 @@ class TcpClientInstanceMessageHandler
         void handleLeaveGame(TcpClientInstanceMessage<MessageType> &message);
         void handleGetGames(TcpClientInstanceMessage<MessageType> &message);
         void handleGetPlayersInGame(TcpClientInstanceMessage<MessageType> &message);
+
+        void handleStartGame(TcpClientInstanceMessage<MessageType> &message);
         //
     private:
         std::list<std::shared_ptr<TcpClientInstance>> &_clientsConnected;

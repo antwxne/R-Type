@@ -13,17 +13,23 @@
 #include <iostream>
 #include "ECS/system.hpp"
 
+typedef std::chrono::high_resolution_clock Clock;
+
 RtypeClient::RtypeClient()
 {
     srand(time(NULL));
     _graphical = std::make_shared<SfmlDisplay>();
     _textureLogo.loadFromFile("assets/sprites/r_type_logo.png");
     _spriteLogo.setTexture(_textureLogo);
+
     _menuMusic.openFromFile("assets/music/space_oddity.ogg");
     _gameMusic.openFromFile("assets/music/red-alert.ogg");
+    _menuMusic.setLoop(true);
+    _gameMusic.setLoop(true);
+
     sf::Music _gameMusic;
     _stop = false;
-    _state = GameState::Game;
+    _state = GameState::ConnectMenu;
     initMenu();
     registerComponents();
 }
@@ -75,34 +81,17 @@ void RtypeClient::registerComponents()
 
 void RtypeClient::start()
 {
-    PlayerEntity _pe({150, 50}, ColorType::None);
-    _pe.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-    RoundEntity _round({1, 0, 5});
-    _round.create(_ecs.getComponentManager(), _ecs.getEntityManager());
-
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
-    _ecs.registerSystem<AISystem>();
-    _ecs.registerSystem<ColissionSystem>();
-    _ecs.registerSystem<PlaySoundEvents>();
-    _ecs.registerSystem<RoundSystem>();
-
     draw.setDisplay(_graphical);
+    _ecs.registerSystem<PlaySoundEvents>();
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
-    evtManager.subscribeToEvent(ControlGame::RIGHT, _pe.getEntity(), std::bind(EventCallback::changeAccelerationRIGHT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
-    evtManager.subscribeToEvent(ControlGame::UP, _pe.getEntity(), std::bind(EventCallback::changeAccelerationUP, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
-    evtManager.subscribeToEvent(ControlGame::DOWN, _pe.getEntity(), std::bind(EventCallback::changeAccelerationDOWN, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
-    evtManager.subscribeToEvent(ControlGame::LEFT, _pe.getEntity(), std::bind(EventCallback::changeAccelerationLEFT, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
-    evtManager.subscribeToEvent(ControlGame::SPACE, _pe.getEntity(), std::bind(EventCallback::shoot, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
-//    evtManager.subscribeToEvent(ControlGame::D, _pe.getEntity(), std::bind(EventCallback::explosionSound, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
-
     run();
 }
 
 void RtypeClient::run()
 {
-    auto &eventSystem = _ecs.getSystem<EventSystem>();
 
     while (_graphical->getWindow()->isOpen()) {
         while (_graphical->getWindow()->pollEvent(_graphical->getEvent())) {
@@ -114,12 +103,10 @@ void RtypeClient::run()
                 handleEvents(event);
             }
         }
-        eventSystem.setEvents(_frameEvents);
         _graphical->clear();
         _parallax.update();
         _parallax.draw(*_graphical->getWindow());
         manageState();
-        _raisedEvents = eventSystem.getRaisedEvents();
         manageMusic();
         _graphical->display();
     }
@@ -129,11 +116,10 @@ void RtypeClient::run()
 void RtypeClient::manageMusic()
 {
     if (_state == GameState::Game) {
-//        if (_gameMusic.getStatus() != sf::Music::Playing)
-//            _gameMusic.play();
         if (_menuMusic.getStatus() == sf::Music::Playing)
             _menuMusic.stop();
-    } else {
+    }
+    else {
         if (_gameMusic.getStatus() == sf::Music::Playing)
             _gameMusic.stop();
         if (_menuMusic.getStatus() != sf::Music::Playing)
@@ -146,7 +132,6 @@ void RtypeClient::handleEvents(const sf::Event &event)
     ControlGame control = _eventFactory.getEventType(event);
 
     if (control != ControlGame::NONE) {
-        _frameEvents.push_back(control);
         switch (_state) {
         case GameState::ConnectMenu:
             _connectMenu.handleEvent(control);
@@ -158,7 +143,7 @@ void RtypeClient::handleEvents(const sf::Event &event)
             _lobbyMenu.handleEvent(control);
             break;
         case GameState::Game:
-            /* code */
+            _gameControlList.push_back(control);
             break;
         default:
             return;
@@ -191,28 +176,18 @@ void RtypeClient::handleTextInput(const sf::Event &event)
 
 void RtypeClient::manageState()
 {
-    static GameState previous_state = GameState::ConnectMenu;
     switch (_state) {
     case GameState::ConnectMenu:
         manageConnectMenu();
-        previous_state = _state;
         break;
     case GameState::MainMenu:
         manageMainMenu();
-        previous_state = _state;
         break;
     case GameState::GameLobby:
         manageLobbyMenu();
-        previous_state = _state;
         break;
     case GameState::Game:
-        if (previous_state != _state) {
-            _ecs.getSystem<EventSystem>().clearEvents();
-            _ecs.getSystem<EventSystem>().clearRaisedEvents();
-            _raisedEvents.clear();
-        }
         manageGame();
-        previous_state = _state;
         break;
     default:
         return;
@@ -258,8 +233,11 @@ void RtypeClient::manageMainMenu()
             _networkClient->getGames();
             handleGetGames();
         } else if (_mainMenu.getSelectedIndex() == 1) {
-            _networkClient->createGame(_mainMenu.getButtonText(1));
-            _currentGameName = _mainMenu.getButtonText(1);
+            if (_mainMenu.getButtonText(1).size() > 0)
+            {
+                _networkClient->createGame(_mainMenu.getButtonText(1));
+                _currentGameName = _mainMenu.getButtonText(1);
+            }
         } else {
             std::string name = _mainMenu.getButtonText(
                 _mainMenu.getSelectedIndex()).substr(0,
@@ -309,25 +287,115 @@ void RtypeClient::manageLobbyMenu()
     if (_networkClient->isNewPlayerListAvailable()) {
         handleInitLobby();
     }
-    if (_lobbyMenu.isValided()) {
-        if (_lobbyMenu.getSelectedIndex() == 0) {
-            _state = GameState::Game;
-        } else {
+    if (_lobbyMenu.isValided())
+    {
+        _lobbyMenu.resetValided();
+        if (_lobbyMenu.getSelectedIndex() == 0)
+        {
+            _networkClient->startGame(_currentGameName);
+        }
+        else
+        {
             _networkClient->getPlayersInGame(_currentGameName);
         }
     }
+    if (_networkClient->isGameStarting())
+    {
+        handleInitGame();
+        _state = GameState::Game;
+    }
 }
+
+void RtypeClient::handleInitGame()
+{
+    _networkClient->initUdpClient();
+}
+
 
 void RtypeClient::manageGame()
 {
-    try {
-        _ecs.getSystem<EventSystem>().update();
+    try
+    {
+        //_ecs.getSystem<MoveSystem>().update();
         _ecs.getSystem<SfmlDrawSystem>().update();
-        _ecs.getSystem<ColissionSystem>().update();
-        _ecs.getSystem<AISystem>().update();
-        _ecs.getSystem<MoveSystem>().update();
-        _ecs.getSystem<PlaySoundEvents>().update();
-        _ecs.getSystem<RoundSystem>().update();
-    } catch (...) {}
-    _ecs.garbageCollector(std::ref(_raisedEvents));
+        handleInComingEntities();
+        sendControlsToServer();
+    }
+    catch (const std::exception &e)
+    {
+        std::cout << "Error: " << e.what() << std::endl;
+    }
+}
+
+void RtypeClient::sendControlsToServer()
+{
+    _networkClient->sendCommands(_gameControlList);
+    _gameControlList.clear();
+}
+
+void RtypeClient::handleInComingEntities()
+{
+    std::list<NetworkEntityInformation> entities = _networkClient->getEntitiesInfos();
+
+    for (auto & i : entities)
+    {
+        if (_serverToClientEntityMap.find(i.entity) == _serverToClientEntityMap.end())
+        {
+            handleNewEntity(i);
+        }
+        else
+        {
+            handleUpdateEntity(i);
+        }
+    }
+    _networkClient->clearEntitiesInfos();
+}
+
+void RtypeClient::handleNewEntity(const NetworkEntityInformation &info)
+{
+    size_t newEntity;
+    
+    _ecs.createEntity() >> newEntity;
+
+    
+    _serverToClientEntityMap[info.entity] = newEntity;
+
+    std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
+
+    sprite->setTextureRect(info.textureRect);
+    _ecs.subToComponent(newEntity, Rotate{0});
+    _ecs.subToComponent(newEntity, Color{ColorType::None});
+    _ecs.subToComponent(newEntity, Texture{TextureType::Enemy});
+    _ecs.subToComponent(newEntity, Scale{0, 0});
+    _ecs.subToComponent(newEntity, SfmlSprite{sprite, {0,0,0,0}, 0,0, 0});
+    _ecs.subToComponent(newEntity, Speed{0});
+    _ecs.subToComponent(newEntity, Acceleration{0, 0});
+    _ecs.subToComponent(newEntity, Position{0,0});
+
+    handleUpdateEntity(info);
+}
+
+void RtypeClient::handleUpdateEntity(const NetworkEntityInformation &info)
+{
+    size_t clientEntity = _serverToClientEntityMap[info.entity];
+
+    Rotate &rotate = _ecs.getComponent<Rotate>(clientEntity).value();
+    Color &color = _ecs.getComponent<Color>(clientEntity).value();
+    Texture &texture = _ecs.getComponent<Texture>(clientEntity).value();
+    Scale &scale = _ecs.getComponent<Scale>(clientEntity).value();
+    Speed &speed = _ecs.getComponent<Speed>(clientEntity).value();
+    Acceleration & acceleration = _ecs.getComponent<Acceleration>(clientEntity).value();
+    Position &position = _ecs.getComponent<Position>(clientEntity).value();
+    SfmlSprite &sprite = _ecs.getComponent<SfmlSprite>(clientEntity).value();
+
+    rotate = info.rotate;
+    color = info.color;
+    texture = info.textureType;
+    scale = info.scale;
+    speed = info.speed;
+    acceleration = info.acceleration;
+    position = info.position;
+    sprite.animationSpeed = info.animationSpeed;
+    sprite.totalRect = info.totalTextureRect;
+    sprite.textureRect = info.textureRect;
 }

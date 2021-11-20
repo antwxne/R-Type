@@ -14,8 +14,22 @@ PlayerEntity::PlayerEntity(const Position &pos,  ColorType color): IEntityRegist
     _color = color;
 }
 
+PlayerEntity::PlayerEntity(): IEntityRegister()
+{
+}
+
 PlayerEntity::~PlayerEntity()
 {
+}
+
+void PlayerEntity::setPos(const Position &pos)
+{
+    _pos = pos;
+}
+
+void PlayerEntity::setColor(ColorType color)
+{
+    _color = color;
 }
 
 void PlayerEntity::create(

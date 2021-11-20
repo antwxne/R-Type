@@ -35,7 +35,7 @@ void TcpClientInstance::readMessageHeader()
             if (_messageToRead.getBodySize() > 0)
             {
                 _messageToRead.resizeBody(_messageToRead.getBodySize());
-                readMessageBody(_messageToRead);
+                readMessageBody();
             }
             else
             {
@@ -51,10 +51,10 @@ void TcpClientInstance::readMessageHeader()
     });
 }
 
-void TcpClientInstance::readMessageBody(Message<MessageType> &message)
+void TcpClientInstance::readMessageBody()
 {
     asio::async_read(_socket, asio::buffer(_messageToRead.getBodyDataPtr(), _messageToRead.getBodySize()),
-	[this, message](std::error_code ec, std::size_t length) mutable
+	[this](std::error_code ec, std::size_t length) mutable
     {
         if (ec)
         {

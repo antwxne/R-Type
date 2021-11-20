@@ -18,6 +18,7 @@ TcpClientMessageHandler::TcpClientMessageHandler(TcpClient &client) : _client(cl
     _map[MessageType::LeaveGame] = &TcpClientMessageHandler::handleLeaveGame;
     _map[MessageType::GetGamesList] = &TcpClientMessageHandler::handleGetGames;
     _map[MessageType::GetPlayersInGame] = &TcpClientMessageHandler::handleGetPlayersInGame;
+    _map[MessageType::StartGame] = &TcpClientMessageHandler::handleStartGame;
 }
 
 TcpClientMessageHandler::~TcpClientMessageHandler()
@@ -113,9 +114,12 @@ void TcpClientMessageHandler::handleGetPlayersInGame(Message<MessageType> &messa
     }
 }
 
-void TcpClientMessageHandler::handleGetUdpPort(Message<MessageType> &message)
+void TcpClientMessageHandler::handleStartGame(Message<MessageType> &message)
 {
     int port;
 
     message >> port;
+    std::cout << "Handle start Game\n";
+    _client.setGameStarting(true);
+    _client.setUdpPort(port);
 }

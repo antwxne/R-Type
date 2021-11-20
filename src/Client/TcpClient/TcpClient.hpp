@@ -30,6 +30,8 @@ class TcpClient
 
         std::string getIp() const;
 
+        std::string getServerIp() const;
+
         void addGame(const std::string &name, char nbPlayers);
         std::list<std::pair<std::string, char>> &getGames();
         void resetGameList();
@@ -46,6 +48,11 @@ class TcpClient
 
         bool isInGame();
         void setInGame(bool value);
+
+        bool isGameStarting();
+        int getUdpPort();
+        void setUdpPort(int value);
+        void setGameStarting(bool value);
 
     private:
         void update();
@@ -69,6 +76,9 @@ class TcpClient
         bool _newInGamePlayerList;
 
         bool _inGame;
+
+        bool _isGameStarting;
+        int _udpPort;
 };
 
 #endif /* !CLIENT_HPP_ */

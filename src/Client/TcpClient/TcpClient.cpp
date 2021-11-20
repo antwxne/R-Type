@@ -13,6 +13,8 @@ TcpClient::TcpClient() : _messageHandler(*this)
     _threadContext = std::thread([this]() { _asioContext.run();});
     _newGameList = false;
     _newInGamePlayerList = false;
+    _udpPort = -1;
+    _isGameStarting = false;
 }
 
 TcpClient::~TcpClient()
@@ -28,6 +30,12 @@ std::string TcpClient::getIp() const
 {
     return _connection->getIp();
 }
+
+std::string TcpClient::getServerIp() const
+{
+    return _ip;
+}
+
 void TcpClient::run()
 {
     update();
@@ -150,4 +158,24 @@ bool TcpClient::isInGame()
 void TcpClient::setInGame(bool value)
 {
     _inGame = value;
+}
+
+bool TcpClient::isGameStarting()
+{
+    return _isGameStarting;
+}
+
+int TcpClient::getUdpPort()
+{
+    return _udpPort;
+}
+
+void TcpClient::setGameStarting(bool value)
+{
+    _isGameStarting = value;
+}
+
+void TcpClient::setUdpPort(int value)
+{
+    _udpPort = value;
 }

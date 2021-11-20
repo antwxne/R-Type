@@ -15,3 +15,12 @@ const Entity &IEntityRegister::getEntity() const
 {
     return _entity;
 }
+
+size_t IEntityRegister::getEntityValue() const
+{
+    size_t entity;
+
+    _entity >> entity;
+
+    return entity;
+}

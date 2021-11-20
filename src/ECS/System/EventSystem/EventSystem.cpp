@@ -23,14 +23,15 @@ void EventSystem::subscribeToEvent(const ControlGame &event,
     std::size_t id;
 
     entity >> id;
-    _callbacksMap[event].emplace_back(std::make_pair(id, callback));
+
+    _callbacksMap[id].emplace_back(std::make_pair(event, callback));
 }
 
 void EventSystem::unsubscribeToEvent(const ControlGame &event,
     const Entity &entity
 ) noexcept
 {
-    std::size_t id;
+    /*std::size_t id;
 
     entity >> id;
 
@@ -42,38 +43,44 @@ void EventSystem::unsubscribeToEvent(const ControlGame &event,
 
                 entity >> id;
                 return tmp.first == id;
-            }), elem.end());
+            }), elem.end())
     } catch (const std::out_of_range &error) {
         std::cerr << error.what() << std::endl;
-    }
+    }*/
 }
 
 void EventSystem::update()
 {
     try {
-        for (const auto &currentEvent: _currentEvents) {
-            for (const auto &callBackVector: _callbacksMap.at(currentEvent)) {
-                callBackVector.second(_componentManager, callBackVector.first,
-                    _entityManager, std::ref(_raisedEvents));
+        for (const auto &currentEvent: _currentEvents)
+        {
+            for (auto &event : currentEvent.second)
+            {
+                for (auto &callbackVector : _callbacksMap[currentEvent.first])
+                {
+                    if (callbackVector.first == event)
+                    {
+                        callbackVector.second(_componentManager, currentEvent.first,
+                        _entityManager, std::ref(_raisedEvents));
+                    }
+                }
             }
         }
     } catch (const std::out_of_range &error) {
         std::cerr << error.what() << std::endl;
     }
-    _currentEvents.clear();
+    clearEvents();
 }
 
 
-void EventSystem::setEvents(std::vector<ControlGame> &events) noexcept
+void EventSystem::setEvents(const size_t &entity, ControlGame &event) noexcept
 {
-    for (const auto &event: events)
-        _currentEvents.push_back(event);
-    events.clear();
+    _currentEvents[entity].push_back(event);
 }
 
 void EventSystem::unsubscribeToAllEvents(const Entity &entity) noexcept
 {
-    for (auto &it: _callbacksMap) {
+    /*for (auto &it: _callbacksMap) {
         auto &elem = it.second;
         elem.erase(std::remove_if(elem.begin(), elem.end(),
             [=](std::pair<std::size_t, Callback> &tmp) {
@@ -82,7 +89,7 @@ void EventSystem::unsubscribeToAllEvents(const Entity &entity) noexcept
                 entity >> id;
                 return tmp.first == id;
             }), elem.end());
-    }
+    }*/
 }
 
 bool EventSystem::checkAvailableEntity(std::size_t entity) const
@@ -97,7 +104,8 @@ const std::vector<RaisedEvent> &EventSystem::getRaisedEvents() const noexcept
 
 void EventSystem::clearEvents()
 {
-    _currentEvents.clear();
+    for (auto & i :_currentEvents)
+        i.second.clear();
 }
 
 void EventSystem::clearRaisedEvents()

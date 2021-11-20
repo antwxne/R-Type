@@ -11,17 +11,25 @@
 #include "UdpAsioServer.hpp"
 #include "GameUdpMessage.hpp"
 #include "UdpGameMessageHandler.hpp"
+#include "network.hpp"
+#include "Graphical/SfmlEventFactory.hpp"
 #include <map>
+
+class GameInstance;
 
 class GameUdpServer : public UdpAsioServer
 {
     public:
-        GameUdpServer(int port, int nbPlayers);
+        GameUdpServer(GameInstance &gameInstance, int port, int nbPlayers);
         ~GameUdpServer();
         void run() override;
-        void sendMessageToPlayer(GameUdpMessage<MessageType> &message, int nPlayer);
+        void sendMessageToAll(Message<MessageType> &message);
         void readMessageHeader() override;
-        void readMessageBody(Message<MessageType> &message) override;
+        void readMessageBody() override;
+
+        void handleRegister(int nPlayer);
+        void handleClientCommand(int nPlayer, ControlGame control);
+
     private:
         bool checkPlayerBinded(asio::ip::udp::endpoint endpoint);
         bool handlePlayerClient(asio::ip::udp::endpoint endpoint);
@@ -33,6 +41,7 @@ class GameUdpServer : public UdpAsioServer
         std::list<GameUdpMessage<MessageType>> _gameMessageList;
         UdpGameMessageHandler _gameMessageHandler;
 
+        GameInstance &_gameInstance;
 };
 
 #endif /* !GAMEUDPSERVER_HPP_ */

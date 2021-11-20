@@ -26,6 +26,7 @@ void TcpAsioServer::run()
         update();
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
+    stop();
 }
 
 void TcpAsioServer::start()
@@ -41,6 +42,7 @@ void TcpAsioServer::stop()
     _asioContext.stop();
 	if (_threadContext.joinable())
         _threadContext.join();
+    gamesHandler.stop();
 }
 
 void TcpAsioServer::update()

@@ -89,14 +89,17 @@ void EventCallback::shoot( const std::shared_ptr<ComponentManager> &componentMan
     std::vector<RaisedEvent> &raisedEvents
 )
 {
+    std::cout << "SHoot start\n";
     auto &currentFirerate = componentManager->getComponent<Firerate>(entity);
     auto &currentPostion = componentManager->getComponent<Position>(entity);
     auto &currentTag = componentManager->getComponent<Tag>(entity);
 
+    std::cout << "After init\n";
     if (!currentFirerate.has_value() || !currentPostion.has_value() ||
         !currentTag.has_value()) {
         return;
     }
+
     float elapsed = currentFirerate.value().clock.getElapsedTime().asSeconds();
     Position posBullet = currentPostion.value();
     Tag &tag = currentTag.value();
@@ -113,11 +116,12 @@ void EventCallback::shoot( const std::shared_ptr<ComponentManager> &componentMan
         posBullet.x += 130;
         posBullet.y += 20;
     }
+    std::cout << "After cheange\n";
     BulletEntity _be(posBullet, isFriend);
     _be.create(componentManager, entityManager);
+    std::cout << "After create\n";
     currentFirerate.value().clock.restart();
     raisedEvents.emplace_back(RaisedEvent::SHOT);
-
 }
 
 
