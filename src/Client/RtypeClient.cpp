@@ -75,6 +75,7 @@ void RtypeClient::registerComponents()
     _ecs.registerComponent<Firerate>();
     _ecs.registerComponent<AI>();
     _ecs.registerComponent<SfmlSound>();
+    _ecs.registerComponent<MoveClock>();
 }
 
 void RtypeClient::start()
@@ -85,8 +86,6 @@ void RtypeClient::start()
     _ecs.registerSystem<PlaySoundEvents>();
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
-
-
     run();
 }
 
@@ -316,7 +315,7 @@ void RtypeClient::manageGame()
 {
     try
     {
-        //_ecs.getSystem<MoveSystem>().update();
+        _ecs.getSystem<MoveSystem>().update();
         _ecs.getSystem<SfmlDrawSystem>().update();
         handleInComingEntities();
         sendControlsToServer();
@@ -371,6 +370,7 @@ void RtypeClient::handleNewEntity(const NetworkEntityInformation &info)
     _ecs.subToComponent(newEntity, Speed{0});
     _ecs.subToComponent(newEntity, Acceleration{0, 0});
     _ecs.subToComponent(newEntity, Position{0,0});
+    _ecs.subToComponent(newEntity, MoveClock{7});
 
     handleUpdateEntity(info);
 }
