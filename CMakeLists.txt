@@ -187,18 +187,24 @@ if(NOT UNIT_TESTS STREQUAL TRUE)
     src/ECS/Entity/monster/FirstMonsterEntity.hpp
     src/ECS/Entity/monster/FirstMonsterEntity.cpp)
     install(TARGETS ${LIB_FIRST_ENEMY} DESTINATION lib/${PROJECT_NAME})
+    conan_target_link_libraries(${LIB_FIRST_ENEMY} ${CONAN_LIBS})
+
 
     #SecondMonsterEntityLib
     ADD_LIBRARY(${LIB_SECOND_ENEMY} SHARED ${MONSTER_LIB_SHARED_SRC}
     src/ECS/Entity/monster/SecondMonsterEntity.hpp
     src/ECS/Entity/monster/SecondMonsterEntity.cpp)
     install(TARGETS ${LIB_SECOND_NAME} DESTINATION lib/${PROJECT_NAME})
+    conan_target_link_libraries(${LIB_SECOND_ENEMY} ${CONAN_LIBS})
+
 
     #ThirdMonsterEntityLib
     ADD_LIBRARY(${LIB_THIRD_ENEMY} SHARED ${MONSTER_LIB_SHARED_SRC}
     src/ECS/Entity/monster/ThirdMonsterEntity.hpp
     src/ECS/Entity/monster/ThirdMonsterEntity.cpp)
     install(TARGETS ${LIB_THIRD_ENEMY} DESTINATION lib/${PROJECT_NAME})
+    conan_target_link_libraries(${LIB_THIRD_ENEMY} ${CONAN_LIBS})
+
 
 else()
     set(TESTS_NAME unit_tests)
