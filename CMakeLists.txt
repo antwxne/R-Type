@@ -99,6 +99,10 @@ set(SHARED_SRC
         src/ECS/System/ColissionSystem.hpp
         src/ECS/System/MoveSystem.hpp
         src/ECS/System/MoveSystem.cpp
+        src/ECS/System/Text/TextSystem.cpp
+        src/ECS/System/Text/TextSystem.hpp
+        src/ECS/System/Text/SfmlTextSystem.cpp
+        src/ECS/System/Text/SfmlTextSystem.hpp
         src/ECS/System/Draw/DrawSystem.cpp
         src/ECS/System/Draw/DrawSystem.hpp
         src/ECS/System/Draw/SfmlDrawSystem.cpp
