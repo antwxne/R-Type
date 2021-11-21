@@ -28,6 +28,7 @@ class UdpGameClientMessageHandler
     protected:
         void handleEntityUpdate(Message<MessageType> &message);
         void handleEntityDestruction(Message<MessageType> &message);
+        void handleGameInfos(Message<MessageType> &message);
     private:
         UdpGameClient &_client;
         std::map<MessageType, UdpGameMFP> _map;

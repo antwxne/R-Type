@@ -270,3 +270,13 @@ void Client::resetRaisedEvent()
 {
     _udpClient->resetRaisedEvent();
 }
+
+int Client::getGameScore()
+{
+    return _udpClient->getGameScore();
+}
+
+int Client::getGameRound()
+{
+    return _udpClient->getGameRound();
+}

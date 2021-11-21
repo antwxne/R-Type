@@ -58,6 +58,7 @@ class RtypeClient {
         void handleInComingEntities();
         void handleNewEntity(const NetworkEntityInformation &info);
         void handleUpdateEntity(const NetworkEntityInformation &info);
+        void updateGamesInfo();
 
         void handleInCommingDestructionEntity();
         

@@ -333,6 +333,13 @@ void RtypeClient::manageGame()
     }
 }
 
+
+void RtypeClient::updateGamesInfo()
+{
+    int score = _networkClient->getGameScore();
+    int round = _networkClient->getGameRound();
+}
+
 void RtypeClient::sendControlsToServer()
 {
     _networkClient->sendCommands(_gameControlList);
