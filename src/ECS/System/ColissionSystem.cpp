@@ -83,6 +83,12 @@ void ColissionSystem::update()
                     rectangle.height + position.y > positionTmp.y)
                 {
                     entityCollide.push_back(id);
+                    if (contains(tagTmp.type, TagType::PLAYER) &&
+                        contains(tag.type, TagType::POWERUP))
+                    {
+                        life.health = 0;
+                        handleBonusCollision(id, otherId);
+                    }
                     if (contains(tag.type, TagType::PLAYER) &&
                         contains(tagTmp.type, TagType::ENEMY))
                     {
@@ -101,12 +107,6 @@ void ColissionSystem::update()
                     {
                         life.health -= 25;
                         lifeTmp.health = 0;
-                    }
-                    if (contains(tag.type, TagType::PLAYER) &&
-                        (contains(tagTmp.type, TagType::POWERUP)))
-                    {
-                        lifeTmp.health = 0;
-                        handleBonusCollision(id, otherId);
                     }
                 }
             }
@@ -138,7 +138,6 @@ void ColissionSystem::handleBonusCollision(std::size_t entityPlayer, std::size_t
     auto &lifes = _componentManager->getComponentsList<Life>();
     auto &firerate = _componentManager->getComponentsList<Firerate>();
 
-    std::cout << "Collsison bonus\n";
     if (!bonus[entitybonus].has_value())
         return;
     
