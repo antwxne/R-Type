@@ -8,7 +8,7 @@
 #ifndef FIRERATE_HPP_
 #define FIRERATE_HPP_
 
-#include "SFML/System.hpp"
+#include <SFML/System.hpp>
 
 struct Firerate
 {
