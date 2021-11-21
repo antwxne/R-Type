@@ -71,7 +71,7 @@ public:
     {
         return _systemManager->getSystem<System>();
     }
-    void garbageCollector(std::vector<std::pair<std::size_t, RaisedEvent>> &raisedEvent);
+    void garbageCollector(std::vector<std::pair<size_t, RaisedEvent>> &raisedEvent);
     void graphicalGarbageCollector();
     const std::shared_ptr<EntityManager> &getEntityManager() const;
     const std::shared_ptr<ComponentManager> &getComponentManager() const;
@@ -80,6 +80,7 @@ public:
 
 private:
     bool isAlive(const std::optional<Life> &lifeComponent) const;
+    bool isExplode(const std::optional<ExploseClock> &exploseClock) const;
     bool isInScreen(
         const std::optional<Position> &position, const std::optional<Rectangle> &hitbox,const std::optional<Tag> &bullet) const;
     bool isADeadSound(const std::optional<SfmlSound> &sound);

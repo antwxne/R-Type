@@ -15,7 +15,9 @@ enum TagType: int {
     ENEMY,
     PLAYER,
     POWERUP,
-    SOUND
+    SOUND,
+    EXPLOSION,
+
 };
 
 #else
@@ -25,7 +27,8 @@ enum TagType {
     ENEMY,
     PLAYER,
     POWERUP,
-    SOUND
+    SOUND,
+    EXPLOSION,
 };
 #endif
 

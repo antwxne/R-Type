@@ -45,6 +45,8 @@ void SfmlDisplay::initTexture()
     _textureMap[TextureType::HealPowerUp] = std::make_shared<sf::Texture>(texture);
     texture.loadFromFile("assets/powerup/shotBonus.png");
     _textureMap[TextureType::ShotPowerUp] = std::make_shared<sf::Texture>(texture);
+    texture.loadFromFile("assets/sprites/explode.png");
+    _textureMap[TextureType::Explosions] = std::make_shared<sf::Texture>(texture);
 }
 
 sf::Event &SfmlDisplay::getEvent()

@@ -14,7 +14,7 @@ all:
 	&& cmake -DCMAKE_BUILD_TYPE=Release .. -G "Unix Makefiles" && cmake --build .
 
 	cp ${BUILD_DIR}/bin/r-type_client . && mv ${BUILD_DIR}/bin/r-type_server .
-	mkdir -p lib && cp ${BUILD_DIR}/lib/libFirstMonsterEntity.so ./lib && cp ${BUILD_DIR}/lib/libSecondMonsterEntity.so ./lib && cp ${BUILD_DIR}/lib/libThirdMonsterEntity.so ./lib
+	mkdir -p lib && cp ${BUILD_DIR}/lib/libGeldMonsterEntity.so ./lib && cp ${BUILD_DIR}/lib/libAccordeonMonsterEntity.so ./lib && cp ${BUILD_DIR}/lib/libCheetahMonsterEntity.so ./lib
 
 .PHONY: debug
 debug:
@@ -22,7 +22,7 @@ debug:
 	&& cmake -DCMAKE_BUILD_TYPE=Debug .. -G "Unix Makefiles" && cmake --build .
 
 	cp ${BUILD_DIR}/bin/r-type_client . && mv ${BUILD_DIR}/bin/r-type_server .
-	mkdir -p lib && cp ${BUILD_DIR}/lib/libFirstMonsterEntity.so ./lib && cp ${BUILD_DIR}/lib/libSecondMonsterEntity.so ./lib && cp ${BUILD_DIR}/lib/libThirdMonsterEntity.so ./lib
+	mkdir -p lib && cp ${BUILD_DIR}/lib/libGeldMonsterEntity.so ./lib && cp ${BUILD_DIR}/lib/libAccordeonMonsterEntity.so ./lib && cp ${BUILD_DIR}/lib/libCheetahMonsterEntity.so ./lib
 
 # Clean build
 .PHONY: clean
