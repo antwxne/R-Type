@@ -90,6 +90,7 @@ set(SHARED_SRC
         src/ECS/System/ASystem.hpp
         src/ECS/System/ASystem.cpp
         src/ECS/Component/AI.hpp
+        src/ECS/Component/Text.hpp
         src/ECS/System/AISystem.cpp
         src/ECS/System/AISystem.hpp
         src/ECS/Component/Round.hpp
@@ -101,6 +102,10 @@ set(SHARED_SRC
         src/ECS/System/ColissionSystem.hpp
         src/ECS/System/MoveSystem.hpp
         src/ECS/System/MoveSystem.cpp
+        src/ECS/System/Text/TextSystem.cpp
+        src/ECS/System/Text/TextSystem.hpp
+        src/ECS/System/Text/SfmlTextSystem.cpp
+        src/ECS/System/Text/SfmlTextSystem.hpp
         src/ECS/System/Draw/DrawSystem.cpp
         src/ECS/System/Draw/DrawSystem.hpp
         src/ECS/System/Draw/SfmlDrawSystem.cpp
@@ -125,6 +130,8 @@ set(SHARED_SRC
         src/ECS/System/EventSystem/EventSystem.hpp
         src/ECS/System/EventSystem/EventSystem.cpp
         src/ECS/System/EventSystem/EventCallback.cpp src/ECS/System/EventSystem/EventCallback.hpp
+        src/ECS/Entity/TextEntity.cpp
+        src/ECS/Entity/TextEntity.hpp
         src/ECS/Entity/RoundEntity.cpp
         src/ECS/Entity/RoundEntity.hpp
         src/ECS/Entity/PlayerEntity.hpp
