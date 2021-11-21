@@ -94,11 +94,8 @@ set(SHARED_SRC
         src/utils.hpp
         src/ECS/System/ASystem.hpp
         src/ECS/System/ASystem.cpp
-        src/ECS/Component/AI.hpp
-        src/ECS/Component/Text.hpp
         src/ECS/System/AISystem.cpp
         src/ECS/System/AISystem.hpp
-        src/ECS/Component/Round.hpp
         src/ECS/System/RoundSystem.cpp
         src/ECS/System/RoundSystem.hpp
         src/ECS/System/EnemyShootSystem.hpp
@@ -117,8 +114,12 @@ set(SHARED_SRC
         src/ECS/System/Draw/SfmlDrawSystem.hpp
         src/ECS/System/Audio/SfmlSoundSystem.cpp
         src/ECS/System/Audio/SfmlSoundSystem.hpp
+        src/ECS/Component/AI.hpp
+        src/ECS/Component/Text.hpp
+        src/ECS/Component/Round.hpp
         src/ECS/Component/Audio.hpp
         src/ECS/Component/SfmlSound.hpp
+        src/ECS/Component/Firerate.hpp
         src/Graphical/SfmlDisplay.cpp
         src/Graphical/SfmlDisplay.hpp
         src/Graphical/SfmlButton.cpp
