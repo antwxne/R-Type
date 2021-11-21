@@ -139,8 +139,10 @@ set(SHARED_SRC
         src/ECS/Entity/TextEntity.hpp
         src/ECS/Entity/RoundEntity.cpp
         src/ECS/Entity/RoundEntity.hpp
-        src/ECS/Entity/PlayerEntity.hpp
+        src/ECS/Entity/ExplosionEntity.cpp
+        src/ECS/Entity/ExplosionEntity.hpp
         src/ECS/Entity/PlayerEntity.cpp
+        src/ECS/Entity/PlayerEntity.hpp
         src/ECS/Entity/EnemyEntity.cpp
         src/ECS/Entity/EnemyEntity.hpp
         src/ECS/Entity/BulletEntity.cpp

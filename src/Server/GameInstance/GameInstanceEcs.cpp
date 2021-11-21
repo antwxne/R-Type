@@ -37,6 +37,7 @@ void GameInstanceEcs::registerComponents()
     _ecs.registerComponent<Acceleration>();
     _ecs.registerComponent<Scale>();
     _ecs.registerComponent<Rotate>();
+    _ecs.registerComponent<ExploseClock>();
     _ecs.registerComponent<Color>();
     _ecs.registerComponent<SfmlSprite>();
     _ecs.registerComponent<Collision>();
