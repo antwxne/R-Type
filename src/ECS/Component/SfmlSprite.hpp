@@ -10,7 +10,9 @@
 
 #include <memory>
 #include <string>
-#include "SFML/Graphics.hpp"
+#include "SFML/Graphics/Sprite.hpp"
+#include "SFML/Graphics/Texture.hpp"
+#include "SFML/System/Clock.hpp"
 
 struct SfmlSprite
 {

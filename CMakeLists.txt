@@ -8,7 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project(RType)
 
 #Flags
-set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Wall -Wextra")
+set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Wall -Wextra -lsfml-graphics -lsfml-window -lsfml-system")
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall -Wextra -g -ggdb -g3")
 
 #Bin name
