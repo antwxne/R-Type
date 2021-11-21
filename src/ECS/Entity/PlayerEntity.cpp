@@ -51,7 +51,7 @@ void PlayerEntity::create(
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
 
     sprite->setTextureRect(_textureRect);
-    componentManager->subToComponent(_entity, Firerate{0.1, Clock::now()});
+    componentManager->subToComponent(_entity, Firerate{250, Clock::now()});
     componentManager->subToComponent(_entity, SfmlSprite{sprite, _textureRect, 4, 0, 1});
     componentManager->subToComponent(_entity, Life{300});
     componentManager->subToComponent(_entity, Speed{20});

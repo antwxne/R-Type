@@ -98,7 +98,7 @@ void EventCallback::shoot( const std::shared_ptr<ComponentManager> &componentMan
         return;
     }
 
-    auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(Clock::now() - currentFirerate.value().clock).count();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now() - currentFirerate.value().clock).count();
     Position posBullet = currentPostion.value();
     Tag &tag = currentTag.value();
     bool isFriend = true;
