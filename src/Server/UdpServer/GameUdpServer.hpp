@@ -13,6 +13,7 @@
 #include "UdpGameMessageHandler.hpp"
 #include "network.hpp"
 #include "Graphical/SfmlEventFactory.hpp"
+#include <chrono>
 #include <map>
 
 class GameInstance;

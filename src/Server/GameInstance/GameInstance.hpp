@@ -8,6 +8,7 @@
 #ifndef GAMEINSTANCE_HPP_
 #define GAMEINSTANCE_HPP_
 
+#include <chrono>
 #include <string>
 #include <vector>
 #include <memory>

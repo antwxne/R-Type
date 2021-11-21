@@ -14,6 +14,7 @@
 #include "IEntityRegister.hpp"
 #include "../../DLLloader/DLLloader.hpp"
 
+#include <chrono>
 #include <vector>
 #include <string>
 #include <fstream>

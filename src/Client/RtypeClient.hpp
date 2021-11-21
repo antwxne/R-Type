@@ -8,6 +8,7 @@
 #ifndef RtypeClient_HPP_
 #define RtypeClient_HPP_
 
+#include <chrono>
 #include <memory>
 #include <thread>
 
