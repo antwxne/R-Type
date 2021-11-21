@@ -2,21 +2,21 @@
 ** EPITECH PROJECT, 2021
 ** B-CPP-501-PAR-5-1-rtype-thomas1.tricaud
 ** File description:
-** ThirdMonsterEntity
+** GeldMonsterEntity
 */
 
-#ifndef THIRDMONSTERENTITY_HPP_
-#define THIRDMONSTERENTITY_HPP_
+#ifndef GELDMONSTERENTITY_HPP_
+#define GELDMONSTERENTITY_HPP_
 
 #include "../../component.hpp"
 #include "../../Component/ComponentManager.hpp"
 #include "../EntityManager.hpp"
 #include "../IEntityRegister.hpp"
 
-class ThirdMonsterEntity : public IEntityRegister {
+class GeldMonsterEntity : public IEntityRegister {
     public:
-        ThirdMonsterEntity();
-        ~ThirdMonsterEntity();
+        GeldMonsterEntity();
+        ~GeldMonsterEntity();
 
         void create(const std::shared_ptr<ComponentManager> &componentManager,
             const std::shared_ptr<EntityManager> &entityManager
@@ -26,4 +26,4 @@ class ThirdMonsterEntity : public IEntityRegister {
         sf::IntRect _textureRect;
 };
 
-#endif /* !THIRDMONSTERENTITY_HPP_ */
+#endif /* !GeldMONSTERENTITY_HPP_ */

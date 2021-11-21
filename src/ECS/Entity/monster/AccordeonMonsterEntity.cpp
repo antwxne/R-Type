@@ -2,20 +2,20 @@
 ** EPITECH PROJECT, 2021
 ** B-CPP-501-PAR-5-1-rtype-thomas1.tricaud
 ** File description:
-** SecondMonsterEntity
+** AccordeonMonsterEntity
 */
 
-#include "SecondMonsterEntity.hpp"
+#include "AccordeonMonsterEntity.hpp"
 
-SecondMonsterEntity::SecondMonsterEntity(): IEntityRegister()
+AccordeonMonsterEntity::AccordeonMonsterEntity(): IEntityRegister()
 {
 }
 
-SecondMonsterEntity::~SecondMonsterEntity()
+AccordeonMonsterEntity::~AccordeonMonsterEntity()
 {
 }
 
-void SecondMonsterEntity::create(const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager)
+void AccordeonMonsterEntity::create(const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager)
 {
     _entity = entityManager->create();
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
@@ -29,7 +29,7 @@ void SecondMonsterEntity::create(const std::shared_ptr<ComponentManager> &compon
     componentManager->subToComponent(_entity, AI{false, 0, 0, 800, 1920, 1, 1080});
     componentManager->subToComponent(_entity, Rectangle{65, 132});
     componentManager->subToComponent(_entity, Speed{1});
-    componentManager->subToComponent(_entity, Life{1});
+    componentManager->subToComponent(_entity, Life{100});
     componentManager->subToComponent(_entity, Acceleration{0, 0});
     componentManager->subToComponent(_entity, MoveClock{7});
     componentManager->subToComponent(_entity, Firerate{(float)randFirerate, Clock::now()});
@@ -44,5 +44,5 @@ void SecondMonsterEntity::create(const std::shared_ptr<ComponentManager> &compon
 
 extern "C" std::shared_ptr<IEntityRegister> EnemyEntityEntrypoint()
 {
-    return std::shared_ptr<IEntityRegister>(new SecondMonsterEntity());
+    return std::shared_ptr<IEntityRegister>(new AccordeonMonsterEntity());
 }

@@ -15,9 +15,9 @@ set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall -Wextra -g -ggdb -g3")
 set(SERVER_NAME r-type_server)
 set(CLIENT_NAME r-type_client)
 
-set(LIB_FIRST_ENEMY FirstMonsterEntity)
-set(LIB_SECOND_ENEMY SecondMonsterEntity)
-set(LIB_THIRD_ENEMY ThirdMonsterEntity)
+set(LIB_FIRST_ENEMY GeldMonsterEntity)
+set(LIB_SECOND_ENEMY AccordeonMonsterEntity)
+set(LIB_THIRD_ENEMY CheetahMonsterEntity)
 
 
 #Truc conan
@@ -186,24 +186,24 @@ if(NOT UNIT_TESTS STREQUAL TRUE)
 
     #FirstMonsterEntityLib
     ADD_LIBRARY(${LIB_FIRST_ENEMY} SHARED ${MONSTER_LIB_SHARED_SRC}
-    src/ECS/Entity/monster/FirstMonsterEntity.hpp
-    src/ECS/Entity/monster/FirstMonsterEntity.cpp)
+    src/ECS/Entity/monster/GeldMonsterEntity.hpp
+    src/ECS/Entity/monster/GeldMonsterEntity.cpp)
     install(TARGETS ${LIB_FIRST_ENEMY} DESTINATION lib/${PROJECT_NAME})
     conan_target_link_libraries(${LIB_FIRST_ENEMY} ${CONAN_LIBS})
 
 
-    #SecondMonsterEntityLib
+    #AccordeonMonsterEntityLib
     ADD_LIBRARY(${LIB_SECOND_ENEMY} SHARED ${MONSTER_LIB_SHARED_SRC}
-    src/ECS/Entity/monster/SecondMonsterEntity.hpp
-    src/ECS/Entity/monster/SecondMonsterEntity.cpp)
+    src/ECS/Entity/monster/AccordeonMonsterEntity.hpp
+    src/ECS/Entity/monster/AccordeonMonsterEntity.cpp)
     install(TARGETS ${LIB_SECOND_NAME} DESTINATION lib/${PROJECT_NAME})
     conan_target_link_libraries(${LIB_SECOND_ENEMY} ${CONAN_LIBS})
 
 
     #ThirdMonsterEntityLib
     ADD_LIBRARY(${LIB_THIRD_ENEMY} SHARED ${MONSTER_LIB_SHARED_SRC}
-    src/ECS/Entity/monster/ThirdMonsterEntity.hpp
-    src/ECS/Entity/monster/ThirdMonsterEntity.cpp)
+    src/ECS/Entity/monster/CheetahMonsterEntity.hpp
+    src/ECS/Entity/monster/CheetahMonsterEntity.cpp)
     install(TARGETS ${LIB_THIRD_ENEMY} DESTINATION lib/${PROJECT_NAME})
     conan_target_link_libraries(${LIB_THIRD_ENEMY} ${CONAN_LIBS})
 
