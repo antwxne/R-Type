@@ -13,10 +13,16 @@ all:
 	mkdir -p $(BUILD_DIR) && cd $(BUILD_DIR) && conan install .. --build=missing \
 	&& cmake -DCMAKE_BUILD_TYPE=Release .. -G "Unix Makefiles" && cmake --build .
 
+	cp ${BUILD_DIR}/bin/r-type_client . && mv ${BUILD_DIR}/bin/r-type_server .
+	mkdir -p lib && cp ${BUILD_DIR}/lib/libFirstMonsterEntity.so ./lib && cp ${BUILD_DIR}/lib/libSecondMonsterEntity.so ./lib && cp ${BUILD_DIR}/lib/libThirdMonsterEntity.so ./lib
+
 .PHONY: debug
 debug:
 	mkdir -p $(BUILD_DIR) && cd $(BUILD_DIR) && conan install .. --build=missing\
 	&& cmake -DCMAKE_BUILD_TYPE=Debug .. -G "Unix Makefiles" && cmake --build .
+
+	cp ${BUILD_DIR}/bin/r-type_client . && mv ${BUILD_DIR}/bin/r-type_server .
+	mkdir -p lib && cp ${BUILD_DIR}/lib/libFirstMonsterEntity.so ./lib && cp ${BUILD_DIR}/lib/libSecondMonsterEntity.so ./lib && cp ${BUILD_DIR}/lib/libThirdMonsterEntity.so ./lib
 
 # Clean build
 .PHONY: clean
