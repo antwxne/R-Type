@@ -20,7 +20,6 @@ void FirstMonsterEntity::create(const std::shared_ptr<ComponentManager> &compone
     _entity = entityManager->create();
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
     int randFirerate = rand()%(5-1 + 1) + 1;
-    sf::Clock clock;
 
     componentManager->subToComponent(_entity, Rotate{0});
     componentManager->subToComponent(_entity, _pos);
