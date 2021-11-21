@@ -44,7 +44,7 @@ private:
     std::vector<std::string> _enemyList;
     std::shared_ptr<DLLloader<IEntityRegister>> _enemyLoaded;
 
-    std::chrono::_V2::system_clock::time_point _clock;
+    std::chrono::system_clock::time_point _clock;
     float _elapsed;
 };
 

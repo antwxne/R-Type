@@ -38,7 +38,7 @@ class GameInstanceEcs {
     private:
         ECS _ecs;
         GameInstance &_gameInstance;
-        std::chrono::_V2::system_clock::time_point _networkSendClock;
+        std::chrono::system_clock::time_point _networkSendClock;
 
         std::map<int, std::size_t> _playerToEntityMap;
 

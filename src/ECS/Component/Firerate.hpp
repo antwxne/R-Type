@@ -17,7 +17,7 @@ typedef std::chrono::high_resolution_clock Clock;
 struct Firerate
 {
     float delay;
-    std::chrono::_V2::system_clock::time_point clock;
+    std::chrono::system_clock::time_point clock;
 };
 
 
