@@ -31,5 +31,6 @@
 #include "Component/AI.hpp"
 #include "Component/MoveClock.hpp"
 #include "Component/Round.hpp"
+#include "Component/ExploseClock.hpp"
 
 #endif /* !COMPONENT_HPP_ */

@@ -8,7 +8,7 @@
 #include "ECS.hpp"
 #include "utils.hpp"
 #include "ECS/System/EventSystem/EventSystem.hpp"
-
+#include "ECS/Entity/ExplosionEntity.hpp"
 Entity ECS::createEntity()
 {
     return _entityManager->create();
@@ -19,7 +19,7 @@ ECS::ECS()
     _entityManager = std::make_shared<EntityManager>();
     _componentManager = std::make_shared<ComponentManager>();
     _systemManager = std::make_unique<SystemManager>(_componentManager,
-        _entityManager);
+                                                     _entityManager);
 }
 
 void ECS::destroyEntity(const Entity &entity)
@@ -27,21 +27,36 @@ void ECS::destroyEntity(const Entity &entity)
     _entityManager->destroy(entity);
 }
 
-void ECS::garbageCollector(std::vector<std::pair<std::size_t, RaisedEvent>> &raisedEvent)
+void ECS::garbageCollector(std::vector<std::pair<size_t, RaisedEvent>> &raisedEvent)
 {
-    try {
+    try
+    {
         const auto &lifes = _componentManager->getComponentsList<Life>();
         const auto &positions = _componentManager->getComponentsList<Position>();
+        const auto &sfmlSprites = _componentManager->getComponentsList<SfmlSprite>();
         const auto &hitboxes = _componentManager->getComponentsList<Rectangle>();
         const auto &tags = _componentManager->getComponentsList<Tag>();
-
+        const auto &exploseClocks = _componentManager->getComponentsList<ExploseClock>();
         std::size_t idx;
         const auto &currentEntities = _entityManager->getCurrentEntities();
 
-        for (const auto &entity: currentEntities)
+        for (const auto &entity : currentEntities)
         {
             entity >> idx;
             if (!isAlive(lifes[idx]))
+            {
+                auto &tag = tags[idx].value();
+                auto &position = positions[idx].value();
+                if (!contains(tag.type, TagType::BULLET))
+                {
+                    ExplosionEntity yo(position);
+                    yo.create(_componentManager, _entityManager);
+                }
+                raisedEvent.push_back({idx, RaisedEvent::ENTITY_DEAD});
+                destroyEntity(idx);
+                return;
+            }
+            if (isExplode(exploseClocks[idx]))
             {
                 raisedEvent.push_back({idx, RaisedEvent::ENTITY_DEAD});
                 destroyEntity(idx);
@@ -53,19 +68,22 @@ void ECS::garbageCollector(std::vector<std::pair<std::size_t, RaisedEvent>> &rai
                 return;
             }
         }
-    } 
-    catch (...) {}
+    }
+    catch (...)
+    {
+    }
 }
 
 void ECS::graphicalGarbageCollector()
 {
-    try {
+    try
+    {
         const auto &sounds = _componentManager->getComponentsList<SfmlSound>();
 
         std::size_t idx;
         const auto &currentEntities = _entityManager->getCurrentEntities();
 
-        for (const auto &entity: currentEntities)
+        for (const auto &entity : currentEntities)
         {
             entity >> idx;
             if (isADeadSound(sounds[idx]))
@@ -74,35 +92,49 @@ void ECS::graphicalGarbageCollector()
                 return;
             }
         }
-    } 
-    catch (...) {}
+    }
+    catch (...)
+    {
+    }
 }
 
 bool ECS::isAlive(const std::optional<Life> &lifeComponent) const
 {
-    if (!lifeComponent.has_value()) {
+    if (!lifeComponent.has_value())
+    {
         return true;
     }
     return lifeComponent.value().health > 0;
 }
 
+bool ECS::isExplode(const std::optional<ExploseClock> &exploseClock) const
+{
+    if (!exploseClock.has_value())
+        return false;
+    auto &explose = exploseClock.value();
+    auto delay = std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now() - explose.clock).count();
+    if (delay > explose.elapsed)
+        return true;
+    return false;
+}
+
 bool ECS::isInScreen(const std::optional<Position> &position,
-    const std::optional<Rectangle> &hitbox, const std::optional<Tag> &bullet
-) const
+                     const std::optional<Rectangle> &hitbox, const std::optional<Tag> &bullet) const
 {
     if (!position.has_value() || !hitbox.has_value() || !bullet.has_value() ||
-        !contains<TagType>(bullet.value().type, TagType::BULLET)) {
+        !contains<TagType>(bullet.value().type, TagType::BULLET))
+    {
         return true;
     }
     std::pair<float, float> windowSizeMax = {2000, 1200};
     std::pair<float, float> windowSizeMin = {-200, -200};
 
     auto plop = position.value().x < windowSizeMin.first ||
-        position.value().y < windowSizeMin.second ||
-        position.value().x + static_cast<float>(hitbox.value().width) >
-            windowSizeMax.first ||
-        position.value().y + static_cast<float>(hitbox.value().height) >
-            windowSizeMax.second;
+                position.value().y < windowSizeMin.second ||
+                position.value().x + static_cast<float>(hitbox.value().width) >
+                    windowSizeMax.first ||
+                position.value().y + static_cast<float>(hitbox.value().height) >
+                    windowSizeMax.second;
     return !plop;
 }
 

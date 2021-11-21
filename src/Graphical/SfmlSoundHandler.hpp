@@ -15,7 +15,7 @@
 enum SoundType
 {
     Shot = 0,
-    Explosion = 1
+    Explosion = 1,
 };
 
 typedef std::map<SoundType, std::shared_ptr<sf::SoundBuffer>> soundMap;

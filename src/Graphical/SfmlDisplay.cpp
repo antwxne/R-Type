@@ -40,6 +40,8 @@ void SfmlDisplay::initTexture()
     _textureMap[TextureType::Enemy2] = std::make_shared<sf::Texture>(texture);
     texture.loadFromFile("assets/sprites/enemy5.gif");
     _textureMap[TextureType::Enemy3] = std::make_shared<sf::Texture>(texture);
+    texture.loadFromFile("assets/sprites/explode.png");
+    _textureMap[TextureType::Explosions] = std::make_shared<sf::Texture>(texture);
 }
 
 sf::Event &SfmlDisplay::getEvent()
