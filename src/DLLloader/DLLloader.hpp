@@ -39,12 +39,7 @@ DLLloader<T>::DLLloader(const std::string &filename, std::string &symbol)
 template<typename T>
 DLLloader<T>::~DLLloader()
 {
-    std::cout << "DlClose" << std::endl;
     _instance.reset();
-    // if (_handle != NULL) {
-    //     std::cout << "On Cdlclose !" << std::endl;
-    //     Cdlclose();
-    // }
 }
 
 template<typename T>
