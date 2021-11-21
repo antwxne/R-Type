@@ -35,7 +35,6 @@ void EnemyEntity::create(
 
     int libSelected = (std::rand() % _enemyList.size());
     this->loadEnemyLib(_enemyList.at(libSelected));
-    std::cout << _pos.x << " " << _pos.y << std::endl;
     _enemyLoaded->getInstance()->setPosition(_pos);
     _enemyLoaded->getInstance()->create(componentManager, entityManager);
 }
