@@ -13,7 +13,7 @@
 struct MoveClock
 {
     float elapsed;
-    std::chrono::_V2::system_clock::time_point clock;
+    std::chrono::system_clock::time_point clock;
 };
 
 #endif /* !MOVECLOCK_HPP_ */

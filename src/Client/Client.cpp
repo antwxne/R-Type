@@ -262,7 +262,7 @@ void Client::sendCommands(const std::list<ControlGame> &controls)
     _udpClient->sendCommands(controls);
 }
 
-std::list<std::pair<size_t, RaisedEvent>> &Client::getEntitiesRaisedEvent()
+std::list<std::pair<std::size_t, RaisedEvent>> &Client::getEntitiesRaisedEvent()
 {
     return _udpClient->getEntitiesRaisedEvent();
 }

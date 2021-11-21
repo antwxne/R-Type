@@ -416,7 +416,7 @@ void RtypeClient::handleInComingEntities()
 
 void RtypeClient::handleInCommingDestructionEntity()
 {
-    std::list<std::pair<size_t, RaisedEvent>> entities = _networkClient->getEntitiesRaisedEvent();
+    std::list<std::pair<std::size_t, RaisedEvent>> entities = _networkClient->getEntitiesRaisedEvent();
     
     for (auto &i :entities)
     {
@@ -440,7 +440,7 @@ void RtypeClient::handleInCommingDestructionEntity()
 
 void RtypeClient::handleNewEntity(const NetworkEntityInformation &info)
 {
-    size_t newEntity;
+    std::size_t newEntity;
     
     _ecs.createEntity() >> newEntity;
 
@@ -465,7 +465,7 @@ void RtypeClient::handleNewEntity(const NetworkEntityInformation &info)
 
 void RtypeClient::handleUpdateEntity(const NetworkEntityInformation &info)
 {
-    size_t clientEntity = _serverToClientEntityMap[info.entity];
+    std::size_t clientEntity = _serverToClientEntityMap[info.entity];
 
     Rotate &rotate = _ecs.getComponent<Rotate>(clientEntity).value();
     Color &color = _ecs.getComponent<Color>(clientEntity).value();

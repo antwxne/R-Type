@@ -34,7 +34,7 @@ void DrawSystem::update()
     }
 }
 
-bool DrawSystem::checkAvailableEntity(size_t entity) const
+bool DrawSystem::checkAvailableEntity(std::size_t entity) const
 {
     return false;
 }

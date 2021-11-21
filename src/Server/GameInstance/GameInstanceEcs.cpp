@@ -95,7 +95,7 @@ void GameInstanceEcs::getCurrentEntityInfo(const Entity &entity)
     if (!checkNetworkEntity(entity))
         return;
 
-    size_t ent;
+    std::size_t ent;
     entity >> ent;
 
     Rotate &rotate = _ecs.getComponent<Rotate>(entity).value();
@@ -115,7 +115,7 @@ void GameInstanceEcs::getCurrentEntityInfo(const Entity &entity)
 
 bool GameInstanceEcs::checkNetworkEntity(const Entity &entity)
 {
-    size_t ent;
+    std::size_t ent;
     entity >> ent;
 
     auto &rotate = _ecs.getComponentManager()->getComponentsList<Rotate>();
@@ -176,7 +176,7 @@ void GameInstanceEcs::handleCommandPlayer(int nPlayer, ControlGame control)
 {
     try
     {
-        size_t entityPlayer = _playerToEntityMap[nPlayer];
+        std::size_t entityPlayer = _playerToEntityMap[nPlayer];
 
         _ecs.getSystem<EventSystem>().setEvents(entityPlayer, control);
     }
@@ -216,7 +216,7 @@ void GameInstanceEcs::handleRaisedEvents()
     event.clearRaisedEvents();
 }
 
-void GameInstanceEcs::sendDestructionMessage(const std::vector<std::pair<size_t, RaisedEvent>> &events)
+void GameInstanceEcs::sendDestructionMessage(const std::vector<std::pair<std::size_t, RaisedEvent>> &events)
 {
     _gameInstance.sendEntityRaisedEvent(events);
 }

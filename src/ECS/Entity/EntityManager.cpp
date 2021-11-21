@@ -13,7 +13,7 @@
 
 EntityManager::EntityManager()
 {
-    for (size_t i = 0; i < MAX_ENTITIES; i++)
+    for (std::size_t i = 0; i < MAX_ENTITIES; i++)
     {
 	    _availableEntities.push(Entity(i));
     }

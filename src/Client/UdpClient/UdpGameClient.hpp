@@ -28,8 +28,8 @@ class UdpGameClient : public UdpClient {
         std::list<NetworkEntityInformation> &getEntitiesInfos();
         void resetEntitiesList();
 
-        void addEntityRaisedEvent(size_t entity, RaisedEvent event);
-        std::list<std::pair<size_t, RaisedEvent>> &getEntitiesRaisedEvent();
+        void addEntityRaisedEvent(std::size_t entity, RaisedEvent event);
+        std::list<std::pair<std::size_t, RaisedEvent>> &getEntitiesRaisedEvent();
         void resetRaisedEvent();
 
         void handleGameInfos(int round, int score);
@@ -44,7 +44,7 @@ class UdpGameClient : public UdpClient {
         UdpGameClientMessageHandler _gameHandler;
 
         std::list<NetworkEntityInformation> _entitiesInfos;
-        std::list<std::pair<size_t, RaisedEvent>> _entitiesRaisedEvent;
+        std::list<std::pair<std::size_t, RaisedEvent>> _entitiesRaisedEvent;
         std::mutex _entitiesInfosMutex;
 
         int _score;

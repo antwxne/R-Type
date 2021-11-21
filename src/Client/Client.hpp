@@ -51,7 +51,7 @@ class Client {
         std::list<NetworkEntityInformation> &getEntitiesInfos();
         void clearEntitiesInfos();
 
-        std::list<std::pair<size_t, RaisedEvent>> &getEntitiesRaisedEvent();
+        std::list<std::pair<std::size_t, RaisedEvent>> &getEntitiesRaisedEvent();
         void resetRaisedEvent();
 
         int getGameScore();

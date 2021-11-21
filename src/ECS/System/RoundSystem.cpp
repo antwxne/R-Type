@@ -71,7 +71,7 @@ void RoundSystem::update()
     }
 }
 
-bool RoundSystem::checkAvailableEntity(size_t entity) const
+bool RoundSystem::checkAvailableEntity(std::size_t entity) const
 {
     const auto &round = _componentManager->getComponentsList<Round>();
 

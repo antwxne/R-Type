@@ -8,6 +8,7 @@
 #ifndef RtypeClient_HPP_
 #define RtypeClient_HPP_
 
+#include <chrono>
 #include <memory>
 #include <thread>
 
@@ -90,7 +91,7 @@ class RtypeClient {
         std::thread _networkThread;
         ECS _ecs;
 
-        std::map<size_t, size_t> _serverToClientEntityMap;
+        std::map<std::size_t, std::size_t> _serverToClientEntityMap;
 
         std::list<ControlGame> _gameControlList;
 };

@@ -33,7 +33,9 @@ void EnemyShootSystem::update()
         Firerate &firerate = firerates[id].value();
         Position pos = positions[id].value();
         SfmlSprite &sprite = sprites[id].value();
-        float elapsed = firerate.clock.getElapsedTime().asSeconds();
+        // float elapsed = firerate.clock.getElapsedTime().asSeconds();
+        auto elapsed = std::chrono::duration_cast<std::chrono::seconds>(Clock::now() - firerate.clock).count();
+
         if (contains(tag.type, TagType::ENEMY) && !contains(tag.type, TagType::BULLET)) {
             if (elapsed <= firerate.delay)
                 continue;
@@ -41,7 +43,7 @@ void EnemyShootSystem::update()
             pos.y += (sprite.textureRect.height / 2) + 50;
             BulletEntity _be(pos, false);
             _be.create(_componentManager, _entityManager);
-            firerate.clock.restart();
+            firerate.clock = Clock::now();
             return;
         }
     }

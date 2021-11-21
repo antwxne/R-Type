@@ -78,7 +78,7 @@ void MoveSystem::update()
     }
 }
 
-bool MoveSystem::checkAvailableEntity(const size_t entity) const
+bool MoveSystem::checkAvailableEntity(const std::size_t entity) const
 {
     const auto &speed = _componentManager->getComponentsList<Speed>();
     const auto &acceleration = _componentManager->getComponentsList<Acceleration>();

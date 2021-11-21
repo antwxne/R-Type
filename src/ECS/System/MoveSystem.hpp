@@ -9,6 +9,7 @@
 #define MOVESYSTEM_HPP_
 
 #include "ASystem.hpp"
+#include <chrono>
 #include <vector>
 
 class MoveSystem : public ASystem {
@@ -20,7 +21,7 @@ public:
 
 protected:
 private:
-    bool checkAvailableEntity(const size_t entity) const override;
+    bool checkAvailableEntity(const std::size_t entity) const override;
 
 };
 

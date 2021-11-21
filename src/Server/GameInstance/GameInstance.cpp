@@ -153,7 +153,7 @@ void GameInstance::handleClientCommand(int nPlayer, ControlGame control)
     _ecs->handleCommandPlayer(nPlayer, control);
 }
 
-void GameInstance::sendEntityRaisedEvent(const std::vector<std::pair<size_t, RaisedEvent>> &info)
+void GameInstance::sendEntityRaisedEvent(const std::vector<std::pair<std::size_t, RaisedEvent>> &info)
 {
 
     for (auto &i : info)

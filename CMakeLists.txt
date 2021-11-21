@@ -1,5 +1,5 @@
 #Cmake version
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.16)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -94,11 +94,8 @@ set(SHARED_SRC
         src/utils.hpp
         src/ECS/System/ASystem.hpp
         src/ECS/System/ASystem.cpp
-        src/ECS/Component/AI.hpp
-        src/ECS/Component/Text.hpp
         src/ECS/System/AISystem.cpp
         src/ECS/System/AISystem.hpp
-        src/ECS/Component/Round.hpp
         src/ECS/System/RoundSystem.cpp
         src/ECS/System/RoundSystem.hpp
         src/ECS/System/EnemyShootSystem.hpp
@@ -117,6 +114,9 @@ set(SHARED_SRC
         src/ECS/System/Draw/SfmlDrawSystem.hpp
         src/ECS/System/Audio/SfmlSoundSystem.cpp
         src/ECS/System/Audio/SfmlSoundSystem.hpp
+        src/ECS/Component/AI.hpp
+        src/ECS/Component/Text.hpp
+        src/ECS/Component/Round.hpp
         src/ECS/Component/Audio.hpp
         src/ECS/Component/SfmlSound.hpp
         src/Graphical/SfmlDisplay.cpp
@@ -187,18 +187,24 @@ if(NOT UNIT_TESTS STREQUAL TRUE)
     src/ECS/Entity/monster/FirstMonsterEntity.hpp
     src/ECS/Entity/monster/FirstMonsterEntity.cpp)
     install(TARGETS ${LIB_FIRST_ENEMY} DESTINATION lib/${PROJECT_NAME})
+    conan_target_link_libraries(${LIB_FIRST_ENEMY} ${CONAN_LIBS})
+
 
     #SecondMonsterEntityLib
     ADD_LIBRARY(${LIB_SECOND_ENEMY} SHARED ${MONSTER_LIB_SHARED_SRC}
     src/ECS/Entity/monster/SecondMonsterEntity.hpp
     src/ECS/Entity/monster/SecondMonsterEntity.cpp)
     install(TARGETS ${LIB_SECOND_NAME} DESTINATION lib/${PROJECT_NAME})
+    conan_target_link_libraries(${LIB_SECOND_ENEMY} ${CONAN_LIBS})
+
 
     #ThirdMonsterEntityLib
     ADD_LIBRARY(${LIB_THIRD_ENEMY} SHARED ${MONSTER_LIB_SHARED_SRC}
     src/ECS/Entity/monster/ThirdMonsterEntity.hpp
     src/ECS/Entity/monster/ThirdMonsterEntity.cpp)
     install(TARGETS ${LIB_THIRD_ENEMY} DESTINATION lib/${PROJECT_NAME})
+    conan_target_link_libraries(${LIB_THIRD_ENEMY} ${CONAN_LIBS})
+
 
 else()
     set(TESTS_NAME unit_tests)

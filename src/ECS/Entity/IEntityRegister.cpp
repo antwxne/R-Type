@@ -22,9 +22,9 @@ void IEntityRegister::setPosition(const Position &pos)
     _pos = pos;
 }
 
-size_t IEntityRegister::getEntityValue() const
+std::size_t IEntityRegister::getEntityValue() const
 {
-    size_t entity;
+    std::size_t entity;
 
     _entity >> entity;
 

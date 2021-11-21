@@ -85,7 +85,7 @@ void UdpGameClient::sendCommands(const std::list<ControlGame> &controls)
     }
 }
 
-void UdpGameClient::addEntityRaisedEvent(size_t entity, RaisedEvent event)
+void UdpGameClient::addEntityRaisedEvent(std::size_t entity, RaisedEvent event)
 {
     _entitiesRaisedEvent.push_back({entity, event});
 }

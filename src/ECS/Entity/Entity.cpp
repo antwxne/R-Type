@@ -7,7 +7,7 @@
 
 #include "Entity.hpp"
 
-Entity::Entity(size_t size) : _size(size)
+Entity::Entity(std::size_t size) : _size(size)
 {
 }
 
@@ -15,19 +15,19 @@ Entity::~Entity()
 {
 }
 
-void Entity::operator>>(size_t &object) const
+void Entity::operator>>(std::size_t &object) const
 {
     object = _size;
 }
 
-bool Entity::operator<(size_t size) const
+bool Entity::operator<(std::size_t size) const
 {
     return size > _size;
 }
 
 bool Entity::operator==(const Entity &entity) const
 {
-    size_t value;
+    std::size_t value;
 
     entity >> value;
 
@@ -36,7 +36,7 @@ bool Entity::operator==(const Entity &entity) const
 
 std::ostream& operator<<(std::ostream& os, const Entity& entity)
 {
-    size_t id;
+    std::size_t id;
     entity >> id;
     os << id;
     return os;

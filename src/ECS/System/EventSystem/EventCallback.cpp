@@ -98,7 +98,7 @@ void EventCallback::shoot( const std::shared_ptr<ComponentManager> &componentMan
         return;
     }
 
-    float elapsed = currentFirerate.value().clock.getElapsedTime().asSeconds();
+    auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now() - currentFirerate.value().clock).count();
     Position posBullet = currentPostion.value();
     Tag &tag = currentTag.value();
     bool isFriend = true;
@@ -117,5 +117,5 @@ void EventCallback::shoot( const std::shared_ptr<ComponentManager> &componentMan
     raisedEvents.push_back(RaisedEvent::SHOT);
     BulletEntity _be(posBullet, isFriend);
     _be.create(componentManager, entityManager);
-    currentFirerate.value().clock.restart();
+    currentFirerate.value().clock = Clock::now();
 }

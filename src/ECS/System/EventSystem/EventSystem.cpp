@@ -73,7 +73,7 @@ void EventSystem::update()
 }
 
 
-void EventSystem::setEvents(const size_t &entity, ControlGame &event) noexcept
+void EventSystem::setEvents(const std::size_t &entity, ControlGame &event) noexcept
 {
     _currentEvents[entity].push_back(event);
 }
