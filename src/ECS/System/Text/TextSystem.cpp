@@ -19,7 +19,6 @@ void TextSystem::update()
 {
     const auto &entities = _entityManager->getCurrentEntities();
     std::size_t id;
-    std::cout << "jeprintici\n";
 
     for (const auto &entity : entities)
     {

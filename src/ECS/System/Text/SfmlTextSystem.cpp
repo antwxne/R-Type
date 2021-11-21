@@ -21,7 +21,6 @@ void SfmlTextSystem::draw(const std::size_t entity)
 {
     auto &text = _componentManager->getComponent<Text>(entity).value();
     updateText(text, entity);
-    std::cout << "jeprintzdzfoazoehfzeo\n";
     _display->getWindow()->draw(*text.text);
 }
 
@@ -34,7 +33,7 @@ bool SfmlTextSystem::checkAvailableEntity(size_t entity) const
 {
     const auto &pos = _componentManager->getComponentsList<Position>();
     const auto &text = _componentManager->getComponentsList<Text>();
-
+    std::cout<< "LE BOOL =======" << (pos[entity].has_value() && text[entity].has_value()) << std::endl;
     return pos[entity].has_value() && text[entity].has_value();
 }
 

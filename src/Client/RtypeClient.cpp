@@ -93,6 +93,7 @@ void RtypeClient::initTextEntities()
     textEntity.setSize(19);
     textEntity.setFont("assets/font/origintech.ttf");
     textEntity.setTextType(TextType::ROUND);
+    textEntity.create(_ecs.getComponentManager(), _ecs.getEntityManager());
 }
 
 
@@ -201,7 +202,7 @@ void RtypeClient::manageState()
     case GameState::ConnectMenu:
         manageConnectMenu();
         break;
-    case GameState::MainMenu:        _ecs.getSystem<SfmlTextSystem>().update();
+    case GameState::MainMenu:
 
         manageMainMenu();
         break;
