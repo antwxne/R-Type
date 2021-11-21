@@ -8,12 +8,16 @@
 #ifndef FIRERATE_HPP_
 #define FIRERATE_HPP_
 
-#include <SFML/Graphics.hpp>
+#include <chrono>
+
+typedef std::chrono::high_resolution_clock Clock;
+
+
 
 struct Firerate
 {
     float delay;
-    sf::Clock clock;
+    std::chrono::_V2::system_clock::time_point clock;
 };
 
 

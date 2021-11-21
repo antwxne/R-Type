@@ -33,7 +33,7 @@ void FirstMonsterEntity::create(const std::shared_ptr<ComponentManager> &compone
     componentManager->subToComponent(_entity, Life{1});
     componentManager->subToComponent(_entity, Acceleration{0, 0});
     componentManager->subToComponent(_entity, MoveClock{7});
-    componentManager->subToComponent(_entity, Firerate{(float)randFirerate, clock});
+    componentManager->subToComponent(_entity, Firerate{(float)randFirerate, Clock::now()});
 
     componentManager->subToComponent(_entity, Texture{TextureType::Enemy});
     _textureRect = {0, 0, 65, 184};
