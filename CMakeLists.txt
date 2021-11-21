@@ -1,5 +1,5 @@
 #Cmake version
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.9)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -14,6 +14,11 @@ set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall -Wextra -g -ggdb -g3")
 #Bin name
 set(SERVER_NAME r-type_server)
 set(CLIENT_NAME r-type_client)
+
+set(LIB_FIRST_ENEMY FirstMonsterEntity)
+set(LIB_SECOND_ENEMY SecondMonsterEntity)
+set(LIB_THIRD_ENEMY ThirdMonsterEntity)
+
 
 #Truc conan
 include(${CMAKE_SOURCE_DIR}/build/conanbuildinfo.cmake)
@@ -129,17 +134,36 @@ set(SHARED_SRC
         src/ECS/Entity/RoundEntity.hpp
         src/ECS/Entity/PlayerEntity.hpp
         src/ECS/Entity/PlayerEntity.cpp
-        src/ECS/Entity/EnemyEntity.hpp
         src/ECS/Entity/EnemyEntity.cpp
+        src/ECS/Entity/EnemyEntity.hpp
         src/ECS/Entity/BulletEntity.cpp
         src/ECS/Entity/BulletEntity.hpp
-        src/ECS/Entity/IEntityRegister.cpp
         src/ECS/Entity/IEntityRegister.hpp
+        src/ECS/Entity/IEntityRegister.cpp
         src/ECS/Entity/SoundEntity.cpp
         src/ECS/Entity/SoundEntity.hpp
         src/Graphical/SfmlSoundHandler.cpp
         src/Graphical/SfmlSoundHandler.hpp
+        src/DLLloader/DLLloader.hpp
         )
+
+set (MONSTER_LIB_SHARED_SRC
+    src/ECS/Entity/IEntityRegister.hpp
+    src/ECS/Entity/IEntityRegister.cpp
+    src/ECS/Entity/Entity.cpp
+    src/ECS/Entity/Entity.hpp
+    src/ECS/Entity/EntityManager.cpp
+    src/ECS/Entity/EntityManager.hpp
+    src/SparseArray/SparseArray.hpp
+    src/ECS/Entity/EntityException.cpp
+    src/ECS/Entity/EntityException.hpp
+    src/ECS/Component/ComponentException.hpp
+    src/ECS/System/SystemManager.cpp
+    src/ECS/System/SystemManager.hpp
+    src/ECS/Component/ComponentManager.hpp
+    src/ECS/ECS.cpp
+    src/ECS/ECS.hpp
+)
 
 #Compilation
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_SOURCE_DIR}/")
@@ -150,6 +174,25 @@ if(NOT UNIT_TESTS STREQUAL TRUE)
 
     add_executable(${CLIENT_NAME} ${CLIENT_MAIN} ${CLIENT_SRC} ${SHARED_SRC})
     conan_target_link_libraries(${CLIENT_NAME} ${CONAN_LIBS})
+
+    #FirstMonsterEntityLib
+    ADD_LIBRARY(${LIB_FIRST_ENEMY} SHARED ${MONSTER_LIB_SHARED_SRC}
+    src/ECS/Entity/monster/FirstMonsterEntity.hpp
+    src/ECS/Entity/monster/FirstMonsterEntity.cpp)
+    install(TARGETS ${LIB_FIRST_ENEMY} DESTINATION lib/${PROJECT_NAME})
+
+    #SecondMonsterEntityLib
+    ADD_LIBRARY(${LIB_SECOND_ENEMY} SHARED ${MONSTER_LIB_SHARED_SRC}
+    src/ECS/Entity/monster/SecondMonsterEntity.hpp
+    src/ECS/Entity/monster/SecondMonsterEntity.cpp)
+    install(TARGETS ${LIB_SECOND_NAME} DESTINATION lib/${PROJECT_NAME})
+
+    #ThirdMonsterEntityLib
+    ADD_LIBRARY(${LIB_THIRD_ENEMY} SHARED ${MONSTER_LIB_SHARED_SRC}
+    src/ECS/Entity/monster/ThirdMonsterEntity.hpp
+    src/ECS/Entity/monster/ThirdMonsterEntity.cpp)
+    install(TARGETS ${LIB_THIRD_ENEMY} DESTINATION lib/${PROJECT_NAME})
+
 else()
     set(TESTS_NAME unit_tests)
     set(TESTS_SRC ${CLIENT_SRC} ${SERVER_SRC} ${SHARED_SRC})

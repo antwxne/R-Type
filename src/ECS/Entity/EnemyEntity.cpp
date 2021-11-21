@@ -7,9 +7,16 @@
 
 #include "EnemyEntity.hpp"
 
-EnemyEntity::EnemyEntity(const Position &pos): IEntityRegister()
+typedef std::chrono::high_resolution_clock Clock;
+
+EnemyEntity::EnemyEntity(const std::string &path): IEntityRegister()
 {
-    _pos = pos;
+    _pos = {1920, 0};
+    _enemyLoaded = NULL;
+    _path = path;
+    _elapsed = 10000;
+    _clock = Clock::now();
+    this->getLibraries();
 }
 
 EnemyEntity::~EnemyEntity()
@@ -19,47 +26,46 @@ EnemyEntity::~EnemyEntity()
 void EnemyEntity::create(
     const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager)
 {
-    _entity = entityManager->create();
-    sf::Clock clock;
-    std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
-    int randFirerate = rand()%(5-1 + 1) + 1;
-
-    componentManager->subToComponent(_entity, Rotate{0});
-    componentManager->subToComponent(_entity, _pos);
-    componentManager->subToComponent(_entity, Tag{{TagType::ENEMY}});
-    componentManager->subToComponent(_entity, Collision{true});
-    componentManager->subToComponent(_entity, Color{ColorType::None});
-    componentManager->subToComponent(_entity, AI{false, 0, 0, 800, 1920, 1, 1080});
-    componentManager->subToComponent(_entity, Rectangle{65, 132});
-    componentManager->subToComponent(_entity, Speed{1});
-    componentManager->subToComponent(_entity, Life{1});
-    componentManager->subToComponent(_entity, Acceleration{0, 0});
-    componentManager->subToComponent(_entity, MoveClock{7});
-    componentManager->subToComponent(_entity, Firerate{(float)randFirerate, clock});
-
-    int randNum = rand()%(3-1 + 1) + 1;
-
-    switch (randNum)
-    {
-        case 1:
-            componentManager->subToComponent(_entity, Texture{TextureType::Enemy});
-            _textureRect = {0, 0, 65, 184};
-            componentManager->subToComponent(_entity, Scale{2, 2});
-            componentManager->subToComponent(_entity, SfmlSprite{sprite, _textureRect, 8,0, 0.25});
-            break;
-        case 2:
-            componentManager->subToComponent(_entity, Texture{TextureType::Enemy2});
-            _textureRect = {0, 0, 125, 121};
-            componentManager->subToComponent(_entity, Scale{1.5, 1.5});
-            componentManager->subToComponent(_entity, SfmlSprite{sprite, _textureRect, 3,0, 0.25});
-            break;
-        default:
-            componentManager->subToComponent(_entity, Texture{TextureType::Enemy3});
-            _textureRect = {0, 0, 65, 66};
-            componentManager->subToComponent(_entity, Scale{2, 2});
-            componentManager->subToComponent(_entity, SfmlSprite{sprite, _textureRect, 5,0, 0.25});
-            break;
+    auto delay = std::chrono::duration_cast<std::chrono::milliseconds>(Clock::now() - _clock).count();
+    if (delay >= _elapsed) {
+        _enemyList.clear();
+        this->getLibraries();
+        _clock = Clock::now();
     }
 
-    sprite->setTextureRect(_textureRect);
+    int libSelected = (std::rand() % _enemyList.size());
+    this->loadEnemyLib(_enemyList.at(libSelected));
+    std::cout << _pos.x << " " << _pos.y << std::endl;
+    _enemyLoaded->getInstance()->setPosition(_pos);
+    _enemyLoaded->getInstance()->create(componentManager, entityManager);
+}
+
+void EnemyEntity::getLibraries()
+{
+    std::string symbol = "EnemyEntityEntrypoint";
+    std::shared_ptr<DLLloader<IEntityRegister>> enemyLoader;
+    std::string filename;
+    try {
+        for (const auto &entry : std::filesystem::directory_iterator(_path)) {
+            filename = entry.path().string();
+            enemyLoader.reset();
+            enemyLoader = std::make_shared<DLLloader<IEntityRegister>>(filename, symbol);
+            if (enemyLoader->getInstance() != NULL) {
+                _enemyList.push_back(filename);
+            }
+        }
+    } catch (std::exception &error) {
+        throw "Directory ./lib not found";
+    }
+    if (_enemyList.empty())
+        throw "You need a least 1 monster library in directory !";
+}
+
+void EnemyEntity::loadEnemyLib(std::string &filename)
+{
+    std::string symbol = "EnemyEntityEntrypoint";
+
+    _enemyLoaded = std::make_shared<DLLloader<IEntityRegister>>(filename, symbol);
+    if (_enemyLoaded->getInstance() == NULL)
+        throw filename + " is not a Monster Library !";
 }

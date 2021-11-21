@@ -9,6 +9,7 @@
 #define ROUNDSYSTEM_HPP_
 
 #include "ASystem.hpp"
+#include "../Entity/EnemyEntity.hpp"
 
 class RoundSystem : public ASystem {
     public:
@@ -20,6 +21,7 @@ class RoundSystem : public ASystem {
     private:
         bool checkAvailableEntity(std::size_t entity) const override;
         bool checkAvailableEntityEnemy(std::size_t entity) const;
+        EnemyEntity _ee;
 };
 
 #endif /* !ROUNDSYSTEM_HPP_ */

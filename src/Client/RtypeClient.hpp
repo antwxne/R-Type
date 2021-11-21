@@ -22,6 +22,7 @@
 #include "../ECS/Entity/BulletEntity.hpp"
 #include "../ECS/system.hpp"
 #include "../Graphical/SfmlSoundHandler.hpp"
+#include "../DLLloader/DLLloader.hpp"
 
 enum GameState
 {
@@ -37,6 +38,7 @@ class RtypeClient {
         RtypeClient();
         ~RtypeClient();
         void start();
+        void loadEnemyLib(const std::string &filename);
         void stop();
 
     private:

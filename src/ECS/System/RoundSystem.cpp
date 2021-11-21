@@ -10,7 +10,7 @@
 #include "ECS/Component/Tag.hpp"
 #include "../../utils.hpp"
 #include "ECS/Entity/EnemyEntity.hpp"
-RoundSystem::RoundSystem(const std::shared_ptr<ComponentManager> &components, const std::shared_ptr<EntityManager> &entityManager) : ASystem(components, entityManager)
+RoundSystem::RoundSystem(const std::shared_ptr<ComponentManager> &components, const std::shared_ptr<EntityManager> &entityManager) : ASystem(components, entityManager), _ee("./lib")
 {
 }
 
@@ -63,8 +63,10 @@ void RoundSystem::update()
     {
         for (int i = 0; i < 5 + nbRounds; i++)
         {
-            EnemyEntity enemy({1920, (static_cast<float>(200 * i))});
-            enemy.create(_componentManager, _entityManager);
+            _ee.setPosition({1920, (static_cast<float>(200 * i))});
+            _ee.create(_componentManager, _entityManager);
+            //EnemyEntity enemy({1920, (static_cast<float>(200 * i))});
+            //enemy.create(_componentManager, _entityManager);
         }
     }
 }
