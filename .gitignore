@@ -8,3 +8,5 @@ cmake-build-debug
 bootstrap/
 /Documentation/html/
 /Documentation/latex/
+r-type_server
+r-type_client
