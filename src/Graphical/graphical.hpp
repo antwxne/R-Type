@@ -15,7 +15,8 @@ enum TextureType
     Enemy = 2,
     Enemy2 = 3,
     Enemy3 = 4,
-    PowerUp = 5,
+    ShotPowerUp = 5,
+    HealPowerUp = 6,
 };
 
 enum ColorType

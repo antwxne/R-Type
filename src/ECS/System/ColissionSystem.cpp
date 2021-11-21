@@ -12,6 +12,8 @@
 #include "ECS/Component/Transform/Scale.hpp"
 #include "ECS/Component/Tag.hpp"
 #include "ECS/Component/Life.hpp"
+#include "ECS/Component/Bonus.hpp"
+#include "ECS/Component/Firerate.hpp"
 #include "../../utils.hpp"
 
 ColissionSystem::ColissionSystem(
@@ -84,7 +86,7 @@ void ColissionSystem::update()
                     if (contains(tag.type, TagType::PLAYER) &&
                         contains(tagTmp.type, TagType::ENEMY))
                     {
-                        life.health = 0;
+                        life.health = -25;
                     }
                     if (contains(tag.type, TagType::PLAYER) &&
                         (contains(tagTmp.type, TagType::BULLET) &&
@@ -99,6 +101,12 @@ void ColissionSystem::update()
                     {
                         life.health -= 25;
                         lifeTmp.health = 0;
+                    }
+                    if (contains(tag.type, TagType::PLAYER) &&
+                        (contains(tagTmp.type, TagType::POWERUP)))
+                    {
+                        lifeTmp.health = 0;
+                        handleBonusCollision(id, otherId);
                     }
                 }
             }
@@ -121,4 +129,28 @@ bool ColissionSystem::checkAvailableEntity(std::size_t entity) const
     return rectangle[entity].has_value() && collision[entity].has_value() &&
            position[entity].has_value() && tag[entity].has_value() &&
            life[entity].has_value();
+}
+
+
+void ColissionSystem::handleBonusCollision(std::size_t entityPlayer, std::size_t entitybonus)
+{
+    auto &bonus = _componentManager->getComponentsList<Bonus>();
+    auto &lifes = _componentManager->getComponentsList<Life>();
+    auto &firerate = _componentManager->getComponentsList<Firerate>();
+
+    std::cout << "Collsison bonus\n";
+    if (!bonus[entitybonus].has_value())
+        return;
+    
+    if (!lifes[entityPlayer].has_value() || firerate[entityPlayer].has_value())
+        return;
+    
+    if (bonus[entitybonus].value().type == BonusType::HealBonus)
+        lifes[entityPlayer].value().health += 100;
+    else
+        if (firerate[entityPlayer].value().delay > 150)
+        {
+            firerate[entityPlayer].value().delay -= 20;
+        }
+
 }

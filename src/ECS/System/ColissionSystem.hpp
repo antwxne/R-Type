@@ -19,6 +19,7 @@ public:
 protected:
 private:
     bool checkAvailableEntity(std::size_t entity) const override;
+    void handleBonusCollision(std::size_t entityPlayer, std::size_t entitybonus);
 };
 
 #endif /* !COLISSIONSYSTEM_HPP_ */

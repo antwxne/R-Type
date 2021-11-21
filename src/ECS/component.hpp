@@ -25,6 +25,7 @@
 #include "Component/Speed.hpp"
 #include "Component/Tag.hpp"
 #include "Component/Texture.hpp"
+#include "Component/Bonus.hpp"
 #include "Component/Transform/Position.hpp"
 #include "Component/Transform/Rotate.hpp"
 #include "Component/Transform/Scale.hpp"

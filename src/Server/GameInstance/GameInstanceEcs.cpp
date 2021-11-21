@@ -11,6 +11,7 @@
 #include "ECS/Entity/EnemyEntity.hpp"
 #include "ECS/Entity/RoundEntity.hpp"
 #include "ECS/Entity/PlayerEntity.hpp"
+#include "ECS/Entity/BonusEntity.hpp"
 #include "GameInstance.hpp"
 #include "NetworkEntityInformation.hpp"
 
@@ -48,6 +49,7 @@ void GameInstanceEcs::registerComponents()
     _ecs.registerComponent<AI>();
     _ecs.registerComponent<MoveClock>();
     _ecs.registerComponent<Round>();
+    _ecs.registerComponent<Bonus>();
 }
 
 void GameInstanceEcs::registerSystems()
@@ -57,6 +59,7 @@ void GameInstanceEcs::registerSystems()
     _ecs.registerSystem<ColissionSystem>();
     _ecs.registerSystem<RoundSystem>();
     _ecs.registerSystem<EnemyShootSystem>();
+    _ecs.registerSystem<BonusSystem>();
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
 
@@ -184,7 +187,6 @@ void GameInstanceEcs::handleCommandPlayer(int nPlayer, ControlGame control)
     {
         std::cerr << "Error handle command : "<< e.what() << '\n';
     }
-    
 }
 
 void GameInstanceEcs::run()
@@ -195,6 +197,7 @@ void GameInstanceEcs::run()
     _ecs.getSystem<MoveSystem>().update();
     _ecs.getSystem<RoundSystem>().update();
     _ecs.getSystem<EnemyShootSystem>().update();
+    _ecs.getSystem<BonusSystem>().update();
     _ecs.garbageCollector(_raisedEvents);
     networkEntityUpdate();
     handleRaisedEvents();

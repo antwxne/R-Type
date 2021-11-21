@@ -103,6 +103,8 @@ set(SHARED_SRC
         src/ECS/System/ColissionSystem.cpp
         src/ECS/System/ColissionSystem.hpp
         src/ECS/System/MoveSystem.hpp
+        src/ECS/System/BonusSystem.cpp
+        src/ECS/System/BonusSystem.hpp
         src/ECS/System/MoveSystem.cpp
         src/ECS/System/Text/TextSystem.cpp
         src/ECS/System/Text/TextSystem.hpp
@@ -137,6 +139,8 @@ set(SHARED_SRC
         src/ECS/System/EventSystem/EventCallback.cpp src/ECS/System/EventSystem/EventCallback.hpp
         src/ECS/Entity/TextEntity.cpp
         src/ECS/Entity/TextEntity.hpp
+        src/ECS/Entity/BonusEntity.cpp
+        src/ECS/Entity/BonusEntity.hpp
         src/ECS/Entity/RoundEntity.cpp
         src/ECS/Entity/RoundEntity.hpp
         src/ECS/Entity/PlayerEntity.hpp
