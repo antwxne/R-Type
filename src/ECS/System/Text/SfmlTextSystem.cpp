@@ -19,7 +19,10 @@ SfmlTextSystem::~SfmlTextSystem()
 
 void SfmlTextSystem::draw(const std::size_t entity)
 {
-
+    auto &text = _componentManager->getComponent<Text>(entity).value();
+    updateText(text, entity);
+    std::cout << "jeprintzdzfoazoehfzeo\n";
+    _display->getWindow()->draw(*text.text);
 }
 
 void SfmlTextSystem::setDisplay(std::shared_ptr<SfmlDisplay> display)
@@ -30,14 +33,12 @@ void SfmlTextSystem::setDisplay(std::shared_ptr<SfmlDisplay> display)
 bool SfmlTextSystem::checkAvailableEntity(size_t entity) const
 {
     const auto &pos = _componentManager->getComponentsList<Position>();
-    const auto &color = _componentManager->getComponentsList<Color>();
-    const auto &text = _componentManager->getComponentsList<SfmlText>();
+    const auto &text = _componentManager->getComponentsList<Text>();
 
-    return pos[entity].has_value() && color[entity].has_value() &&
-    text[entity].has_value();
+    return pos[entity].has_value() && text[entity].has_value();
 }
 
-void SfmlTextSystem::updateText(SfmlText &text, const std::size_t entity)
+void SfmlTextSystem::updateText(Text &text, const std::size_t entity)
 {
     setPosition(text, entity);
     setTextValue(text, entity);
@@ -46,37 +47,37 @@ void SfmlTextSystem::updateText(SfmlText &text, const std::size_t entity)
     setColor(text, entity);
 }
 
-void SfmlTextSystem::setPosition(SfmlText &text, const std::size_t entity)
+void SfmlTextSystem::setPosition(Text &text, const std::size_t entity)
 {
     auto &position = _componentManager->getComponent<Position>(entity).value();
 
     text.text->setPosition({position.x, position.y});
 }
 
-void SfmlTextSystem::setTextValue(SfmlText &text, const std::size_t entity)
+void SfmlTextSystem::setTextValue(Text &text, const std::size_t entity)
 {
-    auto &sfmlText = _componentManager->getComponent<SfmlText>(entity).value();
+    auto &sfmlText = _componentManager->getComponent<Text>(entity).value();
 
     text.text->setString(sfmlText.textValue);
 }
 
-void SfmlTextSystem::setFont(SfmlText &text, const std::size_t entity)
+void SfmlTextSystem::setFont(Text &text, const std::size_t entity)
 {
-    auto &sfmlText = _componentManager->getComponent<SfmlText>(entity).value();
+    auto &sfmlText = _componentManager->getComponent<Text>(entity).value();
 
     text.text->setFont(sfmlText.font);
 }
 
-void SfmlTextSystem::setSize(SfmlText &text, const std::size_t entity)
+void SfmlTextSystem::setSize(Text &text, const std::size_t entity)
 {
-    auto &sfmlText = _componentManager->getComponent<SfmlText>(entity).value();
+    auto &sfmlText = _componentManager->getComponent<Text>(entity).value();
 
     text.text->setCharacterSize(sfmlText.size);
 }
 
-void SfmlTextSystem::setColor(SfmlText &text, const std::size_t entity)
+void SfmlTextSystem::setColor(Text &text, const std::size_t entity)
 {
-    auto &sfmlText = _componentManager->getComponent<SfmlText>(entity).value();
+    auto &sfmlText = _componentManager->getComponent<Text>(entity).value();
 
     text.text->setFillColor(sfmlText.color);
 }

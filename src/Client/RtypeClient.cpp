@@ -8,9 +8,11 @@
 #include "RtypeClient.hpp"
 #include "ECS/System/EventSystem/EventSystem.hpp"
 #include "ECS/System/EventSystem/EventCallback.hpp"
+#include "ECS/System/Text/SfmlTextSystem.hpp"
 #include "ECS/component.hpp"
 #include "ECS/Entity/SoundEntity.hpp"
 #include "ECS/Entity/RoundEntity.hpp"
+#include "ECS/Entity/TextEntity.hpp"
 #include <iostream>
 #include "ECS/system.hpp"
 
@@ -79,15 +81,31 @@ void RtypeClient::registerComponents()
     _ecs.registerComponent<SfmlSound>();
     _ecs.registerComponent<MoveClock>();
     _ecs.registerComponent<Round>();
+    _ecs.registerComponent<Text>();
 }
+
+void RtypeClient::initTextEntities()
+{
+    TextEntity textEntity;
+
+    textEntity.setPos({800, 800});
+    textEntity.setTextValue("yolo");
+    textEntity.setSize(19);
+    textEntity.setFont("assets/font/origintech.ttf");
+    textEntity.setTextType(TextType::ROUND);
+}
+
 
 void RtypeClient::start()
 {
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
+    SfmlTextSystem &text = _ecs.registerSystem<SfmlTextSystem>();
+    text.setDisplay(_graphical);
     draw.setDisplay(_graphical);
     _ecs.registerSystem<SfmlSoundSystem>();
-    
+    initTextEntities();
+
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
     run();
@@ -183,7 +201,8 @@ void RtypeClient::manageState()
     case GameState::ConnectMenu:
         manageConnectMenu();
         break;
-    case GameState::MainMenu:
+    case GameState::MainMenu:        _ecs.getSystem<SfmlTextSystem>().update();
+
         manageMainMenu();
         break;
     case GameState::GameLobby:
@@ -321,6 +340,7 @@ void RtypeClient::manageGame()
     {
         _ecs.getSystem<MoveSystem>().update();
         _ecs.getSystem<SfmlDrawSystem>().update();
+        _ecs.getSystem<SfmlTextSystem>().update();
         _ecs.getSystem<SfmlSoundSystem>().update();
         _ecs.graphicalGarbageCollector();
         handleInComingEntities();

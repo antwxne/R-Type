@@ -5,16 +5,33 @@
 ** SfmlText
 */
 
-#ifndef SFMLTEXT_HPP_
-#define SFMLTEXT_HPP_
+#ifndef TEXT_HPP_
+#define TEXT_HPP_
 #include "SFML/Graphics/Text.hpp"
 #include <memory>
 
-struct SfmlText {
+#ifdef __WIN32
+enum TextType: int {
+    SCORE,
+    ROUND,
+};
+
+#else
+
+enum TextType {
+    SCORE,
+    ROUND,
+};
+
+#endif
+
+struct Text {
     std::shared_ptr<sf::Text> text;
     sf::Font font;
     std::string textValue;
     int size;
     sf::Color color;
+    TextType type;
+
 };
-#endif /* !SFMLTEXT_HPP_ */
+#endif /* !TEXT_HPP_ */

@@ -54,6 +54,7 @@ class RtypeClient {
         void handleInitGame();
         void handleGetGames();
         void manageMusic();
+        void initTextEntities();
 
         void handleInComingEntities();
         void handleNewEntity(const NetworkEntityInformation &info);

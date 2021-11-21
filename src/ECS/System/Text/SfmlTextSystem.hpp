@@ -10,7 +10,7 @@
 
 #include "TextSystem.hpp"
 #include "../../../Graphical/SfmlDisplay.hpp"
-#include "../../Component/SfmlText.hpp"
+#include "../../Component/Text.hpp"
 
 class SfmlTextSystem : public TextSystem {
     public:
@@ -20,12 +20,12 @@ class SfmlTextSystem : public TextSystem {
         void setDisplay(std::shared_ptr<SfmlDisplay> display);
     protected:
         bool checkAvailableEntity(size_t entity) const override;
-        void updateText(SfmlText &text, const std::size_t entity);
-        void setPosition(SfmlText &text, const std::size_t entity);
-        void setFont(SfmlText &text, const std::size_t entity);
-        void setSize(SfmlText &text, const std::size_t entity);
-        void setTextValue(SfmlText &text, const std::size_t entity);
-        void setColor(SfmlText &text, const std::size_t entity);
+        void updateText(Text &text, const std::size_t entity);
+        void setPosition(Text &text, const std::size_t entity);
+        void setFont(Text &text, const std::size_t entity);
+        void setSize(Text &text, const std::size_t entity);
+        void setTextValue(Text &text, const std::size_t entity);
+        void setColor(Text &text, const std::size_t entity);
     private:
         std::shared_ptr<SfmlDisplay> _display;
 
