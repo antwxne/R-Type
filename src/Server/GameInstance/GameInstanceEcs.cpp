@@ -72,9 +72,22 @@ void GameInstanceEcs::networkEntityUpdate()
     for (auto &i : _ecs.getEntityManager()->getCurrentEntities())
     {
         getCurrentEntityInfo(i);
+        handleNetworkGameInfos(i);
     }
 
     _networkSendClock = Clock::now();
+}
+
+void GameInstanceEcs::handleNetworkGameInfos(const Entity &entity)
+{
+    auto &rounds = _ecs.getComponentManager()->getComponentsList<Round>();
+
+    if (rounds[entity].has_value() == false)
+        return;
+    
+    auto &round = rounds[entity].value();
+
+    _gameInstance.sendGameInfos(round.score, round.round);
 }
 
 void GameInstanceEcs::getCurrentEntityInfo(const Entity &entity)

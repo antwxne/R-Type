@@ -42,6 +42,7 @@ class GameInstance : public IAsioGameInstance {
 
         void sendEntityUpdateMessage(const NetworkEntityInformation &info);
         void sendEntityRaisedEvent(const std::vector<std::pair<size_t, RaisedEvent>> &info);
+        void sendGameInfos(int score, int round);
 
         void handleClientRegister(int nPlayer);
         void handleClientCommand(int nPlayer, ControlGame control);

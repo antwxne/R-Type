@@ -168,3 +168,15 @@ void GameInstance::sendEntityRaisedEvent(const std::vector<std::pair<size_t, Rai
         _udpGameServer->sendMessageToAll(message);
     }
 }
+
+void GameInstance::sendGameInfos(int score, int round)
+{
+    Message<MessageType> message;
+
+    message << MessageType::GameInfo;
+
+    message << round;
+    message << score;
+    
+    _udpGameServer->sendMessageToAll(message);
+}
