@@ -18,18 +18,6 @@ The purpose of this project is to create a video game which is inspired by the v
 4. Install CMake
 5. Build the project. `make -j`
 
-
-
-#### Dynamic library
-After compiled, you **MUST** get dynamics libraries to play.
-
-1. Create a directory at the root of the repositorie which is named : `./lib`
-`mkdir lib`
-2. Move the dynamic library compiled located at `build/lib/` in to `./lib`
-`move build/lib/libFirstMonsterEntity.so ./lib`
-`move build/lib/libSecondMonsterEntity.so ./lib`
-`move build/lib/libThirdMonsterEntity.so ./lib`
-
 #### r-type_server / r-type_client
 
 1. Run r-type_server and set the port to open
@@ -37,12 +25,8 @@ After compiled, you **MUST** get dynamics libraries to play.
 2. Run r-type_client and set the address and the port of server
 `./r-type_client`
 
-> If you have a problem when you run babel_client.
-> Try to remove portaudio in conan.
-> `conan remove portaudio`
-
 ## Credits
 - Alan Sigal
-- Quentin Fonkenell
+- Antoine Desruet
 - Thomas Tricaud
 - Tom Rives
