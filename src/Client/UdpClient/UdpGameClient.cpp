@@ -9,6 +9,8 @@
 
 UdpGameClient::UdpGameClient(const std::string &ip, int port) : UdpClient(ip, port), _gameHandler(*this)
 {
+    _score = 0;
+    _round = 0;
 }
 
 UdpGameClient::~UdpGameClient()
@@ -96,4 +98,20 @@ std::list<std::pair<size_t, RaisedEvent>> &UdpGameClient::getEntitiesRaisedEvent
 void UdpGameClient::resetRaisedEvent()
 {
     _entitiesRaisedEvent.clear();
+}
+
+void UdpGameClient::handleGameInfos(int round, int score)
+{
+    _round = round;
+    _score = score;
+}
+
+int UdpGameClient::getGameRound()
+{
+    return _round;
+}
+
+int UdpGameClient::getGameScore()
+{
+    return _score;
 }

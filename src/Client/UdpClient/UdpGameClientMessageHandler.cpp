@@ -15,6 +15,7 @@ UdpGameClientMessageHandler::UdpGameClientMessageHandler(UdpGameClient &client) 
 {
     _map[MessageType::EntityUpdate] = &UdpGameClientMessageHandler::handleEntityUpdate;
     _map[MessageType::EntityDestruction] = &UdpGameClientMessageHandler::handleEntityDestruction;
+    _map[MessageType::GameInfo] = &UdpGameClientMessageHandler::handleGameInfos;
 }
 
 UdpGameClientMessageHandler::~UdpGameClientMessageHandler()
@@ -52,4 +53,15 @@ void UdpGameClientMessageHandler::handleEntityDestruction(Message<MessageType> &
     message >> entity;
 
     _client.addEntityRaisedEvent(entity, event);
+}
+
+void UdpGameClientMessageHandler::handleGameInfos(Message<MessageType> &message)
+{
+    int score;
+    int round;
+
+    message >> score;
+    message >> round;
+
+    _client.handleGameInfos(round, score);
 }

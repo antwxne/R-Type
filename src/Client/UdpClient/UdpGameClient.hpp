@@ -32,8 +32,12 @@ class UdpGameClient : public UdpClient {
         std::list<std::pair<size_t, RaisedEvent>> &getEntitiesRaisedEvent();
         void resetRaisedEvent();
 
+        void handleGameInfos(int round, int score);
 
         void sendCommands(const std::list<ControlGame> &controls);
+
+        int getGameRound();
+        int getGameScore();
 
     protected:
     private:
@@ -42,6 +46,9 @@ class UdpGameClient : public UdpClient {
         std::list<NetworkEntityInformation> _entitiesInfos;
         std::list<std::pair<size_t, RaisedEvent>> _entitiesRaisedEvent;
         std::mutex _entitiesInfosMutex;
+
+        int _score;
+        int _round;
 };
 
 #endif /* !UDPGAMECLIENT_HPP_ */

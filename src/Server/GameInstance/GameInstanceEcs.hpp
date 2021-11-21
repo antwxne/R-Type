@@ -30,6 +30,7 @@ class GameInstanceEcs {
         void registerComponents();
         void registerSystems();
         void networkEntityUpdate();
+        void handleNetworkGameInfos(const Entity &entity);
         void getCurrentEntityInfo(const Entity &entity);
         bool checkNetworkEntity(const Entity &entity);
         void sendDestructionMessage(const std::vector<std::pair<size_t, RaisedEvent>> &events);

@@ -61,7 +61,6 @@ void SfmlDrawSystem::updateSprite(SfmlSprite &sprite, const std::size_t entity)
 void SfmlDrawSystem::setTextureRect(SfmlSprite &sprite)
 {
     float elapsed = sprite.clock.getElapsedTime().asSeconds();
-
     if (elapsed > sprite.animationSpeed && sprite.totalRect != 0)
     {
         sprite.actualRect += 1;

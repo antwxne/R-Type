@@ -54,6 +54,9 @@ class Client {
         std::list<std::pair<size_t, RaisedEvent>> &getEntitiesRaisedEvent();
         void resetRaisedEvent();
 
+        int getGameScore();
+        int getGameRound();
+
         void sendCommands(const std::list<ControlGame> &controls);
 
 

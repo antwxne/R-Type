@@ -8,9 +8,11 @@
 #include "RtypeClient.hpp"
 #include "ECS/System/EventSystem/EventSystem.hpp"
 #include "ECS/System/EventSystem/EventCallback.hpp"
+#include "ECS/System/Text/SfmlTextSystem.hpp"
 #include "ECS/component.hpp"
 #include "ECS/Entity/SoundEntity.hpp"
 #include "ECS/Entity/RoundEntity.hpp"
+#include "ECS/Entity/TextEntity.hpp"
 #include <iostream>
 #include "ECS/system.hpp"
 
@@ -79,15 +81,39 @@ void RtypeClient::registerComponents()
     _ecs.registerComponent<SfmlSound>();
     _ecs.registerComponent<MoveClock>();
     _ecs.registerComponent<Round>();
+    _ecs.registerComponent<Text>();
 }
+
+void RtypeClient::initTextEntities()
+{
+    TextEntity roundTextEntity;
+    roundTextEntity.setPos({500, 5});
+    roundTextEntity.setTextValue("Round ");
+    roundTextEntity.setSize(60);
+    roundTextEntity.setFont("assets/font/origintech.ttf");
+    roundTextEntity.setTextType(TextType::ROUND);
+    roundTextEntity.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+
+    TextEntity scoreTextEntity;
+    roundTextEntity.setPos({1000, 5});
+    roundTextEntity.setTextValue("Score: ");
+    roundTextEntity.setSize(60);
+    roundTextEntity.setFont("assets/font/origintech.ttf");
+    roundTextEntity.setTextType(TextType::SCORE);
+    roundTextEntity.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+}
+
 
 void RtypeClient::start()
 {
     auto &draw = _ecs.registerSystem<SfmlDrawSystem>();
     _ecs.registerSystem<MoveSystem>();
+    SfmlTextSystem &text = _ecs.registerSystem<SfmlTextSystem>();
+    text.setDisplay(_graphical);
     draw.setDisplay(_graphical);
     _ecs.registerSystem<SfmlSoundSystem>();
-    
+    initTextEntities();
+
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
     run();
@@ -184,6 +210,7 @@ void RtypeClient::manageState()
         manageConnectMenu();
         break;
     case GameState::MainMenu:
+
         manageMainMenu();
         break;
     case GameState::GameLobby:
@@ -321,15 +348,45 @@ void RtypeClient::manageGame()
     {
         _ecs.getSystem<MoveSystem>().update();
         _ecs.getSystem<SfmlDrawSystem>().update();
+        _ecs.getSystem<SfmlTextSystem>().update();
         _ecs.getSystem<SfmlSoundSystem>().update();
         _ecs.graphicalGarbageCollector();
         handleInComingEntities();
         handleInCommingDestructionEntity();
         sendControlsToServer();
+        updateGamesInfo();
     }
     catch (const std::exception &e)
     {
         std::cout << "Error: " << e.what() << std::endl;
+    }
+}
+
+
+void RtypeClient::updateGamesInfo()
+{
+    int score = _networkClient->getGameScore();
+    int round = _networkClient->getGameRound();
+
+    auto &texts = _ecs.getComponentManager()->getComponentsList<Text>();
+
+    for (auto & i : _ecs.getEntityManager()->getCurrentEntities())
+    {
+        if (!texts[i].has_value())
+            continue;
+
+        auto &text = texts[i].value();
+
+        if (text.type == TextType::ROUND)
+        {
+            text.textValue = "Round " + std::to_string(round);
+            text.text->setString(text.textValue);
+        }
+        else
+        {
+            text.textValue = "Score: " + std::to_string(score);
+            text.text->setString(text.textValue);
+        }
     }
 }
 

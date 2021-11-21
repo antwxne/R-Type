@@ -54,7 +54,7 @@ void PlayerEntity::create(
     sprite->setTextureRect(_textureRect);
     componentManager->subToComponent(_entity, Firerate{0.25, clock});
     componentManager->subToComponent(_entity, SfmlSprite{sprite, _textureRect, 4, 0, 1});
-    componentManager->subToComponent(_entity, Life{1});
+    componentManager->subToComponent(_entity, Life{300});
     componentManager->subToComponent(_entity, Speed{20});
     componentManager->subToComponent(_entity, Acceleration{0, 0});
     componentManager->subToComponent(_entity, Rectangle{_textureRect.width, _textureRect.height});
