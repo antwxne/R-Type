@@ -33,16 +33,16 @@ class GameInstanceEcs {
         void handleNetworkGameInfos(const Entity &entity);
         void getCurrentEntityInfo(const Entity &entity);
         bool checkNetworkEntity(const Entity &entity);
-        void sendDestructionMessage(const std::vector<std::pair<size_t, RaisedEvent>> &events);
+        void sendDestructionMessage(const std::vector<std::pair<std::size_t, RaisedEvent>> &events);
         void handleRaisedEvents();
     private:
         ECS _ecs;
         GameInstance &_gameInstance;
         std::chrono::_V2::system_clock::time_point _networkSendClock;
 
-        std::map<int, size_t> _playerToEntityMap;
+        std::map<int, std::size_t> _playerToEntityMap;
 
-        std::vector<std::pair<size_t, RaisedEvent>> _raisedEvents;
+        std::vector<std::pair<std::size_t, RaisedEvent>> _raisedEvents;
 };
 
 #endif /* !GAMEINSTANCEECS_HPP_ */

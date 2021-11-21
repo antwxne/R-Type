@@ -27,7 +27,7 @@ void ECS::destroyEntity(const Entity &entity)
     _entityManager->destroy(entity);
 }
 
-void ECS::garbageCollector(std::vector<std::pair<size_t, RaisedEvent>> &raisedEvent)
+void ECS::garbageCollector(std::vector<std::pair<std::size_t, RaisedEvent>> &raisedEvent)
 {
     try {
         const auto &lifes = _componentManager->getComponentsList<Life>();
@@ -106,7 +106,7 @@ bool ECS::isInScreen(const std::optional<Position> &position,
     return !plop;
 }
 
-void ECS::destroyEntity(const size_t &entity)
+void ECS::destroyEntity(const std::size_t &entity)
 {
     destroyEntity(Entity(entity));
 }

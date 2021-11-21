@@ -40,7 +40,7 @@ void SfmlSoundSystem::update()
     }
 }
 
-bool SfmlSoundSystem::checkAvailableEntity(const size_t entity) const
+bool SfmlSoundSystem::checkAvailableEntity(const std::size_t entity) const
 {
     const auto &sound = _componentManager->getComponentsList<SfmlSound>();
 

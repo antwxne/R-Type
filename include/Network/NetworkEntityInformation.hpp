@@ -12,7 +12,7 @@
 
 struct NetworkEntityInformation
 {
-    size_t entity;
+    std::size_t entity;
     Position position;
     Acceleration acceleration;
     Speed speed;
@@ -20,7 +20,7 @@ struct NetworkEntityInformation
     Rotate rotate;
     Texture textureType;
     Scale scale;
-    size_t totalTextureRect;
+    std::size_t totalTextureRect;
     float animationSpeed;
     sf::IntRect textureRect;
 };

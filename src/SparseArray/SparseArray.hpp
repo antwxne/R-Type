@@ -72,7 +72,7 @@ public:
         return _dataVector[index];
     }
 
-    std::optional<T> &operator[](const size_t index) noexcept
+    std::optional<T> &operator[](const std::size_t index) noexcept
     {
         return _dataVector[index];
     }
@@ -83,7 +83,7 @@ public:
         entity >> index;
         return _dataVector[index];
     }
-    const std::optional<T> &operator[](const size_t index) const noexcept
+    const std::optional<T> &operator[](const std::size_t index) const noexcept
     {
         return _dataVector[index];
     }
@@ -91,7 +91,7 @@ public:
     {
         return _dataVector[entity];
     }
-    std::optional<T> &getData(const size_t &index) noexcept
+    std::optional<T> &getData(const std::size_t &index) noexcept
     {
         return _dataVector[index];
     }

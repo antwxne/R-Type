@@ -21,7 +21,7 @@ public:
 
 protected:
 private:
-    bool checkAvailableEntity(const size_t entity) const override;
+    bool checkAvailableEntity(const std::size_t entity) const override;
 
 };
 

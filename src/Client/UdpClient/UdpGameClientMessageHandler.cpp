@@ -47,7 +47,7 @@ void UdpGameClientMessageHandler::handleEntityUpdate(Message<MessageType> &messa
 void UdpGameClientMessageHandler::handleEntityDestruction(Message<MessageType> &message)
 {
     RaisedEvent event;
-    size_t entity;
+    std::size_t entity;
 
     message >> event;
     message >> entity;

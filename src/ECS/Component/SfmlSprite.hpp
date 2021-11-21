@@ -16,8 +16,8 @@ struct SfmlSprite
 {
     std::shared_ptr<sf::Sprite> sprite;
     sf::IntRect textureRect;
-    size_t totalRect;
-    size_t actualRect;
+    std::size_t totalRect;
+    std::size_t actualRect;
     float animationSpeed;
     sf::Clock clock;
 };

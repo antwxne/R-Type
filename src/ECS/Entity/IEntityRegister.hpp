@@ -19,7 +19,7 @@ public:
     virtual void create(
         const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager) = 0;
     const Entity &getEntity() const;
-    size_t getEntityValue() const;
+    std::size_t getEntityValue() const;
     void setPosition(const Position &pos);
 
 protected:

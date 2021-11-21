@@ -16,7 +16,7 @@ class TextSystem : public ASystem {
         void update() override;
     protected:
     private:
-        bool checkAvailableEntity(size_t entity) const override;
+        bool checkAvailableEntity(std::size_t entity) const override;
         virtual void draw(const std::size_t entity);
 
 };

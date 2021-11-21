@@ -18,7 +18,7 @@ class DrawSystem : public ASystem
         ~DrawSystem();
         void update() override;
     protected:
-        bool checkAvailableEntity(size_t entity) const override;
+        bool checkAvailableEntity(std::size_t entity) const override;
     private:
         virtual void draw(const std::size_t entity);
 };

@@ -24,7 +24,7 @@ public:
 
     Entity createEntity();
     void destroyEntity(const Entity &entity);
-    void destroyEntity(const size_t &entity);
+    void destroyEntity(const std::size_t &entity);
 
 
     template<class Component>
@@ -71,7 +71,7 @@ public:
     {
         return _systemManager->getSystem<System>();
     }
-    void garbageCollector(std::vector<std::pair<size_t, RaisedEvent>> &raisedEvent);
+    void garbageCollector(std::vector<std::pair<std::size_t, RaisedEvent>> &raisedEvent);
     void graphicalGarbageCollector();
     const std::shared_ptr<EntityManager> &getEntityManager() const;
     const std::shared_ptr<ComponentManager> &getComponentManager() const;

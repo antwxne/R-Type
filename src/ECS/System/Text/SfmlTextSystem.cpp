@@ -29,7 +29,7 @@ void SfmlTextSystem::setDisplay(std::shared_ptr<SfmlDisplay> display)
     _display = display;
 }
 
-bool SfmlTextSystem::checkAvailableEntity(size_t entity) const
+bool SfmlTextSystem::checkAvailableEntity(std::size_t entity) const
 {
     const auto &pos = _componentManager->getComponentsList<Position>();
     const auto &text = _componentManager->getComponentsList<Text>();

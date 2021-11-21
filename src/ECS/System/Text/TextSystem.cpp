@@ -30,7 +30,7 @@ void TextSystem::update()
     }
 }
 
-bool TextSystem::checkAvailableEntity(size_t entity) const
+bool TextSystem::checkAvailableEntity(std::size_t entity) const
 {
     return false;
 }

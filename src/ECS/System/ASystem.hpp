@@ -22,7 +22,7 @@ public:
     virtual void update() = 0;
 
 protected:
-    virtual bool checkAvailableEntity(size_t entity) const = 0;
+    virtual bool checkAvailableEntity(std::size_t entity) const = 0;
 protected:
     std::shared_ptr<ComponentManager> _componentManager;
     std::shared_ptr<EntityManager> _entityManager;

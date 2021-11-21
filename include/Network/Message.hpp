@@ -36,7 +36,7 @@ class Message {
 
         }
 
-        size_t getHeaderSize() const
+        std::size_t getHeaderSize() const
         {
             return sizeof(_header);
         }
@@ -90,7 +90,7 @@ class Message {
         template<typename Data>
         friend Message<T> &operator <<(Message<T> &message, const Data &data)
         {
-            size_t size = message._body.size();
+            std::size_t size = message._body.size();
             message._body.resize(size + sizeof(Data));
             std::memcpy(message._body.data() + size, &data, sizeof(Data));
             message._header.bodySize = message._body.size();

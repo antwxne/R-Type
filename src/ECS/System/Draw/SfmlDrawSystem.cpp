@@ -23,7 +23,7 @@ SfmlDrawSystem::~SfmlDrawSystem()
 {
 }
 
-bool SfmlDrawSystem::checkAvailableEntity(size_t entity) const
+bool SfmlDrawSystem::checkAvailableEntity(std::size_t entity) const
 {
     const auto &pos = _componentManager->getComponentsList<Position>();
     const auto &texture = _componentManager->getComponentsList<Texture>();
