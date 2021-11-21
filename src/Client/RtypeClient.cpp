@@ -86,14 +86,21 @@ void RtypeClient::registerComponents()
 
 void RtypeClient::initTextEntities()
 {
-    TextEntity textEntity;
+    TextEntity roundTextEntity;
+    roundTextEntity.setPos({500, 5});
+    roundTextEntity.setTextValue("Round ");
+    roundTextEntity.setSize(60);
+    roundTextEntity.setFont("assets/font/origintech.ttf");
+    roundTextEntity.setTextType(TextType::ROUND);
+    roundTextEntity.create(_ecs.getComponentManager(), _ecs.getEntityManager());
 
-    textEntity.setPos({800, 800});
-    textEntity.setTextValue("yolo");
-    textEntity.setSize(19);
-    textEntity.setFont("assets/font/origintech.ttf");
-    textEntity.setTextType(TextType::ROUND);
-    textEntity.create(_ecs.getComponentManager(), _ecs.getEntityManager());
+    TextEntity scoreTextEntity;
+    roundTextEntity.setPos({1000, 5});
+    roundTextEntity.setTextValue("Score: ");
+    roundTextEntity.setSize(60);
+    roundTextEntity.setFont("assets/font/origintech.ttf");
+    roundTextEntity.setTextType(TextType::SCORE);
+    roundTextEntity.create(_ecs.getComponentManager(), _ecs.getEntityManager());
 }
 
 
@@ -347,6 +354,7 @@ void RtypeClient::manageGame()
         handleInComingEntities();
         handleInCommingDestructionEntity();
         sendControlsToServer();
+        updateGamesInfo();
     }
     catch (const std::exception &e)
     {
@@ -359,6 +367,27 @@ void RtypeClient::updateGamesInfo()
 {
     int score = _networkClient->getGameScore();
     int round = _networkClient->getGameRound();
+
+    auto &texts = _ecs.getComponentManager()->getComponentsList<Text>();
+
+    for (auto & i : _ecs.getEntityManager()->getCurrentEntities())
+    {
+        if (!texts[i].has_value())
+            continue;
+
+        auto &text = texts[i].value();
+
+        if (text.type == TextType::ROUND)
+        {
+            text.textValue = "Round " + std::to_string(round);
+            text.text->setString(text.textValue);
+        }
+        else
+        {
+            text.textValue = "Score: " + std::to_string(score);
+            text.text->setString(text.textValue);
+        }
+    }
 }
 
 void RtypeClient::sendControlsToServer()

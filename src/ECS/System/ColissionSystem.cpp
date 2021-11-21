@@ -90,14 +90,14 @@ void ColissionSystem::update()
                         (contains(tagTmp.type, TagType::BULLET) &&
                          contains(tagTmp.type, TagType::ENEMY)))
                     {
-                        life.health = 0;
+                        life.health -= 25;
                         lifeTmp.health = 0;
                     }
                     if (contains(tag.type, TagType::ENEMY) &&
                         (contains(tagTmp.type, TagType::BULLET) &&
                          contains(tagTmp.type, TagType::PLAYER)))
                     {
-                        life.health = 0;
+                        life.health -= 25;
                         lifeTmp.health = 0;
                     }
                 }

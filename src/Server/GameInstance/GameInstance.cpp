@@ -175,6 +175,7 @@ void GameInstance::sendGameInfos(int score, int round)
 
     message << MessageType::GameInfo;
 
+
     message << round;
     message << score;
     

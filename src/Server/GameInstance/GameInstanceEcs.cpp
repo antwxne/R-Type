@@ -20,8 +20,6 @@ GameInstanceEcs::GameInstanceEcs(GameInstance &gameInstance) : _gameInstance(gam
 {
     registerComponents();
     registerSystems();
-    RoundEntity round({1, 0, 5});
-    round.create(_ecs.getComponentManager(), _ecs.getEntityManager());
     _networkSendClock = Clock::now();
 }
 
@@ -61,6 +59,9 @@ void GameInstanceEcs::registerSystems()
     _ecs.registerSystem<EnemyShootSystem>();
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
+
+    RoundEntity round({0, -110, 5});
+    round.create(_ecs.getComponentManager(), _ecs.getEntityManager());
 }
 
 void GameInstanceEcs::networkEntityUpdate()
@@ -84,7 +85,6 @@ void GameInstanceEcs::handleNetworkGameInfos(const Entity &entity)
 
     if (rounds[entity].has_value() == false)
         return;
-    
     auto &round = rounds[entity].value();
 
     _gameInstance.sendGameInfos(round.score, round.round);
@@ -174,7 +174,6 @@ void GameInstanceEcs::handleNewPlayer(int nPlayer)
 
 void GameInstanceEcs::handleCommandPlayer(int nPlayer, ControlGame control)
 {
-
     try
     {
         size_t entityPlayer = _playerToEntityMap[nPlayer];
