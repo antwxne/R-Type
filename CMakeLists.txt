@@ -119,7 +119,6 @@ set(SHARED_SRC
         src/ECS/Component/Round.hpp
         src/ECS/Component/Audio.hpp
         src/ECS/Component/SfmlSound.hpp
-        src/ECS/Component/Firerate.hpp
         src/Graphical/SfmlDisplay.cpp
         src/Graphical/SfmlDisplay.hpp
         src/Graphical/SfmlButton.cpp
