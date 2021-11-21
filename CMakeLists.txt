@@ -95,6 +95,8 @@ set(SHARED_SRC
         src/ECS/Component/Round.hpp
         src/ECS/System/RoundSystem.cpp
         src/ECS/System/RoundSystem.hpp
+        src/ECS/System/EnemyShootSystem.hpp
+        src/ECS/System/EnemyShootSystem.cpp
         src/ECS/System/ColissionSystem.cpp
         src/ECS/System/ColissionSystem.hpp
         src/ECS/System/MoveSystem.hpp

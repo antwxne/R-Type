@@ -20,7 +20,9 @@ void EnemyEntity::create(
     const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager)
 {
     _entity = entityManager->create();
+    sf::Clock clock;
     std::shared_ptr<sf::Sprite> sprite = std::make_shared<sf::Sprite>();
+    int randFirerate = rand()%(5-1 + 1) + 1;
 
     componentManager->subToComponent(_entity, Rotate{0});
     componentManager->subToComponent(_entity, _pos);
@@ -33,6 +35,7 @@ void EnemyEntity::create(
     componentManager->subToComponent(_entity, Life{1});
     componentManager->subToComponent(_entity, Acceleration{0, 0});
     componentManager->subToComponent(_entity, MoveClock{7});
+    componentManager->subToComponent(_entity, Firerate{(float)randFirerate, clock});
 
     int randNum = rand()%(3-1 + 1) + 1;
 

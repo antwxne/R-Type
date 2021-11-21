@@ -58,6 +58,7 @@ void GameInstanceEcs::registerSystems()
     _ecs.registerSystem<AISystem>();
     _ecs.registerSystem<ColissionSystem>();
     _ecs.registerSystem<RoundSystem>();
+    _ecs.registerSystem<EnemyShootSystem>();
 
     auto &evtManager = _ecs.registerSystem<EventSystem>();
 }
@@ -181,6 +182,7 @@ void GameInstanceEcs::run()
     _ecs.getSystem<AISystem>().update();
     _ecs.getSystem<MoveSystem>().update();
     _ecs.getSystem<RoundSystem>().update();
+    _ecs.getSystem<EnemyShootSystem>().update();
     _ecs.garbageCollector(_raisedEvents);
     networkEntityUpdate();
     handleRaisedEvents();
