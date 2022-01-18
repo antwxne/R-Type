@@ -5,8 +5,10 @@
 ** Client
 */
 
-#include "Client.hpp"
 #include <chrono>
+#include <thread>
+#include "Client.hpp"
+
 
 Client::Client()
 {

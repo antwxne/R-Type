@@ -9,6 +9,7 @@
 #define CLIENT_HPP_
 
 #include <memory>
+
 #include "TcpClient/TcpClient.hpp"
 #include "UdpClient/UdpGameClient.hpp"
 #include "NetworkEntityInformation.hpp"

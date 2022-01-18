@@ -9,7 +9,7 @@ project(RType)
 
 #Flags
 set(CMAKE_CXX_FLAGS_RELEASE_INIT "-Wall -Wextra")
-set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall -Wextra -g -ggdb -g3")
+set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall -Wextra -ggdb -g3")
 
 #Bin name
 set(SERVER_NAME r-type_server)
